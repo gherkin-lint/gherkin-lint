@@ -1,6 +1,6 @@
-# Gherkin linter
+# Gherkin lint
 
-Uses [Gherkin](https://github.com/cucumber/gherkin-javascript) to parse feature files and runs linting against the default rules, and the optional rules you specified in your `.gherkin-lint-rc` file.
+Uses [Gherkin](https://github.com/cucumber/gherkin-javascript) to parse feature files and runs linting against the default rules, and the optional rules you specified in your `.gherkin-lintrc` file.
 
 ## Available rules
 Source code of the rules can be found in `scr/rules`.

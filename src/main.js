@@ -3,7 +3,7 @@ var glob = require('glob');
 var linter = require('./linter.js');
 var fs = require('fs-extra');
 
-var defaultConfigFileName = '.gherkin-lint-rc';
+var defaultConfigFileName = '.gherkin-lintrc';
 
 function list(val) {
   return val.split(',');

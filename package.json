@@ -1,12 +1,12 @@
 {
-  "name": "gherkin-linter",
-  "version": "0.0.0",
-  "description": "A linter for the Gherkin syntax, written in javascript",
+  "name": "gherkin-lint",
+  "version": "0.0.1",
+  "description": "A Gherkin linter/validator written in javascript",
   "author": "Vasiliki Siakka",
   "main": "src/main.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/vsiakka/gherkin-linter"
+    "url": "https://github.com/vsiakka/gherkin-lint"
   },
   "keywords": [
     "gherkin",
