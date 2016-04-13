@@ -1,0 +1,7 @@
+{
+  "no-files-without-scenarios" : "on",
+  "no-unamed-features": "on",
+  "no-unamed-scenarios": "on",
+  "no-dupe-scenario-names": "on",
+  "no-dupe-feature-names": "on"
+}
