@@ -1,6 +1,6 @@
 {
   "name": "gherkin-lint",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A Gherkin linter/validator written in javascript",
   "author": "Vasiliki Siakka",
   "main": "src/main.js",
@@ -17,6 +17,9 @@
     "fs-extra": "^0.14.0",
     "glob": "7.0.3",
     "commander": "2.9.0"
+  },
+  "bin": {
+    "gherkin-lint": "src/main.js"
   },
   "license": "ISC"
 }
