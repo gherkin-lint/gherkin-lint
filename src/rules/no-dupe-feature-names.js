@@ -4,9 +4,9 @@ var features = [];
 function noDuplicateFeatureNames(parsedFile, fileName) {
   if (parsedFile.name) {
     if (parsedFile.name in features) {
+      var dupes = features[parsedFile.name].files;
       features[parsedFile.name].files.push(fileName);
-      var filesWithSameFeatureName = features[parsedFile.name].files;
-      return {message: "Feature name is already used in: " + filesWithSameFeatureName,
+      return {message: "Feature name is already used in: " + dupes,
               rule   : rule,
               line   : parsedFile.location.line};
     } else {

@@ -7,8 +7,8 @@ function noDuplicateScenarioNames(parsedFile, fileName) {
     parsedFile.scenarioDefinitions.forEach(function(scenario) {
       if (scenario.name) {
         if (scenario.name in scenarios) {
-          scenarios[scenario.name].locations.push({file: fileName, line: scenario.location.line});
           var dupes = getFileLinePairsAsStr(scenarios[scenario.name].locations);
+          scenarios[scenario.name].locations.push({file: fileName, line: scenario.location.line});
           errors.push({message: "Scenario name is already used in: " + dupes,
                        rule   : rule,
                        line   : scenario.location.line});
