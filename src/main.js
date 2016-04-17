@@ -12,7 +12,7 @@ function list(val) {
 
 program
   .option('-f, --format [format]', 'Output format. Defaults to stylish')
-  .option('-e, --exclude <...>', 'Comma seperated list of files/patterns that should be excluded', list)
+  .option('-e, --exclude <...>', 'Comma seperated list of files/glob patterns that should be excluded', list)
   .option('-c, --config [config]', 'Configuration file. Defaults to ' + defaultConfigFileName)
   .parse(process.argv);
 
@@ -62,7 +62,7 @@ function verifyConfiguration(config) {
   }
 }
 
-function getFeatureFiles(args, excludePattern) {
+function getFeatureFiles(args, excludePatterns) {
   var files = [];
   args.forEach(function(arg) {
     var pattern = '';
@@ -78,11 +78,8 @@ function getFeatureFiles(args, excludePattern) {
       throw new Error('Invalid input format. To run the linter please specify a feature file, directory or glob.');
     }
 
-    glob.sync(pattern).forEach(function(file) {
-      if (!excludePattern || !file.match('^' + excludePattern + '$')) {
-        files.push(file);
-      }
-    });
+    var globOptions = {ignore: excludePatterns};
+    files = files.concat(glob.sync(pattern, globOptions));
   });
   return files;
 }

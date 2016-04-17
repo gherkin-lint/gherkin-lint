@@ -1,6 +1,6 @@
 {
   "name": "gherkin-lint",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A Gherkin linter/validator written in javascript",
   "author": "Vasiliki Siakka",
   "main": "src/main.js",
@@ -22,7 +22,7 @@
     "gherkin-lint": "src/main.js"
   },
   "scripts": {
-    "test": "node ./src/main.js . -c ./test-data/.gherkin-lintrc"
+    "demo": "node ./src/main.js . -c ./test-data/.gherkin-lintrc"
   },
   "license": "ISC"
 }
