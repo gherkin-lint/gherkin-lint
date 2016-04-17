@@ -1,6 +1,6 @@
 var rule = "no-unamed-features";
 
-function noUnamedFeatures(parsedFile, fileName) {
+function noUnamedFeatures(parsedFile) {
   if (!parsedFile.name) {
   return {message: "Missing Feature name",
           rule   : rule,
