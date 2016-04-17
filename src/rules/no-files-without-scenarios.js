@@ -1,7 +1,7 @@
 var rule = "no-files-without-scenarios";
 
-function noFilesWithoutScenarios(parsedFile, errors) {
-  if (!parsedFile.scenarioDefinitions) {
+function noFilesWithoutScenarios(parsedFile) {
+  if (!parsedFile.scenarioDefinitions.length) {
     return {message: "The Feature doesn't have any Scenarios",
             rule   : rule,
             line   : 0};

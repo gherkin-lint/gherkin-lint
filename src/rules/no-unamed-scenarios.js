@@ -1,6 +1,6 @@
 var rule = "no-unamed-scenarios";
 
-function noUnamedScenarios(parsedFile, filename) {
+function noUnamedScenarios(parsedFile) {
   if(parsedFile.scenarioDefinitions) {
     var errors = [];
     parsedFile.scenarioDefinitions.forEach(function(scenario) {
