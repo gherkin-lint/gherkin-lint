@@ -1,17 +1,19 @@
+/*eslint no-console: "off"*/
+
 var style = {
   gray: function(text) {
-    return "\033[38;5;243m" + text + "\033[0m";
+    return '\x1b[38;5;243m' + text + '\x1b[0m';
   },
 
   underline: function(text) {
-    return "\033[0;4m" + text + "\033[24m";
+    return '\x1b[0;4m' + text + '\x1b[24m';
   }
 
 };
 
 function stylizeError(error, maxErrorMsgLength, maxLineChars) {
-  var str = "  "; // indent 2 spaces so it looks pretty
-  var padding = "    "; //padding of 4 spaces, will be used between line numbers, error msgs and rule names
+  var str = '  '; // indent 2 spaces so it looks pretty
+  var padding = '    '; //padding of 4 spaces, will be used between line numbers, error msgs and rule names
 
   var line = error.line;
   // add spaces until the line string is as long as our longest line string

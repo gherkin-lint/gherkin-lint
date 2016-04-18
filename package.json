@@ -21,7 +21,8 @@
     "gherkin-lint": "src/main.js"
   },
   "scripts": {
-    "demo": "node ./src/main.js . -c ./test-data/.gherkin-lintrc"
+    "demo": "node ./src/main.js . -c ./test-data/.gherkin-lintrc",
+    "lint": "node_modules/.bin/eslint ."
   },
   "license": "ISC"
 }

@@ -1,4 +1,4 @@
-var rule = "no-dupe-feature-names";
+var rule = 'no-dupe-feature-names';
 var features = [];
 
 function noDuplicateFeatureNames(parsedFile, fileName) {
@@ -6,7 +6,7 @@ function noDuplicateFeatureNames(parsedFile, fileName) {
     if (parsedFile.name in features) {
       var dupes = features[parsedFile.name].files.join(', ');
       features[parsedFile.name].files.push(fileName);
-      return {message: "Feature name is already used in: " + dupes,
+      return {message: 'Feature name is already used in: ' + dupes,
               rule   : rule,
               line   : parsedFile.location.line};
     } else {

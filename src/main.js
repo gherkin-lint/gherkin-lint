@@ -5,7 +5,7 @@ var linter = require('./linter.js');
 var fs = require('fs');
 
 var defaultConfigFileName = '.gherkin-lintrc';
-var defaultIgnoreFileName = '.gherkin-lintignore'
+var defaultIgnoreFileName = '.gherkin-lintignore';
 
 function list(val) {
   return val.split(',');
@@ -57,7 +57,7 @@ function verifyConfiguration(config) {
     if (!linter.doesRuleExist(rule)) {
       throw new Error('Rule "' + rule + '" does not exist');
     }
-    if (config[rule] !== "on" && config[rule] !== "off") {
+    if (config[rule] !== 'on' && config[rule] !== 'off') {
       throw new Error('Invalid rule configuration. Rules can be set to either "on" or "off"');
     }
   }
@@ -69,10 +69,10 @@ function getIgnorePatterns(ignoreArg) {
   } else if (fs.existsSync(defaultIgnoreFileName)) {
     // return an array where each element of the array is a line of the ignore file
     return fs.readFileSync(defaultIgnoreFileName)
-             .toString()
-             .split(/[\n|\r]/)
-             .filter(function(i) {
-               // remove empty strings
+              .toString()
+              .split(/[\n|\r]/)
+              .filter(function(i) {
+              // remove empty strings
                 if (i !== '') {
                   return true;
                 }
@@ -86,7 +86,7 @@ function getFeatureFiles(args, ignoreArg) {
   args.forEach(function(arg) {
     var pattern = '';
     if (arg == '.') {
-      pattern = "**/*.feature";
+      pattern = '**/*.feature';
     } else if (arg.match(/.*\/\*\*/)) {
       pattern = arg.slice(0, -1) + '.feature';
     } else if(arg.match(/\/$/)) {
