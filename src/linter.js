@@ -59,7 +59,7 @@ function getFormattedFatalError(error) {
   } else if(error.message.indexOf('got \'Feature') > -1) {
     errorMsg = 'Multiple "Feature" definitions in the same file are disallowed';
     rule = 'one-feature-per-file';
-  } else if(error.message.indexOf('(1:0): unexpected end of file')) {
+  } else if(error.message.indexOf('(1:0): unexpected end of file') > -1) {
     errorMsg = 'Empty feature files are disallowed';
     rule = 'no-empty-file';
   } else {
