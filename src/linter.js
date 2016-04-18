@@ -17,19 +17,19 @@ function lint(files, configuration) {
       if(e.errors) {
         e.errors.forEach(function(error) {
           errors.push(getFormattedFatalError(error));
-       });
-     } else {
-       throw e;
-     }
+        });
+      } else {
+        throw e;
+      }
     }
     var fileBlob = {filePath: fs.realpathSync(fileName), errors: errors};
-  output.push(fileBlob);
+    output.push(fileBlob);
   });
 
   return output;
 }
 
-function getAllRules(rulesFolder) {
+function getAllRules() {
   if (!rules) {
     rules = [];
     fs.readdirSync(path.join(__dirname, 'rules')).forEach(function(file) {
@@ -53,14 +53,14 @@ function getFormattedFatalError(error) {
   var errorLine = error.message.match(/\((\d+):.*/)[1];
   var errorMsg;
   var rule;
-  if (error.message.indexOf("got \'Background") > -1) {
-    errorMsg = "Multiple 'Background' definitions in the same file are disallowed";
+  if (error.message.indexOf('got \'Background') > -1) {
+    errorMsg = 'Multiple "Background" definitions in the same file are disallowed';
     rule = 'up-to-one-background-per-file';
-  } else if(error.message.indexOf("got 'Feature") > -1) {
-    errorMsg = "Multiple 'Feature' definitions in the same file are disallowed";
+  } else if(error.message.indexOf('got \'Feature') > -1) {
+    errorMsg = 'Multiple "Feature" definitions in the same file are disallowed';
     rule = 'one-feature-per-file';
-  } else if(error.message.indexOf("'(1:0): unexpected end of file")) {
-    errorMsg = "Empty feature files are disallowed";
+  } else if(error.message.indexOf('(1:0): unexpected end of file')) {
+    errorMsg = 'Empty feature files are disallowed';
     rule = 'no-empty-file';
   } else {
     errorMsg = error.message;
@@ -74,7 +74,7 @@ function getFormattedFatalError(error) {
 function runLintRules(parsedFile, fileName, configuration) {
   var errors = [];
   getAllRules().forEach(function(rule) {
-    if (configuration[rule.name] == "on") {
+    if (configuration[rule.name] == 'on') {
       var error = rule.run(parsedFile, fileName);
       errors = error ? errors.concat(error) : errors;
     }
