@@ -2,7 +2,7 @@
 var program = require('commander');
 var glob = require('glob');
 var linter = require('./linter.js');
-var fs = require('fs-extra');
+var fs = require('fs');
 
 var defaultConfigFileName = '.gherkin-lintrc';
 var defaultIgnoreFileName = '.gherkin-lintignore'

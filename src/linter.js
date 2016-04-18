@@ -1,4 +1,4 @@
-var fs = require('fs-extra');
+var fs = require('fs');
 var path = require('path');
 var Gherkin = require('gherkin');
 var parser = new Gherkin.Parser();
