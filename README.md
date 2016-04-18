@@ -2,6 +2,21 @@
 
 Uses [Gherkin](https://github.com/cucumber/gherkin-javascript) to parse feature files and runs linting against the default rules, and the optional rules you specified in your `.gherkin-lintrc` file.
 
+## Installation
+```
+npm install gherkin-lint
+
+```
+
+## Demo
+To see the output for all the errors that the linter can detect run:
+```
+git clone https://github.com/vsiakka/gherkin-lint.git
+npm run demo
+```
+Or ![console](http://i.imgur.com/7rgkrE2.png?1)
+
+
 ## Available rules
 
 | Name                           | Functionality                                             | Configurable |
@@ -32,7 +47,7 @@ The default name for the configuration file is `.gherkin-lintrc` and it's expect
 
 If you are using a file with a different name or a file in a different folder, you will need to specify the `-c` or `--config` option and pass in the relative path to your configuration file. Eg: `gherkin-lint -c path/to/configuration/file.extention`
 
-You can find an example configuration file, that turns on all of the rules in test-data/.gherkin-lintrc
+You can find an example configuration file, that turns on all of the rules in the root of this repo (.gherkin-lintrc).
 
 ## Ignoring Files
 There are 2 ways you can specify files that the linter should ignore:
