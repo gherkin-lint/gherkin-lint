@@ -22,7 +22,7 @@
   },
   "scripts": {
     "demo": "node ./src/main.js .",
-    "lint": "node_modules/.bin/eslint ."
+    "lint": "eslint ."
   },
   "license": "ISC"
 }
