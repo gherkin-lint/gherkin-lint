@@ -5,6 +5,7 @@ var linter = require('./linter.js');
 var fs = require('fs-extra');
 
 var defaultConfigFileName = '.gherkin-lintrc';
+var defaultIgnoreFileName = '.gherkin-lintignore'
 
 function list(val) {
   return val.split(',');
@@ -12,11 +13,11 @@ function list(val) {
 
 program
   .option('-f, --format [format]', 'Output format. Defaults to stylish')
-  .option('-e, --exclude <...>', 'Comma seperated list of files/glob patterns that should be excluded', list)
+  .option('-i, --ignore <...>', 'Comma seperated list of files/glob patterns that the linter should ignore. Overrides ' + defaultIgnoreFileName + ' file', list)
   .option('-c, --config [config]', 'Configuration file. Defaults to ' + defaultConfigFileName)
   .parse(process.argv);
 
-var files = getFeatureFiles(program.args, program.exclude);
+var files = getFeatureFiles(program.args, program.ignore);
 var config = getConfiguration(program.config);
 var results = linter.lint(files, config);
 printResults(results, program.format);
@@ -62,7 +63,25 @@ function verifyConfiguration(config) {
   }
 }
 
-function getFeatureFiles(args, excludePatterns) {
+function getIgnorePatterns(ignoreArg) {
+  if (ignoreArg) {
+    return ignoreArg;
+  } else if (fs.existsSync(defaultIgnoreFileName)) {
+    // return an array where each element of the array is a line of the ignore file
+    return fs.readFileSync(defaultIgnoreFileName)
+             .toString()
+             .split(/[\n|\r]/)
+             .filter(function(i) {
+               // remove empty strings
+                if (i !== '') {
+                  return true;
+                }
+                return false;
+              });
+  }
+}
+
+function getFeatureFiles(args, ignoreArg) {
   var files = [];
   args.forEach(function(arg) {
     var pattern = '';
@@ -78,7 +97,7 @@ function getFeatureFiles(args, excludePatterns) {
       throw new Error('Invalid input format. To run the linter please specify a feature file, directory or glob.');
     }
 
-    var globOptions = {ignore: excludePatterns};
+    var globOptions = {ignore: getIgnorePatterns(ignoreArg)};
     files = files.concat(glob.sync(pattern, globOptions));
   });
   return files;
