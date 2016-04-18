@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 var program = require('commander');
 var glob = require('glob');
 var linter = require('./linter.js');
