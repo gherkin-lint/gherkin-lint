@@ -22,7 +22,17 @@ var files = getFeatureFiles(program.args, program.ignore);
 var config = getConfiguration(program.config);
 var results = linter.lint(files, config);
 printResults(results, program.format);
+process.exit(getExitCode(results));
 
+function getExitCode(results) {
+  var exitCode = 0;
+  results.forEach(function(result) {
+    if (result.errors.length > 0) {
+      exitCode = 1;
+    }
+  });
+  return exitCode;
+}
 
 function printResults(results, format) {
   var formatter;
