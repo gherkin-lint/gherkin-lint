@@ -89,6 +89,9 @@ function getIgnorePatterns(ignoreArg) {
                 }
                 return false;
               });
+  } else {
+    // Ignore node_modules by default
+    return "node_modules/**";
   }
 }
 
