@@ -15,9 +15,7 @@ function lint(files, configuration) {
       errors = runLintRules(parsedFile, fileName, configuration);
     } catch(e) {
       if(e.errors) {
-        e.errors.forEach(function(error) {
-          errors.push(getFormattedFatalError(error));
-        });
+        errors = processFatalErrors(e.errors);
       } else {
         throw e;
       }
@@ -47,6 +45,40 @@ function doesRuleExist(rule) {
     }
   }
   return false;
+}
+
+function processFatalErrors(errors) {
+  var errorMsgs = [];
+  if (errors.length > 1) {
+    var result = getFormatedTaggedBackgroundError(errors);
+    errors = result.errors;
+    errorMsgs = result.errorMsgs;
+  }
+  errors.forEach(function(error) {
+    errorMsgs.push(getFormattedFatalError(error));
+  });
+  return errorMsgs;
+}
+
+function getFormatedTaggedBackgroundError(errors) {
+  var errorMsgs = [];
+  var index = 0;
+  if (errors[0].message.indexOf('got \'Background') > -1 &&
+      errors[1].message.indexOf('expected: #TagLine, #ScenarioLine, #ScenarioOutlineLine, #Comment, #Empty') > -1) {
+
+    errorMsgs.push({
+      message: 'Tags on Backgrounds are dissallowed',
+      rule: 'no-tags-on-backgrounds',
+      line: errors[0].message.match(/\((\d+):.*/)[1]
+    });
+
+    for(var i = 2; i < errors.length; i++) {
+      if (errors[i].message.indexOf('expected: #TagLine, #ScenarioLine, #ScenarioOutlineLine, #Comment, #Empty') > -1) {
+        index = i;
+      }
+    }
+  }
+  return {errors: errors.slice(i + 1, errors.length), errorMsgs: errorMsgs};
 }
 
 function getFormattedFatalError(error) {

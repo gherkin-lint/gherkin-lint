@@ -25,6 +25,7 @@ Or check this:
 | `one-feature-per-file`             | Disallows multiple Feature definitions in the same file   | no*          |
 | `up-to-one-background-per-file`    | Disallows multiple Background definition in the same file | no*          |
 | `no-empty-file`                    | Disallows empty feature files                             | no*          |
+| `no-tags-on-backgrounds            | Disallows tags on Background                              | no*          |
 | `no-files-without-scenarios`       | Disallows files with no scenarios                         | yes          |
 | `no-unamed-features`               | Disallows empty Feature name                              | yes          |
 | `no-unamed-scenarios`              | Disallows empty Scenario name                             | yes          |
