@@ -14,22 +14,23 @@ To see the output for all the errors that the linter can detect run:
 git clone https://github.com/vsiakka/gherkin-lint.git
 npm run demo
 ```
-Or check this: 
+Or check this:
 ![console](http://i.imgur.com/YaH4Anu.png)
 
 
 ## Available rules
 
 | Name                           | Functionality                                             | Configurable |
-|--------------------------------|-----------------------------------------------------------|:------------:|
-| `one-feature-per-file`         | Disallows multiple Feature definitions in the same file   | no*          |
-| `up-to-one-background-per-file`| Disallows multiple Background definition in the same file | no*          |
-| `no-empty-file`                | Disallows empty feature files                             | no*          |
-| `no-files-without-scenarios`   | Disallows files with no scenarios                         | yes          |
-| `no-unamed-features`           | Disallows empty Feature name                              | yes          |
-| `no-unamed-scenarios`          | Disallows empty Scenario name                             | yes          |
-| `no-dupe-feature-names`        | Disallows duplicate Feature names                         | yes          |
-| `no-dupe-scenario-names`       | Disallows duplicate Scenario names                        | yes          |
+|------------------------------------|-----------------------------------------------------------|:------------:|
+| `one-feature-per-file`             | Disallows multiple Feature definitions in the same file   | no*          |
+| `up-to-one-background-per-file`    | Disallows multiple Background definition in the same file | no*          |
+| `no-empty-file`                    | Disallows empty feature files                             | no*          |
+| `no-files-without-scenarios`       | Disallows files with no scenarios                         | yes          |
+| `no-unamed-features`               | Disallows empty Feature name                              | yes          |
+| `no-unamed-scenarios`              | Disallows empty Scenario name                             | yes          |
+| `no-dupe-feature-names`            | Disallows duplicate Feature names                         | yes          |
+| `no-dupe-scenario-names`           | Disallows duplicate Scenario names                        | yes          |
+| `no-partially-commented-tag-lines` | Disallows partially commented tag lines                   | yes          |
 
 \* These rules cannot be turned off because they detect undocumented cucumber functionality that causes the [gherkin](https://github.com/cucumber/gherkin-javascript) parser to crash.
 
