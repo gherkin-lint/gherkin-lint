@@ -1,8 +1,7 @@
 var fs = require('fs');
-var path = require('path');
 var Gherkin = require('gherkin');
 var parser = new Gherkin.Parser();
-var rules; // Cashing list of rules, so that we only load them once
+var rules = require('./rules.js');
 
 function lint(files, configuration) {
   var output = [];
@@ -12,7 +11,7 @@ function lint(files, configuration) {
     var errors = [];
     try {
       var parsedFile = parser.parse(file);
-      errors = runLintRules(parsedFile, fileName, configuration);
+      errors = rules.runAllEnabledRules(parsedFile, fileName, configuration);
     } catch(e) {
       if(e.errors) {
         errors = processFatalErrors(e.errors);
@@ -25,26 +24,6 @@ function lint(files, configuration) {
   });
 
   return output;
-}
-
-function getAllRules() {
-  if (!rules) {
-    rules = [];
-    fs.readdirSync(path.join(__dirname, 'rules')).forEach(function(file) {
-      rules.push(require(path.join(__dirname, 'rules', file)));
-    });
-  }
-  return rules;
-}
-
-function doesRuleExist(rule) {
-  var rules = getAllRules();
-  for (var i = 0; i < rules.length; i ++) {
-    if (rules[i].name === rule) {
-      return true;
-    }
-  }
-  return false;
 }
 
 function processFatalErrors(errors) {
@@ -72,13 +51,16 @@ function getFormatedTaggedBackgroundError(errors) {
       line: errors[0].message.match(/\((\d+):.*/)[1]
     });
 
+    index = 2;
     for(var i = 2; i < errors.length; i++) {
       if (errors[i].message.indexOf('expected: #TagLine, #ScenarioLine, #ScenarioOutlineLine, #Comment, #Empty') > -1) {
         index = i;
+      } else {
+        break;
       }
     }
   }
-  return {errors: errors.slice(i + 1, errors.length), errorMsgs: errorMsgs};
+  return {errors: errors.slice(index, errors.length), errorMsgs: errorMsgs};
 }
 
 function getFormattedFatalError(error) {
@@ -103,18 +85,6 @@ function getFormattedFatalError(error) {
           line   : errorLine};
 }
 
-function runLintRules(parsedFile, fileName, configuration) {
-  var errors = [];
-  getAllRules().forEach(function(rule) {
-    if (configuration[rule.name] == 'on') {
-      var error = rule.run(parsedFile, fileName);
-      errors = error ? errors.concat(error) : errors;
-    }
-  });
-  return errors;
-}
-
 module.exports = {
-  lint: lint,
-  doesRuleExist: doesRuleExist
+  lint: lint
 };

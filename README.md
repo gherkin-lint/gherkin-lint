@@ -32,11 +32,12 @@ Or check this:
 | `no-dupe-feature-names`            | Disallows duplicate Feature names                         | yes          |
 | `no-dupe-scenario-names`           | Disallows duplicate Scenario names                        | yes          |
 | `no-partially-commented-tag-lines` | Disallows partially commented tag lines                   | yes          |
+| `indentation`                      | Allows the user to specify indentation rules              | yes          |
 
 \* These rules cannot be turned off because they detect undocumented cucumber functionality that causes the [gherkin](https://github.com/cucumber/gherkin-javascript) parser to crash.
 
 ## Rule Configuration
-The not-configurable rules are turned on by default and cannot be turned off.
+The not-configurable rules are turned on by default and cannot be turned off. Configurable rules can be customized using a [file](#Configuration-File).
 
 The configurable rules are off by default. To turn them on, you will need to create a json file, where you specify the name of each rule and its desired state (which can be "on" or "off"). Eg:
 ```
@@ -46,6 +47,17 @@ The configurable rules are off by default. To turn them on, you will need to cre
 ```
 will turn on the `no-unamed-features` rule.
 
+`indentation` uses following default indentation rules:
+- Feature, Background, Scenario: 0 spaces
+- Steps: 2 spaces
+However it can be customized to override the default values as following:
+```
+{
+  "indentation" : "on", { "feature": 0, "background": 0, "scenario": 0, "step": 2 }
+}
+```
+
+## Configuration File
 The default name for the configuration file is `.gherkin-lintrc` and it's expected to be in your working directory.     
 
 If you are using a file with a different name or a file in a different folder, you will need to specify the `-c` or `--config` option and pass in the relative path to your configuration file. Eg: `gherkin-lint -c path/to/configuration/file.extention`
