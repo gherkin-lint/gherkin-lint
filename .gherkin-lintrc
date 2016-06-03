@@ -5,5 +5,6 @@
   "no-dupe-scenario-names": "on",
   "no-dupe-feature-names": "on",
   "no-partially-commented-tag-lines": "on",
-  "indentation": "on"
+  "indentation": "on",
+  "no-trailing-spaces": "on"
 }
