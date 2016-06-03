@@ -33,6 +33,7 @@ Or check this:
 | `no-dupe-scenario-names`           | Disallows duplicate Scenario names                        | yes          |
 | `no-partially-commented-tag-lines` | Disallows partially commented tag lines                   | yes          |
 | `indentation`                      | Allows the user to specify indentation rules              | yes          |
+| `no-trailing-spaces`               | Disallows trailing spaces                                 | yes          |
 
 \* These rules cannot be turned off because they detect undocumented cucumber functionality that causes the [gherkin](https://github.com/cucumber/gherkin-javascript) parser to crash.
 
