@@ -3,6 +3,7 @@
 var program = require('commander');
 var glob = require('glob');
 var linter = require('./linter.js');
+var rules = require('./rules.js');
 var fs = require('fs');
 
 var defaultConfigFileName = '.gherkin-lintrc';
@@ -59,18 +60,16 @@ function getConfiguration(configPath) {
     configPath = defaultConfigFileName;
   }
   var config = JSON.parse(fs.readFileSync(configPath));
-  verifyConfiguration(config);
+  verifyConfigurationFile(config);
   return config;
 }
 
-function verifyConfiguration(config) {
+function verifyConfigurationFile(config) {
   for (var rule in config) {
-    if (!linter.doesRuleExist(rule)) {
+    if (!rules.doesRuleExist(rule)) {
       throw new Error('Rule "' + rule + '" does not exist');
     }
-    if (config[rule] !== 'on' && config[rule] !== 'off') {
-      throw new Error('Invalid rule configuration. Rules can be set to either "on" or "off"');
-    }
+    rules.verifyRuleConfiguration(rule, config[rule]);
   }
 }
 
@@ -91,7 +90,7 @@ function getIgnorePatterns(ignoreArg) {
               });
   } else {
     // Ignore node_modules by default
-    return "node_modules/**";
+    return 'node_modules/**';
   }
 }
 
