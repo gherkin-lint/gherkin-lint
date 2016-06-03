@@ -37,7 +37,7 @@ Or check this:
 \* These rules cannot be turned off because they detect undocumented cucumber functionality that causes the [gherkin](https://github.com/cucumber/gherkin-javascript) parser to crash.
 
 ## Rule Configuration
-The not-configurable rules are turned on by default and cannot be turned off. Configurable rules can be customized using a [file](#Configuration-File).
+The not-configurable rules are turned on by default and cannot be turned off. Configurable rules can be customized using a [file](#configuration-file).
 
 The configurable rules are off by default. To turn them on, you will need to create a json file, where you specify the name of each rule and its desired state (which can be "on" or "off"). Eg:
 ```
@@ -47,10 +47,11 @@ The configurable rules are off by default. To turn them on, you will need to cre
 ```
 will turn on the `no-unamed-features` rule.
 
-`indentation` uses following default indentation rules:
-- Feature, Background, Scenario: 0 spaces
-- Steps: 2 spaces
-However it can be customized to override the default values as following:
+`indentation` can be configured in a more granular level and uses following rules by default:
+- Expected indentation for Feature, Background, Scenario: 0 spaces
+- Expected indentation for Steps: 2 spaces
+
+You can override the defaults for `indentation` like this:
 ```
 {
   "indentation" : "on", { "feature": 0, "background": 0, "scenario": 0, "step": 2 }
