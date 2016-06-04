@@ -6,5 +6,6 @@
   "no-dupe-feature-names": "on",
   "no-partially-commented-tag-lines": "on",
   "indentation": "on",
-  "no-trailing-spaces": "on"
+  "no-trailing-spaces": "on",
+  "new-line-at-eof": ["on", "yes"]
 }

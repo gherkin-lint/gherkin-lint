@@ -4,5 +4,5 @@ Background:
   Given I have a Feature file with a line with tags that is half commented out
 
 @tag #@commented-out-tag
-Scenario: This is Scenario for no-partially-commented-tag-lines
+Scenario: This is a Scenario for no-partially-commented-tag-lines
   Then I should see a no-partially-commented-tag-lines error

@@ -1,4 +1,5 @@
 var fs = require('fs');
+var _ = require('lodash');
 var Gherkin = require('gherkin');
 var parser = new Gherkin.Parser();
 var rules = require('./rules.js');
@@ -19,7 +20,7 @@ function lint(files, configuration) {
         throw e;
       }
     }
-    var fileBlob = {filePath: fs.realpathSync(fileName), errors: errors};
+    var fileBlob = {filePath: fs.realpathSync(fileName), errors: _.sortBy(errors, 'line')};
     output.push(fileBlob);
   });
 
