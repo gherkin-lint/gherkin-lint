@@ -15,7 +15,7 @@ function stylizeError(error, maxErrorMsgLength, maxLineChars) {
   var str = '  '; // indent 2 spaces so it looks pretty
   var padding = '    '; //padding of 4 spaces, will be used between line numbers, error msgs and rule names
 
-  var line = error.line;
+  var line = error.line.toString();
   // add spaces until the line string is as long as our longest line string
   while (line.length < maxLineChars) {
     line += ' ';
@@ -48,8 +48,9 @@ function getMaxLengthOfField(results, field) {
   var length = 0;
   results.forEach(function(result) {
     result.errors.forEach(function(error) {
-      if (error[field].length > length) {
-        length = error[field].length;
+      var errorStr = error[field].toString();
+      if (errorStr.length > length) {
+        length = errorStr.length;
       }
     });
   });
