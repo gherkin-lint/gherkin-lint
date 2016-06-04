@@ -34,6 +34,7 @@ Or check this:
 | `no-partially-commented-tag-lines` | Disallows partially commented tag lines                   | yes          |
 | `indentation`                      | Allows the user to specify indentation rules              | yes          |
 | `no-trailing-spaces`               | Disallows trailing spaces                                 | yes          |
+| `new-line-at-eof`                  | Disallows/enforces new line at EOF                        | yes          |
 
 \* These rules cannot be turned off because they detect undocumented cucumber functionality that causes the [gherkin](https://github.com/cucumber/gherkin-javascript) parser to crash.
 
@@ -56,6 +57,20 @@ You can override the defaults for `indentation` like this:
 ```
 {
   "indentation" : "on", { "feature": 0, "background": 0, "scenario": 0, "step": 2 }
+}
+```
+
+`new-line-at-eof` can also be configured to enforcing or disallowing new lines at EOF.
+- To enforce new lines at EOF:
+```
+{
+  "new-line-at-eof": ["on", "yes"]
+}
+```
+- To disallow new lines at EOF:
+```
+{
+  "new-line-at-eof": ["on", "no"]
 }
 ```
 
