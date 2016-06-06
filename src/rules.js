@@ -59,8 +59,8 @@ function verifyRuleConfiguration(rule, ruleConfig) {
     }
 
     var ruleObj = getRule(rule);
-    var extraConfig = typeof(ruleConfig[1]) === 'String' ? ruleConfig[1] : [ruleConfig[1]];
-    
+    var extraConfig = typeof(ruleConfig[1]) === String ? ruleConfig[1] : [ruleConfig[1]];
+
     for (var subConfig in extraConfig) {
       if (ruleObj.availableConfigs[subConfig] === undefined) {
         throw new Error(genericErrorMsg + ' The rule does not have the specified configuration option "' + subConfig + '"');

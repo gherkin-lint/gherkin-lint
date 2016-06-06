@@ -20,20 +20,21 @@ Or check this:
 
 ## Available rules
 
-| Name                           | Functionality                                             | Configurable |
+| Name                           | Functionality                                                 | Configurable |
 |------------------------------------|-----------------------------------------------------------|:------------:|
-| `one-feature-per-file`             | Disallows multiple Feature definitions in the same file   | no*          |
-| `up-to-one-background-per-file`    | Disallows multiple Background definition in the same file | no*          |
 | `no-empty-file`                    | Disallows empty feature files                             | no*          |
 | `no-tags-on-backgrounds`           | Disallows tags on Background                              | no*          |
-| `no-files-without-scenarios`       | Disallows files with no scenarios                         | yes          |
-| `no-unamed-features`               | Disallows empty Feature name                              | yes          |
-| `no-unamed-scenarios`              | Disallows empty Scenario name                             | yes          |
+| `one-feature-per-file`             | Disallows multiple Feature definitions in the same file   | no*          |
+| `up-to-one-background-per-file`    | Disallows multiple Background definition in the same file | no*          |
+| `indentation`                      | Allows the user to specify indentation rules              | yes          |
 | `no-dupe-feature-names`            | Disallows duplicate Feature names                         | yes          |
 | `no-dupe-scenario-names`           | Disallows duplicate Scenario names                        | yes          |
+| `no-files-without-scenarios`       | Disallows files with no scenarios                         | yes          |
+| `no-multiple-empty-lines`          | Disallows multiple empty lines                            | yes          |
 | `no-partially-commented-tag-lines` | Disallows partially commented tag lines                   | yes          |
-| `indentation`                      | Allows the user to specify indentation rules              | yes          |
 | `no-trailing-spaces`               | Disallows trailing spaces                                 | yes          |
+| `no-unamed-features`               | Disallows empty Feature name                              | yes          |
+| `no-unamed-scenarios`              | Disallows empty Scenario name                             | yes          |
 | `new-line-at-eof`                  | Disallows/enforces new line at EOF                        | yes          |
 
 \* These rules cannot be turned off because they detect undocumented cucumber functionality that causes the [gherkin](https://github.com/cucumber/gherkin-javascript) parser to crash.
@@ -81,7 +82,7 @@ If you are using a file with a different name or a file in a different folder, y
 
 You can find an example configuration file, that turns on all of the rules in the root of this repo (.gherkin-lintrc).
 
-## Ignoring Files
+## Ignoring Feature Files
 There are 2 ways you can specify files that the linter should ignore:
 1. Add a `.gherkin-lintignore` file in your working directory and specify one glob pattern per file line
 1. Use the command line option`-i` or `--ignore`,  pass in a comma separated list of glob patterns. If specified, the command line option will override the `.gherkin-lintignore` file.
