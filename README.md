@@ -57,7 +57,7 @@ will turn on the `no-unamed-features` rule.
 You can override the defaults for `indentation` like this:
 ```
 {
-  "indentation" : "on", { "feature": 0, "background": 0, "scenario": 0, "step": 2 }
+  "indentation" : ["on", { "Feature": 0, "Background": 0, "Scenario": 0, "Step": 2 }]
 }
 ```
 
