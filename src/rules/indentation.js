@@ -1,12 +1,12 @@
 var _ = require('lodash');
 var rule = 'indentation';
 
-var availableConfigs = [{
+var availableConfigs = {
   'Feature': 0,
   'Background': 0,
   'Scenario': 0,
   'Step': 2
-}];
+};
 
 var errors = [];
 
