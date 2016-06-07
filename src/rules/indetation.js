@@ -20,6 +20,7 @@ function test(parsedLocation, config, type) {
 }
 
 function indentation(parsedFile, unused, configuration) {
+  errors = [];
   configuration = _.merge(availableConfigs, configuration);
 
   // Check Feature indentation
