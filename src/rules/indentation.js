@@ -13,7 +13,7 @@ var errors = [];
 function test(parsedLocation, config, type) {
     // location.column is 1 index based so, when we compare with the expected indentation we need to subtract 1
   if (--parsedLocation.column !== config[type]) {
-    errors.push({message: 'Wrong indentation for "' + type + '", expected ' + config[type] + ' spaces, got ' + parsedLocation.column,
+    errors.push({message: 'Wrong indentation for "' + type + '", expected indentation level of ' + config[type] + ', but got ' + parsedLocation.column,
                  rule   : rule,
                  line   : parsedLocation.line});
   }
