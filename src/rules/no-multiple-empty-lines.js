@@ -8,7 +8,7 @@ function noMulitpleEmptyLines(unused, fileName) {
     if (lines[i].trim() === '' && lines[i + 1].trim() == '') {
       errors.push({message: 'Multiple empty lines are not allowed',
                    rule   : rule,
-                   line   : i + 1});
+                   line   : i + 2});
     }
   }
   return errors;
