@@ -6,6 +6,9 @@
   "contributors": [
     {
       "name": "Tim Brust"
+    },
+    {
+      "name": "Oskar Pfeifer-Bley"
     }
   ],
   "main": "src/main.js",
