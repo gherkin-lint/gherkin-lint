@@ -7,7 +7,7 @@ function noPartiallyCommentedTagLines(parsedFile) {
       if (tag.name.indexOf('#') > 0) {
         errors.push({message: 'Partially commented tag lines not allowed ',
                      rule   : rule,
-                     line   : parsedFile.location.line});
+                     line   : tag.location.line});
       }
     });
   });
