@@ -1,11 +1,17 @@
 var _ = require('lodash');
+var languageMapping = require('gherkin/lib/gherkin/gherkin-languages.json');
 var rule = 'indentation';
 
 var availableConfigs = {
   'Feature': 0,
   'Background': 0,
   'Scenario': 0,
-  'Step': 2
+  'Step': 2,
+  'given': 2,
+  'when': 2,
+  'then': 2,
+  'and': 2,
+  'but': 2
 };
 
 var errors = [];
@@ -20,6 +26,7 @@ function test(parsedLocation, config, type) {
 }
 
 function indentation(parsedFile, unused, configuration) {
+  var language = languageMapping[parsedFile.language];
   errors = [];
   configuration = _.merge(availableConfigs, configuration);
 
@@ -39,10 +46,11 @@ function indentation(parsedFile, unused, configuration) {
   parsedFile.scenarioDefinitions.forEach(function(scenario) {
     // Check Scenario indentation
     test(scenario.location, configuration, 'Scenario');
-
     scenario.steps.forEach(function(step) {
       // Check Step indentation
-      test(step.location, configuration, 'Step');
+      var keyword = step.keyword;
+      var stepType = _.findKey(language, function(values) { return values instanceof Array && values.indexOf(keyword) !== -1; }) || 'Step';
+      test(step.location, configuration, stepType);
     });
   });
 
