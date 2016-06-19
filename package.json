@@ -35,7 +35,7 @@
   "scripts": {
     "demo": "node ./src/main.js .",
     "lint": "eslint .",
-	"test": "npm run lint"
+    "test": "npm run lint"
   },
   "license": "ISC"
 }
