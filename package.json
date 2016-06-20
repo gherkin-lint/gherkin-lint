@@ -34,7 +34,8 @@
   },
   "scripts": {
     "demo": "node ./src/main.js .",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test": "npm run lint"
   },
   "license": "ISC"
 }
