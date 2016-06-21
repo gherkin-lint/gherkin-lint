@@ -27,30 +27,31 @@ function test(parsedLocation, config, type) {
 
 function indentation(parsedFile, unused, configuration) {
   var language = languageMapping[parsedFile.language];
+  var mergedConfiguration = _.merge(availableConfigs, configuration);
   errors = [];
-  configuration = _.merge(availableConfigs, configuration);
 
   // Check Feature indentation
-  test(parsedFile.location, configuration, 'Feature');
+  test(parsedFile.location, mergedConfiguration, 'Feature');
 
   if (parsedFile.background) {
     // Check Background indentation
-    test(parsedFile.background.location, configuration, 'Background');
+    test(parsedFile.background.location, mergedConfiguration, 'Background');
 
     // Check Background steps
     parsedFile.background.steps.forEach(function(step) {
-      test(step.location, configuration, 'Step');
+      test(step.location, mergedConfiguration, 'Step');
     });
   }
 
   parsedFile.scenarioDefinitions.forEach(function(scenario) {
     // Check Scenario indentation
-    test(scenario.location, configuration, 'Scenario');
+    test(scenario.location, mergedConfiguration, 'Scenario');
     scenario.steps.forEach(function(step) {
       // Check Step indentation
       var keyword = step.keyword;
-      var stepType = _.findKey(language, function(values) { return values instanceof Array && values.indexOf(keyword) !== -1; }) || 'Step';
-      test(step.location, configuration, stepType);
+      var stepType = _.findKey(language, function(values) { return values instanceof Array && values.indexOf(keyword) !== -1; });
+      stepType = stepType in configuration ? stepType : 'Step';
+      test(step.location, mergedConfiguration, stepType);
     });
   });
 
