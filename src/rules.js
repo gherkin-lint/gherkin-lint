@@ -38,7 +38,8 @@ function runAllEnabledRules(parsedFile, fileName, configuration) {
   var errors = [];
   getAllRules().forEach(function(rule) {
     if (isRuleEnabled(configuration[rule.name])) {
-      var error = rule.run(parsedFile, fileName, configuration[rule.name][1]);
+      var ruleConfig = Array.isArray(configuration[rule.name]) ? configuration[rule.name][1] : {};
+      var error = rule.run(parsedFile, fileName, ruleConfig);
       errors = error ? errors.concat(error) : errors;
     }
   });
