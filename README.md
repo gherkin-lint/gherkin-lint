@@ -54,10 +54,12 @@ will turn on the `no-unamed-features` rule.
 - Expected indentation for Feature, Background, Scenario: 0 spaces
 - Expected indentation for Steps: 2 spaces
 
-You can override the defaults for `indentation` like this:
+You can override the defaults for `indentation` like this:  
+`Step` will be used as a fallback if the keyword of the step is not specified.  
+This feature is able to handle all localizations of the gherkin steps.
 ```
 {
-  "indentation" : ["on", { "Feature": 0, "Background": 0, "Scenario": 0, "Step": 2 }]
+  "indentation" : ["on", { "Feature": 0, "Background": 0, "Scenario": 0, "Step": 2, "given": 2, "and": 3 }]
 }
 ```
 
