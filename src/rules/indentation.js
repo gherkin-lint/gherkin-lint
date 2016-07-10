@@ -1,5 +1,5 @@
 var _ = require('lodash');
-var languageMapping = require('gherkin/lib/gherkin/gherkin-languages.json');
+var languageMapping = require('gherkin').DIALECTS;
 var rule = 'indentation';
 
 var availableConfigs = {
@@ -33,6 +33,9 @@ function testStep(step, language, configuration, mergedConfiguration) {
 }
 
 function indentation(parsedFile, unused, configuration) {
+  if (!parsedFile || Object.keys(parsedFile).length === 0) {
+    return;
+  }
   var language = languageMapping[parsedFile.language];
   var mergedConfiguration = _.merge(availableConfigs, configuration);
   errors = [];
@@ -40,20 +43,24 @@ function indentation(parsedFile, unused, configuration) {
   // Check Feature indentation
   test(parsedFile.location, mergedConfiguration, 'Feature');
 
-  if (parsedFile.background) {
-    // Check Background indentation
-    test(parsedFile.background.location, mergedConfiguration, 'Background');
+  parsedFile.children.forEach(function(child) {
+    switch(child.type) {
+    case 'Background':
+      // Check Background indentation
+      test(child.location, mergedConfiguration, 'Background');
+      break;
+    case 'Scenario':
+      // Check Scenario indentation
+      test(child.location, mergedConfiguration, 'Scenario');
+      break;
+    default:
+      errors.push({message: 'Unknown gherkin node type ' + child.type,
+                   rule   : rule,
+                   line   : child.location.line});
+      break;
+    }
 
-    // Check Background steps
-    parsedFile.background.steps.forEach(function(step) {
-      testStep(step, language, configuration, mergedConfiguration);
-    });
-  }
-
-  parsedFile.scenarioDefinitions.forEach(function(scenario) {
-    // Check Scenario indentation
-    test(scenario.location, mergedConfiguration, 'Scenario');
-    scenario.steps.forEach(function(step) {
+    child.steps.forEach(function(step) {
       // Check Step indentation
       testStep(step, language, configuration, mergedConfiguration);
     });

@@ -2,9 +2,9 @@ var rule = 'no-dupe-scenario-names';
 var scenarios = [];
 
 function noDuplicateScenarioNames(parsedFile, fileName) {
-  if(parsedFile.scenarioDefinitions) {
+  if(parsedFile.children) {
     var errors = [];
-    parsedFile.scenarioDefinitions.forEach(function(scenario) {
+    parsedFile.children.forEach(function(scenario) {
       if (scenario.name) {
         if (scenario.name in scenarios) {
           var dupes = getFileLinePairsAsStr(scenarios[scenario.name].locations);

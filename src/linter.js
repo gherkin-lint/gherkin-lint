@@ -11,7 +11,7 @@ function lint(files, configuration) {
     var file = fs.readFileSync(fileName, 'utf-8');
     var errors = [];
     try {
-      var parsedFile = parser.parse(file);
+      var parsedFile = parser.parse(file).feature || {};
       errors = rules.runAllEnabledRules(parsedFile, fileName, configuration);
     } catch(e) {
       if(e.errors) {
