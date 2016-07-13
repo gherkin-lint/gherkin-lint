@@ -27,13 +27,14 @@
     "lodash": "4.13.1"
   },
   "devDependencies": {
-    "eslint": "latest"
+    "eslint": "latest",
+    "chai": "3.5.0"
   },
   "bin": {
     "gherkin-lint": "src/main.js"
   },
   "scripts": {
-    "demo": "node ./src/main.js .",
+    "demo": "node ./src/main.js . -c ./test/test-data/.gherkin-lintrc",
     "lint": "eslint .",
     "test": "npm run lint"
   },

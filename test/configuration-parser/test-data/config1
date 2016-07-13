@@ -7,6 +7,5 @@
   "no-partially-commented-tag-lines": "on",
   "indentation": "on",
   "no-trailing-spaces": "on",
-  "new-line-at-eof": ["on", "yes"],
-  "no-multiple-empty-lines": "on"
+  "no-multiple-empty-lines": "off"
 }
