@@ -36,11 +36,20 @@ function isRuleEnabled(ruleConfig) {
 
 function runAllEnabledRules(parsedFile, fileName, configuration) {
   var errors = [];
+  var ignoreFutureErrors = false;
   getAllRules().forEach(function(rule) {
-    if (isRuleEnabled(configuration[rule.name])) {
+    if (isRuleEnabled(configuration[rule.name]) && !ignoreFutureErrors) {
       var ruleConfig = Array.isArray(configuration[rule.name]) ? configuration[rule.name][1] : {};
       var error = rule.run(parsedFile, fileName, ruleConfig);
-      errors = error ? errors.concat(error) : errors;
+
+      if (error) {
+        if (rule.suppressOtherRules) {
+          errors = [error];
+          ignoreFutureErrors = true;
+        } else {
+          errors = errors.concat(error);
+        }
+      }
     }
   });
   return errors;

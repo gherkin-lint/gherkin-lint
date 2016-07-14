@@ -22,13 +22,13 @@ Or check this:
 
 | Name                           | Functionality                                                 | Configurable |
 |------------------------------------|-----------------------------------------------------------|:------------:|
-| `no-empty-file`                    | Disallows empty feature files                             | no*          |
 | `no-tags-on-backgrounds`           | Disallows tags on Background                              | no*          |
 | `one-feature-per-file`             | Disallows multiple Feature definitions in the same file   | no*          |
 | `up-to-one-background-per-file`    | Disallows multiple Background definition in the same file | no*          |
 | `indentation`                      | Allows the user to specify indentation rules              | yes          |
 | `no-dupe-feature-names`            | Disallows duplicate Feature names                         | yes          |
 | `no-dupe-scenario-names`           | Disallows duplicate Scenario names                        | yes          |
+| `no-empty-file`                    | Disallows empty feature files                             | yes          |
 | `no-files-without-scenarios`       | Disallows files with no scenarios                         | yes          |
 | `no-multiple-empty-lines`          | Disallows multiple empty lines                            | yes          |
 | `no-partially-commented-tag-lines` | Disallows partially commented tag lines                   | yes          |
