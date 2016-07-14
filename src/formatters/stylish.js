@@ -64,12 +64,12 @@ function printResults(results) {
 
   results.forEach(function(result) {
     if (result.errors.length > 0) {
-      console.log(stylizeFilePath(result.filePath));
+      console.error(stylizeFilePath(result.filePath));
 
       result.errors.forEach(function(error) {
-        console.log(stylizeError(error, maxErrorMsgLength, maxLineChars));
+        console.error(stylizeError(error, maxErrorMsgLength, maxLineChars));
       });
-      console.log('\n');
+      console.error('\n');
     }
   });
 }
