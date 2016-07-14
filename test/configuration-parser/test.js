@@ -1,39 +1,66 @@
 var assert = require('chai').assert;
+var expect = require('chai').expect;
 var configParser = require('../../src/config-parser.js');
+
+require('mocha-sinon');
 
 describe('Configuration file', function() {
   describe('parsing/verification is successful when', function() {
     it('rules are set to "on" or "off"', function() {
       var actual = configParser.getConfiguration("./test/configuration-parser/test-data/config1");
-      var expected = require('./test-results/results.json').config1;
+      var expected = require('./test-results/results.js').config1;
       assert.deepEqual(actual, expected);
     });
 
     it('a rule config is an array of size 2, an "on/off" state and another config value', function() {
       var actual = configParser.getConfiguration("./test/configuration-parser/test-data/config2");
-      var expected  = require('./test-results/results.json').config2;
+      var expected  = require('./test-results/results.js').config2;
       assert.deepEqual(actual, expected);
     });
 
     it('a rule config is an array of size 2, an "on/off" state and a keyworded array', function() {
       var actual = configParser.getConfiguration("./test/configuration-parser/test-data/config3");
-      var expected  = require('./test-results/results.json').config3;
+      var expected  = require('./test-results/results.js').config3;
       assert.deepEqual(actual, expected);
     });
   });
 
-  describe('parsing/verification throws an error when', function() {
-    it('a non existing rule is in the config file', function() {
+  describe('parsing/verification throws an error when the config contails', function() {
+    beforeEach(function() {
+      this.sinon.stub(console, 'error');
+    });
+
+    it('a non existing rule', function() {
+      try {
+        configParser.getConfiguration("./test/configuration-parser/test-data/config4");
+      } catch (e) {
+        var actualAssertion = e.message;
+        // this is the intended case
+      }
+
+      var expected = require('./test-results/results.js').config4;
+
+      // verify the assertion message
+      var expectedAssertion  = expected.assertionMessage;
+      assert.equal(actualAssertion, expectedAssertion);
+
+      // verify the console logs
+      expected.consoleLogs.forEach(function(msg) {
+        expect(console.error.calledWith(msg)).to.be.true;
+      });
+    });
+
+    it('a non existing rule sub-config', function() {
       var actual;
       try {
-        actual = configParser.getConfiguration("./test/configuration-parser/test-data/config4");
+        actual = configParser.getConfiguration("./test/configuration-parser/test-data/config5");
       } catch (e) {
         actual = e.message;
         // this is the intended case
       }
 
-      var expected  = require('./test-results/results.json').config4;
-      assert.deepEqual(actual, expected);
+      var expected  = require('./test-results/results.js').config4;
+      //assert.deepEqual(actual, expected);
     });
 
   });

@@ -27,8 +27,10 @@
     "lodash": "4.13.1"
   },
   "devDependencies": {
+    "chai": "3.5.0",
     "eslint": "latest",
-    "chai": "3.5.0"
+    "mocha": "^2.5.3",
+    "mocha-sinon": "^1.1.5"
   },
   "bin": {
     "gherkin-lint": "src/main.js"
