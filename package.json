@@ -1,6 +1,6 @@
 {
   "name": "gherkin-lint",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "A Gherkin linter/validator written in javascript",
   "author": "Vasiliki Siakka",
   "contributors": [
@@ -22,12 +22,12 @@
   ],
   "dependencies": {
     "commander": "2.9.0",
-    "gherkin": "3.2.0",
-    "glob": "7.0.3",
+    "gherkin": "4.0.0",
+    "glob": "7.0.5",
     "lodash": "4.13.1"
   },
   "devDependencies": {
-    "eslint": "latest"
+    "eslint": "2.13.1"
   },
   "bin": {
     "gherkin-lint": "src/main.js"

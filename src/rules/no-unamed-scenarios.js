@@ -1,10 +1,10 @@
 var rule = 'no-unamed-scenarios';
 
 function noUnamedScenarios(parsedFile) {
-  if(parsedFile.scenarioDefinitions) {
+  if(parsedFile.children) {
     var errors = [];
-    parsedFile.scenarioDefinitions.forEach(function(scenario) {
-      if (!scenario.name) {
+    parsedFile.children.forEach(function(scenario) {
+      if (!scenario.name && scenario.type === 'Scenario') {
         errors.push({message: 'Missing Scenario name',
                 rule   : rule,
                 line   : scenario.location.line});
