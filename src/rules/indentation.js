@@ -50,6 +50,7 @@ function indentation(parsedFile, unused, configuration) {
       test(child.location, mergedConfiguration, 'Background');
       break;
     case 'Scenario':
+    case 'ScenarioOutline':
       // Check Scenario indentation
       test(child.location, mergedConfiguration, 'Scenario');
       break;

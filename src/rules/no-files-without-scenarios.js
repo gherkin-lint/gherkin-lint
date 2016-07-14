@@ -1,7 +1,7 @@
 var rule = 'no-files-without-scenarios';
 
 function filterScenarios(child) {
-  return child.type === 'Scenario';
+  return child.type === 'Scenario' || child.type === 'ScenarioOutline';
 }
 
 function noFilesWithoutScenarios(parsedFile) {
