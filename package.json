@@ -1,6 +1,6 @@
 {
   "name": "gherkin-lint",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "A Gherkin linter/validator written in javascript",
   "author": "Vasiliki Siakka",
   "contributors": [
