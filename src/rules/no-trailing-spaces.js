@@ -6,7 +6,7 @@ function noTrailingSpaces(parsedFile, fileName) {
   var lines = fs.readFileSync(fileName).toString().split('\n');
   var lineNo = 1;
   lines.forEach(function(line) {
-    if (line[line.length - 1] == ' ') {
+    if (/[\s]+$/.test(line)) {
       errors.push({message: 'Trailing spaces are not allowed',
                    rule   : rule,
                    line   : lineNo});
