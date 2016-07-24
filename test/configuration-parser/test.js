@@ -46,7 +46,7 @@ describe('Configuration file', function() {
 
       // verify the console logs
       expected.consoleErrors.forEach(function(msg) {
-        expect(console.error.calledWith(msg)).to.be.true;
+        expect(console.error.calledWith(msg)).to.be.true; // eslint-disable-line no-console
       });
     });
 
@@ -55,7 +55,7 @@ describe('Configuration file', function() {
       try {
         configParser.getConfiguration('./test/configuration-parser/test-data/config5');
       } catch (e) {
-        var actualAssertion = e.message;
+        actualAssertion = e.message;
       }
 
       var expected  = require('./test-results/results.js').config5;
@@ -66,7 +66,7 @@ describe('Configuration file', function() {
 
       // verify the console logs
       expected.consoleErrors.forEach(function(msg) {
-        expect(console.error.calledWith(msg)).to.be.true;
+        expect(console.error.calledWith(msg)).to.be.true; // eslint-disable-line no-console
       });
 
     });
