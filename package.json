@@ -36,9 +36,9 @@
     "gherkin-lint": "src/main.js"
   },
   "scripts": {
-    "demo": "node ./src/main.js . -c ./test/test-data/.gherkin-lintrc",
+    "demo": "node ./src/main.js . -c ./test-data-wip/.gherkin-lintrc",
     "lint": "eslint .",
-    "test": "npm run lint"
+    "test": "npm run lint && mocha --recursive"
   },
   "license": "ISC"
 }

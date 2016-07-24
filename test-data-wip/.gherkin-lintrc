@@ -5,7 +5,7 @@
   "no-dupe-scenario-names": "on",
   "no-dupe-feature-names": "on",
   "no-partially-commented-tag-lines": "on",
-  "indentation": ["on", {"Feature": 2}],
+  "indentation": "on",
   "no-trailing-spaces": "on",
   "new-line-at-eof": ["on", "yes"],
   "no-multiple-empty-lines": "on",
