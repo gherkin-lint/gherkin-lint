@@ -1,4 +1,8 @@
 # Gherkin lint
+[![Travis](https://img.shields.io/travis/vsiakka/gherkin-lint.svg?maxAge=2592000)](https://travis-ci.org/vsiakka/gherkin-lint/)
+[![David](https://img.shields.io/david/vsiakka/gherkin-lint.svg?maxAge=2592000)](https://david-dm.org/vsiakka/gherkin-lint)
+[![David](https://img.shields.io/david/dev/vsiakka/gherkin-lint.svg?maxAge=2592000)](https://david-dm.org/vsiakka/gherkin-lint#info=devDependencies&view=table)
+[![npm](https://img.shields.io/npm/v/gherkin-lint.svg?maxAge=2592000)](https://www.npmjs.com/package/gherkin-lint)
 
 Uses [Gherkin](https://github.com/cucumber/gherkin-javascript) to parse feature files and runs linting against the default rules, and the optional rules you specified in your `.gherkin-lintrc` file.
 
@@ -20,22 +24,23 @@ Or check this:
 
 ## Available rules
 
-| Name                           | Functionality                                                 | Configurable |
-|------------------------------------|-----------------------------------------------------------|:------------:|
-| `no-empty-file`                    | Disallows empty feature files                             | no*          |
-| `no-tags-on-backgrounds`           | Disallows tags on Background                              | no*          |
-| `one-feature-per-file`             | Disallows multiple Feature definitions in the same file   | no*          |
-| `up-to-one-background-per-file`    | Disallows multiple Background definition in the same file | no*          |
-| `indentation`                      | Allows the user to specify indentation rules              | yes          |
-| `no-dupe-feature-names`            | Disallows duplicate Feature names                         | yes          |
-| `no-dupe-scenario-names`           | Disallows duplicate Scenario names                        | yes          |
-| `no-files-without-scenarios`       | Disallows files with no scenarios                         | yes          |
-| `no-multiple-empty-lines`          | Disallows multiple empty lines                            | yes          |
-| `no-partially-commented-tag-lines` | Disallows partially commented tag lines                   | yes          |
-| `no-trailing-spaces`               | Disallows trailing spaces                                 | yes          |
-| `no-unamed-features`               | Disallows empty Feature name                              | yes          |
-| `no-unamed-scenarios`              | Disallows empty Scenario name                             | yes          |
-| `new-line-at-eof`                  | Disallows/enforces new line at EOF                        | yes          |
+| Name                                    | Functionality                                             | Configurable |
+|-----------------------------------------|-----------------------------------------------------------|:------------:|
+| `no-tags-on-backgrounds`                | Disallows tags on Background                              | no*          |
+| `one-feature-per-file`                  | Disallows multiple Feature definitions in the same file   | no*          |
+| `up-to-one-background-per-file`         | Disallows multiple Background definition in the same file | no*          |
+| `indentation`                           | Allows the user to specify indentation rules              | yes          |
+| `no-dupe-feature-names`                 | Disallows duplicate Feature names                         | yes          |
+| `no-dupe-scenario-names`                | Disallows duplicate Scenario names                        | yes          |
+| `no-empty-file`                         | Disallows empty feature files                             | yes          |
+| `no-files-without-scenarios`            | Disallows files with no scenarios                         | yes          |
+| `no-multiple-empty-lines`               | Disallows multiple empty lines                            | yes          |
+| `no-partially-commented-tag-lines`      | Disallows partially commented tag lines                   | yes          |
+| `no-trailing-spaces`                    | Disallows trailing spaces                                 | yes          |
+| `no-unamed-features`                    | Disallows empty Feature name                              | yes          |
+| `no-unamed-scenarios`                   | Disallows empty Scenario name                             | yes          |
+| `new-line-at-eof`                       | Disallows/enforces new line at EOF                        | yes          |
+| `no-scenario-outlines-without-examples` | Disallows scenario outlines without examples              | yes          |
 
 \* These rules cannot be turned off because they detect undocumented cucumber functionality that causes the [gherkin](https://github.com/cucumber/gherkin-javascript) parser to crash.
 

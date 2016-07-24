@@ -11,7 +11,7 @@ function lint(files, configuration) {
     var file = fs.readFileSync(fileName, 'utf-8');
     var errors = [];
     try {
-      var parsedFile = parser.parse(file);
+      var parsedFile = parser.parse(file).feature || {};
       errors = rules.runAllEnabledRules(parsedFile, fileName, configuration);
     } catch(e) {
       if(e.errors) {
@@ -74,9 +74,6 @@ function getFormattedFatalError(error) {
   } else if(error.message.indexOf('got \'Feature') > -1) {
     errorMsg = 'Multiple "Feature" definitions in the same file are disallowed';
     rule = 'one-feature-per-file';
-  } else if(error.message.indexOf('(1:0): unexpected end of file') > -1) {
-    errorMsg = 'Empty feature files are disallowed';
-    rule = 'no-empty-file';
   } else {
     errorMsg = error.message;
     rule = 'unexpected-error';

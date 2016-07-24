@@ -1,7 +1,7 @@
 /*eslint no-console: "off"*/
 
 function printResults(results) {
-  console.log(JSON.stringify(results));
+  console.error(JSON.stringify(results));
 }
 
 module.exports = {

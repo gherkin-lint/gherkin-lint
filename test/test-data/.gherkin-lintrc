@@ -8,5 +8,7 @@
   "indentation": ["on", {"Feature": 2}],
   "no-trailing-spaces": "on",
   "new-line-at-eof": ["on", "yes"],
-  "no-multiple-empty-lines": "on"
+  "no-multiple-empty-lines": "on",
+  "no-empty-file": "on",
+  "no-scenario-outlines-without-examples": "on"
 }
