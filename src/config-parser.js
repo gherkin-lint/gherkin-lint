@@ -11,7 +11,7 @@ function getConfiguration(configPath) {
     }
   } else {
     if (!fs.existsSync(defaultConfigFileName)) {
-      errors.push('Could not find default config file "' + defaultConfigFileName +'" in the working ' +
+      throw new Error('Could not find default config file "' + defaultConfigFileName +'" in the working ' +
                       'directory. To use a custom name/location provide the config file using the "-c" arg');
     }
     configPath = defaultConfigFileName;
@@ -35,8 +35,9 @@ function verifyConfigurationFile(config) {
   for (var rule in config) {
     if (!rules.doesRuleExist(rule)) {
       errors.push('Rule "' + rule + '" does not exist');
+    } else {
+      verifyRuleConfiguration(rule, config[rule]);
     }
-    verifyRuleConfiguration(rule, config[rule]);
   }
 }
 
