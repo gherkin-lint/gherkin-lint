@@ -10,9 +10,9 @@ function list(val) {
 }
 
 program
-  .option('-f, --format [format]', 'Output format. Defaults to stylish')
-  .option('-i, --ignore <...>', 'Comma seperated list of files/glob patterns that the linter should ignore. Overrides ' + featureFinder.defaultIgnoreFileName + ' file', list)
-  .option('-c, --config [config]', 'Configuration file. Defaults to ' + configParser.defaultConfigFileName)
+  .option('-f, --format [format]', 'output format. Defaults to stylish')
+  .option('-i, --ignore <...>', 'comma seperated list of files/glob patterns that the linter should ignore, overrides ' + featureFinder.defaultIgnoreFileName + ' file', list)
+  .option('-c, --config [config]', 'configuration file, defaults to ' + configParser.defaultConfigFileName)
   .parse(process.argv);
 
 var files = featureFinder.getFeatureFiles(program.args, program.ignore);
