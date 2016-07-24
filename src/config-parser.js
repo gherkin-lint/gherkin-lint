@@ -21,9 +21,9 @@ function getConfiguration(configPath) {
   verifyConfigurationFile(config);
 
   if (errors.length > 0) {
-    console.error('\x1b[31m\x1b[1mError(s) in configuration file:\x1b[0m');
+    console.error('\x1b[31m\x1b[1mError(s) in configuration file:\x1b[0m');  // eslint-disable-line no-console
     errors.forEach(function(error){
-      console.error('\x1b[31m- ' + error + '\x1b[0m');
+      console.error('\x1b[31m- ' + error + '\x1b[0m');  // eslint-disable-line no-console
     });
     throw new Error('Configuration error(s)');
   }
@@ -54,17 +54,19 @@ function verifyRuleConfiguration(rule, ruleConfig) {
     }
 
     var ruleObj = rules.getRule(rule);
+    var isValidSubConfig;
+
     if (typeof(ruleConfig[1]) === 'string') {
-      var comparisonFunc = function(availableConfigs, subconfig) {
+      isValidSubConfig = function(availableConfigs, subConfig) {
         return ruleObj.availableConfigs.indexOf(subConfig) > -1;
-      }
-      testSubconfig(genericErrorMsg, rule, ruleConfig[1], comparisonFunc);
+      };
+      testSubconfig(genericErrorMsg, rule, ruleConfig[1], isValidSubConfig);
     } else {
-      var comparisonFunc = function(availableConfigs, subconfig) {
-        return ruleObj.availableConfigs[subConfig] === undefined;
-      }
+      isValidSubConfig = function(availableConfigs, subConfig) {
+        return ruleObj.availableConfigs[subConfig] !== undefined;
+      };
       for (var subConfig in ruleConfig[1]) {
-        testSubconfig(genericErrorMsg, rule, subConfig, comparisonFunc);
+        testSubconfig(genericErrorMsg, rule, subConfig, isValidSubConfig);
       }
     }
   } else {
@@ -74,9 +76,9 @@ function verifyRuleConfiguration(rule, ruleConfig) {
   }
 }
 
-function testSubconfig(genericErrorMsg, rule, subConfig, comparisonFunc) {
+function testSubconfig(genericErrorMsg, rule, subConfig, isValidSubConfig) {
   var ruleObj = rules.getRule(rule);
-  if (comparisonFunc(ruleObj.availableConfigs, subConfig)) {
+  if (!isValidSubConfig(ruleObj.availableConfigs, subConfig)) {
     errors.push(genericErrorMsg + ' The rule does not have the specified configuration option "' + subConfig + '"');
   }
 }
@@ -84,4 +86,4 @@ function testSubconfig(genericErrorMsg, rule, subConfig, comparisonFunc) {
 module.exports = {
   getConfiguration: getConfiguration,
   defaultConfigFileName: defaultConfigFileName
-}
+};
