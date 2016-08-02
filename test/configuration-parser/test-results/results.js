@@ -15,7 +15,7 @@ module.exports =
     'new-line-at-eof': [ 'on', 'yes' ]
   },
   'config3': {
-    'indentation': ['on', { 'Feature': 0, 'Background': 0, 'Scenario': 0, 'Step': 2, 'given': 2, 'and': 3 }]
+    'indentation': ['on', { 'Feature': 1, 'Background': 1, 'Scenario': 1, 'Step': 1, 'given': 1, 'and': 1}]
   },
   'config4': {
     'consoleErrors': [
