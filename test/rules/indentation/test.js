@@ -18,35 +18,35 @@ function getErrors(fileName, configuration) {
 
 describe('Indentation rule', function() {
   it('doesn\'t raise errors when the default conifguration is used and there are no indentation violations (spaces)', function() {
-    var configuration = ["on"];
+    var configuration = ['on'];
     var fileName = 'CorrectIndentationSpaces.feature';
     var errors = getErrors(fileName, configuration);
     expect(errors).to.be.empty;
   });
 
   it('doesn\'t raise errors when the default conifguration is used are and there no indentation violations (tabs)', function() {
-    var configuration = ["on"];
+    var configuration = ['on'];
     var fileName = 'CorrectIndentationTabs.feature';
     var errors = getErrors(fileName, configuration);
     expect(errors).to.be.empty;
   });
 
   it('detects errors for features, backgrounds, scenarios, scenario outlines and steps (spaces)', function() {
-    var configuration = ["on"];
+    var configuration = ['on'];
     var fileName = 'WrongIndentationSpaces.feature';
     var errors = getErrors(fileName, configuration);
     assert.sameDeepMembers(errors, expectedResults.wrongIndentationEnglish);
   });
 
   it('detects errors for features, backgrounds, scenarios, scenario outlines and steps (tabs)', function() {
-    var configuration = ["on"];
+    var configuration = ['on'];
     var fileName = 'WrongIndentationTabs.feature';
     var errors = getErrors(fileName, configuration);
     assert.sameDeepMembers(errors, expectedResults.wrongIndentationEnglish);
   });
 
   it('detects errors for features, backgrounds, scenarios, scenario outlines and steps in other languages', function() {
-    var configuration = ["on"];
+    var configuration = ['on'];
     var fileName = 'WrongIndentationDifferentLanguage.feature';
     var errors = getErrors(fileName, configuration);
     assert.sameDeepMembers(errors, expectedResults.wrongIndentationGerman);
