@@ -1,6 +1,7 @@
 var assert = require('chai').assert;
 var expect = require('chai').expect;
 var configParser = require('../../src/config-parser.js');
+var expectedResults = require('./test-results/results.js');
 
 require('mocha-sinon');
 
@@ -8,19 +9,19 @@ describe('Configuration file', function() {
   describe('parsing/verification is successful when', function() {
     it('rules are set to "on" or "off"', function() {
       var actual = configParser.getConfiguration('./test/configuration-parser/test-data/config1');
-      var expected = require('./test-results/results.js').config1;
+      var expected = expectedResults.config1;
       assert.deepEqual(actual, expected);
     });
 
     it('a rule config is an array of size 2, with an "on/off" state and another config value', function() {
       var actual = configParser.getConfiguration('./test/configuration-parser/test-data/config2');
-      var expected  = require('./test-results/results.js').config2;
+      var expected  = expectedResults.config2;
       assert.deepEqual(actual, expected);
     });
 
     it('a rule config is an array of size 2, with an "on/off" state and a keyworded array', function() {
       var actual = configParser.getConfiguration('./test/configuration-parser/test-data/config3');
-      var expected  = require('./test-results/results.js').config3;
+      var expected  = expectedResults.config3;
       assert.deepEqual(actual, expected);
     });
   });
@@ -38,7 +39,7 @@ describe('Configuration file', function() {
         actualAssertion = e.message;
       }
 
-      var expected = require('./test-results/results.js').config4;
+      var expected = expectedResults.config4;
 
       // verify the assertion message
       var expectedAssertion  = expected.assertionMessage;
@@ -58,7 +59,7 @@ describe('Configuration file', function() {
         actualAssertion = e.message;
       }
 
-      var expected  = require('./test-results/results.js').config5;
+      var expected  = expectedResults.config5;
 
       // verify the assertion message
       var expectedAssertion  = expected.assertionMessage;
