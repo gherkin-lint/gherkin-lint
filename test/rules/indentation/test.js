@@ -51,4 +51,6 @@ describe('Indentation rule', function() {
     var errors = getErrors(fileName, configuration);
     assert.sameDeepMembers(errors, expectedResults.wrongIndentationGerman);
   });
+
+  // TODO: add tests for partial configurations and fallbacks (eg rule for Step is used for Given, Then etc is rule for Given, Then, etc has not been specified)
 });
