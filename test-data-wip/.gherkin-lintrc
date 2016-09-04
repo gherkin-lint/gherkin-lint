@@ -10,5 +10,6 @@
   "new-line-at-eof": ["on", "yes"],
   "no-multiple-empty-lines": "on",
   "no-empty-file": "on",
-  "no-scenario-outlines-without-examples": "on"
+  "no-scenario-outlines-without-examples": "on",
+  "name-length": ["on", {"Feature": 50}]
 }
