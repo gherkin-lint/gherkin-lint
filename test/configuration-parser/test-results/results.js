@@ -1,5 +1,6 @@
-module.exports =
-{
+var chalk = require('chalk');
+
+module.exports = {
   'config1': {
     'no-files-without-scenarios': 'on',
     'no-unamed-features': 'on',
@@ -19,16 +20,16 @@ module.exports =
   },
   'config4': {
     'consoleErrors': [
-      '\x1b[31m\x1b[1mError(s) in configuration file:\x1b[0m',
-      '\x1b[31m- Rule "fake-rule" does not exist\x1b[0m'
+      chalk.red.bold('Error(s) in configuration file:'),
+      chalk.red('- Rule "fake-rule" does not exist')
     ],
     'assertionMessage': 'Configuration error(s)'
   },
   'config5': {
     'consoleErrors': [
-      '\x1b[31m\x1b[1mError(s) in configuration file:\x1b[0m',
-      '\x1b[31m- Invalid rule configuration for "indentation" -  The rule does not have the specified configuration option "featur"\x1b[0m',
-      '\x1b[31m- Invalid rule configuration for "new-line-at-eof" -  The rule does not have the specified configuration option "y"\x1b[0m'
+      chalk.red.bold('Error(s) in configuration file:'),
+      chalk.red('- Invalid rule configuration for "indentation" -  The rule does not have the specified configuration option "featur"'),
+      chalk.red('- Invalid rule configuration for "new-line-at-eof" -  The rule does not have the specified configuration option "y"')
     ],
     'assertionMessage': 'Configuration error(s)'
   }
