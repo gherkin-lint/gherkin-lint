@@ -2,9 +2,10 @@ var fs = require('fs');
 var rules = require('./rules.js');
 
 var defaultConfigFileName = '.gherkin-lintrc';
-var errors = [];
+var errors;
 
 function getConfiguration(configPath) {
+  errors = [];
   if (configPath) {
     if (!fs.existsSync(configPath)) {
       throw new Error('Could not find specified config file "' + configPath + '"');

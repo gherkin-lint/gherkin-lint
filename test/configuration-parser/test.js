@@ -26,7 +26,7 @@ describe('Configuration file', function() {
     });
   });
 
-  describe('parsing/verification throws an error when the config contails', function() {
+  describe('parsing/verification throws an error when the config contains', function() {
     beforeEach(function() {
       this.sinon.stub(console, 'error');
     });
@@ -46,9 +46,10 @@ describe('Configuration file', function() {
       assert.equal(actualAssertion, expectedAssertion);
 
       // verify the console logs
-      expected.consoleErrors.forEach(function(msg) {
-        expect(console.error.calledWith(msg)).to.be.true; // eslint-disable-line no-console
+      var consoleErrorArgs = console.error.args.map(function (args) { // eslint-disable-line no-console
+        return args[0];
       });
+      expect(consoleErrorArgs).to.be.deep.equal(expected.consoleErrors);
     });
 
     it('a non existing rule sub-config', function() {
@@ -66,9 +67,10 @@ describe('Configuration file', function() {
       assert.equal(actualAssertion, expectedAssertion);
 
       // verify the console logs
-      expected.consoleErrors.forEach(function(msg) {
-        expect(console.error.calledWith(msg)).to.be.true; // eslint-disable-line no-console
+      var consoleErrorArgs = console.error.args.map(function (args) { // eslint-disable-line no-console
+        return args[0];
       });
+      expect(consoleErrorArgs).to.be.deep.equal(expected.consoleErrors);
 
     });
 
