@@ -1,6 +1,6 @@
-var rule = 'no-watch';
+var rule = 'no-tags';
 
-function noWatch(feature) {
+function noTags(feature) {
   var errors = [];
 
   if (hasWatchTag(feature)) {
@@ -30,5 +30,5 @@ function createError(node, message) {
 
 module.exports = {
   name: rule,
-  run: noWatch
+  run: noTags
 };
