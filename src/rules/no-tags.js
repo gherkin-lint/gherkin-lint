@@ -1,34 +1,41 @@
+var _ = require('lodash');
 var rule = 'no-tags';
+var availableConfigs = {
+  'tags': []
+};
 
-function noTags(feature) {
-  var errors = [];
+function noTags(feature, fileName, configuration) {
+  var forbiddenTags = configuration.tags;
 
-  if (hasWatchTag(feature)) {
-    errors.push(createError(feature, '@watch tag on Feature'));
-  }
+  var featureErrors = checkTags(feature, forbiddenTags);
 
-  feature.children.forEach(function(scenario) {
-    if (hasWatchTag(scenario)) {
-      errors.push(createError(scenario, '@watch tag on Scenario'));
-    }
-  });
+  var childrenErrors = _(feature.children).map(function(child) {
+    return checkTags(child, forbiddenTags);
+  }).flatten().value();
 
-  return errors;
+  return featureErrors.concat(childrenErrors);
 }
 
-function hasWatchTag(node) {
-  return (node.tags || []).some(function(tag) {
-    return tag.name === '@watch';
+function checkTags(node, forbiddenTags) {
+  return (node.tags || []).filter(function(tag) {
+    return isForbidden(tag, forbiddenTags);
+  }).map(function(tag) {
+    return createError(node, tag);
   });
 }
 
-function createError(node, message) {
-  return {message: message,
+function isForbidden(tag, forbiddenTags) {
+  return _.includes(forbiddenTags, tag.name.replace(/@/, ''));
+}
+
+function createError(node, tag) {
+  return {message: 'Forbidden tag ' + tag.name + ' on ' + node.type,
           rule   : rule,
           line   : node.location && node.location.line || 0};
 }
 
 module.exports = {
   name: rule,
-  run: noTags
+  run: noTags,
+  availableConfigs: availableConfigs
 };

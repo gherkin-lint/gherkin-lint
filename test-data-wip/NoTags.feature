@@ -1,6 +1,10 @@
 @watch
-Feature: Test for watch tag
+Feature: A feature with disallowed tag
 
-@watch
-Scenario: This is Scenario with watch tag
+@important @wip
+Scenario: A scenario with disallowed tag
+  Then I should see a no-watch tag error
+
+@todo
+Scenario: A scenario with allowed tags
   Then I should see a no-watch tag error
