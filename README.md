@@ -37,8 +37,8 @@ Or check this:
 | `no-multiple-empty-lines`               | Disallows multiple empty lines                            | yes          |
 | `no-partially-commented-tag-lines`      | Disallows partially commented tag lines                   | yes          |
 | `no-trailing-spaces`                    | Disallows trailing spaces                                 | yes          |
-| `no-unnamed-features`                    | Disallows empty Feature name                              | yes          |
-| `no-unnamed-scenarios`                   | Disallows empty Scenario name                             | yes          |
+| `no-unnamed-features`                   | Disallows empty Feature name                              | yes          |
+| `no-unnamed-scenarios`                  | Disallows empty Scenario name                             | yes          |
 | `new-line-at-eof`                       | Disallows/enforces new line at EOF                        | yes          |
 | `no-scenario-outlines-without-examples` | Disallows scenario outlines without examples              | yes          |
 
