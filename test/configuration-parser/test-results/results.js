@@ -2,8 +2,8 @@ module.exports =
 {
   'config1': {
     'no-files-without-scenarios': 'on',
-    'no-unamed-features': 'on',
-    'no-unamed-scenarios': 'on',
+    'no-unnamed-features': 'on',
+    'no-unnamed-scenarios': 'on',
     'no-dupe-scenario-names': 'on',
     'no-dupe-feature-names': 'on',
     'no-partially-commented-tag-lines': 'on',

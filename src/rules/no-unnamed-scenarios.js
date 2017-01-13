@@ -1,6 +1,6 @@
-var rule = 'no-unamed-scenarios';
+var rule = 'no-unnamed-scenarios';
 
-function noUnamedScenarios(parsedFile) {
+function noUnNamedScenarios(parsedFile) {
   if (parsedFile.children) {
     var errors = [];
     parsedFile.children.forEach(function(scenario) {
@@ -16,5 +16,5 @@ function noUnamedScenarios(parsedFile) {
 
 module.exports = {
   name: rule,
-  run: noUnamedScenarios
+  run: noUnNamedScenarios
 };
