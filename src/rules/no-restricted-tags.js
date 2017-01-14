@@ -1,10 +1,10 @@
 var _ = require('lodash');
-var rule = 'no-tags';
+var rule = 'no-restricted-tags';
 var availableConfigs = {
   'tags': []
 };
 
-function noTags(feature, fileName, configuration) {
+function noRestrictedTags(feature, fileName, configuration) {
   var forbiddenTags = configuration.tags;
 
   var featureErrors = checkTags(feature, forbiddenTags);
@@ -36,6 +36,6 @@ function createError(node, tag) {
 
 module.exports = {
   name: rule,
-  run: noTags,
+  run: noRestrictedTags,
   availableConfigs: availableConfigs
 };
