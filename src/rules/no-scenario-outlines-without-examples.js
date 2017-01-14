@@ -1,9 +1,9 @@
 var rule = 'no-scenario-outlines-without-examples';
 
-function noScenarioOutlinesWithoutExamples(parsedFile) {
-  if (parsedFile.children) {
+function noScenarioOutlinesWithoutExamples(feature) {
+  if (feature.children) {
     var errors = [];
-    parsedFile.children.forEach(function(scenario) {
+    feature.children.forEach(function(scenario) {
       if (scenario.type === 'ScenarioOutline' && !scenario.examples.length) {
         errors.push({message: 'Scenario Outline does not have any Examples',
                      rule   : rule,

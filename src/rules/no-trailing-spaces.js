@@ -1,6 +1,6 @@
 var rule = 'no-trailing-spaces';
 
-function noTrailingSpaces(parsedFile, file) {
+function noTrailingSpaces(unused, file) {
   var errors = [];
   var lines = file.content.split('\n');
   var lineNo = 1;

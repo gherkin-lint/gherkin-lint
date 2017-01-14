@@ -14,8 +14,8 @@ function lint(files, configuration) {
     };
     var errors = [];
     try {
-      var parsedFile = parser.parse(file.content).feature || {};
-      errors = rules.runAllEnabledRules(parsedFile, file, configuration);
+      var feature = parser.parse(file.content).feature || {};
+      errors = rules.runAllEnabledRules(feature, file, configuration);
     } catch(e) {
       if(e.errors) {
         errors = processFatalErrors(e.errors);
