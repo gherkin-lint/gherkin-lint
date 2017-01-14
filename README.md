@@ -37,8 +37,8 @@ Or check this:
 | `no-multiple-empty-lines`               | Disallows multiple empty lines                            | yes          |
 | `no-partially-commented-tag-lines`      | Disallows partially commented tag lines                   | yes          |
 | `no-trailing-spaces`                    | Disallows trailing spaces                                 | yes          |
-| `no-unamed-features`                    | Disallows empty Feature name                              | yes          |
-| `no-unamed-scenarios`                   | Disallows empty Scenario name                             | yes          |
+| `no-unnamed-features`                   | Disallows empty Feature name                              | yes          |
+| `no-unnamed-scenarios`                  | Disallows empty Scenario name                             | yes          |
 | `new-line-at-eof`                       | Disallows/enforces new line at EOF                        | yes          |
 | `no-scenario-outlines-without-examples` | Disallows scenario outlines without examples              | yes          |
 
@@ -50,10 +50,10 @@ The not-configurable rules are turned on by default and cannot be turned off. Co
 The configurable rules are off by default. To turn them on, you will need to create a json file, where you specify the name of each rule and its desired state (which can be "on" or "off"). Eg:
 ```
 {
-  "no-unamed-features": "on"
+  "no-unnamed-features": "on"
 }
 ```
-will turn on the `no-unamed-features` rule.
+will turn on the `no-unnamed-features` rule.
 
 `indentation` can be configured in a more granular level and uses following rules by default:
 - Expected indentation for Feature, Background, Scenario: 0 spaces

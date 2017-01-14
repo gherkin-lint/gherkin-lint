@@ -1,5 +1,5 @@
-Feature: Test for the no-unamed-scenarios rule
+Feature: Test for the no-unnamed-scenarios rule
 
 Scenario:
-  Given I have an unamed Scenario
-  Then I should see a no-unamed-scenarios error
+  Given I have an unnamed Scenario
+  Then I should see a no-unnamed-scenarios error

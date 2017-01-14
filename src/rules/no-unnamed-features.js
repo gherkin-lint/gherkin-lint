@@ -1,6 +1,6 @@
-var rule = 'no-unamed-features';
+var rule = 'no-unnamed-features';
 
-function noUnamedFeatures(parsedFile) {
+function noUnNamedFeatures(parsedFile) {
   if (!parsedFile || !parsedFile.name) {
     return {message: 'Missing Feature name',
             rule   : rule,
@@ -10,5 +10,5 @@ function noUnamedFeatures(parsedFile) {
 
 module.exports = {
   name: rule,
-  run: noUnamedFeatures
+  run: noUnNamedFeatures
 };
