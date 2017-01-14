@@ -25,7 +25,7 @@ function checkTags(node, forbiddenTags) {
 }
 
 function isForbidden(tag, forbiddenTags) {
-  return _.includes(forbiddenTags, tag.name.replace(/@/, ''));
+  return _.includes(forbiddenTags, tag.name);
 }
 
 function createError(node, tag) {

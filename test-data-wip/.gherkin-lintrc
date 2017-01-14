@@ -12,6 +12,6 @@
   "no-empty-file": "on",
   "no-scenario-outlines-without-examples": "on",
   "name-length": ["on", {"Feature": 50}],
-  "no-restricted-tags": ["on", {"tags": ["watch", "wip"]}],
+  "no-restricted-tags": ["on", {"tags": ["@watch", "@wip"]}],
   "use-and": "on"
 }
