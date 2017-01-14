@@ -11,8 +11,7 @@ function newLineAtEOF(unused, file, configuration) {
     throw new Error(rule + ' requires an extra configuration value.\nAvailable configurations: ' + availableConfigs.join(', ') + '\nFor syntax please look at the documentation.');
   }
 
-  var lines = file.content.split(/\r\n|\r|\n/);
-  var hasNewLineAtEOF = _.last(lines) === '';
+  var hasNewLineAtEOF = _.last(file.lines) === '';
   var errormsg = '';
   if (hasNewLineAtEOF && configuration === 'no')
   {
@@ -24,7 +23,7 @@ function newLineAtEOF(unused, file, configuration) {
   if (errormsg !== '') {
     return {message: errormsg,
             rule   : rule,
-            line   : lines.length};
+            line   : file.lines.length};
   }
 }
 

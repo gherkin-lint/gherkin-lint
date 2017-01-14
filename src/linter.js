@@ -8,13 +8,15 @@ function lint(files, configuration) {
   var output = [];
 
   files.forEach(function(fileName) {
+    var fileContent = fs.readFileSync(fileName, 'utf-8');
     var file = {
       name: fileName,
-      content: fs.readFileSync(fileName, 'utf-8')
+      lines: fileContent.split(/\r\n|\r|\n/)
     };
+
     var errors = [];
     try {
-      var feature = parser.parse(file.content).feature || {};
+      var feature = parser.parse(fileContent).feature || {};
       errors = rules.runAllEnabledRules(feature, file, configuration);
     } catch(e) {
       if(e.errors) {
