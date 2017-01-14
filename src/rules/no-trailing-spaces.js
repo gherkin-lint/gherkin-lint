@@ -2,10 +2,10 @@ var rule = 'no-trailing-spaces';
 
 function noTrailingSpaces(unused, file) {
   var errors = [];
-  var lines = file.content.split('\n');
+  var lines = file.content.split(/\r\n|\r|\n/);
   var lineNo = 1;
   lines.forEach(function(line) {
-    if (/[\t ]+[\n\r]*$/.test(line)) {
+    if (/[\t ]+$/.test(line)) {
       errors.push({message: 'Trailing spaces are not allowed',
                    rule   : rule,
                    line   : lineNo});
