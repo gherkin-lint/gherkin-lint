@@ -30,7 +30,7 @@ function isRuleEnabled(ruleConfig) {
   return ruleConfig === 'on';
 }
 
-function runAllEnabledRules(parsedFile, fileName, configuration) {
+function runAllEnabledRules(parsedFile, file, configuration) {
   var errors = [];
   var ignoreFutureErrors = false;
   var rules = getAllRules();
@@ -38,7 +38,7 @@ function runAllEnabledRules(parsedFile, fileName, configuration) {
     var rule = rules[ruleName];
     if (isRuleEnabled(configuration[rule.name]) && !ignoreFutureErrors) {
       var ruleConfig = Array.isArray(configuration[rule.name]) ? configuration[rule.name][1] : {};
-      var error = rule.run(parsedFile, fileName, ruleConfig);
+      var error = rule.run(parsedFile, file, ruleConfig);
 
       if (error) {
         if (rule.suppressOtherRules) {
