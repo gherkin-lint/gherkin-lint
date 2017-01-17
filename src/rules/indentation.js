@@ -32,18 +32,18 @@ function testStep(step, language, configuration, mergedConfiguration) {
   test(step.location, mergedConfiguration, stepType);
 }
 
-function indentation(parsedFile, unused, configuration) {
-  if (!parsedFile || Object.keys(parsedFile).length === 0) {
+function indentation(feature, unused, configuration) {
+  if (!feature || Object.keys(feature).length === 0) {
     return;
   }
-  var language = languageMapping[parsedFile.language];
+  var language = languageMapping[feature.language];
   var mergedConfiguration = _.merge(availableConfigs, configuration);
   errors = [];
 
   // Check Feature indentation
-  test(parsedFile.location, mergedConfiguration, 'Feature');
+  test(feature.location, mergedConfiguration, 'Feature');
 
-  parsedFile.children.forEach(function(child) {
+  feature.children.forEach(function(child) {
     switch(child.type) {
     case 'Background':
       // Check Background indentation

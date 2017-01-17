@@ -1,9 +1,9 @@
 var rule = 'no-unnamed-scenarios';
 
-function noUnNamedScenarios(parsedFile) {
-  if (parsedFile.children) {
+function noUnNamedScenarios(feature) {
+  if (feature.children) {
     var errors = [];
-    parsedFile.children.forEach(function(scenario) {
+    feature.children.forEach(function(scenario) {
       if (!scenario.name && scenario.type === 'Scenario') {
         errors.push({message: 'Missing Scenario name',
                      rule   : rule,

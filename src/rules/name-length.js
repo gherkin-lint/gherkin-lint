@@ -17,17 +17,17 @@ function test(name, location, configuration, type) {
   }
 }
 
-function nameLength(parsedFile, unused, configuration) {
-  if (!parsedFile || Object.keys(parsedFile).length === 0) {
+function nameLength(feature, unused, configuration) {
+  if (!feature || Object.keys(feature).length === 0) {
     return;
   }
   var mergedConfiguration = _.merge(availableConfigs, configuration);
   errors = [];
 
   // Check Feature name length
-  test(parsedFile.name, parsedFile.location, mergedConfiguration, 'Feature');
+  test(feature.name, feature.location, mergedConfiguration, 'Feature');
 
-  parsedFile.children.forEach(function(child) {
+  feature.children.forEach(function(child) {
     switch(child.type) {
     case 'Scenario':
     case 'ScenarioOutline':

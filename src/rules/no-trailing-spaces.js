@@ -1,12 +1,10 @@
-var fs = require('fs');
 var rule = 'no-trailing-spaces';
 
-function noTrailingSpaces(parsedFile, fileName) {
+function noTrailingSpaces(unused, file) {
   var errors = [];
-  var lines = fs.readFileSync(fileName).toString().split('\n');
   var lineNo = 1;
-  lines.forEach(function(line) {
-    if (/[\t ]+[\n\r]*$/.test(line)) {
+  file.lines.forEach(function(line) {
+    if (/[\t ]+$/.test(line)) {
       errors.push({message: 'Trailing spaces are not allowed',
                    rule   : rule,
                    line   : lineNo});

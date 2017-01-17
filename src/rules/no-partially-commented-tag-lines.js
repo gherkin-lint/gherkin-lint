@@ -1,9 +1,9 @@
 var rule = 'no-partially-commented-tag-lines';
 
-function noPartiallyCommentedTagLines(parsedFile) {
+function noPartiallyCommentedTagLines(feature) {
   var errors = [];
-  if (parsedFile.children) {
-    parsedFile.children.forEach(function(scenario) {
+  if (feature.children) {
+    feature.children.forEach(function(scenario) {
       if (scenario.tags) {
         scenario.tags.forEach(function(tag) {
           if (tag.name.indexOf('#') > 0) {
