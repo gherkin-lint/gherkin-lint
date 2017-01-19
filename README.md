@@ -24,25 +24,25 @@ Or check this:
 
 ## Available rules
 
-| Name                                    | Functionality                                             | Configurable |
-|-----------------------------------------|-----------------------------------------------------------|:------------:|
-| `no-tags-on-backgrounds`                | Disallows tags on Background                              | no*          |
-| `one-feature-per-file`                  | Disallows multiple Feature definitions in the same file   | no*          |
-| `up-to-one-background-per-file`         | Disallows multiple Background definition in the same file | no*          |
-| `indentation`                           | Allows the user to specify indentation rules              | yes          |
-| `new-line-at-eof`                       | Disallows/enforces new line at EOF                        | yes          |
-| `no-dupe-feature-names`                 | Disallows duplicate Feature names                         | yes          |
-| `no-dupe-scenario-names`                | Disallows duplicate Scenario names                        | yes          |
-| `no-empty-file`                         | Disallows empty feature files                             | yes          |
-| `no-files-without-scenarios`            | Disallows files with no scenarios                         | yes          |
-| `no-multiple-empty-lines`               | Disallows multiple empty lines                            | yes          |
-| `no-partially-commented-tag-lines`      | Disallows partially commented tag lines                   | yes          |
-| `no-restricted-tags`                    | Disallow use of particular @tags                          | yes          |
-| `no-scenario-outlines-without-examples` | Disallows scenario outlines without examples              | yes          |
-| `no-trailing-spaces`                    | Disallows trailing spaces                                 | yes          |
-| `no-unnamed-features`                   | Disallows empty Feature name                              | yes          |
-| `no-unnamed-scenarios`                  | Disallows empty Scenario name                             | yes          |
-| `use-and`                               | Disallows repeated step names requiring use of And instead| yes          |
+| Name                                    | Functionality                                             |
+|-----------------------------------------|-----------------------------------------------------------|
+| `no-tags-on-backgrounds` *              | Disallows tags on Background                              |
+| `one-feature-per-file` *                | Disallows multiple Feature definitions in the same file   |
+| `up-to-one-background-per-file` *       | Disallows multiple Background definition in the same file |
+| `indentation`                           | Allows the user to specify indentation rules              |
+| `new-line-at-eof`                       | Disallows/enforces new line at EOF                        |
+| `no-dupe-feature-names`                 | Disallows duplicate Feature names                         |
+| `no-dupe-scenario-names`                | Disallows duplicate Scenario names                        |
+| `no-empty-file`                         | Disallows empty feature files                             |
+| `no-files-without-scenarios`            | Disallows files with no scenarios                         |
+| `no-multiple-empty-lines`               | Disallows multiple empty lines                            |
+| `no-partially-commented-tag-lines`      | Disallows partially commented tag lines                   |
+| `no-restricted-tags`                    | Disallow use of particular @tags                          |
+| `no-scenario-outlines-without-examples` | Disallows scenario outlines without examples              |
+| `no-trailing-spaces`                    | Disallows trailing spaces                                 |
+| `no-unnamed-features`                   | Disallows empty Feature name                              |
+| `no-unnamed-scenarios`                  | Disallows empty Scenario name                             |
+| `use-and`                               | Disallows repeated step names requiring use of And instead|
 
 \* These rules cannot be turned off because they detect undocumented cucumber functionality that causes the [gherkin](https://github.com/cucumber/gherkin-javascript) parser to crash.
 
