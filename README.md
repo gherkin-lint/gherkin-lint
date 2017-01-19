@@ -31,6 +31,7 @@ Or check this:
 | `up-to-one-background-per-file` *           | Disallows multiple Background definition in the same file  |
 | &nbsp;                                      |                                                            |
 | [`indentation`](#indentation)               | Allows the user to specify indentation rules               |
+| [`name-length`](#name-length)               | Allows restricting length of Feature/Scenario/Step names   |
 | [`new-line-at-eof`](#new-line-at-eof)       | Disallows/enforces new line at EOF                         |
 | `no-dupe-feature-names`                     | Disallows duplicate Feature names                          |
 | `no-dupe-scenario-names`                    | Disallows duplicate Scenario names                         |
@@ -70,6 +71,17 @@ This feature is able to handle all localizations of the gherkin steps.
 ```
 {
   "indentation" : ["on", { "Feature": 0, "Background": 0, "Scenario": 0, "Step": 2, "given": 2, "and": 3 }]
+}
+```
+
+## `name-length`
+
+`name-length` can be configured separately for Feature, Scenario and Step names.
+The default is 70 characters for each of these:
+
+```
+{
+  "name-length" : ["on", { "Feature": 70, "Scenario": 70, "Step": 70 }]
 }
 ```
 
