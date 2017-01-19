@@ -30,15 +30,15 @@ Or check this:
 | `one-feature-per-file` *                | Disallows multiple Feature definitions in the same file   |
 | `up-to-one-background-per-file` *       | Disallows multiple Background definition in the same file |
 | &nbsp;                                  |                                                           |
-| `indentation`                           | Allows the user to specify indentation rules              |
-| `new-line-at-eof`                       | Disallows/enforces new line at EOF                        |
+| [`indentation`](#indentation)           | Allows the user to specify indentation rules              |
+| [`new-line-at-eof`](#new-line-at-eof)   | Disallows/enforces new line at EOF                        |
 | `no-dupe-feature-names`                 | Disallows duplicate Feature names                         |
 | `no-dupe-scenario-names`                | Disallows duplicate Scenario names                        |
 | `no-empty-file`                         | Disallows empty feature files                             |
 | `no-files-without-scenarios`            | Disallows files with no scenarios                         |
 | `no-multiple-empty-lines`               | Disallows multiple empty lines                            |
 | `no-partially-commented-tag-lines`      | Disallows partially commented tag lines                   |
-| `no-restricted-tags`                    | Disallow use of particular @tags                          |
+| [`no-restricted-tags`](#no-restricted-tags) | Disallow use of particular @tags                          |
 | `no-scenario-outlines-without-examples` | Disallows scenario outlines without examples              |
 | `no-trailing-spaces`                    | Disallows trailing spaces                                 |
 | `no-unnamed-features`                   | Disallows empty Feature name                              |
@@ -58,6 +58,8 @@ The configurable rules are off by default. To turn them on, you will need to cre
 ```
 will turn on the `no-unnamed-features` rule.
 
+### `indentation`
+
 `indentation` can be configured in a more granular level and uses following rules by default:
 - Expected indentation for Feature, Background, Scenario: 0 spaces
 - Expected indentation for Steps: 2 spaces
@@ -70,6 +72,8 @@ This feature is able to handle all localizations of the gherkin steps.
   "indentation" : ["on", { "Feature": 0, "Background": 0, "Scenario": 0, "Step": 2, "given": 2, "and": 3 }]
 }
 ```
+
+### `new-line-at-eof`
 
 `new-line-at-eof` can also be configured to enforcing or disallowing new lines at EOF.
 - To enforce new lines at EOF:
@@ -84,6 +88,8 @@ This feature is able to handle all localizations of the gherkin steps.
   "new-line-at-eof": ["on", "no"]
 }
 ```
+
+### `no-restricted-tags`
 
 `no-restricted-tags` must be configured with list of tags for it to have any effect:
 
