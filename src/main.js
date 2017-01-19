@@ -10,6 +10,7 @@ function list(val) {
 }
 
 program
+  .usage('[options] <feature-files>')
   .option('-f, --format [format]', 'output format. Defaults to stylish')
   .option('-i, --ignore <...>', 'comma seperated list of files/glob patterns that the linter should ignore, overrides ' + featureFinder.defaultIgnoreFileName + ' file', list)
   .option('-c, --config [config]', 'configuration file, defaults to ' + configParser.defaultConfigFileName)
