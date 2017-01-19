@@ -41,6 +41,7 @@ Or check this:
 | `no-unnamed-scenarios`                  | Disallows empty Scenario name                             | yes          |
 | `new-line-at-eof`                       | Disallows/enforces new line at EOF                        | yes          |
 | `no-scenario-outlines-without-examples` | Disallows scenario outlines without examples              | yes          |
+| `no-restricted-tags`                    | Disallow use of particular @tags                          | yes          |
 | `use-and`                               | Disallows repeated step names requiring use of And instead| yes          |
 
 \* These rules cannot be turned off because they detect undocumented cucumber functionality that causes the [gherkin](https://github.com/cucumber/gherkin-javascript) parser to crash.
@@ -80,6 +81,14 @@ This feature is able to handle all localizations of the gherkin steps.
 ```
 {
   "new-line-at-eof": ["on", "no"]
+}
+```
+
+`no-restricted-tags` must be configured with list of tags for it to have any effect:
+
+```
+{
+  "no-restricted-tags": ["on", {"tags": ["@watch", "@wip", "@todo"]}]
 }
 ```
 
