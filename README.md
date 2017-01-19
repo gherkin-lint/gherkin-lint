@@ -29,6 +29,7 @@ Or check this:
 | `no-tags-on-backgrounds` *              | Disallows tags on Background                              |
 | `one-feature-per-file` *                | Disallows multiple Feature definitions in the same file   |
 | `up-to-one-background-per-file` *       | Disallows multiple Background definition in the same file |
+| &nbsp;                                  |                                                           |
 | `indentation`                           | Allows the user to specify indentation rules              |
 | `new-line-at-eof`                       | Disallows/enforces new line at EOF                        |
 | `no-dupe-feature-names`                 | Disallows duplicate Feature names                         |
