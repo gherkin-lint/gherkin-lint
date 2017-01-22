@@ -1,6 +1,8 @@
 var glob = require('glob');
 var fs = require('fs');
 var path = require('path');
+var logger = require('./logger.js');
+
 var defaultIgnoreFileName = '.gherkin-lintignore';
 var defaultIgnoredFiles = 'node_modules/**'; // Ignore node_modules by default
 
@@ -29,7 +31,8 @@ function getFeatureFiles(args, ignoreArg) {
     }
 
     if (!fixedPattern) {
-      throw new Error(`Invalid format of the feature file path/pattern: "${pattern}".\nTo run the linter please specify an existing feature file, directory or glob.`);
+      logger.boldError(`Invalid format of the feature file path/pattern: "${pattern}".\nTo run the linter please specify an existing feature file, directory or glob.`);
+      process.exit(1);
     }
 
     var globOptions = {ignore: getIgnorePatterns(ignoreArg)};

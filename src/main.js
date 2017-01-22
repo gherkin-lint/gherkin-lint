@@ -4,6 +4,7 @@ var program = require('commander');
 var linter = require('./linter.js');
 var featureFinder = require('./feature-finder.js');
 var configParser = require('./config-parser.js');
+var logger = require('./logger.js');
 
 function list(val) {
   return val.split(',');
@@ -39,7 +40,8 @@ function printResults(results, format) {
   } else if (!format || format == 'stylish') {
     formatter = require('./formatters/stylish.js');
   } else {
-    throw new Error('Unsupported format. The supported formats are json and stylish.');
+    logger.boldError('Unsupported format. The supported formats are json and stylish.');
+    process.exit(1);
   }
   formatter.printResults(results);
 }
