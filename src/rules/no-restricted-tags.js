@@ -9,19 +9,13 @@ function noRestrictedTags(feature, fileName, configuration) {
 
   var featureErrors = checkTags(feature, forbiddenTags);
 
-  var childrenErrors = _(feature.children).map(function(child) {
-    return checkTags(child, forbiddenTags);
-  }).flatten().value();
+  var childrenErrors = _(feature.children).map(child => checkTags(child, forbiddenTags)).flatten().value();
 
   return featureErrors.concat(childrenErrors);
 }
 
 function checkTags(node, forbiddenTags) {
-  return (node.tags || []).filter(function(tag) {
-    return isForbidden(tag, forbiddenTags);
-  }).map(function(tag) {
-    return createError(node, tag);
-  });
+  return (node.tags || []).filter(tag => isForbidden(tag, forbiddenTags)).map(tag => createError(node, tag));
 }
 
 function isForbidden(tag, forbiddenTags) {

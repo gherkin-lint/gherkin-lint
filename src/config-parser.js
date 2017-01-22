@@ -23,7 +23,7 @@ function getConfiguration(configPath) {
 
   if (errors.length > 0) {
     console.error('\x1b[31m\x1b[1mError(s) in configuration file:\x1b[0m');  // eslint-disable-line no-console
-    errors.forEach(function(error){
+    errors.forEach(error => {
       console.error('\x1b[31m- ' + error + '\x1b[0m');  // eslint-disable-line no-console
     });
     throw new Error('Configuration error(s)');
@@ -59,14 +59,10 @@ function verifyRuleConfiguration(rule, ruleConfig) {
     var isValidSubConfig;
 
     if (typeof(ruleConfig[1]) === 'string') {
-      isValidSubConfig = function(availableConfigs, subConfig) {
-        return ruleObj.availableConfigs.indexOf(subConfig) > -1;
-      };
+      isValidSubConfig = (availableConfigs, subConfig) => ruleObj.availableConfigs.indexOf(subConfig) > -1;
       testSubconfig(genericErrorMsg, rule, ruleConfig[1], isValidSubConfig);
     } else {
-      isValidSubConfig = function(availableConfigs, subConfig) {
-        return ruleObj.availableConfigs[subConfig] !== undefined;
-      };
+      isValidSubConfig = (availableConfigs, subConfig) => ruleObj.availableConfigs[subConfig] !== undefined;
       for (var subConfig in ruleConfig[1]) {
         testSubconfig(genericErrorMsg, rule, subConfig, isValidSubConfig);
       }

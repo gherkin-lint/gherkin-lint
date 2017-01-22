@@ -46,8 +46,8 @@ function stylizeFilePath(filePath) {
 
 function getMaxLengthOfField(results, field) {
   var length = 0;
-  results.forEach(function(result) {
-    result.errors.forEach(function(error) {
+  results.forEach(result => {
+    result.errors.forEach(error => {
       var errorStr = error[field].toString();
       if (errorStr.length > length) {
         length = errorStr.length;
@@ -62,11 +62,11 @@ function printResults(results) {
   var maxErrorMsgLength = getMaxLengthOfField(results, 'message');
   var maxLineChars = getMaxLengthOfField(results, 'line');
 
-  results.forEach(function(result) {
+  results.forEach(result => {
     if (result.errors.length > 0) {
       console.error(stylizeFilePath(result.filePath));
 
-      result.errors.forEach(function(error) {
+      result.errors.forEach(error => {
         console.error(stylizeError(error, maxErrorMsgLength, maxLineChars));
       });
       console.error('\n');

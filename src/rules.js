@@ -7,7 +7,7 @@ var rules; // Cashing list of rules, so that we only load them once
 function getAllRules() {
   if (!rules) {
     rules = {};
-    fs.readdirSync(path.join(__dirname, 'rules')).forEach(function(file) {
+    fs.readdirSync(path.join(__dirname, 'rules')).forEach(file => {
       var ruleName = file.replace(/\.js$/, '');
       rules[ruleName] = require(path.join(__dirname, 'rules', file));
     });
@@ -34,7 +34,7 @@ function runAllEnabledRules(feature, file, configuration) {
   var errors = [];
   var ignoreFutureErrors = false;
   var rules = getAllRules();
-  Object.keys(rules).forEach(function(ruleName) {
+  Object.keys(rules).forEach(ruleName => {
     var rule = rules[ruleName];
     if (isRuleEnabled(configuration[rule.name]) && !ignoreFutureErrors) {
       var ruleConfig = Array.isArray(configuration[rule.name]) ? configuration[rule.name][1] : {};

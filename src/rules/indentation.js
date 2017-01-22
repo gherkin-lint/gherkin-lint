@@ -27,7 +27,7 @@ function test(parsedLocation, configuration, type) {
 
 function testStep(step, language, configuration, mergedConfiguration) {
   var keyword = step.keyword;
-  var stepType = _.findKey(language, function(values) { return values instanceof Array && values.indexOf(keyword) !== -1; });
+  var stepType = _.findKey(language, values => values instanceof Array && values.indexOf(keyword) !== -1);
   stepType = stepType in configuration ? stepType : 'Step';
   test(step.location, mergedConfiguration, stepType);
 }
@@ -43,7 +43,7 @@ function indentation(feature, unused, configuration) {
   // Check Feature indentation
   test(feature.location, mergedConfiguration, 'Feature');
 
-  feature.children.forEach(function(child) {
+  feature.children.forEach(child => {
     switch(child.type) {
     case 'Background':
       // Check Background indentation
@@ -61,7 +61,7 @@ function indentation(feature, unused, configuration) {
       break;
     }
 
-    child.steps.forEach(function(step) {
+    child.steps.forEach(step => {
       // Check Step indentation
       testStep(step, language, configuration, mergedConfiguration);
     });

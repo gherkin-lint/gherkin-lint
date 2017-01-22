@@ -27,7 +27,7 @@ function nameLength(feature, unused, configuration) {
   // Check Feature name length
   test(feature.name, feature.location, mergedConfiguration, 'Feature');
 
-  feature.children.forEach(function(child) {
+  feature.children.forEach(child => {
     switch(child.type) {
     case 'Scenario':
     case 'ScenarioOutline':
@@ -43,7 +43,7 @@ function nameLength(feature, unused, configuration) {
       break;
     }
 
-    child.steps.forEach(function(step) {
+    child.steps.forEach(step => {
       // Check Step name length
       test(step.text, step.location, mergedConfiguration, 'Step');
     });

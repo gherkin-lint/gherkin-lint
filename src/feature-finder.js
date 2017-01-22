@@ -6,7 +6,7 @@ var defaultIgnoredFiles = 'node_modules/**'; // Ignore node_modules by default
 
 function getFeatureFiles(args, ignoreArg) {
   var files = [];
-  args.forEach(function(arg) {
+  args.forEach(arg => {
     var pattern = '';
     if (arg == '.') {
       pattern = '**/*.feature';
@@ -34,7 +34,7 @@ function getIgnorePatterns(ignoreArg) {
     return fs.readFileSync(defaultIgnoreFileName)
               .toString()
               .split(/[\n|\r]/)
-              .filter(function(i) {
+              .filter(i => {
               // remove empty strings
                 if (i !== '') {
                   return true;

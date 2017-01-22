@@ -3,9 +3,9 @@ var rule = 'use-and';
 function useAnd(feature) {
   var errors = [];
 
-  feature.children.forEach(function(child) {
+  feature.children.forEach(child => {
     var previousKeyword = undefined;
-    child.steps.forEach(function(step) {
+    child.steps.forEach(step => {
       if (step.keyword === 'And ') {
         return;
       }

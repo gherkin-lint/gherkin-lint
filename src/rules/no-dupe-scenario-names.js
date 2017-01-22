@@ -4,7 +4,7 @@ var scenarios = [];
 function noDuplicateScenarioNames(feature, file) {
   if(feature.children) {
     var errors = [];
-    feature.children.forEach(function(scenario) {
+    feature.children.forEach(scenario => {
       if (scenario.name) {
         if (scenario.name in scenarios) {
           var dupes = getFileLinePairsAsStr(scenarios[scenario.name].locations);
@@ -23,7 +23,7 @@ function noDuplicateScenarioNames(feature, file) {
 
 function getFileLinePairsAsStr(objects) {
   var strings = [];
-  objects.forEach(function(object) {
+  objects.forEach(object => {
     strings.push(object.file + ':' + object.line);
   });
   return strings.join(', ');

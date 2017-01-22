@@ -7,7 +7,7 @@ var rules = require('./rules.js');
 function lint(files, configuration) {
   var output = [];
 
-  files.forEach(function(fileName) {
+  files.forEach(fileName => {
     var fileContent = fs.readFileSync(fileName, 'utf-8');
     var file = {
       name: fileName,
@@ -39,7 +39,7 @@ function processFatalErrors(errors) {
     errors = result.errors;
     errorMsgs = result.errorMsgs;
   }
-  errors.forEach(function(error) {
+  errors.forEach(error => {
     errorMsgs.push(getFormattedFatalError(error));
   });
   return errorMsgs;

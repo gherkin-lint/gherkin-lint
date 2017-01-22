@@ -3,7 +3,7 @@ var rule = 'no-scenario-outlines-without-examples';
 function noScenarioOutlinesWithoutExamples(feature) {
   if (feature.children) {
     var errors = [];
-    feature.children.forEach(function(scenario) {
+    feature.children.forEach(scenario => {
       if (scenario.type === 'ScenarioOutline' && !scenario.examples.length) {
         errors.push({message: 'Scenario Outline does not have any Examples',
                      rule   : rule,
