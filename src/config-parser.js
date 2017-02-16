@@ -1,4 +1,5 @@
 var fs = require('fs');
+var chalk = require('chalk');
 var rules = require('./rules.js');
 
 var defaultConfigFileName = '.gherkin-lintrc';
@@ -22,9 +23,9 @@ function getConfiguration(configPath) {
   verifyConfigurationFile(config);
 
   if (errors.length > 0) {
-    console.error('\x1b[31m\x1b[1mError(s) in configuration file:\x1b[0m');  // eslint-disable-line no-console
+    console.error(chalk.red.bold('Error(s) in configuration file:'));  // eslint-disable-line no-console
     errors.forEach(function(error){
-      console.error('\x1b[31m- ' + error + '\x1b[0m');  // eslint-disable-line no-console
+      console.error(chalk.red('- ' + error));  // eslint-disable-line no-console
     });
     throw new Error('Configuration error(s)');
   }

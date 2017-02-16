@@ -1,15 +1,5 @@
 /*eslint no-console: "off"*/
-
-var style = {
-  gray: function(text) {
-    return '\x1b[38;5;243m' + text + '\x1b[0m';
-  },
-
-  underline: function(text) {
-    return '\x1b[0;4m' + text + '\x1b[24m';
-  }
-
-};
+var chalk = require('chalk');
 
 function stylizeError(error, maxErrorMsgLength, maxLineChars) {
   var str = '  '; // indent 2 spaces so it looks pretty
@@ -22,7 +12,7 @@ function stylizeError(error, maxErrorMsgLength, maxLineChars) {
   }
 
   // print the line number as gray
-  str += style.gray(line) + padding;
+  str += chalk.gray(line) + padding;
 
   var errorMsg = error.message;
 
@@ -35,13 +25,13 @@ function stylizeError(error, maxErrorMsgLength, maxLineChars) {
   str += errorMsg + padding;
 
   // print the rule name in gray
-  str += style.gray(error.rule);
+  str += chalk.gray(error.rule);
 
   return str; // lastly, return our stylish-est string and pretend that this code was never written
 }
 
 function stylizeFilePath(filePath) {
-  return style.underline(filePath);
+  return chalk.underline(filePath);
 }
 
 function getMaxLengthOfField(results, field) {

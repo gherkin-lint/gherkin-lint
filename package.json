@@ -27,6 +27,7 @@
     "linter"
   ],
   "dependencies": {
+    "chalk": "^1.1.3",
     "commander": "2.9.0",
     "gherkin": "4.0.0",
     "glob": "7.0.5",
