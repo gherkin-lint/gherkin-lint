@@ -1,27 +1,39 @@
 var glob = require('glob');
 var fs = require('fs');
-
+var path = require('path');
 var defaultIgnoreFileName = '.gherkin-lintignore';
 var defaultIgnoredFiles = 'node_modules/**'; // Ignore node_modules by default
 
 function getFeatureFiles(args, ignoreArg) {
   var files = [];
-  args.forEach(function(arg) {
-    var pattern = '';
-    if (arg == '.') {
-      pattern = '**/*.feature';
-    } else if (arg.match(/.*\/\*\*/)) {
-      pattern = arg.slice(0, -1) + '.feature';
-    } else if(arg.match(/\/$/)) {
-      pattern = arg + '**/*.feature';
-    } else if (arg.match(/.*\.feature/)) {
-      pattern = arg;
+  var patterns = args.length ? args : ['.'];
+
+  patterns.forEach(function(pattern) {
+    // First we need to fix up the pattern so that it only matches .feature files
+    // and it's in the format that glob expects it to be
+    var fixedPattern;
+    if (pattern == '.') {
+      fixedPattern = '**/*.feature';
+    } else if (pattern.match(/.*\/\*\*/)) {
+      fixedPattern = pattern.slice(0, -1) + '.feature';
+    } else if (pattern.match(/.*\.feature/)) {
+      fixedPattern = pattern;
     } else {
-      throw new Error('Invalid input format. To run the linter please specify a feature file, directory or glob.');
+      try {
+        if(fs.statSync(pattern).isDirectory()) {
+          fixedPattern = path.join(pattern, '**/*.feature');
+        }
+      } catch(e) {
+        // Don't show the fs callstack, we will print a custom error message bellow instead
+      }
+    }
+
+    if (!fixedPattern) {
+      throw new Error(`Invalid format of the feature file path/pattern: "${pattern}".\nTo run the linter please specify an existing feature file, directory or glob.`);
     }
 
     var globOptions = {ignore: getIgnorePatterns(ignoreArg)};
-    files = files.concat(glob.sync(pattern, globOptions));
+    files = files.concat(glob.sync(fixedPattern, globOptions));
   });
   return files;
 }
