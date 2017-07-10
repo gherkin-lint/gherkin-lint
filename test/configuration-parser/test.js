@@ -3,6 +3,7 @@ var expect = require('chai').expect;
 var configParser = require('../../src/config-parser.js');
 var expectedResults = require('./test-results/results.js');
 
+/* eslint-disable */
 require('mocha-sinon');
 
 describe('Configuration file', function() {
@@ -28,28 +29,27 @@ describe('Configuration file', function() {
 
   describe('parsing/verification throws an error when the config contains', function() {
     beforeEach(function() {
+      var f = function() {
+        // eslint-disable-next-line
+        console.log('hi');
+      };
       this.sinon.stub(console, 'error');
+      this.sinon.stub(process, 'exit', f);
     });
 
     it('a non existing rule', function() {
-      var actualAssertion;
-      try {
-        configParser.getConfiguration('./test/configuration-parser/test-data/config4');
-      } catch (e) {
-        actualAssertion = e.message;
-      }
+      configParser.getConfiguration('./test/configuration-parser/test-data/config4');
 
       var expected = expectedResults.config4;
 
-      // verify the assertion message
-      var expectedAssertion  = expected.assertionMessage;
-      assert.equal(actualAssertion, expectedAssertion);
-
-      // verify the console logs
       var consoleErrorArgs = console.error.args.map(function (args) { // eslint-disable-line no-console
         return args[0];
       });
-      expect(consoleErrorArgs).to.be.deep.equal(expected.consoleErrors);
+
+      var expectedErrors  = expected.consoleErrors;
+      expect(expectedErrors).to.deep.equal(consoleErrorArgs);
+
+      expect(process.exit.args[0][0]).to.equal(1);
     });
 
     it('a non existing rule sub-config', function() {

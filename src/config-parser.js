@@ -27,7 +27,7 @@ function getConfiguration(configPath) {
   if (errors.length > 0) {
     logger.boldError('Error(s) in configuration file:');
     errors.forEach(function(error){
-      logger.error(error);
+      logger.error(`- ${error}`);
     });
     process.exit(1);
   }

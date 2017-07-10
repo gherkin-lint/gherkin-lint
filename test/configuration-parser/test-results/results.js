@@ -21,8 +21,7 @@ module.exports =
     'consoleErrors': [
       '\x1b[31m\x1b[1mError(s) in configuration file:\x1b[0m',
       '\x1b[31m- Rule "fake-rule" does not exist\x1b[0m'
-    ],
-    'assertionMessage': 'Configuration error(s)'
+    ]
   },
   'config5': {
     'consoleErrors': [
