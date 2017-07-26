@@ -47,7 +47,7 @@ function verifyRuleConfiguration(rule, ruleConfig) {
   var genericErrorMsg = 'Invalid rule configuration for "' + rule + '" - ';
 
   if (Array.isArray(ruleConfig)) {
-    if (enablingSettings.indexOf(ruleConfig[0]) !== 0) {
+    if (enablingSettings.indexOf(ruleConfig[0]) === -1) {
       errors.push(genericErrorMsg + 'The first part of the config should be "on" or "off"');
     }
 
