@@ -15,6 +15,9 @@
     },
     {
       "name": "Rene Saarsoo"
+    },
+    {
+      "name": "Giuseppe DiBella"
     }
   ],
   "main": "src/main.js",
