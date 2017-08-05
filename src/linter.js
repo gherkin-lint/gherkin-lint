@@ -4,7 +4,7 @@ var Gherkin = require('gherkin');
 var parser = new Gherkin.Parser();
 var rules = require('./rules.js');
 
-function lint(files, configuration) {
+function lint(files, configuration, additionalRulesDirs) {
   var output = [];
 
   files.forEach(function(fileName) {
@@ -17,7 +17,7 @@ function lint(files, configuration) {
     var errors = [];
     try {
       var feature = parser.parse(fileContent).feature || {};
-      errors = rules.runAllEnabledRules(feature, file, configuration);
+      errors = rules.runAllEnabledRules(feature, file, configuration, additionalRulesDirs);
     } catch(e) {
       if(e.errors) {
         errors = processFatalErrors(e.errors);

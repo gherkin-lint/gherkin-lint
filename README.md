@@ -122,3 +122,8 @@ You can find an example configuration file, that turns on all of the rules in th
 There are 2 ways you can specify files that the linter should ignore:
 1. Add a `.gherkin-lintignore` file in your working directory and specify one glob pattern per file line
 1. Use the command line option`-i` or `--ignore`,  pass in a comma separated list of glob patterns. If specified, the command line option will override the `.gherkin-lintignore` file.
+
+
+## Custom rules
+You can specify one more more custom rules directories by using the `-r` or `--rulesdir` command line option. Rules in the given directories will be available additionally to the default rules.
+Have a look at the `src/rules/` directory for examples, the `no-empty-file` rule is a good example to start with.

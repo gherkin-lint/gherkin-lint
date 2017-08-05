@@ -4,7 +4,7 @@ var rules = require('./rules.js');
 var defaultConfigFileName = '.gherkin-lintrc';
 var errors;
 
-function getConfiguration(configPath) {
+function getConfiguration(configPath, additionalRulesDirs) {
   errors = [];
   if (configPath) {
     if (!fs.existsSync(configPath)) {
@@ -19,7 +19,7 @@ function getConfiguration(configPath) {
   }
   var config = JSON.parse(fs.readFileSync(configPath));
 
-  verifyConfigurationFile(config);
+  verifyConfigurationFile(config, additionalRulesDirs);
 
   if (errors.length > 0) {
     console.error('\x1b[31m\x1b[1mError(s) in configuration file:\x1b[0m');  // eslint-disable-line no-console
@@ -32,9 +32,9 @@ function getConfiguration(configPath) {
   return config;
 }
 
-function verifyConfigurationFile(config) {
+function verifyConfigurationFile(config, additionalRulesDirs) {
   for (var rule in config) {
-    if (!rules.doesRuleExist(rule)) {
+    if (!rules.doesRuleExist(rule, additionalRulesDirs)) {
       errors.push('Rule "' + rule + '" does not exist');
     } else {
       verifyRuleConfiguration(rule, config[rule]);
