@@ -6,8 +6,8 @@ var configParser = require('../../src/config-parser');
 describe('rulesdir CLI option', function() {
   it('loads additional rules from specified directories', function() {
     var additionalRulesDirs = [
-      path.join(__dirname, 'rules'),
-      path.join(__dirname, 'other_rules')
+      path.join(__dirname, 'rules'), // absolute path
+      path.join('test', 'rulesdir', 'other_rules') // relative path from root
     ];
     var config = configParser.getConfiguration(path.join(__dirname, '.gherkin-lintrc'), additionalRulesDirs);
     var featureFile = path.join(__dirname, 'simple.features');
