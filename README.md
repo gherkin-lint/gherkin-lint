@@ -133,4 +133,4 @@ gherkin-lint --rulesdir "/path/to/my/rulesdir" --rulesdir "from/cwd/rulesdir"
 ```
 
 Paths can either be absolute or relative to the current working directory.
-Have a look at the `src/rules/` directory for examples; the `no-empty-file` rule is a good example to start with.
+Have a look at the `src/rules/` directory for examples; The `no-empty-file` rule is a good example to start with.
