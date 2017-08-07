@@ -9,16 +9,23 @@ function list(val) {
   return val.split(',');
 }
 
+function collect(val, memo) {
+  memo.push(val);
+  return memo;
+}
+
 program
   .usage('[options] <feature-files>')
   .option('-f, --format [format]', 'output format. Defaults to stylish')
   .option('-i, --ignore <...>', 'comma seperated list of files/glob patterns that the linter should ignore, overrides ' + featureFinder.defaultIgnoreFileName + ' file', list)
   .option('-c, --config [config]', 'configuration file, defaults to ' + configParser.defaultConfigFileName)
+  .option('-r, --rulesdir <...>', 'additional rule directories', collect, [])
   .parse(process.argv);
 
+var additionalRulesDirs = program.rulesdir;
 var files = featureFinder.getFeatureFiles(program.args, program.ignore);
-var config = configParser.getConfiguration(program.config);
-var results = linter.lint(files, config);
+var config = configParser.getConfiguration(program.config, additionalRulesDirs);
+var results = linter.lint(files, config, additionalRulesDirs);
 printResults(results, program.format);
 process.exit(getExitCode(results));
 
