@@ -16,7 +16,7 @@ function collect(val, memo) {
 
 program
   .usage('[options] <feature-files>')
-  .option('-f, --format [format]', 'output format. Defaults to stylish')
+  .option('-f, --format [format]', 'output format. Possible values: json,stylish. Defaults to stylish')
   .option('-i, --ignore <...>', 'comma seperated list of files/glob patterns that the linter should ignore, overrides ' + featureFinder.defaultIgnoreFileName + ' file', list)
   .option('-c, --config [config]', 'configuration file, defaults to ' + configParser.defaultConfigFileName)
   .option('-r, --rulesdir <...>', 'additional rule directories', collect, [])
