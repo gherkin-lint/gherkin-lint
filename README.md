@@ -35,6 +35,7 @@ Or check this:
 | [`new-line-at-eof`](#new-line-at-eof)       | Disallows/enforces new line at EOF                         |
 | `no-dupe-feature-names`                     | Disallows duplicate Feature names                          |
 | `no-dupe-scenario-names`                    | Disallows duplicate Scenario names                         |
+| `no-duplicate-tags`                         | Disallows duplicate tags on the same Feature or Scenario   |
 | `no-empty-file`                             | Disallows empty feature files                              |
 | `no-files-without-scenarios`                | Disallows files with no scenarios                          |
 | `no-multiple-empty-lines`                   | Disallows multiple empty lines                             |
@@ -65,8 +66,8 @@ will turn on the `no-unnamed-features` rule.
 - Expected indentation for Feature, Background, Scenario: 0 spaces
 - Expected indentation for Steps: 2 spaces
 
-You can override the defaults for `indentation` like this:  
-`Step` will be used as a fallback if the keyword of the step is not specified.  
+You can override the defaults for `indentation` like this:
+`Step` will be used as a fallback if the keyword of the step is not specified.
 This feature is able to handle all localizations of the gherkin steps.
 ```
 {
@@ -112,7 +113,7 @@ The default is 70 characters for each of these:
 ```
 
 ## Configuration File
-The default name for the configuration file is `.gherkin-lintrc` and it's expected to be in your working directory.     
+The default name for the configuration file is `.gherkin-lintrc` and it's expected to be in your working directory.
 
 If you are using a file with a different name or a file in a different folder, you will need to specify the `-c` or `--config` option and pass in the relative path to your configuration file. Eg: `gherkin-lint -c path/to/configuration/file.extention`
 
