@@ -42,6 +42,7 @@ Or check this:
 | `no-partially-commented-tag-lines`          | Disallows partially commented tag lines                    |
 | [`no-restricted-tags`](#no-restricted-tags) | Disallow use of particular @tags                           |
 | `no-scenario-outlines-without-examples`     | Disallows scenario outlines without examples               |
+| `no-superfluous-tags`                       | Disallows tags present on a Feature and a Scenario in that Feature |
 | `no-trailing-spaces`                        | Disallows trailing spaces                                  |
 | `no-unnamed-features`                       | Disallows empty Feature name                               |
 | `no-unnamed-scenarios`                      | Disallows empty Scenario name                              |
