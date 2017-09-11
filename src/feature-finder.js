@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var glob = require('glob');
 var fs = require('fs');
 var path = require('path');
@@ -35,7 +36,7 @@ function getFeatureFiles(args, ignoreArg) {
     var globOptions = {ignore: getIgnorePatterns(ignoreArg)};
     files = files.concat(glob.sync(fixedPattern, globOptions));
   });
-  return files;
+  return _.uniq(files);
 }
 
 function getIgnorePatterns(ignoreArg) {
