@@ -24,27 +24,31 @@ Or check this:
 
 ## Available rules
 
-| Name                                        | Functionality                                              |
-|---------------------------------------------|------------------------------------------------------------|
-| `no-tags-on-backgrounds` *                  | Disallows tags on Background                               |
-| `one-feature-per-file` *                    | Disallows multiple Feature definitions in the same file    |
-| `up-to-one-background-per-file` *           | Disallows multiple Background definition in the same file  |
-| &nbsp;                                      |                                                            |
-| [`indentation`](#indentation)               | Allows the user to specify indentation rules               |
-| [`name-length`](#name-length)               | Allows restricting length of Feature/Scenario/Step names   |
-| [`new-line-at-eof`](#new-line-at-eof)       | Disallows/enforces new line at EOF                         |
-| `no-dupe-feature-names`                     | Disallows duplicate Feature names                          |
-| `no-dupe-scenario-names`                    | Disallows duplicate Scenario names                         |
-| `no-empty-file`                             | Disallows empty feature files                              |
-| `no-files-without-scenarios`                | Disallows files with no scenarios                          |
-| `no-multiple-empty-lines`                   | Disallows multiple empty lines                             |
-| `no-partially-commented-tag-lines`          | Disallows partially commented tag lines                    |
-| [`no-restricted-tags`](#no-restricted-tags) | Disallow use of particular @tags                           |
-| `no-scenario-outlines-without-examples`     | Disallows scenario outlines without examples               |
-| `no-trailing-spaces`                        | Disallows trailing spaces                                  |
-| `no-unnamed-features`                       | Disallows empty Feature name                               |
-| `no-unnamed-scenarios`                      | Disallows empty Scenario name                              |
-| `use-and`                                   | Disallows repeated step names requiring use of And instead |
+
+| Name                                        | Functionality                                                                            |
+|---------------------------------------------|------------------------------------------------------------------------------------------|
+| `no-tags-on-backgrounds` *                  | Disallows tags on Background                                                             |
+| `one-feature-per-file` *                    | Disallows multiple Feature definitions in the same file                                  |
+| `up-to-one-background-per-file` *           | Disallows multiple Background definition in the same file                                |
+| &nbsp;                                      |                                                                                          |
+| [`indentation`](#indentation)               | Allows the user to specify indentation rules                                             |
+| [`name-length`](#name-length)               | Allows restricting length of Feature/Scenario/Step names                                 |
+| [`new-line-at-eof`](#new-line-at-eof)       | Disallows/enforces new line at EOF                                                       |
+| `no-dupe-feature-names`                     | Disallows duplicate Feature names                                                        |
+| `no-dupe-scenario-names`                    | Disallows duplicate Scenario names                                                       |
+| `no-duplicate-tags`                         | Disallows duplicate tags on the same Feature or Scenario                                 |
+| `no-empty-file`                             | Disallows empty feature files                                                            |
+| `no-files-without-scenarios`                | Disallows files with no scenarios                                                        |
+| `no-homogenous-tags`                        | Disallows tags present on every Scenario in a Feature, rather than on the Feature itself |
+| `no-multiple-empty-lines`                   | Disallows multiple empty lines                                                           |
+| `no-partially-commented-tag-lines`          | Disallows partially commented tag lines                                                  |
+| [`no-restricted-tags`](#no-restricted-tags) | Disallow use of particular @tags                                                         |
+| `no-scenario-outlines-without-examples`     | Disallows scenario outlines without examples                                             |
+| `no-superfluous-tags`                       | Disallows tags present on a Feature and a Scenario in that Feature                       |
+| `no-trailing-spaces`                        | Disallows trailing spaces                                                                |
+| `no-unnamed-features`                       | Disallows empty Feature name                                                             |
+| `no-unnamed-scenarios`                      | Disallows empty Scenario name                                                            |
+| `use-and`                                   | Disallows repeated step names requiring use of And instead                               |
 
 \* These rules cannot be turned off because they detect undocumented cucumber functionality that causes the [gherkin](https://github.com/cucumber/gherkin-javascript) parser to crash.
 
@@ -65,8 +69,8 @@ will turn on the `no-unnamed-features` rule.
 - Expected indentation for Feature, Background, Scenario: 0 spaces
 - Expected indentation for Steps: 2 spaces
 
-You can override the defaults for `indentation` like this:  
-`Step` will be used as a fallback if the keyword of the step is not specified.  
+You can override the defaults for `indentation` like this:
+`Step` will be used as a fallback if the keyword of the step is not specified.
 This feature is able to handle all localizations of the gherkin steps.
 ```
 {
@@ -112,7 +116,7 @@ The default is 70 characters for each of these:
 ```
 
 ## Configuration File
-The default name for the configuration file is `.gherkin-lintrc` and it's expected to be in your working directory.     
+The default name for the configuration file is `.gherkin-lintrc` and it's expected to be in your working directory.
 
 If you are using a file with a different name or a file in a different folder, you will need to specify the `-c` or `--config` option and pass in the relative path to your configuration file. Eg: `gherkin-lint -c path/to/configuration/file.extention`
 
@@ -122,3 +126,15 @@ You can find an example configuration file, that turns on all of the rules in th
 There are 2 ways you can specify files that the linter should ignore:
 1. Add a `.gherkin-lintignore` file in your working directory and specify one glob pattern per file line
 1. Use the command line option`-i` or `--ignore`,  pass in a comma separated list of glob patterns. If specified, the command line option will override the `.gherkin-lintignore` file.
+
+
+## Custom rules
+You can specify one more more custom rules directories by using the `-r` or `--rulesdir` command line option. Rules in the given directories will be available additionally to the default rules.
+
+Example:
+```
+gherkin-lint --rulesdir "/path/to/my/rulesdir" --rulesdir "from/cwd/rulesdir"
+```
+
+Paths can either be absolute or relative to the current working directory.
+Have a look at the `src/rules/` directory for examples; The `no-empty-file` rule is a good example to start with.

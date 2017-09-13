@@ -5,7 +5,7 @@ var logger = require('./logger.js');
 var defaultConfigFileName = '.gherkin-lintrc';
 var errors;
 
-function getConfiguration(configPath) {
+function getConfiguration(configPath, additionalRulesDirs) {
   errors = [];
   if (configPath) {
     if (!fs.existsSync(configPath)) {
@@ -22,7 +22,7 @@ function getConfiguration(configPath) {
   }
   var config = JSON.parse(fs.readFileSync(configPath));
 
-  verifyConfigurationFile(config);
+  verifyConfigurationFile(config, additionalRulesDirs);
 
   if (errors.length > 0) {
     logger.boldError('Error(s) in configuration file:');
@@ -35,9 +35,9 @@ function getConfiguration(configPath) {
   return config;
 }
 
-function verifyConfigurationFile(config) {
+function verifyConfigurationFile(config, additionalRulesDirs) {
   for (var rule in config) {
-    if (!rules.doesRuleExist(rule)) {
+    if (!rules.doesRuleExist(rule, additionalRulesDirs)) {
       errors.push('Rule "' + rule + '" does not exist');
     } else {
       verifyRuleConfiguration(rule, config[rule]);
@@ -50,7 +50,7 @@ function verifyRuleConfiguration(rule, ruleConfig) {
   var genericErrorMsg = 'Invalid rule configuration for "' + rule + '" - ';
 
   if (Array.isArray(ruleConfig)) {
-    if (enablingSettings.indexOf(ruleConfig[0]) !== 0) {
+    if (enablingSettings.indexOf(ruleConfig[0]) === -1) {
       errors.push(genericErrorMsg + 'The first part of the config should be "on" or "off"');
     }
 

@@ -1,6 +1,6 @@
 {
   "name": "gherkin-lint",
-  "version": "2.2.0",
+  "version": "2.5.0",
   "description": "A Gherkin linter/validator written in javascript",
   "author": "Vasiliki Siakka",
   "contributors": [
@@ -15,6 +15,15 @@
     },
     {
       "name": "Rene Saarsoo"
+    },
+    {
+      "name": "Giuseppe DiBella"
+    },
+    {
+      "name": "Joscha Feth"
+    },
+    {
+      "name": "Simon St John-Green"
     }
   ],
   "main": "src/main.js",
@@ -33,7 +42,7 @@
     "lodash": "4.13.1"
   },
   "devDependencies": {
-    "chai": "3.5.0",
+    "chai": "4.1.1",
     "eslint": "2.13.1",
     "mocha": "2.5.3",
     "mocha-sinon": "1.1.5",
