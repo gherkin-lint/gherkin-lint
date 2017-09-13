@@ -5,6 +5,5 @@ node_js:
   - "6"
   - "5"
   - "4"
-  - "0.12"
   - "iojs"
 script: "npm test"
