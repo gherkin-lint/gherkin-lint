@@ -3,7 +3,7 @@ var expect = require('chai').expect;
 var configParser = require('../../src/config-parser.js');
 var expectedResults = require('./test-results/results.js');
 
-require('mocha-sinon');
+require('mocha-sinon')();
 
 describe('Configuration file', function() {
   describe('parsing/verification is successful when', function() {
@@ -27,8 +27,13 @@ describe('Configuration file', function() {
   });
 
   describe('parsing/verification throws an error when the config contains', function() {
+    var stub;
     beforeEach(function() {
-      this.sinon.stub(console, 'error');
+      stub = this.sinon.stub(console, 'error');
+    });
+
+    afterEach(function() {
+      stub.restore();
     });
 
     it('a non existing rule', function() {
