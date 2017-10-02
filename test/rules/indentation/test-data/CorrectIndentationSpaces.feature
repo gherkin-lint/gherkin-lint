@@ -9,5 +9,6 @@ Scenario: This is a Scenario with correct indentation - spaces
 Scenario Outline: This is a Scenario Outline with correct indentation - spaces
   Then I should not see an indentation error
 Examples:
-  | foo |
-  | bar |
+  | foo | bar |
+  | bar | foo |
+  | har | har |

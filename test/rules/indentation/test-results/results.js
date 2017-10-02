@@ -24,6 +24,18 @@ module.exports = {
       'rule': 'indentation',
       'line': 9
     },
+    { 'message': 'Wrong indentation for "Examples", expected indentation level of 0, but got 2',
+      'rule': 'indentation',
+      'line': 11
+    },
+    { 'message': 'Wrong indentation for "example", expected indentation level of 2, but got 4',
+      'rule': 'indentation',
+      'line': 12
+    },
+    { 'message': 'Wrong indentation for "example", expected indentation level of 2, but got 4',
+      'rule': 'indentation',
+      'line': 13
+    },
     { 'message': 'Wrong indentation for "Step", expected indentation level of 2, but got 3',
       'rule': 'indentation',
       'line': 10
@@ -57,6 +69,18 @@ module.exports = {
     { 'message': 'Wrong indentation for "Step", expected indentation level of 2, but got 11',
       'rule': 'indentation',
       'line': 11
+    },
+    { 'line': 12,
+      'message': 'Wrong indentation for "Examples", expected indentation level of 0, but got 7',
+      'rule': 'indentation'
+    },
+    { 'line': 13,
+      'message': 'Wrong indentation for "example", expected indentation level of 2, but got 15',
+      'rule': 'indentation'
+    },
+    { 'line': 14,
+      'message': 'Wrong indentation for "example", expected indentation level of 2, but got 15',
+      'rule': 'indentation'
     }
   ]
 };

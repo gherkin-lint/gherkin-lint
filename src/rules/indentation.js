@@ -7,6 +7,8 @@ var availableConfigs = {
   'Background': 0,
   'Scenario': 0,
   'Step': 2,
+  'Examples': 0,
+  'example': 2,
   'given': 2,
   'when': 2,
   'then': 2,
@@ -19,7 +21,9 @@ var errors = [];
 function test(parsedLocation, configuration, type) {
     // location.column is 1 index based so, when we compare with the expected indentation we need to subtract 1
   if (--parsedLocation.column !== configuration[type]) {
-    errors.push({message: 'Wrong indentation for "' + type + '", expected indentation level of ' + configuration[type] + ', but got ' + parsedLocation.column,
+    errors.push({message: 'Wrong indentation for "' + type +
+                          '", expected indentation level of ' + configuration[type] +
+                          ', but got ' + parsedLocation.column,
                  rule   : rule,
                  line   : parsedLocation.line});
   }
@@ -27,9 +31,22 @@ function test(parsedLocation, configuration, type) {
 
 function testStep(step, language, configuration, mergedConfiguration) {
   var keyword = step.keyword;
-  var stepType = _.findKey(language, function(values) { return values instanceof Array && values.indexOf(keyword) !== -1; });
+  var stepType = _.findKey(language, function(values) {
+    return values instanceof Array && values.indexOf(keyword) !== -1;
+  });
   stepType = stepType in configuration ? stepType : 'Step';
   test(step.location, mergedConfiguration, stepType);
+}
+
+function testScenarioOutline(scenarioOutline, mergedConfiguration) {
+  test(scenarioOutline.location, mergedConfiguration, 'Scenario');
+  _.forEach(scenarioOutline.examples, function(examples){
+    test(examples.location, mergedConfiguration, 'Examples');
+    test(examples.tableHeader.location, mergedConfiguration, 'example');
+    _.forEach(examples.tableBody, function(row) {
+      test(row.location, mergedConfiguration, 'example');
+    });
+  });
 }
 
 function indentation(feature, unused, configuration) {
@@ -46,13 +63,13 @@ function indentation(feature, unused, configuration) {
   feature.children.forEach(function(child) {
     switch(child.type) {
     case 'Background':
-      // Check Background indentation
       test(child.location, mergedConfiguration, 'Background');
       break;
     case 'Scenario':
-    case 'ScenarioOutline':
-      // Check Scenario indentation
       test(child.location, mergedConfiguration, 'Scenario');
+      break;
+    case 'ScenarioOutline':
+      testScenarioOutline(child, mergedConfiguration);
       break;
     default:
       errors.push({message: 'Unknown gherkin node type ' + child.type,
