@@ -1,6 +1,6 @@
-var runTest = require('../rule-test-base')(
-  require('../../../src/rules/no-duplicate-tags.js'),
-  'Duplicate tags are not allowed: <%= tags %>');
+var ruleTestBase = require('../rule-test-base');
+var rule = require('../../../src/rules/no-duplicate-tags.js');
+var runTest = ruleTestBase.createRuleTest(rule, 'Duplicate tags are not allowed: <%= tags %>');
 
 describe('No Duplicate Tags Rule', function() {
   it('doesn\'t raise errors when there are no violations', function() {

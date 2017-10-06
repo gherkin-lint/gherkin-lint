@@ -1,4 +1,6 @@
-var runTest = require('../rule-test-base')(require('../../../src/rules/indentation.js'),
+var ruleTestBase = require('../rule-test-base');
+var rule = require('../../../src/rules/indentation.js');
+var runTest = ruleTestBase.createRuleTest(rule,
   'Wrong indentation for "<%= element %>", expected indentation level of <%= expected %>, but got <%= actual %>');
 
 var wrongIndenatationErrors = [{

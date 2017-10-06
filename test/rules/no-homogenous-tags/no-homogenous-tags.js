@@ -1,5 +1,6 @@
-var runTest = require('../rule-test-base')(
-  require('../../../src/rules/no-homogenous-tags.js'),
+var ruleTestBase = require('../rule-test-base');
+var rule = require('../../../src/rules/no-homogenous-tags.js');
+var runTest = ruleTestBase.createRuleTest(rule,
   'All Scenarios on this Feature have the same tag(s), they should be defined on the Feature instead: <%= tags %>');
 
 describe('No Homogenous Tags Rule', function() {

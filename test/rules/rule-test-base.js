@@ -6,7 +6,7 @@ require('mocha-sinon');
 
 var parser = new Gherkin.Parser();
 
-module.exports = function(rule, messageTemplate) {
+function createRuleTest(rule, messageTemplate) {
   return function runTest(featureFile, configuration, expected) {
     var expectedErrors = _.map(expected, function(error) {
       return {
@@ -18,4 +18,8 @@ module.exports = function(rule, messageTemplate) {
     var parsedFile = parser.parse(fs.readFileSync('test/rules/' + featureFile, 'utf8')).feature;
     assert.sameDeepMembers(rule.run(parsedFile, undefined, configuration), expectedErrors);
   };
+}
+
+module.exports = {
+  createRuleTest: createRuleTest
 };
