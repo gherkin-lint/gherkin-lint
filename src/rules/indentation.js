@@ -40,7 +40,7 @@ function testStep(step, language, configuration, mergedConfiguration) {
 
 function testScenarioOutline(scenarioOutline, mergedConfiguration) {
   test(scenarioOutline.location, mergedConfiguration, 'Scenario');
-  scenarioOutline.examples.forEach(function(examples){
+  scenarioOutline.examples.forEach(function(examples) {
     test(examples.location, mergedConfiguration, 'Examples');
     test(examples.tableHeader.location, mergedConfiguration, 'example');
     examples.tableBody.forEach(function(row) {

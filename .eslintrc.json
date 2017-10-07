@@ -19,6 +19,14 @@
     "semi": [
       "error",
       "always"
+    ],
+    "brace-style": [
+      "error",
+      "1tbs"
+    ],
+    "space-before-blocks": [
+      "error",
+      "always"
     ]
   }
 }
