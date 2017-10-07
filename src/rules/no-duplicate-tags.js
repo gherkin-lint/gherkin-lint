@@ -6,7 +6,7 @@ function noDuplicateTags(feature) {
   var errors = [];
   errors = errors.concat(verifyTags(feature.tags, feature.location));
   if(feature.children !== undefined) {
-    _.forEach(feature.children, function(child) {
+    feature.children.forEach(function(child) {
       errors = errors.concat(verifyTags(child.tags, child.location));
     });
   }
@@ -18,7 +18,7 @@ function verifyTags(tags, location) {
     failedTagNames = [],
     uniqueTagNames = [];
   if (tags !== undefined && location !== undefined) {
-    _.forEach(tags, function(tag) {
+    tags.forEach(function(tag) {
       if (!_.includes(failedTagNames, tag.name)) {
         if (_.includes(uniqueTagNames, tag.name)) {
           errors.push({message: 'Duplicate tags are not allowed: ' + tag.name,

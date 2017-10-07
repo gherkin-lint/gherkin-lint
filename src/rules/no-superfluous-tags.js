@@ -5,7 +5,7 @@ var rule = 'no-superfluous-tags';
 function noSuperfluousTags(feature) {
   var errors = [];
   if(feature.tags !== undefined && feature.children !== undefined) {
-    _.forEach(feature.children, function(child) {
+    feature.children.forEach(function(child) {
       if (child.tags !== undefined) {
         var superfluousTags = _.intersectionWith(child.tags, feature.tags, function(lhs, rhs) {
           return lhs.name === rhs.name;
