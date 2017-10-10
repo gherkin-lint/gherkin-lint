@@ -22,6 +22,15 @@ var wrongIndenatationErrors = [{
   messageElements: {element: 'Scenario', expected: 0, actual: 3},
   line: 9
 },{
+  messageElements: {element: 'Examples', expected: 0, actual: 2},
+  line: 11
+},{
+  messageElements: {element: 'example', expected: 2, actual:4},
+  line: 12
+},{
+  messageElements: {element: 'example', expected: 2, actual:4},
+  line: 13
+},{
   messageElements: {element: 'Step', expected: 2, actual: 3},
   line: 10
 }];
@@ -62,6 +71,15 @@ describe('Indentation rule', function() {
     },{
       messageElements: {element: 'Scenario', expected: 0, actual: 12},
       line: 10
+    },{
+      messageElements: {element: 'Examples', expected: 0, actual: 7},
+      line: 12
+    },{
+      messageElements: {element: 'example', expected: 2, actual: 15},
+      line: 13
+    },{
+      messageElements: {element: 'example', expected: 2, actual: 15},
+      line: 14
     },{
       messageElements: {element: 'Step', expected: 2, actual: 11},
       line: 11

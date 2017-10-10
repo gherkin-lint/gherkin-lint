@@ -13,8 +13,7 @@ function newLineAtEOF(unused, file, configuration) {
 
   var hasNewLineAtEOF = _.last(file.lines) === '';
   var errormsg = '';
-  if (hasNewLineAtEOF && configuration === 'no')
-  {
+  if (hasNewLineAtEOF && configuration === 'no') {
     errormsg = 'New line at EOF(end of file) is not allowed';
   } else if (!hasNewLineAtEOF && configuration === 'yes') {
     errormsg = 'New line at EOF(end of file) is required';

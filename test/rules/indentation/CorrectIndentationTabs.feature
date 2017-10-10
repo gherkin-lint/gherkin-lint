@@ -9,5 +9,6 @@ Scenario: This is a Scenario with correct indentation - tabs
 Scenario Outline: This is a Scenario Outline with correct indentation - tabs
 		Then I should not see an indentation error
 Examples:
-		| foo |
-		| bar |
+		| foo | bar |
+		| bar | foo |
+		| har | har |

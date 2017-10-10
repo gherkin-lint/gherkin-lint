@@ -8,6 +8,6 @@ Given I have a Feature file with indentation all over the place
 
    Scenario Outline: This is a Scenario Outline for indentation - spaces
    Then I should see an indentation error
-Examples:
+  Examples:
     | foo |
     | bar |

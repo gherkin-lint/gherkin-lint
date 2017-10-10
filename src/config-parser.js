@@ -21,7 +21,7 @@ function getConfiguration(configPath, additionalRulesDirs) {
 
   if (errors.length > 0) {
     console.error('\x1b[31m\x1b[1mError(s) in configuration file:\x1b[0m');  // eslint-disable-line no-console
-    errors.forEach(function(error){
+    errors.forEach(function(error) {
       console.error('\x1b[31m- ' + error + '\x1b[0m');  // eslint-disable-line no-console
     });
     throw new Error('Configuration error(s)');

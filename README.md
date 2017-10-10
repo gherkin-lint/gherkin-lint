@@ -66,19 +66,34 @@ will turn on the `no-unnamed-features` rule.
 ### `indentation`
 
 `indentation` can be configured in a more granular level and uses following rules by default:
-- Expected indentation for Feature, Background, Scenario: 0 spaces
-- Expected indentation for Steps: 2 spaces
+- Expected indentation for Feature, Background, Scenario, Examples heading: 0 spaces
+- Expected indentation for Steps and each example: 2 spaces
 
 You can override the defaults for `indentation` like this:
-`Step` will be used as a fallback if the keyword of the step is not specified.
-This feature is able to handle all localizations of the gherkin steps.
 ```
 {
-  "indentation" : ["on", { "Feature": 0, "Background": 0, "Scenario": 0, "Step": 2, "given": 2, "and": 3 }]
+  "indentation" : [
+    "on", {
+      "Feature": 0,
+      "Background": 0,
+      "Scenario": 0,
+      "Step": 2,
+      "Examples": 0,
+      "example": 2,
+      "given": 2,
+      "when": 2,
+      "then": 2,
+      "and": 2,
+      "but": 2
+    }
+  ]
 }
+There is no need to override all the defaults, as is done above, instead they can be overriden only where required.  `Step` will be used as a fallback if the keyword of the step, eg. 'given', is not specified.
+
+This feature is able to handle all localizations of the gherkin steps.
 ```
 
-## `name-length`
+### `name-length`
 
 `name-length` can be configured separately for Feature, Scenario and Step names.
 The default is 70 characters for each of these:
