@@ -48,6 +48,7 @@ Or check this:
 | `no-trailing-spaces`                        | Disallows trailing spaces                                                                |
 | `no-unnamed-features`                       | Disallows empty Feature name                                                             |
 | `no-unnamed-scenarios`                      | Disallows empty Scenario name                                                            |
+| `one-space-between-tags`                    | Tags on the same time must be separated by a single space                                |
 | `use-and`                                   | Disallows repeated step names requiring use of And instead                               |
 
 \* These rules cannot be turned off because they detect undocumented cucumber functionality that causes the [gherkin](https://github.com/cucumber/gherkin-javascript) parser to crash.
