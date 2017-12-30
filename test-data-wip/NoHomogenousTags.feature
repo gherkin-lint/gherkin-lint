@@ -9,8 +9,8 @@ Scenario: This is a Scenario with some tags
 
 @homogenousTag
 Scenario Outline: This is a Scenario with the same tags
-  Then this is a then step
+  Then this is a then step <foo>
 
   Examples:
-  | Example |
-  | Another Example |
+  | foo |
+  | bar |

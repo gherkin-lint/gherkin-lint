@@ -25,7 +25,7 @@ describe('Name length rule', function() {
       messageElements: {element: 'Scenario', length: 98},
       line: 9
     },{
-      messageElements: {element: 'Step', length: 101},
+      messageElements: {element: 'Step', length: 108},
       line: 10
     }]);
   });

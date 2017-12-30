@@ -13,7 +13,7 @@ Angenommen I have a Feature file with indentation all over the place
     @scenarioTag1 @scenarioTag2
  @scenarioTag3
             Szenariogrundriss: This is a Scenario Outline for indentation - German + spaces
-           Dann I should see an indentation error
+           Dann I should see an indentation error <foo>
        Beispiele:
                | foo |
                | bar |

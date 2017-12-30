@@ -8,3 +8,4 @@ Scenario Outline: Scenario Outline only
   Examples:
   | foo |
   | bar |
+
