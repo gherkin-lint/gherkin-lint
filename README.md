@@ -85,11 +85,13 @@ You can override the defaults for `indentation` like this:
       "when": 2,
       "then": 2,
       "and": 2,
-      "but": 2
+      "but": 2,
+      "feature tag": 0,
+      "scenario tag": 0
     }
   ]
 }
-There is no need to override all the defaults, as is done above, instead they can be overriden only where required.  `Step` will be used as a fallback if the keyword of the step, eg. 'given', is not specified.
+There is no need to override all the defaults, as is done above, instead they can be overriden only where required.  `Step` will be used as a fallback if the keyword of the step, eg. 'given', is not specified.  If `feature tag` is not set then `Feature` is used as a fallback, and if `scenario tag` is not set then `Scenario` is used as a fallback.
 
 This feature is able to handle all localizations of the gherkin steps.
 ```

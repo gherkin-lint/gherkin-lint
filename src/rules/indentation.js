@@ -2,7 +2,7 @@ var _ = require('lodash');
 var languageMapping = require('gherkin').DIALECTS;
 var rule = 'indentation';
 
-var availableConfigs = {
+var defaultConfig = {
   'Feature': 0,
   'Background': 0,
   'Scenario': 0,
@@ -16,60 +16,86 @@ var availableConfigs = {
   'but': 2
 };
 
-var errors = [];
+var availableConfigs = _.merge({}, defaultConfig, {
+  // The values here are unused by the config parsing logic.
+  'feature tag': -1,
+  'scenario tag': -1
+});
 
-function test(parsedLocation, configuration, type) {
-    // location.column is 1 index based so, when we compare with the expected indentation we need to subtract 1
-  if (--parsedLocation.column !== configuration[type]) {
-    errors.push({message: 'Wrong indentation for "' + type +
-                          '", expected indentation level of ' + configuration[type] +
-                          ', but got ' + parsedLocation.column,
-                 rule   : rule,
-                 line   : parsedLocation.line});
+function mergeConfiguration(configuration) {
+  var mergedConfiguration = _.merge({}, defaultConfig, configuration);
+  if (!Object.prototype.hasOwnProperty.call(mergedConfiguration, 'feature tag')) {
+    mergedConfiguration['feature tag'] = mergedConfiguration['Feature'];
   }
+  if (!Object.prototype.hasOwnProperty.call(mergedConfiguration, 'scenario tag')) {
+    mergedConfiguration['scenario tag'] = mergedConfiguration['Scenario'];
+  }
+  return mergedConfiguration;
 }
 
-function testStep(step, language, configuration, mergedConfiguration) {
-  var keyword = step.keyword;
-  var stepType = _.findKey(language, function(values) {
-    return values instanceof Array && values.indexOf(keyword) !== -1;
-  });
-  stepType = stepType in configuration ? stepType : 'Step';
-  test(step.location, mergedConfiguration, stepType);
-}
+function testFeature(feature, configuration, mergedConfiguration) {
+  var errors = [];
 
-function testScenarioOutline(scenarioOutline, mergedConfiguration) {
-  test(scenarioOutline.location, mergedConfiguration, 'Scenario');
-  scenarioOutline.examples.forEach(function(examples) {
-    test(examples.location, mergedConfiguration, 'Examples');
-    test(examples.tableHeader.location, mergedConfiguration, 'example');
-    examples.tableBody.forEach(function(row) {
-      test(row.location, mergedConfiguration, 'example');
+  function test(parsedLocation, type) {
+    // location.column is 1 index based so, when we compare with the expected
+    // indentation we need to subtract 1
+    if (--parsedLocation.column !== mergedConfiguration[type]) {
+      errors.push({message: 'Wrong indentation for "' + type +
+                            '", expected indentation level of ' + mergedConfiguration[type] +
+                            ', but got ' + parsedLocation.column,
+                   rule   : rule,
+                   line   : parsedLocation.line});
+    }
+  }
+
+  function testStep(step) {
+    var keyword = step.keyword;
+    var stepType = _.findKey(languageMapping[feature.language], function(values) {
+      return values instanceof Array && values.indexOf(keyword) !== -1;
     });
-  });
-}
-
-function indentation(feature, unused, configuration) {
-  if (!feature || Object.keys(feature).length === 0) {
-    return;
+    stepType = stepType in configuration ? stepType : 'Step';
+    test(step.location, stepType);
   }
-  var language = languageMapping[feature.language];
-  var mergedConfiguration = _.merge(availableConfigs, configuration);
-  errors = [];
 
-  // Check Feature indentation
-  test(feature.location, mergedConfiguration, 'Feature');
+  function testScenarioOutline(scenarioOutline) {
+    test(scenarioOutline.location, 'Scenario');
+    scenarioOutline.examples.forEach(function(examples) {
+      test(examples.location, 'Examples');
+      test(examples.tableHeader.location, 'example');
+      examples.tableBody.forEach(function(row) {
+        test(row.location, 'example');
+      });
+    });
+  }
+
+  function testTags(tags, type) {
+    _(tags).map(function(tag) {
+      return tag.location;
+    }).groupBy(function(tagLocation) {
+      return tagLocation.line;
+    }).forEach(function(locationsPerLine) {
+      var firstLocation = locationsPerLine.sort(function(location) {
+        return -location.column;
+      })[0];
+      test(firstLocation, type);
+    });
+  }
+
+  test(feature.location, 'Feature');
+  testTags(feature.tags, 'feature tag');
 
   feature.children.forEach(function(child) {
     switch(child.type) {
     case 'Background':
-      test(child.location, mergedConfiguration, 'Background');
+      test(child.location, 'Background');
       break;
     case 'Scenario':
-      test(child.location, mergedConfiguration, 'Scenario');
+      test(child.location, 'Scenario');
+      testTags(child.tags, 'scenario tag');
       break;
     case 'ScenarioOutline':
-      testScenarioOutline(child, mergedConfiguration);
+      testScenarioOutline(child);
+      testTags(child.tags, 'scenario tag');
       break;
     default:
       errors.push({message: 'Unknown gherkin node type ' + child.type,
@@ -78,17 +104,23 @@ function indentation(feature, unused, configuration) {
       break;
     }
 
-    child.steps.forEach(function(step) {
-      // Check Step indentation
-      testStep(step, language, configuration, mergedConfiguration);
-    });
+    child.steps.forEach(testStep);
   });
 
   return errors;
 }
 
+function run(feature, unused, configuration) {
+  if (!feature || Object.keys(feature).length === 0) {
+    return;
+  }
+  var mergedConfiguration = mergeConfiguration(configuration);
+
+  return testFeature(feature, configuration, mergedConfiguration);
+}
+
 module.exports = {
   name: rule,
-  run: indentation,
+  run: run,
   availableConfigs: availableConfigs
 };
