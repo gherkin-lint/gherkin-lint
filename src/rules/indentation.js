@@ -39,10 +39,10 @@ function testFeature(feature, configuration, mergedConfiguration) {
   function test(parsedLocation, type) {
     // location.column is 1 index based so, when we compare with the expected
     // indentation we need to subtract 1
-    if (--parsedLocation.column !== mergedConfiguration[type]) {
+    if (parsedLocation.column - 1 !== mergedConfiguration[type]) {
       errors.push({message: 'Wrong indentation for "' + type +
                             '", expected indentation level of ' + mergedConfiguration[type] +
-                            ', but got ' + parsedLocation.column,
+                            ', but got ' + (parsedLocation.column - 1),
                    rule   : rule,
                    line   : parsedLocation.line});
     }
