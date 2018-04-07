@@ -9,7 +9,7 @@ Scenario: This is a Scenario with some tags
 
 @tag1 @tag2 @tag4
 Scenario Outline: This is a Scenario Outline with the same tags
-  Then this is a then step
+  Then this is a then step <foo>
 Examples:
   | foo |
   | bar |

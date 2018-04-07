@@ -7,7 +7,7 @@ Scenario: This is a Scenario with correct length
   Then I should not see a length error
 
 Scenario Outline: This is a Scenario Outline with correct length
-  Then I should not see a length error
+  Then I should not see a length error <foo>
 Examples:
   | foo |
   | bar |

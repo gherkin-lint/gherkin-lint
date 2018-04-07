@@ -17,5 +17,6 @@
   "no-duplicate-tags": "on",
   "no-superfluous-tags": "on",
   "no-homogenous-tags": "on",
-  "one-space-between-tags": "on"
+  "one-space-between-tags": "on",
+  "no-unused-variables": "on"
 }

@@ -1,5 +1,5 @@
 var ruleTestBase = require('../rule-test-base');
-var rule = require('../../../src/rules/name-length.js');
+var rule = require('../../../dist/rules/name-length.js');
 var runTest = ruleTestBase.createRuleTest(rule,
   '<%= element %> name is too long. Length of <%= length %> is longer than the maximum allowed: 70');
 
@@ -25,7 +25,7 @@ describe('Name length rule', function() {
       messageElements: {element: 'Scenario', length: 98},
       line: 9
     },{
-      messageElements: {element: 'Step', length: 101},
+      messageElements: {element: 'Step', length: 108},
       line: 10
     }]);
   });

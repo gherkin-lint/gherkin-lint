@@ -1,7 +1,7 @@
 var path = require('path');
 var expect = require('chai').expect;
-var linter = require('../../src/linter');
-var configParser = require('../../src/config-parser');
+var linter = require('../../dist/linter');
+var configParser = require('../../dist/config-parser');
 
 describe('rulesdir CLI option', function() {
   it('loads additional rules from specified directories', function() {

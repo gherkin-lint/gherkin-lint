@@ -1,5 +1,5 @@
 var ruleTestBase = require('../rule-test-base');
-var rule = require('../../../src/rules/one-space-between-tags.js');
+var rule = require('../../../dist/rules/one-space-between-tags.js');
 var runTest = ruleTestBase.createRuleTest(rule,
   'There is more than one space between the tags <%= left %> and <%= right %>');
 

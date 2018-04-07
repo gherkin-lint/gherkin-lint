@@ -1,5 +1,4 @@
 var assert = require('chai').assert;
-
 var verifyConfig = require('../src/config-verifier.js');
 
 describe('Config Verifier', function() {

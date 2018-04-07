@@ -12,7 +12,7 @@ Scenario: This is a Scenario with good tag spacing
 
 @scenariotag5 @scenariotag6
 Scenario Outline: This is a Scenario Outline with good tag spacing
-  Then this is a then step
+  Then this is a then step <foo>
 Examples:
   | foo |
   | bar |
