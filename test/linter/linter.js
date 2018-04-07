@@ -46,4 +46,28 @@ describe('Linter', function() {
     assert.lengthOf(actual, 1);
     assert.deepEqual(actual[0].errors, expected);
   });
+
+  it('detects no-multiline-steps violations in backgrounds', function() {
+    var actual = linter.lint(['test/linter/MultilineBackgroundStep.feature']);
+    //console.log(actual)
+    var expected = [{
+      'line': '5',
+      'message': 'Steps should begin with \"Given\", \"When\", \"Then\", \"And\" or \"But\". Multiline steps are dissallowed',
+      'rule': 'no-multiline-steps'
+    }];
+    assert.lengthOf(actual, 1);
+    assert.deepEqual(actual[0].errors, expected);
+  });
+
+  it('detects no-multiline-steps violations in scenario outlines', function() {
+    var actual = linter.lint(['test/linter/MultilineScenarioOutlineStep.feature']);
+    //console.log(actual)
+    var expected = [{
+      'line': '9',
+      'message': 'Steps should begin with \"Given\", \"When\", \"Then\", \"And\" or \"But\". Multiline steps are dissallowed',
+      'rule': 'no-multiline-steps'
+    }];
+    assert.lengthOf(actual, 1);
+    assert.deepEqual(actual[0].errors, expected);
+  });
 });

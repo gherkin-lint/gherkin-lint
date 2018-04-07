@@ -2,4 +2,4 @@ dist
 node_modules
 *.origin
 npm-debug.log
-*.DS_Store
+.DS_Store
