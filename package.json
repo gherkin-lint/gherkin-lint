@@ -26,7 +26,7 @@
       "name": "Simon St John-Green"
     }
   ],
-  "main": "src/main.js",
+  "main": "dist/main.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/vsiakka/gherkin-lint"
@@ -42,6 +42,8 @@
     "lodash": "4.13.1"
   },
   "devDependencies": {
+    "babel-cli": "6.26.0",
+    "babel-preset-env": " 1.6.1",
     "chai": "4.1.1",
     "eslint": "2.13.1",
     "mocha": "2.5.3",
@@ -49,13 +51,15 @@
     "sinon": "1.17.4"
   },
   "bin": {
-    "gherkin-lint": "src/main.js"
+    "gherkin-lint": "dist/main.js"
   },
   "scripts": {
-    "demo": "node ./src/main.js . -c ./test-data-wip/.gherkin-lintrc",
-    "lint": "eslint .",
+    "build": "babel src -d dist",
+    "demo": "node ./dist/main.js . -c ./test-data-wip/.gherkin-lintrc",
+    "lint": "eslint",
     "mocha": "mocha --recursive",
-    "test": "npm run lint && npm run mocha"
+    "prepublish": "npm run build",
+    "test": "npm run build && npm run lint && npm run mocha"
   },
   "license": "ISC"
 }
