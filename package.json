@@ -62,7 +62,7 @@
     "lint": "eslint ./src ./test",
     "mocha": "mocha --recursive",
     "prepublish": "npm run build",
-    "test": "npm run build && npm run lint && npm run mocha"
+    "test": "npm run lint && npm run build && npm run mocha"
   },
   "license": "ISC"
 }
