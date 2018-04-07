@@ -24,6 +24,9 @@
     },
     {
       "name": "Simon St John-Green"
+    },
+    {
+      "name": "Jonathan Hedstrom"
     }
   ],
   "main": "dist/main.js",
