@@ -8,7 +8,9 @@ var availableConfigs = [
 
 function newLineAtEOF(unused, file, configuration) {
   if (_.indexOf(availableConfigs, configuration) === -1) {
-    throw new Error(rule + ' requires an extra configuration value.\nAvailable configurations: ' + availableConfigs.join(', ') + '\nFor syntax please look at the documentation.');
+    // eslint-disable-next-line no-console
+    console.error(rule + ' requires an extra configuration value.\nAvailable configurations: ' + availableConfigs.join(', ') + '\nFor syntax please look at the documentation.');
+    process.exit(1);
   }
 
   var hasNewLineAtEOF = _.last(file.lines) === '';
