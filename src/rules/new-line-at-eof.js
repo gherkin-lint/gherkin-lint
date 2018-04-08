@@ -1,4 +1,5 @@
 var _ = require('lodash');
+var logger = require('./../logger.js');
 var rule = 'new-line-at-eof';
 
 var availableConfigs = [
@@ -8,7 +9,8 @@ var availableConfigs = [
 
 function newLineAtEOF(unused, file, configuration) {
   if (_.indexOf(availableConfigs, configuration) === -1) {
-    throw new Error(rule + ' requires an extra configuration value.\nAvailable configurations: ' + availableConfigs.join(', ') + '\nFor syntax please look at the documentation.');
+    logger.boldError(rule + ' requires an extra configuration value.\nAvailable configurations: ' + availableConfigs.join(', ') + '\nFor syntax please look at the documentation.');
+    process.exit(1);
   }
 
   var hasNewLineAtEOF = _.last(file.lines) === '';

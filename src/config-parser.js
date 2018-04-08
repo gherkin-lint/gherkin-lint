@@ -1,30 +1,31 @@
 var fs = require('fs');
 var verifyConfig = require('./config-verifier.js');
-
+var logger = require('./logger.js');
 var defaultConfigFileName = '.gherkin-lintrc';
 
 function getConfiguration(configPath, additionalRulesDirs) {
   if (configPath) {
     if (!fs.existsSync(configPath)) {
-      throw new Error('Could not find specified config file "' + configPath + '"');
+      logger.boldError('Could not find specified config file "' + configPath + '"');
+      return process.exit(1);
     }
   } else {
     if (!fs.existsSync(defaultConfigFileName)) {
-      throw new Error('Could not find default config file "' + defaultConfigFileName +'" in the working ' +
-                      'directory. To use a custom name/location provide the config file using the "-c" arg');
+      logger.boldError('Could not find default config file "' + defaultConfigFileName +'" in the working ' +
+                      'directory.\nTo use a custom name/path provide the config file using the "-c" arg.');
+      return process.exit(1);
     }
     configPath = defaultConfigFileName;
   }
   var config = JSON.parse(fs.readFileSync(configPath));
-
   var errors = verifyConfig(config, additionalRulesDirs);
 
   if (errors.length > 0) {
-    console.error('\x1b[31m\x1b[1mError(s) in configuration file:\x1b[0m');  // eslint-disable-line no-console
+    logger.boldError('Error(s) in configuration file:');
     errors.forEach(function(error) {
-      console.error('\x1b[31m- ' + error + '\x1b[0m');  // eslint-disable-line no-console
+      logger.error(`- ${error}`);
     });
-    throw new Error('Configuration error(s)');
+    process.exit(1);
   }
 
   return config;
