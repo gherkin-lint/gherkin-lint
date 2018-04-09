@@ -31,6 +31,7 @@ Or check this:
 | `one-feature-per-file` *                    | Disallows multiple Feature definitions in the same file                                  |
 | `up-to-one-background-per-file` *           | Disallows multiple Background definition in the same file                                |
 | `no-multiline-steps` *                      | Disallows mutiline Steps                                                                 |
+| `no-examples-in-scenarios`                  | Disallow the use of "Examples" in scenarios                                              |
 | &nbsp;                                      |                                                                                          |
 | [`indentation`](#indentation)               | Allows the user to specify indentation rules                                             |
 | [`name-length`](#name-length)               | Allows restricting length of Feature/Scenario/Step names                                 |

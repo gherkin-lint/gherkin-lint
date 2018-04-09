@@ -70,4 +70,16 @@ describe('Linter', function() {
     assert.lengthOf(actual, 1);
     assert.deepEqual(actual[0].errors, expected);
   });
+
+  it('detects no-examples-in-scenarios violations', function() {
+    var actual = linter.lint(['test/linter/ExampleInScenario.feature']);
+    //console.log(actual)
+    var expected = [{
+      'line': '6',
+      'message': 'Cannot use "Examples" in a "Scenario", use a "Scenario Outline" instead',
+      'rule': 'no-examples-in-scenarios'
+    }];
+    assert.lengthOf(actual, 1);
+    assert.deepEqual(actual[0].errors, expected);
+  });
 });
