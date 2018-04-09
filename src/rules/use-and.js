@@ -2,19 +2,20 @@ var rule = 'use-and';
 
 function useAnd(feature) {
   var errors = [];
-
-  feature.children.forEach(function(child) {
-    var previousKeyword = undefined;
-    child.steps.forEach(function(step) {
-      if (step.keyword === 'And ') {
-        return;
-      }
-      if (step.keyword === previousKeyword) {
-        errors.push(createError(step));
-      }
-      previousKeyword = step.keyword;
+  if (feature && feature.children) {
+    feature.children.forEach(function(child) {
+      var previousKeyword = undefined;
+      child.steps.forEach(function(step) {
+        if (step.keyword === 'And ') {
+          return;
+        }
+        if (step.keyword === previousKeyword) {
+          errors.push(createError(step));
+        }
+        previousKeyword = step.keyword;
+      });
     });
-  });
+  }
 
   return errors;
 }
