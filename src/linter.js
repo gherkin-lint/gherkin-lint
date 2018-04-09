@@ -79,6 +79,9 @@ function getFormattedFatalError(error) {
   } else if(error.message.indexOf('got \'Feature') > -1) {
     errorMsg = 'Multiple "Feature" definitions in the same file are disallowed';
     rule = 'one-feature-per-file';
+  } else if (error.message.indexOf('expected: #EOF, #TableRow, #DocStringSeparator, #StepLine, #TagLine, #ScenarioLine, #ScenarioOutlineLine, #Comment, #Empty, got \'Examples:\'') > -1) {
+    errorMsg = 'Cannot use "Examples" in a "Scenario", use a "Scenario Outline" instead';
+    rule = 'no-examples-in-scenarios';
   } else if (error.message.indexOf('expected: #EOF, #TableRow, #DocStringSeparator, #StepLine, #TagLine, #ScenarioLine, #ScenarioOutlineLine, #Comment, #Empty, got') > -1 ||
              error.message.indexOf('expected: #EOF, #TableRow, #DocStringSeparator, #StepLine, #TagLine, #ExamplesLine, #ScenarioLine, #ScenarioOutlineLine, #Comment, #Empty, got') > -1) {
     errorMsg = 'Steps should begin with "Given", "When", "Then", "And" or "But". Multiline steps are dissallowed';
