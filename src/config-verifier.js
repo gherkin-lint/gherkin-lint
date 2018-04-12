@@ -6,13 +6,13 @@ function verifyConfigurationFile(config, additionalRulesDirs) {
     if (!rules.doesRuleExist(rule, additionalRulesDirs)) {
       errors.push('Rule "' + rule + '" does not exist');
     } else {
-      verifyRuleConfiguration(rule, config[rule], errors);
+      verifyRuleConfiguration(rule, config[rule], additionalRulesDirs, errors);
     }
   }
   return errors;
 }
 
-function verifyRuleConfiguration(rule, ruleConfig, errors) {
+function verifyRuleConfiguration(rule, ruleConfig, additionalRulesDirs, errors) {
   var enablingSettings = ['on', 'off'];
   var genericErrorMsg = 'Invalid rule configuration for "' + rule + '" - ';
 
@@ -25,20 +25,20 @@ function verifyRuleConfiguration(rule, ruleConfig, errors) {
       errors.push(genericErrorMsg + ' The config should only have 2 parts.');
     }
 
-    var ruleObj = rules.getRule(rule);
+    var ruleObj = rules.getRule(rule, additionalRulesDirs);
     var isValidSubConfig;
 
     if (typeof(ruleConfig[1]) === 'string') {
       isValidSubConfig = function(availableConfigs, subConfig) {
         return ruleObj.availableConfigs.indexOf(subConfig) > -1;
       };
-      testSubconfig(genericErrorMsg, rule, ruleConfig[1], isValidSubConfig, errors);
+      testSubconfig(genericErrorMsg, rule, ruleConfig[1], isValidSubConfig, additionalRulesDirs, errors);
     } else {
       isValidSubConfig = function(availableConfigs, subConfig) {
         return ruleObj.availableConfigs[subConfig] !== undefined;
       };
       for (var subConfig in ruleConfig[1]) {
-        testSubconfig(genericErrorMsg, rule, subConfig, isValidSubConfig, errors);
+        testSubconfig(genericErrorMsg, rule, subConfig, isValidSubConfig, additionalRulesDirs, errors);
       }
     }
   } else {
@@ -48,8 +48,8 @@ function verifyRuleConfiguration(rule, ruleConfig, errors) {
   }
 }
 
-function testSubconfig(genericErrorMsg, rule, subConfig, isValidSubConfig, errors) {
-  var ruleObj = rules.getRule(rule);
+function testSubconfig(genericErrorMsg, rule, subConfig, isValidSubConfig, additionalRulesDirs, errors) {
+  var ruleObj = rules.getRule(rule, additionalRulesDirs);
   if (!isValidSubConfig(ruleObj.availableConfigs, subConfig)) {
     errors.push(genericErrorMsg + ' The rule does not have the specified configuration option "' + subConfig + '"');
   }
