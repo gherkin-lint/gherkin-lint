@@ -22,6 +22,11 @@ describe('rulesdir CLI option', function() {
             rule: 'indentation'
           },
           {
+            line: 109,
+            message: 'Another custom-list error',
+            rule: 'another-custom-list'
+          },
+          {
             line: 123,
             message: 'Custom error',
             rule: 'custom'
