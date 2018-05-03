@@ -33,13 +33,14 @@ Or check this:
 | `no-multiline-steps` *                      | Disallows mutiline Steps                                                                 |
 | `no-examples-in-scenarios`                  | Disallow the use of "Examples" in scenarios                                              |
 | &nbsp;                                      |                                                                                          |
-| [`allowed-tags`](#allowed-tags)               | Just the listed tags are allowed                                           
+| [`allowed-tags`](#allowed-tags)             | Just the listed tags are allowed                                                         |
 | [`indentation`](#indentation)               | Allows the user to specify indentation rules                                             |
 | [`name-length`](#name-length)               | Allows restricting length of Feature/Scenario/Step names                                 |
 | [`new-line-at-eof`](#new-line-at-eof)       | Disallows/enforces new line at EOF                                                       |
 | `no-dupe-feature-names`                     | Disallows duplicate Feature names                                                        |
 | `no-dupe-scenario-names`                    | Disallows duplicate Scenario names                                                       |
 | `no-duplicate-tags`                         | Disallows duplicate tags on the same Feature or Scenario                                 |
+| `no-empty-background`                       | Disallows features with backgrounds without steps                                       |
 | `no-empty-file`                             | Disallows empty feature files                                                            |
 | `no-files-without-scenarios`                | Disallows files with no scenarios                                                        |
 | `no-homogenous-tags`                        | Disallows tags present on every Scenario in a Feature, rather than on the Feature itself |
