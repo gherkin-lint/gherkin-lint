@@ -1,41 +1,41 @@
 var _ = require('lodash');
-var rule = 'no-restricted-tags';
+var rule = 'allowed-tags';
 var availableConfigs = {
   'tags': []
 };
 
-function noRestrictedTags(feature, fileName, configuration) {
-  var forbiddenTags = configuration.tags;
+function allowedTags(feature, fileName, configuration) {
+  var allowedTags = configuration.tags;
 
-  var featureErrors = checkTags(feature, forbiddenTags);
+  var featureErrors = checkTags(feature, allowedTags);
 
   var childrenErrors = _(feature.children).map(function(child) {
-    return checkTags(child, forbiddenTags);
+    return checkTags(child, allowedTags);
   }).flatten().value();
 
   return featureErrors.concat(childrenErrors);
 }
 
-function checkTags(node, forbiddenTags) {
+function checkTags(node, allowedTags) {
   return (node.tags || []).filter(function(tag) {
-    return isForbidden(tag, forbiddenTags);
+    return !isAllowed(tag, allowedTags);
   }).map(function(tag) {
     return createError(node, tag);
   });
 }
 
-function isForbidden(tag, forbiddenTags) {
-  return _.includes(forbiddenTags, tag.name);
+function isAllowed(tag, allowedTags) {
+  return _.includes(allowedTags, tag.name);
 }
 
 function createError(node, tag) {
-  return {message: 'Forbidden tag ' + tag.name + ' on ' + node.type,
+  return {message: 'Not allowed tag ' + tag.name + ' on ' + node.type,
           rule   : rule,
           line   : tag.location.line};
 }
 
 module.exports = {
   name: rule,
-  run: noRestrictedTags,
+  run: allowedTags,
   availableConfigs: availableConfigs
 };
