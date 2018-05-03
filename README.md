@@ -37,6 +37,7 @@ Or check this:
 | [`indentation`](#indentation)               | Allows the user to specify indentation rules                                             |
 | [`name-length`](#name-length)               | Allows restricting length of Feature/Scenario/Step names                                 |
 | [`new-line-at-eof`](#new-line-at-eof)       | Disallows/enforces new line at EOF                                                       |
+| `no-background-only-scenario`               | Disallows background when there is just one scenario                                    |
 | `no-dupe-feature-names`                     | Disallows duplicate Feature names                                                        |
 | `no-dupe-scenario-names`                    | Disallows duplicate Scenario names                                                       |
 | `no-duplicate-tags`                         | Disallows duplicate tags on the same Feature or Scenario                                 |

@@ -7,6 +7,7 @@ describe('No empty Backgrounds Rule', function() {
   it('doesn\'t raise errors when there are no background', function() {
     runTest('no-empty-background/NoBackground.feature', {}, []);
   });
+
   it('doesn\'t raise errors when there are no violations', function() {
     runTest('no-empty-background/NoViolations.feature', {}, []);
   });
