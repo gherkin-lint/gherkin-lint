@@ -2,6 +2,10 @@ var rule = 'no-background-only-scenario';
 
 function noBackgroundEmptyScenario(feature) {
   var errors = [];
+  
+  if (typeof feature.children === 'undefined') {
+    return;
+  }
   feature.children.forEach(function(child) {
     if (child.type ==='Background') {
       if(feature.children.length <= 2) {

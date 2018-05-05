@@ -2,6 +2,10 @@ var rule = 'no-empty-background';
 
 function noEmptyBackground(feature) {
   var errors = [];
+
+  if (typeof feature.children === 'undefined') {
+    return;
+  }
   feature.children.forEach(function(child) {
     if (child.type ==='Background') {
       if(child.steps.length === 0) {
