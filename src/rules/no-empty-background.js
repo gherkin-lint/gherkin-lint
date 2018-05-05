@@ -3,16 +3,15 @@ var rule = 'no-empty-background';
 function noEmptyBackground(feature) {
   var errors = [];
 
-  if (typeof feature.children === 'undefined') {
-    return;
-  }
-  feature.children.forEach(function(child) {
-    if (child.type ==='Background') {
-      if(child.steps.length === 0) {
-        errors.push(createError(child));
+  if (feature.children) {
+    feature.children.forEach(function(child) {
+      if (child.type ==='Background') {
+        if(child.steps.length === 0) {
+          errors.push(createError(child));
+        }
       }
-    }
-  });
+    });
+  }
   return errors;
 }
 
