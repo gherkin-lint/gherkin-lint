@@ -11,7 +11,9 @@ function maxScenariosPerFile(feature, _, config) {
     feature.children.forEach(function (scenario) {
       if (scenario.examples) {
         count = count - 1;
-        count = count + scenario.examples.length;
+        scenario.examples.forEach(function (example) {
+          count = count + example.tableBody.length;
+        });
       }
     });
   }
