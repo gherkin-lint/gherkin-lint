@@ -22,7 +22,7 @@ function maxScenariosPerFile(feature, _, config) {
     errors.push({
       message: 'Number of scenarios exceeds maximum: ' + count + '/' + maxScenarios,
       rule,
-      line: 0,
+      line: 0
     });
   }
 
@@ -32,5 +32,5 @@ function maxScenariosPerFile(feature, _, config) {
 module.exports = {
   name: rule,
   run: maxScenariosPerFile,
-  availableConfigs: 10,
+  availableConfigs: 10
 };
