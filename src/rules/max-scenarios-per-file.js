@@ -9,6 +9,10 @@ function maxScenariosPerFile(feature, _, config) {
     count = count + feature.children.length;
 
     feature.children.forEach(function (scenario) {
+      if (scenario.type === 'Background') {
+        count = count - 1;
+      }
+
       if (scenario.examples) {
         count = count - 1;
         scenario.examples.forEach(function (example) {
