@@ -18,5 +18,7 @@
   "no-superfluous-tags": "on",
   "no-homogenous-tags": "on",
   "one-space-between-tags": "on",
-  "no-unused-variables": "on"
+  "no-unused-variables": "on",
+  "no-background-only-scenario": "on",
+  "no-empty-background": "on"
 }
