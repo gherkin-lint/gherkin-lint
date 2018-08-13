@@ -3,7 +3,7 @@ var rule = 'max-scenarios-per-file';
 function maxScenariosPerFile(feature, _, config) {
   var errors = [];
   var count = 0;
-  var maxScenarios = config;
+  var maxScenarios = config.maxScenarios;
 
   if (feature.children) {
     count = count + feature.children.length;
@@ -36,5 +36,7 @@ function maxScenariosPerFile(feature, _, config) {
 module.exports = {
   name: rule,
   run: maxScenariosPerFile,
-  availableConfigs: 10
+  availableConfigs: {
+    'maxScenarios': 10
+  }
 };
