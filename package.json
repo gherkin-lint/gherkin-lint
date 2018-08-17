@@ -64,8 +64,7 @@
     "lint": "eslint ./src ./test",
     "mocha": "mocha --recursive",
     "prepublish": "npm run build",
-    "coverage": "nyc mocha",
-    "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
+    "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "test": "npm run lint && npm run build && nyc mocha && npm run mocha"
   },
   "license": "ISC"
