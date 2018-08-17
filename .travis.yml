@@ -3,5 +3,8 @@ node_js:
   - "node"
   - "7"
   - "6"
+before_install:
+  - pip install --user codecov
+after_success:
+  - codecov --file coverage/lcov.info --disable search
 script: "npm test"
-after_success: 'npm run coveralls'
