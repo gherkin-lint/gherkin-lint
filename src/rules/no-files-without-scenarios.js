@@ -7,8 +7,8 @@ function filterScenarios(child) {
 function noFilesWithoutScenarios(feature) {
   if (!feature.children || !feature.children.some(filterScenarios)) {
     return {message: 'Feature file does not have any Scenarios',
-            rule   : rule,
-            line   : 1};
+      rule   : rule,
+      line   : 1};
   }
 }
 

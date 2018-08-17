@@ -3,7 +3,8 @@ node_js:
   - "node"
   - "7"
   - "6"
-  - "5"
-  - "4"
-  - "iojs"
-script: "npm test"
+before_install:
+  - pip install --user codecov
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+script: "npm test && npm run coverage"
