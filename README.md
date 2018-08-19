@@ -3,7 +3,7 @@
 [![David](https://img.shields.io/david/JuanMaRuiz/gherkin-lint.svg?maxAge=2592000)](https://david-dm.org/JuanMaRuiz/gherkin-lint)
 [![David](https://img.shields.io/david/dev/JuanMaRuiz/gherkin-lint.svg?maxAge=2592000)](https://david-dm.org/JuanMaRuiz/gherkin-lint#info=devDependencies&view=table)
 [![npm](https://img.shields.io/npm/v/gherkin-lint.svg?maxAge=2592000)](https://www.npmjs.com/package/gherkin-lint)
-[![codecov](https://codecov.io/gh/JuanMaRuiz/gherkin-lint/branch/feature-fix-dependencies/graph/badge.svg)](https://codecov.io/gh/JuanMaRuiz/gherkin-lint)
+[![codecov](https://codecov.io/gh/JuanMaRuiz/gherkin-lint/branch/feature-fix-dependencies/graph/badge.svg)](https://codecov.io/gh/JuanMaRuiz/gherkin-lint/branch/feature-test-coverage)
 
 
 Uses [Gherkin](https://github.com/cucumber/gherkin-javascript) to parse feature files and runs linting against the default rules, and the optional rules you specified in your `.gherkin-lintrc` file.
