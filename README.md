@@ -10,11 +10,11 @@ Uses [Gherkin](https://github.com/cucumber/gherkin-javascript) to parse feature 
 ## Installation
 ```
 npm install gherkin-lint
-
 ```
 
 ## Demo
 To see the output for all the errors that the linter can detect run:
+
 ```
 git clone https://github.com/vsiakka/gherkin-lint.git
 npm run demo
