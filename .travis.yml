@@ -4,4 +4,4 @@ node_js:
   - "7"
   - "6"
 script: "npm test"
-after_success: 'npm run coveralls'
+after_success: npm run coverage
