@@ -5,28 +5,44 @@
   "author": "Vasiliki Siakka",
   "contributors": [
     {
-      "name": "Tim Brust"
+      "name": "Tim Brust",
+      "url": "https://github.com/timbru31"
     },
     {
-      "name": "Oskar Pfeifer-Bley"
+      "name": "Oskar Pfeifer-Bley",
+      "url": "https://github.com/UFOMelkor"
     },
     {
-      "name": "Xavier Garcia Buils"
+      "name": "Xavier Garcia Buils",
+      "url": "https://github.com/xgbuils"
     },
     {
-      "name": "Rene Saarsoo"
+      "name": "Rene Saarsoo",
+      "url": "https://github.com/nene"
     },
     {
-      "name": "Giuseppe DiBella"
+      "name": "Giuseppe DiBella",
+      "url": "https://github.com/gd46"
     },
     {
-      "name": "Joscha Feth"
+      "name": "Joscha Feth",
+      "url": "https://github.com/joscha"
     },
     {
-      "name": "Simon St John-Green"
+      "name": "Simon St John-Green",
+      "url": "https://github.com/SimonStJG"
     },
     {
-      "name": "Jonathan Hedstrom"
+      "name": "Jonathan Hedstrom",
+      "url": "https://github.com/jhedstrom"
+    },
+    {
+      "name": "josemenveg",
+      "url": "https://github.com/josemenveg"
+    },
+    {
+      "name": "Guy Kisel",
+      "url": "https://github.com/guykisel"
     }
   ],
   "main": "dist/main.js",
