@@ -1,10 +1,13 @@
 #!/usr/bin/env node
 
 var program = require('commander');
-var linter = require('./linter.js');
+var Linter = require('./linter.js');
 var featureFinder = require('./feature-finder.js');
-var configParser = require('./config-parser.js');
+var ConfigParser = require('./config-parser.js');
 var logger = require('./logger.js');
+var getRules = require('./get-rules');
+var ConfigVerifier = require('./config-verifier.js');
+var RulesManager = require('./rules-manager');
 
 function list(val) {
   return val.split(',');
@@ -19,14 +22,19 @@ program
   .usage('[options] <feature-files>')
   .option('-f, --format [format]', 'output format. Possible values: json, stylish. Defaults to stylish')
   .option('-i, --ignore <...>', 'comma seperated list of files/glob patterns that the linter should ignore, overrides ' + featureFinder.defaultIgnoreFileName + ' file', list)
-  .option('-c, --config [config]', 'configuration file, defaults to ' + configParser.defaultConfigFileName)
+  .option('-c, --config [config]', 'configuration file, defaults to ' + ConfigParser.defaultConfigFileName)
   .option('-r, --rulesdir <...>', 'additional rule directories', collect, [])
   .parse(process.argv);
 
 var additionalRulesDirs = program.rulesdir;
+var rules = getRules(additionalRulesDirs);
+var rulesManager = new RulesManager(rules);
+var linter = new Linter(rulesManager);
+var configVerifier = new ConfigVerifier(rulesManager);
+var configParser = new ConfigParser(configVerifier);
 var files = featureFinder.getFeatureFiles(program.args, program.ignore);
-var config = configParser.getConfiguration(program.config, additionalRulesDirs);
-var results = linter.lint(files, config, additionalRulesDirs);
+var config = configParser.getConfiguration(program.config);
+var results = linter.lint(files, config);
 printResults(results, program.format);
 process.exit(getExitCode(results));
 

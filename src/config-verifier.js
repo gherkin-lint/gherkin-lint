@@ -1,18 +1,20 @@
-var rules = require('./rules.js');
+function ConfigVerifier(rulesManager) {
+  this.rulesManager = rulesManager;
+}
 
-function verifyConfigurationFile(config, additionalRulesDirs) {
+ConfigVerifier.prototype.verify = function(config) {
   var errors = [];
   for (var rule in config) {
-    if (!rules.doesRuleExist(rule, additionalRulesDirs)) {
+    if (!this.rulesManager.doesRuleExist(rule)) {
       errors.push('Rule "' + rule + '" does not exist');
     } else {
-      verifyRuleConfiguration(rule, config[rule], additionalRulesDirs, errors);
+      verifyRuleConfiguration.call(this, rule, config[rule], errors);
     }
   }
   return errors;
-}
+};
 
-function verifyRuleConfiguration(rule, ruleConfig, additionalRulesDirs, errors) {
+function verifyRuleConfiguration(rule, ruleConfig, errors) {
   var enablingSettings = ['on', 'off'];
   var genericErrorMsg = 'Invalid rule configuration for "' + rule + '" - ';
 
@@ -25,20 +27,20 @@ function verifyRuleConfiguration(rule, ruleConfig, additionalRulesDirs, errors) 
       errors.push(genericErrorMsg + ' The config should only have 2 parts.');
     }
 
-    var ruleObj = rules.getRule(rule, additionalRulesDirs);
+    var ruleObj = this.rulesManager.getRule(rule);
     var isValidSubConfig;
 
     if (typeof(ruleConfig[1]) === 'string') {
       isValidSubConfig = function(availableConfigs, subConfig) {
         return ruleObj.availableConfigs.indexOf(subConfig) > -1;
       };
-      testSubconfig(genericErrorMsg, rule, ruleConfig[1], isValidSubConfig, additionalRulesDirs, errors);
+      testSubconfig.call(this, genericErrorMsg, rule, ruleConfig[1], isValidSubConfig, errors);
     } else {
       isValidSubConfig = function(availableConfigs, subConfig) {
         return ruleObj.availableConfigs[subConfig] !== undefined;
       };
       for (var subConfig in ruleConfig[1]) {
-        testSubconfig(genericErrorMsg, rule, subConfig, isValidSubConfig, additionalRulesDirs, errors);
+        testSubconfig.call(this, genericErrorMsg, rule, subConfig, isValidSubConfig, errors);
       }
     }
   } else {
@@ -48,11 +50,11 @@ function verifyRuleConfiguration(rule, ruleConfig, additionalRulesDirs, errors) 
   }
 }
 
-function testSubconfig(genericErrorMsg, rule, subConfig, isValidSubConfig, additionalRulesDirs, errors) {
-  var ruleObj = rules.getRule(rule, additionalRulesDirs);
+function testSubconfig(genericErrorMsg, rule, subConfig, isValidSubConfig, errors) {
+  var ruleObj = this.rulesManager.getRule(rule);
   if (!isValidSubConfig(ruleObj.availableConfigs, subConfig)) {
     errors.push(genericErrorMsg + ' The rule does not have the specified configuration option "' + subConfig + '"');
   }
 }
 
-module.exports = verifyConfigurationFile;
+module.exports = ConfigVerifier;

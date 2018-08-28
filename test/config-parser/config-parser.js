@@ -1,5 +1,10 @@
 var expect = require('chai').expect;
-var configParser = require('../../src/config-parser.js');
+var ConfigParser = require('../../src/config-parser.js');
+var ConfigVerifier = require('../../src/config-verifier.js');
+var RulesManager = require('../../src/rules-manager.js');
+var getRules = require('../../src/get-rules.js');
+var configVerifier = new ConfigVerifier(new RulesManager(getRules()));
+var configParser = new ConfigParser(configVerifier);
 
 require('mocha-sinon');
 

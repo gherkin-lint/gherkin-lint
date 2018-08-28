@@ -1,5 +1,9 @@
 var assert = require('chai').assert;
-var linter = require('../../dist/linter.js');
+var getRules = require('../../src/get-rules');
+var RulesManager = require('../../src/rules-manager');
+var Linter = require('../../src/linter.js');
+var rulesManager = new RulesManager(getRules());
+var linter = new Linter(rulesManager);
 
 describe('Linter', function() {
   it('detects up-to-one-background-per-file violations', function() {

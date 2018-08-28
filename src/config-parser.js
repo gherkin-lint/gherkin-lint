@@ -1,9 +1,14 @@
 var fs = require('fs');
-var verifyConfig = require('./config-verifier.js');
 var logger = require('./logger.js');
 var defaultConfigFileName = '.gherkin-lintrc';
 
-function getConfiguration(configPath, additionalRulesDirs) {
+function ConfigParser(configVerifier) {
+  this.configVerifier = configVerifier;
+}
+
+ConfigParser.defaultConfigFileName = defaultConfigFileName;
+
+ConfigParser.prototype.getConfiguration = function(configPath) {
   if (configPath) {
     if (!fs.existsSync(configPath)) {
       logger.boldError('Could not find specified config file "' + configPath + '"');
@@ -18,7 +23,7 @@ function getConfiguration(configPath, additionalRulesDirs) {
     configPath = defaultConfigFileName;
   }
   var config = JSON.parse(fs.readFileSync(configPath));
-  var errors = verifyConfig(config, additionalRulesDirs);
+  var errors = this.configVerifier.verify(config);
 
   if (errors.length > 0) {
     logger.boldError('Error(s) in configuration file:');
@@ -29,9 +34,6 @@ function getConfiguration(configPath, additionalRulesDirs) {
   }
 
   return config;
-}
-
-module.exports = {
-  getConfiguration: getConfiguration,
-  defaultConfigFileName: defaultConfigFileName
 };
+
+module.exports = ConfigParser;

@@ -2,10 +2,14 @@ var fs = require('fs');
 var _ = require('lodash');
 var Gherkin = require('gherkin');
 var parser = new Gherkin.Parser();
-var rules = require('./rules.js');
 
-function lint(files, configuration, additionalRulesDirs) {
+function Linter(rulesManager) {
+  this.rulesManager = rulesManager;
+}
+
+Linter.prototype.lint = function(files, configuration) {
   var output = [];
+  var rulesManager = this.rulesManager;
 
   files.forEach(function(fileName) {
     var fileContent = fs.readFileSync(fileName, 'utf-8');
@@ -17,7 +21,7 @@ function lint(files, configuration, additionalRulesDirs) {
     var errors = [];
     try {
       var feature = parser.parse(fileContent).feature || {};
-      errors = rules.runAllEnabledRules(feature, file, configuration, additionalRulesDirs);
+      errors = rulesManager.runAllEnabledRules(feature, file, configuration);
     } catch(e) {
       if(e.errors) {
         errors = processFatalErrors(e.errors);
@@ -30,7 +34,7 @@ function lint(files, configuration, additionalRulesDirs) {
   });
 
   return output;
-}
+};
 
 function processFatalErrors(errors) {
   var errorMsgs = [];
@@ -96,6 +100,4 @@ function getFormattedFatalError(error) {
           line   : errorLine};
 }
 
-module.exports = {
-  lint: lint
-};
+module.exports = Linter;
