@@ -34,6 +34,7 @@ Or check this:
 | `no-examples-in-scenarios`                  | Disallow the use of "Examples" in scenarios                                              |
 | &nbsp;                                      |                                                                                          |
 | [`allowed-tags`](#allowed-tags)             | Just the listed tags are allowed                                                         |
+| [`disallowed-steps`](#disallowed-steps)        | A list of steps or partial patterns to disallow in steps                                 |
 | [`indentation`](#indentation)               | Allows the user to specify indentation rules                                             |
 | [`max-scenarios-per-file`](#max-scenarios-per-file)| Allows the user to specify the max number of scenarios per feature file           |
 | [`name-length`](#name-length)               | Allows restricting length of Feature/Scenario/Step names                                 |
@@ -83,6 +84,21 @@ will turn on the `no-unnamed-features` rule.
 
 Any tag not included in this list won't be allowed.
 
+### disallowed-steps
+
+`disallowed-steps` is a list of exact steps, or partial patterns that will
+disallow the use of any matching steps:
+
+```
+{
+  "disallowed-steps": ["on", {[
+    "show last response",
+    "a debugging step"
+  ]}]
+}
+```
+
+Note that the `Given`, `When`, and `Then` should not be included.
 
 ### indentation
 
