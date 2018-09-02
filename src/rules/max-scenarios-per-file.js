@@ -3,7 +3,7 @@ var rule = 'max-scenarios-per-file';
 
 var defaultConfig = {
   'maxScenarios': 10
-}
+};
 
 function maxScenariosPerFile(feature, unused, config) {
   var errors = [];
