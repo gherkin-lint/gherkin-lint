@@ -1,9 +1,15 @@
+var _ = require('lodash');
 var rule = 'max-scenarios-per-file';
 
-function maxScenariosPerFile(feature, _, config) {
+var defaultConfig = {
+  'maxScenarios': 10
+}
+
+function maxScenariosPerFile(feature, unused, config) {
   var errors = [];
   var count = 0;
-  var maxScenarios = config.maxScenarios;
+  var mergedConfiguration = _.merge({}, defaultConfig, config);
+  var maxScenarios = mergedConfiguration.maxScenarios;
 
   if (feature.children) {
     count = count + feature.children.length;
@@ -36,7 +42,5 @@ function maxScenariosPerFile(feature, _, config) {
 module.exports = {
   name: rule,
   run: maxScenariosPerFile,
-  availableConfigs: {
-    'maxScenarios': 10
-  }
+  availableConfigs: defaultConfig
 };
