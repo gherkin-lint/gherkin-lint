@@ -9,8 +9,15 @@ function noUnusedVariables(feature) {
   var stepVariableRegex = /<([^>]*)>/gu;
 
   feature.children.forEach(function(child) {
-    var examplesVariables = [];
-    var stepVariables = [];
+    if (child.type != 'ScenarioOutline') {
+      // Variables are a feature of Scenario Outlines only
+      return;
+    }
+
+    // Maps of variableName -> lineNo
+    var examplesVariables = {};
+    var scenarioVariables = {};
+    var match;
 
     // Collect all the entries of the examples table
     if (child.examples) {
@@ -18,56 +25,74 @@ function noUnusedVariables(feature) {
         if (example.tableHeader && example.tableHeader.cells) {
           example.tableHeader.cells.forEach(function(cell) {
             if (cell.value) {
-              examplesVariables.push(cell.value);
+              examplesVariables[cell.value] = cell.location.line;
             }
           });
         }
       });
     }
 
-    // Collect all the steps that use variables
-    if (child.steps) {
-      child.steps.forEach(function(step) {
-        var match;
-        while ((match = stepVariableRegex.exec(step.text)) != null) {
-          stepVariables.push(match[1]);
-        }
-      });
+
+    // Collect the variables used in the scenario outline
+
+    // Scenario names can include variables
+    while ((match = stepVariableRegex.exec(child.name)) != null) {
+      scenarioVariables[match[1]] = child.location.line;
     }
 
-    // Verify that all the variables defined in examples are used
-    if (child.examples) {
-      child.examples.forEach(function(example) {
-        if (example.tableHeader && example.tableHeader.cells) {
-          example.tableHeader.cells.forEach(function(cell) {
-            if (cell.value) {
-              if (stepVariables.indexOf(cell.value) == -1) {
-                errors.push({
-                  message: 'Examples table variable "' + cell.value + '" is not used in any step',
-                  rule   : rule,
-                  line   : cell.location.line
-                });
-              }
-            }
-          });
-        }
-      });
-    }
-
-    // Verify that all the variables used in steps are defined in the examples table
     if (child.steps) {
       child.steps.forEach(function(step) {
-        var match;
-        while ((match = stepVariableRegex.exec(step.text)) != null) {
-          if (examplesVariables.indexOf(match[1]) == -1) {
-            errors.push({
-              message: 'Step variable "' + match[1] + '" does not exist the in examples table',
-              rule   : rule,
-              line   : step.location.line
+
+        // Steps can take arguments and their argument can include variables.
+        // The arguments can be of type:
+        // - DocString
+        // - DataTable
+        // For more details, see https://docs.cucumber.io/gherkin/reference/#step-arguments
+
+        // Collect variables from step arguments
+        if (step.argument) {
+          if (step.argument.type == 'DataTable') {
+            step.argument.rows.forEach(function(row) {
+              row.cells.forEach(function(cell) {
+                if (cell.value) {
+                  while ((match = stepVariableRegex.exec(cell.value)) != null) {
+                    scenarioVariables[match[1]] = cell.location.line;
+                  }
+                }
+              });
             });
+          } else if(step.argument.type == 'DocString') {
+            while ((match = stepVariableRegex.exec(step.argument.content)) != null) {
+              scenarioVariables[match[1]] = step.location.line;
+            }
           }
         }
+
+        // Collect variables from the steps themselves
+        while ((match = stepVariableRegex.exec(step.text)) != null) {
+          scenarioVariables[match[1]] = step.location.line;
+        }
       });
+    }
+
+    for (let exampleVariable in examplesVariables) {
+      if (!scenarioVariables[exampleVariable]) {
+        errors.push({
+          message: 'Examples table variable "' + exampleVariable + '" is not used in any step',
+          rule   : rule,
+          line   : examplesVariables[exampleVariable]
+        });
+      }
+    }
+
+    for (let scenarioVariable in scenarioVariables) {
+      if (!examplesVariables[scenarioVariable]) {
+        errors.push({
+          message: 'Step variable "' + scenarioVariable + '" does not exist the in examples table',
+          rule   : rule,
+          line   : scenarioVariables[scenarioVariable]
+        });
+      }
     }
   });
 

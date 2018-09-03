@@ -16,6 +16,18 @@ describe('No unused variables rule', function() {
     runTest('no-unused-variables/UnusedStepVariables.feature', {}, [{
       line: 5,
       messageElements: {variable: 'b'}
+    },
+    {
+      line: 11,
+      messageElements: {variable: 'b'}
+    },
+    {
+      line: 23,
+      messageElements: {variable: 'b'}
+    },
+    {
+      line: 34,
+      messageElements: {variable: 'b'}
     }]);
   });
 
@@ -28,6 +40,18 @@ describe('No unused variables rule', function() {
       messageElements: {variable: 'b'}
     }, {
       line: 19,
+      messageElements: {variable: 'b'}
+    },
+    {
+      line: 28,
+      messageElements: {variable: 'b'}
+    },
+    {
+      line: 42,
+      messageElements: {variable: 'b'}
+    },
+    {
+      line: 54,
       messageElements: {variable: 'b'}
     }]);
   });
