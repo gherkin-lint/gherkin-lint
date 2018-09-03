@@ -43,6 +43,10 @@
     {
       "name": "Guy Kisel",
       "url": "https://github.com/guykisel"
+    },
+    {
+      "name": "Rory Price-Coggins",
+      "url": "https://github.com/roryp2"
     }
   ],
   "main": "dist/main.js",
