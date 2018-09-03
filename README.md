@@ -3,17 +3,18 @@
 [![David](https://img.shields.io/david/vsiakka/gherkin-lint.svg?maxAge=2592000)](https://david-dm.org/vsiakka/gherkin-lint)
 [![David](https://img.shields.io/david/dev/vsiakka/gherkin-lint.svg?maxAge=2592000)](https://david-dm.org/vsiakka/gherkin-lint#info=devDependencies&view=table)
 [![npm](https://img.shields.io/npm/v/gherkin-lint.svg?maxAge=2592000)](https://www.npmjs.com/package/gherkin-lint)
+[![codecov](https://codecov.io/gh/JuanMaRuiz/gherkin-lint/branch/feature-add-coverage/graph/badge.svg)](https://codecov.io/gh/JuanMaRuiz/gherkin-lint)
 
 Uses [Gherkin](https://github.com/cucumber/gherkin-javascript) to parse feature files and runs linting against the default rules, and the optional rules you specified in your `.gherkin-lintrc` file.
 
 ## Installation
 ```
 npm install gherkin-lint
-
 ```
 
 ## Demo
 To see the output for all the errors that the linter can detect run:
+
 ```
 git clone https://github.com/vsiakka/gherkin-lint.git
 npm run demo
