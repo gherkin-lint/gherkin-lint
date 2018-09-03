@@ -3,3 +3,6 @@ node_modules
 *.origin
 npm-debug.log
 .DS_Store
+.nyc_output/
+coverage
+.vscode/

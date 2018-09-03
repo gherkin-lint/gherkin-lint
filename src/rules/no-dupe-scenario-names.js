@@ -10,8 +10,8 @@ function noDuplicateScenarioNames(feature, file) {
           var dupes = getFileLinePairsAsStr(scenarios[scenario.name].locations);
           scenarios[scenario.name].locations.push({file: file.name, line: scenario.location.line});
           errors.push({message: 'Scenario name is already used in: ' + dupes,
-                       rule   : rule,
-                       line   : scenario.location.line});
+            rule   : rule,
+            line   : scenario.location.line});
         } else {
           scenarios[scenario.name] = {locations: [{file: file.name, line: scenario.location.line}]};
         }
