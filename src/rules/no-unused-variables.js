@@ -75,7 +75,7 @@ function noUnusedVariables(feature) {
       });
     }
 
-    for (let exampleVariable in examplesVariables) {
+    for (var exampleVariable in examplesVariables) {
       if (!scenarioVariables[exampleVariable]) {
         errors.push({
           message: 'Examples table variable "' + exampleVariable + '" is not used in any step',
@@ -85,7 +85,7 @@ function noUnusedVariables(feature) {
       }
     }
 
-    for (let scenarioVariable in scenarioVariables) {
+    for (var scenarioVariable in scenarioVariables) {
       if (!examplesVariables[scenarioVariable]) {
         errors.push({
           message: 'Step variable "' + scenarioVariable + '" does not exist the in examples table',
