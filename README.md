@@ -35,13 +35,14 @@ Or check this:
 | &nbsp;                                      |                                                                                          |
 | [`allowed-tags`](#allowed-tags)             | Just the listed tags are allowed                                                         |
 | [`indentation`](#indentation)               | Allows the user to specify indentation rules                                             |
+| [`max-scenarios-per-file`](#max-scenarios-per-file)| Allows the user to specify the max number of scenarios per feature file           |
 | [`name-length`](#name-length)               | Allows restricting length of Feature/Scenario/Step names                                 |
 | [`new-line-at-eof`](#new-line-at-eof)       | Disallows/enforces new line at EOF                                                       |
-| `no-background-only-scenario`               | Disallows background when there is just one scenario                                    |
+| `no-background-only-scenario`               | Disallows background when there is just one scenario                                     |
 | `no-dupe-feature-names`                     | Disallows duplicate Feature names                                                        |
 | `no-dupe-scenario-names`                    | Disallows duplicate Scenario names                                                       |
 | `no-duplicate-tags`                         | Disallows duplicate tags on the same Feature or Scenario                                 |
-| `no-empty-background`                       | Disallows features with backgrounds without steps                                       |
+| `no-empty-background`                       | Disallows features with backgrounds without steps                                        |
 | `no-empty-file`                             | Disallows empty feature files                                                            |
 | `no-files-without-scenarios`                | Disallows files with no scenarios                                                        |
 | `no-homogenous-tags`                        | Disallows tags present on every Scenario in a Feature, rather than on the Feature itself |
@@ -70,7 +71,7 @@ The configurable rules are off by default. To turn them on, you will need to cre
 ```
 will turn on the `no-unnamed-features` rule.
 
-### `allowed-tags`
+### allowed-tags
 
 `allowed-tags` must be configured with list of tags for it to have any effect:
 
@@ -82,7 +83,8 @@ will turn on the `no-unnamed-features` rule.
 
 Any tag not included in this list won't be allowed.
 
-### `indentation`
+
+### indentation
 
 `indentation` can be configured in a more granular level and uses following rules by default:
 - Expected indentation for Feature, Background, Scenario, Examples heading: 0 spaces
@@ -109,12 +111,23 @@ You can override the defaults for `indentation` like this:
     }
   ]
 }
+```
 There is no need to override all the defaults, as is done above, instead they can be overriden only where required.  `Step` will be used as a fallback if the keyword of the step, eg. 'given', is not specified.  If `feature tag` is not set then `Feature` is used as a fallback, and if `scenario tag` is not set then `Scenario` is used as a fallback.
 
 This feature is able to handle all localizations of the gherkin steps.
-```
 
-### `name-length`
+
+### max-scenarios-per-file
+`max-scenarios-per-file` rule can be configured to set the number of max scenarios per file. The configuration looks like this:
+```
+{
+  "max-scenarios-per-file": {"on", {"maxScenarios": 10}}
+}
+```
+The default value is 10.
+
+
+### name-length
 
 `name-length` can be configured separately for Feature, Scenario and Step names.
 The default is 70 characters for each of these:
@@ -125,7 +138,8 @@ The default is 70 characters for each of these:
 }
 ```
 
-### `new-line-at-eof`
+
+### new-line-at-eof
 
 `new-line-at-eof` can also be configured to enforcing or disallowing new lines at EOF.
 - To enforce new lines at EOF:
@@ -141,7 +155,8 @@ The default is 70 characters for each of these:
 }
 ```
 
-### `no-restricted-tags`
+
+### no-restricted-tags
 
 `no-restricted-tags` must be configured with list of tags for it to have any effect:
 
@@ -150,6 +165,7 @@ The default is 70 characters for each of these:
   "no-restricted-tags": ["on", {"tags": ["@watch", "@wip", "@todo"]}]
 }
 ```
+
 
 ## Configuration File
 The default name for the configuration file is `.gherkin-lintrc` and it's expected to be in your working directory.

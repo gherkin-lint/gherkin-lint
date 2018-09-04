@@ -1,6 +1,6 @@
 {
   "name": "gherkin-lint",
-  "version": "2.12.0",
+  "version": "2.13.2",
   "description": "A Gherkin linter/validator written in javascript",
   "author": "Vasiliki Siakka",
   "contributors": [
@@ -43,6 +43,10 @@
     {
       "name": "Guy Kisel",
       "url": "https://github.com/guykisel"
+    },
+    {
+      "name": "Rory Price-Coggins",
+      "url": "https://github.com/roryp2"
     }
   ],
   "main": "dist/main.js",
