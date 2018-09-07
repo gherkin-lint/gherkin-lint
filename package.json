@@ -68,9 +68,11 @@
     "babel-cli": "6.26.0",
     "babel-preset-env": " 1.6.1",
     "chai": "4.1.1",
+    "codecov": "^3.1.0",
     "eslint": "2.13.1",
     "mocha": "2.5.3",
     "mocha-sinon": "1.1.5",
+    "nyc": "^13.0.1",
     "sinon": "1.17.4"
   },
   "bin": {
@@ -82,7 +84,8 @@
     "lint": "eslint ./src ./test",
     "mocha": "mocha --recursive",
     "prepublish": "npm run build",
-    "test": "npm run lint && npm run build && npm run mocha"
+    "test": "npm run lint && npm run build && nyc npm run mocha",
+    "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },
   "license": "ISC"
 }
