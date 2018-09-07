@@ -92,8 +92,8 @@ function getFormattedFatalError(error) {
     rule = 'unexpected-error';
   }
   return {message: errorMsg,
-          rule   : rule,
-          line   : errorLine};
+    rule   : rule,
+    line   : errorLine};
 }
 
 module.exports = {

@@ -6,8 +6,8 @@ function noTrailingSpaces(unused, file) {
   file.lines.forEach(function(line) {
     if (/[\t ]+$/.test(line)) {
       errors.push({message: 'Trailing spaces are not allowed',
-                   rule   : rule,
-                   line   : lineNo});
+        rule   : rule,
+        line   : lineNo});
     }
     lineNo++;
   });
