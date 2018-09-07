@@ -3,7 +3,4 @@ node_js:
   - "node"
   - "7"
   - "6"
-  - "5"
-  - "4"
-  - "iojs"
 script: "npm test"
