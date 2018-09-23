@@ -47,6 +47,10 @@
     {
       "name": "Rory Price-Coggins",
       "url": "https://github.com/roryp2"
+    },
+    {
+      "name": "JuanMa Ruiz",
+      "url": "https://github.com/JuanMaRuiz"
     }
   ],
   "main": "dist/main.js",
