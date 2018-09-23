@@ -12,7 +12,7 @@ describe('Feature finder', function() {
 
   it('ignores files when the --ignore argument is provided', function() {
     var actual = featureFinder.getFeatureFiles(['test/feature-finder/**'],
-                                               ['test/feature-finder/**']);
+      ['test/feature-finder/**']);
     assert.deepEqual(actual, []);
   });
 
