@@ -30,8 +30,8 @@ function isForbidden(tag, forbiddenTags) {
 
 function createError(node, tag) {
   return {message: 'Forbidden tag ' + tag.name + ' on ' + node.type,
-          rule   : rule,
-          line   : tag.location.line};
+    rule   : rule,
+    line   : tag.location.line};
 }
 
 module.exports = {

@@ -6,8 +6,8 @@ function noScenarioOutlinesWithoutExamples(feature) {
     feature.children.forEach(function(scenario) {
       if (scenario.type === 'ScenarioOutline' && !scenario.examples.length) {
         errors.push({message: 'Scenario Outline does not have any Examples',
-                     rule   : rule,
-                     line   : scenario.location.line});
+          rule   : rule,
+          line   : scenario.location.line});
       }
     });
     return errors;
