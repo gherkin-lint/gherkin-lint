@@ -40,7 +40,7 @@ Or check this:
 | [`new-line-at-eof`](#new-line-at-eof)       | Disallows/enforces new line at EOF                                                       |
 | `no-background-only-scenario`               | Disallows background when there is just one scenario                                     |
 | `no-dupe-feature-names`                     | Disallows duplicate Feature names                                                        |
-| `no-dupe-scenario-names`                    | Disallows duplicate Scenario names                                                       |
+| [`no-dupe-scenario-names`](#no-dupe-scenario-names)| Disallows duplicate Scenario names                                                 |
 | `no-duplicate-tags`                         | Disallows duplicate tags on the same Feature or Scenario                                 |
 | `no-empty-background`                       | Disallows features with backgrounds without steps                                        |
 | `no-empty-file`                             | Disallows empty feature files                                                            |
@@ -155,14 +155,38 @@ The default is 70 characters for each of these:
 }
 ```
 
+### new-line-at-eof
 
-### no-restricted-tags
+`new-line-at-eof` can also be configured to enforcing or disallowing new lines at EOF.
+- To enforce new lines at EOF:
+```
+{
+  "new-line-at-eof": ["on", "yes"]
+}
+```
+- To disallow new lines at EOF:
+```
+{
+  "new-line-at-eof": ["on", "no"]
+}
+```
 
-`no-restricted-tags` must be configured with list of tags for it to have any effect:
+
+### no-dupe-scenario-names
+
+`no-dupe-scenario-names` can be configured to launch the test agains individual features (no duplicate names in single feature files):
 
 ```
 {
-  "no-restricted-tags": ["on", {"tags": ["@watch", "@wip", "@todo"]}]
+  "no-dupe-scenario-names": ["on", {"local": "yes"}]
+}
+```
+
+The default use is against all the features (the sma scenario name in different files is an error)
+
+```
+{
+  "no-dupe-scenario-names": "on"
 }
 ```
 
