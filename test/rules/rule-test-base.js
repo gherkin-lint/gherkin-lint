@@ -15,8 +15,17 @@ function createRuleTest(rule, messageTemplate) {
         line: error.line
       };
     });
-    var parsedFile = parser.parse(fs.readFileSync('test/rules/' + featureFile, 'utf8')).feature;
-    assert.sameDeepMembers(rule.run(parsedFile, undefined, configuration), expectedErrors);
+    if(Array.isArray(featureFile)) {
+      let accumulatedErrors = [];
+      featureFile.forEach(element => {
+        var parsedFile = parser.parse(fs.readFileSync('test/rules/' + element, 'utf8')).feature;
+        accumulatedErrors = accumulatedErrors.concat(rule.run(parsedFile, {name: element}, configuration));
+      });
+      assert.sameDeepMembers(accumulatedErrors, expectedErrors);
+    } else {
+      var parsedFile = parser.parse(fs.readFileSync('test/rules/' + featureFile, 'utf8')).feature;
+      assert.sameDeepMembers(rule.run(parsedFile, {name: featureFile}, configuration), expectedErrors);
+    }
   };
 }
 

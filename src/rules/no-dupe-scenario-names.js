@@ -31,5 +31,6 @@ function getFileLinePairsAsStr(objects) {
 
 module.exports = {
   name: rule,
-  run: noDuplicateScenarioNames
+  run: noDuplicateScenarioNames,
+  reset: () => scenarios = []
 };
