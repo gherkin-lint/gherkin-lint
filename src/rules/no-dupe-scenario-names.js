@@ -1,7 +1,7 @@
 var rule = 'no-dupe-scenario-names';
 var scenarios = [];
 var availableConfigs = {
-  'local': true
+  'local': 'no'
 };
 
 function noDuplicateScenarioNames(feature, file, configuration) {

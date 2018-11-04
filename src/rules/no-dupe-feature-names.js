@@ -13,9 +13,11 @@ function noDuplicateFeatureNames(feature, file) {
       features[feature.name] = {files: [file.name]};
     }
   }
+  return [];
 }
 
 module.exports = {
   name: rule,
-  run: noDuplicateFeatureNames
+  run: noDuplicateFeatureNames,
+  reset: () => features = []
 };

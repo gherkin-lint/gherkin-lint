@@ -171,7 +171,6 @@ The default is 70 characters for each of these:
 }
 ```
 
-
 ### no-dupe-scenario-names
 
 `no-dupe-scenario-names` can be configured to launch the test agains individual features (no duplicate names in single feature files):
