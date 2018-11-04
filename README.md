@@ -55,6 +55,7 @@ Or check this:
 | `no-unnamed-features`                       | Disallows empty Feature name                                                             |
 | `no-unnamed-scenarios`                      | Disallows empty Scenario name                                                            |
 | `no-unused-variables`                       | Disallows unused variables in scenario outlines                                          |
+| [`scenario-size`](#scenario-size)       | Allos a maximum number of steps by scenario or background                                    |
 | `one-space-between-tags`                    | Tags on the same time must be separated by a single space                                |
 | `use-and`                                   | Disallows repeated step names requiring use of And instead                               |
 
@@ -189,6 +190,14 @@ The default use is against all the features (the sma scenario name in different 
 }
 ```
 
+### scenario-size
+
+`scenario-size` let specify a maximum step length for the scenarios and the background:
+```
+{
+  "no-dupe-scenario-names": ["on", { "steps-length": { "Background": 75, "Scenario: 75 }]
+}
+```
 
 ## Configuration File
 The default name for the configuration file is `.gherkin-lintrc` and it's expected to be in your working directory.
