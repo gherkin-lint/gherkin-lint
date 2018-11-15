@@ -1,7 +1,10 @@
-Feature: Feature with disallowed steps
+Feature: Feature with disallowed patterns
+  Bad feature text
+  A restricted global pattern
 
 Background:
   Given disallowed background step
+  And a restricted global pattern
 
 Scenario: Disallowed exact and partial matching
   Given disallowed scenario step

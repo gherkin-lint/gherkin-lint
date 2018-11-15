@@ -1,8 +1,8 @@
-Feature: No disallowed steps
-  Disallowed words or matches in features are not flagged as errors
+Feature: No restricted patterns
+  No restricted patterns
 
 Background:
-  Given only allowed steps are used
+  Given only allowed patterns are used
 
 Scenario: Allowed steps only
   Given I use one allowed step
