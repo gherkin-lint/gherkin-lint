@@ -1,8 +1,8 @@
 var rule = 'scenario-size';
 var availableConfigs = {
   'steps-length': {
-    'Background': 75,
-    'Scenario': 75
+    'Background': 15,
+    'Scenario': 15
   }
 };
 
