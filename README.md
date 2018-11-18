@@ -195,7 +195,7 @@ The default use is against all the features (the sma scenario name in different 
 `scenario-size` let specify a maximum step length for the scenarios and the background:
 ```
 {
-  "scenario-size": ["on", { "steps-length": { "Background": 15, "Scenario: 15 }}]
+  "scenario-size": ["on", { "steps-length": { "Background": 15, "Scenario": 15 }}]
 }
 ```
 
