@@ -12,7 +12,7 @@ const checkTagExists = (requiredTag, scenarioTags) => {
       message: `No tag found matching: ${requiredTag}`,
       rule,
       line: lines.join(',')
-    }
+    };
   }
   return result;
 };
@@ -34,4 +34,4 @@ module.exports = {
   name: rule,
   run: checkRequiredTagsExistInScenarios,
   availableConfigs
-}
+};
