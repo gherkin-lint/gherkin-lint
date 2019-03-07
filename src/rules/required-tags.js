@@ -7,12 +7,17 @@ const checkTagExists = (requiredTag, scenarioTags) => {
   const result = scenarioTags.length == 0
     || scenarioTags.some((tagObj) => RegExp(requiredTag).test(tagObj.name));
   if (!result) {
-    const lines = Array.from(new Set(scenarioTags.map((tag) => tag.location.line)));
+    const lines = [];
+    scenarioTags.forEach((tag) => {
+      if (lines.indexOf(tag.location.line) === -1) {
+        lines.push(tag.location.line);
+      }
+    });
     return {
       message: `No tag found matching: ${requiredTag}`,
       rule,
       line: lines.join(',')
-    };
+    }
   }
   return result;
 };
