@@ -1,6 +1,6 @@
 var ruleTestBase = require('../rule-test-base');
 var rule = require('../../../dist/rules/required-tags.js');
-var runTest = ruleTestBase.createRuleTest(rule, 'No tag found matching: <%= tags %>');
+var runTest = ruleTestBase.createRuleTest(rule, 'No tag found matching <%= tags %> for <%= nodeType %>');
 
 describe('Required Tags Rule', function() {
   it('doesn\'t raise errors when there are no violations', function() {
@@ -12,17 +12,17 @@ describe('Required Tags Rule', function() {
     runTest('required-tags/Violations.feature', {
       'tags': ['@requiredscenariotag', '@requiredScenarioTag', '@required-scenario-tag-\\d+']
     }, [{
-      messageElements: {tags: '@requiredScenarioTag'},
+      messageElements: {tags: '@requiredScenarioTag', nodeType: 'Scenario'},
       line: '7'
     }, {
-      messageElements: {tags: '@requiredScenarioTag'},
-      line: '11'
+      messageElements: {tags: '@requiredScenarioTag', nodeType: 'ScenarioOutline'},
+      line: '11,12'
     }, {
-      messageElements: {tags: '@required-scenario-tag-\\d+'},
+      messageElements: {tags: '@required-scenario-tag-\\d+', nodeType: 'Scenario'},
       line: '7'
     }, {
-      messageElements: {tags: '@required-scenario-tag-\\d+'},
-      line: '11'
+      messageElements: {tags: '@required-scenario-tag-\\d+', nodeType: 'ScenarioOutline'},
+      line: '11,12'
     }]);
   });
 });

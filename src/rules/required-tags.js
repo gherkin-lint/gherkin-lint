@@ -3,7 +3,7 @@ const availableConfigs = {
   tags: []
 };
 
-const checkTagExists = (requiredTag, scenarioTags) => {
+const checkTagExists = (requiredTag, scenarioTags, scenarioType) => {
   const result = scenarioTags.length == 0
     || scenarioTags.some((tagObj) => RegExp(requiredTag).test(tagObj.name));
   if (!result) {
@@ -14,7 +14,7 @@ const checkTagExists = (requiredTag, scenarioTags) => {
       }
     });
     return {
-      message: `No tag found matching: ${requiredTag}`,
+      message: `No tag found matching ${requiredTag} for ${scenarioType}`,
       rule,
       line: lines.join(',')
     };
@@ -22,13 +22,12 @@ const checkTagExists = (requiredTag, scenarioTags) => {
   return result;
 };
 
-
 const checkRequiredTagsExistInScenarios = (feature, file, config) => {
   let errors = [];
   feature.children.forEach((scenario) => {
     // Check each Scenario for the required tags
     const requiredTagErrors = config.tags.map((requiredTag) => {
-      return checkTagExists(requiredTag, scenario.tags || []);
+      return checkTagExists(requiredTag, scenario.tags || [], scenario.type);
     }).filter((item) => typeof item === 'object' && item.message);
     // Update errors
     errors = errors.concat(requiredTagErrors);

@@ -6,11 +6,13 @@ Background:
 
 @requiredscenariotag @required-scenario-tag-ABCD-1234
 Scenario: This is a Scenario with some of the required tags missing
-  Then this is a then step
+  Then I should see an error
 
 @requiredscenariotag @required-scenario-tag-ABCD-1234
+@unrequired-tag-on-a-new-line
 Scenario Outline: This is a Scenario Outline with some of the required tags missing
-  Then this is a then step <foo>
+  Then I should see an error
+
 Examples:
   | foo |
   | bar |
