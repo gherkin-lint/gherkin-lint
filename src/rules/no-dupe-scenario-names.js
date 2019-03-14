@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var rule = 'no-dupe-scenario-names';
 var scenarios = [];
 
@@ -31,5 +32,6 @@ function getFileLinePairsAsStr(objects) {
 
 module.exports = {
   name: rule,
-  run: noDuplicateScenarioNames
+  run: noDuplicateScenarioNames,
+  isValidConfig: _.stubTrue
 };

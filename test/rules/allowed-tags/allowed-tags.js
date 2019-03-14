@@ -3,6 +3,14 @@ var rule = require('../../../dist/rules/allowed-tags.js');
 var runTest = ruleTestBase.createRuleTest(rule, 'Not allowed tag <%= tags %> on <%= nodeType %>');
 
 describe('No Allowed Tags Rule', function() {
+  it('detects an error when property is not "tags"', function() {
+    runTest('allowed-tags/NoViolations.feature', {
+      'foobar': ['@featuretag', '@scenariotag']
+    }, [
+      'Invalid rule configuration for "allowed-tags" -  The rule does not have the specified configuration option "foobar"'
+    ]);
+  });
+
   it('doesn\'t raise errors when there are no violations', function() {
     runTest('allowed-tags/NoViolations.feature', {
       'tags': ['@featuretag', '@scenariotag']

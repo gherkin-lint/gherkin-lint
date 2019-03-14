@@ -4,6 +4,14 @@ var runTest = ruleTestBase.createRuleTest(rule,
   '<%= element %> name is too long. Length of <%= length %> is longer than the maximum allowed: 70');
 
 describe('Name length rule', function() {
+  it('detects an error when property is not "Feature", "Step" or "Scenario"', function() {
+    runTest('name-length/CorrectLength.feature', {
+      'foobar': 60
+    }, [
+      'Invalid rule configuration for "name-length" -  The rule does not have the specified configuration option "foobar"'
+    ]);
+  });
+
   it('doesn\'t raise errors when the default configuration is used and there are no length violations', function() {
     runTest('name-length/CorrectLength.feature', {}, []);
   });

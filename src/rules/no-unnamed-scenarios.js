@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var rule = 'no-unnamed-scenarios';
 
 function noUnNamedScenarios(feature) {
@@ -16,5 +17,6 @@ function noUnNamedScenarios(feature) {
 
 module.exports = {
   name: rule,
-  run: noUnNamedScenarios
+  run: noUnNamedScenarios,
+  isValidConfig: _.stubTrue
 };

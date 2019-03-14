@@ -32,5 +32,6 @@ function noHomogenousTags(feature) {
 
 module.exports = {
   name: rule,
-  run: noHomogenousTags
+  run: noHomogenousTags,
+  isValidConfig: _.stubTrue
 };

@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var rule = 'no-dupe-feature-names';
 var features = [];
 
@@ -17,5 +18,6 @@ function noDuplicateFeatureNames(feature, file) {
 
 module.exports = {
   name: rule,
-  run: noDuplicateFeatureNames
+  run: noDuplicateFeatureNames,
+  isValidConfig: _.stubTrue
 };

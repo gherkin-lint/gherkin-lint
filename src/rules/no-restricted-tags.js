@@ -1,5 +1,6 @@
 var _ = require('lodash');
 var rule = 'no-restricted-tags';
+var objectRuleValidation = require('../config-validation/object-rule-validation');
 var availableConfigs = {
   'tags': []
 };
@@ -37,5 +38,5 @@ function createError(node, tag) {
 module.exports = {
   name: rule,
   run: noRestrictedTags,
-  availableConfigs: availableConfigs
+  isValidConfig: objectRuleValidation(availableConfigs)
 };

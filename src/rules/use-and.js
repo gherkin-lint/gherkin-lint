@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var rule = 'use-and';
 
 function useAnd(feature) {
@@ -28,5 +29,6 @@ function createError(step) {
 
 module.exports = {
   name: rule,
-  run: useAnd
+  run: useAnd,
+  isValidConfig: _.stubTrue
 };

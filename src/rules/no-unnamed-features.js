@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var rule = 'no-unnamed-features';
 
 function noUnNamedFeatures(feature) {
@@ -10,5 +11,6 @@ function noUnNamedFeatures(feature) {
 
 module.exports = {
   name: rule,
-  run: noUnNamedFeatures
+  run: noUnNamedFeatures,
+  isValidConfig: _.stubTrue
 };

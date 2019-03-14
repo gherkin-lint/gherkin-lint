@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var rule = 'no-unused-variables';
 
 function noUnusedVariables(feature) {
@@ -101,5 +102,6 @@ function noUnusedVariables(feature) {
 
 module.exports = {
   name: rule,
-  run: noUnusedVariables
+  run: noUnusedVariables,
+  isValidConfig: _.stubTrue
 };

@@ -2,7 +2,7 @@ var fs = require('fs');
 var path = require('path');
 
 function getAllRules(additionalRulesDirs) {
-  var rules = {};
+  var rules = [];
   var rulesDirs = [
     path.join(__dirname, 'rules')
   ].concat(additionalRulesDirs || []);

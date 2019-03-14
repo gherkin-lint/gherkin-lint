@@ -7,7 +7,7 @@ function Linter(rulesManager) {
   this.rulesManager = rulesManager;
 }
 
-Linter.prototype.lint = function(files, configuration) {
+Linter.prototype.lint = function(files) {
   var output = [];
   var rulesManager = this.rulesManager;
 
@@ -21,7 +21,7 @@ Linter.prototype.lint = function(files, configuration) {
     var errors = [];
     try {
       var feature = parser.parse(fileContent).feature || {};
-      errors = rulesManager.runAllEnabledRules(feature, file, configuration);
+      errors = rulesManager.runAllEnabledRules(feature, file);
     } catch(e) {
       if(e.errors) {
         errors = processFatalErrors(e.errors);

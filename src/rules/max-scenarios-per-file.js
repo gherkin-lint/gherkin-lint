@@ -1,5 +1,6 @@
 var _ = require('lodash');
 var rule = 'max-scenarios-per-file';
+var objectRuleValidation = require('../config-validation/object-rule-validation');
 
 var defaultConfig = {
   'maxScenarios': 10
@@ -42,5 +43,5 @@ function maxScenariosPerFile(feature, unused, config) {
 module.exports = {
   name: rule,
   run: maxScenariosPerFile,
-  availableConfigs: defaultConfig
+  isValidConfig: objectRuleValidation(defaultConfig)
 };

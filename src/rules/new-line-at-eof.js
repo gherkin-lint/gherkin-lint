@@ -1,6 +1,7 @@
 var _ = require('lodash');
 var logger = require('./../logger.js');
 var rule = 'new-line-at-eof';
+var stringRuleValidation = require('../config-validation/string-rule-validation');
 
 var availableConfigs = [
   'yes',
@@ -31,5 +32,5 @@ function newLineAtEOF(unused, file, configuration) {
 module.exports = {
   name: rule,
   run: newLineAtEOF,
-  availableConfigs: availableConfigs
+  isValidConfig: stringRuleValidation(availableConfigs)
 };

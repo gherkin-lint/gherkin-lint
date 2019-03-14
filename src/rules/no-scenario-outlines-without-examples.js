@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var rule = 'no-scenario-outlines-without-examples';
 
 function noScenarioOutlinesWithoutExamples(feature) {
@@ -16,5 +17,6 @@ function noScenarioOutlinesWithoutExamples(feature) {
 
 module.exports = {
   name: rule,
-  run: noScenarioOutlinesWithoutExamples
+  run: noScenarioOutlinesWithoutExamples,
+  isValidConfig: _.stubTrue
 };

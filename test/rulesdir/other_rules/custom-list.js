@@ -1,4 +1,5 @@
 var rule = 'another-custom-list';
+var objectRuleValidation = require('../../../src/config-validation/object-rule-validation');
 var availableConfigs = {
   'element': []
 };
@@ -16,5 +17,5 @@ function custom() {
 module.exports = {
   name: rule,
   run: custom,
-  availableConfigs: availableConfigs
+  isValidConfig: objectRuleValidation(availableConfigs)
 };

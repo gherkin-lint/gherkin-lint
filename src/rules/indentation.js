@@ -1,6 +1,7 @@
 var _ = require('lodash');
 var languageMapping = require('gherkin').DIALECTS;
 var rule = 'indentation';
+var objectRuleValidation = require('../config-validation/object-rule-validation');
 
 var defaultConfig = {
   'Feature': 0,
@@ -122,5 +123,5 @@ function run(feature, unused, configuration) {
 module.exports = {
   name: rule,
   run: run,
-  availableConfigs: availableConfigs
+  isValidConfig: objectRuleValidation(availableConfigs)
 };

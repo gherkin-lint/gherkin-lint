@@ -1,4 +1,5 @@
 var rule = 'no-background-only-scenario';
+var _ = require('lodash');
 
 function noBackgroundEmptyScenario(feature) {
   var errors = [];
@@ -26,5 +27,6 @@ function createError(background) {
 
 module.exports = {
   name: rule,
-  run: noBackgroundEmptyScenario
+  run: noBackgroundEmptyScenario,
+  isValidConfig: _.stubTrue
 };

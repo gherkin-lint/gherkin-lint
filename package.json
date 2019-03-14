@@ -80,6 +80,7 @@
     "build": "babel src -d dist",
     "demo": "node ./dist/main.js . -c ./test-data-wip/.gherkin-lintrc",
     "lint": "eslint ./src ./test",
+    "lint-fix": "eslint ./src ./test --fix",
     "mocha": "mocha --recursive",
     "prepublish": "npm run build",
     "test": "npm run lint && npm run build && npm run mocha"

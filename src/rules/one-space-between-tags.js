@@ -1,4 +1,4 @@
-const _ = require('lodash');
+var _ = require('lodash');
 
 var rule = 'one-space-between-tags';
 
@@ -39,5 +39,6 @@ function run(feature) {
 
 module.exports = {
   run: run,
-  name: rule
+  name: rule,
+  isValidConfig: _.stubTrue
 };

@@ -1,4 +1,5 @@
 var rule = 'no-empty-background';
+var _ = require('lodash');
 
 function noEmptyBackground(feature) {
   var errors = [];
@@ -23,5 +24,6 @@ function createError(background) {
 
 module.exports = {
   name: rule,
-  run: noEmptyBackground
+  run: noEmptyBackground,
+  isValidConfig: _.stubTrue
 };

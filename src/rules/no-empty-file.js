@@ -13,5 +13,6 @@ function noEmptyFiles(feature) {
 module.exports = {
   name: rule,
   run: noEmptyFiles,
+  isValidConfig: _.stubTrue,
   suppressOtherRules: suppressOtherRules
 };

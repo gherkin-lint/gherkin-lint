@@ -1,10 +1,5 @@
 var expect = require('chai').expect;
-var ConfigParser = require('../../src/config-parser.js');
-var ConfigVerifier = require('../../src/config-verifier.js');
-var RulesManager = require('../../src/rules-manager.js');
-var getRules = require('../../src/get-rules.js');
-var configVerifier = new ConfigVerifier(new RulesManager(getRules()));
-var configParser = new ConfigParser(configVerifier);
+var ConfigProvider = require('../../src/config-provider.js');
 
 require('mocha-sinon');
 
@@ -22,7 +17,7 @@ describe('Configuration parser', function() {
 
     it('the specified config file doesn\'t exit', function() {
       var configFilePath = './non/existing/path';
-      configParser.getConfiguration(configFilePath);
+      new ConfigProvider(configFilePath).provide();
 
       var consoleErrorArgs = console.error.args.map(function (args) { // eslint-disable-line no-console
         return args[0];
@@ -32,27 +27,13 @@ describe('Configuration parser', function() {
     });
 
     it('no config file has been specified and default config file doesn\'t exist', function() {
-      var configFilePath = './non/existing/path';
-      configParser.defaultConfigFileName = configFilePath;
-      configParser.getConfiguration();
+      new ConfigProvider().provide();
 
       var consoleErrorArgs = console.error.args.map(function (args) { // eslint-disable-line no-console
         return args[0];
       });
 
       expect(consoleErrorArgs[0]).to.include('Could not find default config file');
-      expect(process.exit.args[0][0]).to.equal(1);
-    });
-
-    it('a bad configuration file is used', function() {
-      var configFilePath = 'test/config-parser/bad_config.gherkinrc';
-      configParser.getConfiguration(configFilePath);
-
-      var consoleErrorArgs = console.error.args.map(function (args) { // eslint-disable-line no-console
-        return args[0];
-      });
-
-      expect(consoleErrorArgs[0]).to.include('Error(s) in configuration file:');
       expect(process.exit.args[0][0]).to.equal(1);
     });
   });

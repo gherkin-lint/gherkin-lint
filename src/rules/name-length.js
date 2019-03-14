@@ -1,5 +1,6 @@
 var _ = require('lodash');
 var rule = 'name-length';
+var objectRuleValidation = require('../config-validation/object-rule-validation');
 
 var availableConfigs = {
   'Feature': 70,
@@ -55,5 +56,5 @@ function nameLength(feature, unused, configuration) {
 module.exports = {
   name: rule,
   run: nameLength,
-  availableConfigs: availableConfigs
+  isValidConfig: objectRuleValidation(availableConfigs)
 };

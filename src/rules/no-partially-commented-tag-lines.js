@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var rule = 'no-partially-commented-tag-lines';
 
 function noPartiallyCommentedTagLines(feature) {
@@ -20,5 +21,6 @@ function noPartiallyCommentedTagLines(feature) {
 
 module.exports = {
   name: rule,
-  run: noPartiallyCommentedTagLines
+  run: noPartiallyCommentedTagLines,
+  isValidConfig: _.stubTrue
 };

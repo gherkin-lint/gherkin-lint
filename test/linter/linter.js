@@ -1,8 +1,10 @@
 var assert = require('chai').assert;
 var getRules = require('../../src/get-rules');
+var RulesParser = require('../../src/rules-parser');
 var RulesManager = require('../../src/rules-manager');
 var Linter = require('../../src/linter.js');
-var rulesManager = new RulesManager(getRules());
+var rulesParser = new RulesParser(getRules(), {});
+var rulesManager = new RulesManager(rulesParser.parse());
 var linter = new Linter(rulesManager);
 
 describe('Linter', function() {

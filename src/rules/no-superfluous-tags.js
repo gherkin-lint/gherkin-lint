@@ -27,5 +27,6 @@ function noSuperfluousTags(feature) {
 
 module.exports = {
   name: rule,
-  run: noSuperfluousTags
+  run: noSuperfluousTags,
+  isValidConfig: _.stubTrue
 };

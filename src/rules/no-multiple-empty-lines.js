@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var rule = 'no-multiple-empty-lines';
 
 function noMulitpleEmptyLines(unused, file) {
@@ -14,5 +15,6 @@ function noMulitpleEmptyLines(unused, file) {
 
 module.exports = {
   name: rule,
-  run: noMulitpleEmptyLines
+  run: noMulitpleEmptyLines,
+  isValidConfig: _.stubTrue
 };

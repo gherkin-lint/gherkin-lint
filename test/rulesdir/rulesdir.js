@@ -1,10 +1,10 @@
 var path = require('path');
 var expect = require('chai').expect;
 var Linter = require('../../dist/linter');
-var ConfigParser = require('../../dist/config-parser');
-var ConfigVerifier = require('../../src/config-verifier.js');
+var ConfigProvider = require('../../src/config-provider.js');
 var RulesManager = require('../../src/rules-manager.js');
 var getRules = require('../../src/get-rules.js');
+var RulesParser = require('../../src/rules-parser.js');
 
 describe('rulesdir CLI option', function() {
   it('loads additional rules from specified directories', function() {
@@ -12,13 +12,12 @@ describe('rulesdir CLI option', function() {
       path.join(__dirname, 'rules'), // absolute path
       path.join('test', 'rulesdir', 'other_rules') // relative path from root
     ];
-    var rulesManager = new RulesManager(getRules(additionalRulesDirs));
+    var config = new ConfigProvider(path.join(__dirname, '.gherkin-lintrc')).provide();
+    var rulesParser = new RulesParser(getRules(additionalRulesDirs), config);
+    var rulesManager = new RulesManager(rulesParser.parse());
     var linter = new Linter(rulesManager);
-    var configVerifier = new ConfigVerifier(rulesManager);
-    var configParser = new ConfigParser(configVerifier);
-    var config = configParser.getConfiguration(path.join(__dirname, '.gherkin-lintrc'));
     var featureFile = path.join(__dirname, 'simple.features');
-    var results = linter.lint([ featureFile ], config);
+    var results = linter.lint([ featureFile ]);
 
     expect(results).to.deep.equal([
       {

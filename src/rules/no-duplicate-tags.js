@@ -36,5 +36,6 @@ function verifyTags(tags, location) {
 
 module.exports = {
   name: rule,
-  run: noDuplicateTags
+  run: noDuplicateTags,
+  isValidConfig: _.stubTrue
 };

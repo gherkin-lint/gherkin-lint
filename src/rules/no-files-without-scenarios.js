@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var rule = 'no-files-without-scenarios';
 
 function filterScenarios(child) {
@@ -14,5 +15,6 @@ function noFilesWithoutScenarios(feature) {
 
 module.exports = {
   name: rule,
-  run: noFilesWithoutScenarios
+  run: noFilesWithoutScenarios,
+  isValidConfig: _.stubTrue
 };

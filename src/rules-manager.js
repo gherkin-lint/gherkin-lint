@@ -1,34 +1,24 @@
-// Operations on rules
+var logger = require('./logger');
 
-function RulesManager(rules) {
-  this.rules = rules;
+function RulesManager(rulesOrErrors) {
+  if (rulesOrErrors.errors.length > 0) {
+    logger.boldError('Error(s) in configuration file:');
+    rulesOrErrors.errors.forEach(function(error) {
+      logger.error(`- ${error}`);
+    });
+    process.exit(1);
+  }
+  this.rules = rulesOrErrors.rules;
+
 }
 
-RulesManager.prototype.getRule = function(rule) {
-  return this.rules[rule];
-};
-
-RulesManager.prototype.doesRuleExist = function(rule) {
-  return this.getRule(rule) !== undefined;
-};
-
-RulesManager.prototype.isRuleEnabled = function(ruleConfig) {
-  if (Array.isArray(ruleConfig)) {
-    return ruleConfig[0] === 'on';
-  }
-  return ruleConfig === 'on';
-};
-
-RulesManager.prototype.runAllEnabledRules = function(feature, file, configuration) {
+RulesManager.prototype.runAllEnabledRules = function(feature, file) {
   var errors = [];
   var ignoreFutureErrors = false;
-  var rules = this.rules;
-  var isRuleEnabled = this.isRuleEnabled;
-  Object.keys(rules).forEach(function(ruleName) {
-    var rule = rules[ruleName];
-    if (isRuleEnabled(configuration[rule.name]) && !ignoreFutureErrors) {
-      var ruleConfig = Array.isArray(configuration[rule.name]) ? configuration[rule.name][1] : {};
-      var error = rule.run(feature, file, ruleConfig);
+
+  this.rules.forEach(function(rule) {
+    if (!ignoreFutureErrors) {
+      var error = rule.run(feature, file, rule.config);
 
       if (error) {
         if (rule.suppressOtherRules) {

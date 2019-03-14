@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var rule = 'no-trailing-spaces';
 
 function noTrailingSpaces(unused, file) {
@@ -16,5 +17,6 @@ function noTrailingSpaces(unused, file) {
 
 module.exports = {
   name: rule,
-  run: noTrailingSpaces
+  run: noTrailingSpaces,
+  isValidConfig: _.stubTrue
 };
