@@ -1,16 +1,16 @@
-var _ = require('lodash');
-var rule = 'no-restricted-tags';
-var objectRuleValidation = require('../config-validation/object-rule-validation');
-var availableConfigs = {
-  'tags': []
+const _ = require('lodash');
+const rule = 'no-restricted-tags';
+const objectRuleValidation = require('../config-validation/object-rule-validation');
+const availableConfigs = {
+  'tags': [],
 };
 
 function noRestrictedTags(feature, fileName, configuration) {
-  var forbiddenTags = configuration.tags;
+  const forbiddenTags = configuration.tags;
 
-  var featureErrors = checkTags(feature, forbiddenTags);
+  const featureErrors = checkTags(feature, forbiddenTags);
 
-  var childrenErrors = _(feature.children).map(function(child) {
+  const childrenErrors = _(feature.children).map(function(child) {
     return checkTags(child, forbiddenTags);
   }).flatten().value();
 
@@ -30,13 +30,13 @@ function isForbidden(tag, forbiddenTags) {
 }
 
 function createError(node, tag) {
-  return {message: 'Forbidden tag ' + tag.name + ' on ' + node.type,
-    rule   : rule,
-    line   : tag.location.line};
+  return {message: `Forbidden tag ${ tag.name } on ${ node.type}`,
+    rule: rule,
+    line: tag.location.line};
 }
 
 module.exports = {
   name: rule,
   run: noRestrictedTags,
-  isValidConfig: objectRuleValidation(availableConfigs)
+  isValidConfig: objectRuleValidation(availableConfigs),
 };

@@ -10,5 +10,5 @@ function error(msg) {
 
 module.exports = {
   error: error,
-  boldError: boldError
+  boldError: boldError,
 };

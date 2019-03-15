@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 
-var program = require('commander');
-var Linter = require('./linter.js');
-var featureFinder = require('./feature-finder.js');
-var ConfigProvider = require('./config-provider.js');
-var logger = require('./logger.js');
-var getRules = require('./get-rules');
-var RulesParser = require('./rules-parser');
-var RulesManager = require('./rules-manager');
+const program = require('commander');
+const Linter = require('./linter.js');
+const featureFinder = require('./feature-finder.js');
+const ConfigProvider = require('./config-provider.js');
+const logger = require('./logger.js');
+const getRules = require('./get-rules');
+const RulesParser = require('./rules-parser');
+const RulesManager = require('./rules-manager');
 
 function list(val) {
   return val.split(',');
@@ -21,23 +21,23 @@ function collect(val, memo) {
 program
   .usage('[options] <feature-files>')
   .option('-f, --format [format]', 'output format. Possible values: json, stylish. Defaults to stylish')
-  .option('-i, --ignore <...>', 'comma seperated list of files/glob patterns that the linter should ignore, overrides ' + featureFinder.defaultIgnoreFileName + ' file', list)
-  .option('-c, --config [config]', 'configuration file, defaults to ' + ConfigProvider.defaultConfigFileName)
+  .option('-i, --ignore <...>', `comma seperated list of files/glob patterns that the linter should ignore, overrides ${ featureFinder.defaultIgnoreFileName } file`, list)
+  .option('-c, --config [config]', `configuration file, defaults to ${ ConfigProvider.defaultConfigFileName}`)
   .option('-r, --rulesdir <...>', 'additional rule directories', collect, [])
   .parse(process.argv);
 
-var additionalRulesDirs = program.rulesdir;
-var config = ConfigProvider(program.config).provide();
-var rulesOrErrors = new RulesParser(getRules(additionalRulesDirs), config).parse();
-var rulesManager = new RulesManager(rulesOrErrors);
-var linter = new Linter(rulesManager);
-var files = featureFinder.getFeatureFiles(program.args, program.ignore);
-var results = linter.lint(files);
+const additionalRulesDirs = program.rulesdir;
+const config = new ConfigProvider(program.config).provide();
+const rulesOrErrors = new RulesParser(getRules(additionalRulesDirs), config).parse();
+const rulesManager = new RulesManager(rulesOrErrors);
+const linter = new Linter(rulesManager);
+const files = featureFinder.getFeatureFiles(program.args, program.ignore);
+const results = linter.lint(files);
 printResults(results, program.format);
 process.exit(getExitCode(results));
 
 function getExitCode(results) {
-  var exitCode = 0;
+  let exitCode = 0;
   results.forEach(function(result) {
     if (result.errors.length > 0) {
       exitCode = 1;
@@ -47,7 +47,7 @@ function getExitCode(results) {
 }
 
 function printResults(results, format) {
-  var formatter;
+  let formatter;
   if (format === 'json') {
     formatter = require('./formatters/json.js');
   } else if (!format || format == 'stylish') {

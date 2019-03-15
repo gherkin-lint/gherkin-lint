@@ -1,12 +1,12 @@
-var _ = require('lodash');
+const _ = require('lodash');
 
-var rule = 'one-space-between-tags';
+const rule = 'one-space-between-tags';
 
 function run(feature) {
   if (!feature || Object.keys(feature).length === 0) {
     return [];
   }
-  var errors = [];
+  const errors = [];
 
   function testTags(allTags) {
     _(allTags).sort(function(tag) {
@@ -15,12 +15,14 @@ function run(feature) {
       return tag.location.line;
     }).forEach(function(tags) {
       _.range(tags.length - 1).map(function(i) {
-        if (tags[i].location.column + tags[i].name.length < tags[i + 1].location.column - 1) {
+        const tag = tags[i];
+        const nextTag = tags[i + 1];
+        if (tag.location.column + tag.name.length < nextTag.location.column - 1) {
           errors.push({
             line: tags[i].location.line,
             rule: rule,
-            message: 'There is more than one space between the tags ' +
-                      tags[i].name + ' and ' + tags[i + 1].name
+            message: `There is more than one space between the tags ${
+              tags[i].name } and ${ tags[i + 1].name}`,
           });
         }
       });
@@ -40,5 +42,5 @@ function run(feature) {
 module.exports = {
   run: run,
   name: rule,
-  isValidConfig: _.stubTrue
+  isValidConfig: _.stubTrue,
 };

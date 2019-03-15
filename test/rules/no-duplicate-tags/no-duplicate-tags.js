@@ -1,6 +1,6 @@
-var ruleTestBase = require('../rule-test-base');
-var rule = require('../../../dist/rules/no-duplicate-tags.js');
-var runTest = ruleTestBase.createRuleTest(rule, 'Duplicate tags are not allowed: <%= tags %>');
+const ruleTestBase = require('../rule-test-base');
+const rule = require('../../../dist/rules/no-duplicate-tags.js');
+const runTest = ruleTestBase.createRuleTest(rule, 'Duplicate tags are not allowed: <%= tags %>');
 
 describe('No Duplicate Tags Rule', function() {
   it('doesn\'t raise errors when there are no violations', function() {
@@ -10,15 +10,15 @@ describe('No Duplicate Tags Rule', function() {
   it('detects errors for features, scenarios, and scenario outlines', function() {
     runTest('no-duplicate-tags/Violations.feature', {}, [{
       messageElements: {tags: '@featuretag'},
-      line: 1
+      line: 1,
     },
     {
       messageElements: {tags: '@scenariotag'},
-      line: 7
+      line: 7,
     },
     {
       messageElements: {tags: '@scenariotag'},
-      line: 11
+      line: 11,
     }]);
   });
 });

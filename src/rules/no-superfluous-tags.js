@@ -1,23 +1,25 @@
-var _ = require('lodash');
+const _ = require('lodash');
 
-var rule = 'no-superfluous-tags';
+const rule = 'no-superfluous-tags';
 
 function noSuperfluousTags(feature) {
-  var errors = [];
-  if(feature.tags !== undefined && feature.children !== undefined) {
+  const errors = [];
+  if (feature.tags !== undefined && feature.children !== undefined) {
     feature.children.forEach(function(child) {
       if (child.tags !== undefined) {
-        var superfluousTags = _.intersectionWith(child.tags, feature.tags, function(lhs, rhs) {
-          return lhs.name === rhs.name;
-        });
+        const superfluousTags = _.intersectionWith(
+          child.tags, feature.tags, function(lhs, rhs) {
+            return lhs.name === rhs.name;
+          });
         if (superfluousTags.length !== 0) {
-          var superfluousTagNames = _.map(superfluousTags, function(tag) {
+          const superfluousTagNames = _.map(superfluousTags, function(tag) {
             return tag.name;
           });
-          errors.push({message: 'Tag(s) duplicated on a Feature and a Scenario in that Feature: ' +
-                                _.join(superfluousTagNames, ', '),
-          rule   : rule,
-          line   : superfluousTags[0].location.line});
+          errors.push({
+            message: `Tag(s) duplicated on a Feature and a Scenario in that Feature: ${
+              _.join(superfluousTagNames, ', ')}`,
+            rule: rule,
+            line: superfluousTags[0].location.line});
         }
       }
     });
@@ -28,5 +30,5 @@ function noSuperfluousTags(feature) {
 module.exports = {
   name: rule,
   run: noSuperfluousTags,
-  isValidConfig: _.stubTrue
+  isValidConfig: _.stubTrue,
 };

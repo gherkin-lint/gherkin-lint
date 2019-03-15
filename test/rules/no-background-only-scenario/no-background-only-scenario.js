@@ -1,6 +1,6 @@
-var ruleTestBase = require('../rule-test-base');
-var rule = require('../../../dist/rules/no-background-only-scenario.js');
-var runTest = ruleTestBase.createRuleTest(rule,
+const ruleTestBase = require('../rule-test-base');
+const rule = require('../../../dist/rules/no-background-only-scenario.js');
+const runTest = ruleTestBase.createRuleTest(rule,
   'Backgrounds are not allowed when there is just one scenario.');
 
 describe('No empty Backgrounds Rule', function() {
@@ -13,16 +13,16 @@ describe('No empty Backgrounds Rule', function() {
   });
 
   it('detects errors when there are violations with Scenario', function() {
-    runTest('no-background-only-scenario/ViolationsScenario.feature', {}, [ {
+    runTest('no-background-only-scenario/ViolationsScenario.feature', {}, [{
       line: 4,
-      messageElements: {}
+      messageElements: {},
     }]);
   });
 
   it('detects errors when there are violations with Scenario Outline', function() {
-    runTest('no-background-only-scenario/ViolationsOutline.feature', {}, [ {
+    runTest('no-background-only-scenario/ViolationsOutline.feature', {}, [{
       line: 4,
-      messageElements: {}
+      messageElements: {},
     }]);
   });
 });

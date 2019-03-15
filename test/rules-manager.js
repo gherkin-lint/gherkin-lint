@@ -1,80 +1,86 @@
-var _ = require('lodash');
-var expect = require('chai').expect;
-var RulesManager = require('../src/rules-manager.js');
+const _ = require('lodash');
+const expect = require('chai').expect;
+const RulesManager = require('../src/rules-manager.js');
 
-var errorRule = function(name, error) {
+const errorRule = function(name, error) {
   return {
     name: name,
-    run: _.constant(error)
+    run: _.constant(error),
   };
 };
 
-var priorityErrorRule = function(name, error) {
-  var rule = errorRule(name, error);
+const priorityErrorRule = function(name, error) {
+  const rule = errorRule(name, error);
   rule.suppressOtherRules = true;
   return rule;
 };
 
-var successRule = function(name) {
+const successRule = function(name) {
   return {
     name: name,
-    run: _.noop
+    run: _.noop,
   };
 };
 
-var RULE_NAME = 'rule-name';
-var ANOTHER_RULE_NAME = 'another-rule-name';
-var RULE_THAT_FAILS_NAME = 'rule-that-fails-name';
-var ANOTHER_RULE_THAT_FAILS_NAME = 'another-rule-that-fails-name';
-var PRIORITY_RULE_THAT_FAILS_NAME = 'rule-that-suppress-others-name';
-var ERROR_ONE = 'error one';
-var ERROR_TWO = 'error two';
-var ERROR_THREE = 'error three';
-var RULE = successRule(RULE_NAME);
-var ANOTHER_RULE = successRule(ANOTHER_RULE_NAME);
-var RULE_THAT_FAILS = errorRule(RULE_THAT_FAILS_NAME, ERROR_ONE);
-var ANOTHER_RULE_THAT_FAILS = errorRule(ANOTHER_RULE_THAT_FAILS_NAME, [ERROR_TWO]);
-var PRIORITY_RULE_THAT_FAILS = priorityErrorRule(PRIORITY_RULE_THAT_FAILS_NAME, ERROR_THREE);
+const RULE_NAME = 'rule-name';
+const ANOTHER_RULE_NAME = 'another-rule-name';
+const RULE_THAT_FAILS_NAME = 'rule-that-fails-name';
+const ANOTHER_RULE_THAT_FAILS_NAME = 'another-rule-that-fails-name';
+const PRIORITY_RULE_THAT_FAILS_NAME = 'rule-that-suppress-others-name';
+const ERROR_ONE = 'error one';
+const ERROR_TWO = 'error two';
+const ERROR_THREE = 'error three';
+const RULE = successRule(RULE_NAME);
+const ANOTHER_RULE = successRule(ANOTHER_RULE_NAME);
+const RULE_THAT_FAILS = errorRule(
+  RULE_THAT_FAILS_NAME,
+  ERROR_ONE);
+const ANOTHER_RULE_THAT_FAILS = errorRule(
+  ANOTHER_RULE_THAT_FAILS_NAME,
+  [ERROR_TWO]);
+const PRIORITY_RULE_THAT_FAILS = priorityErrorRule(
+  PRIORITY_RULE_THAT_FAILS_NAME,
+  ERROR_THREE);
 
-var createRulesManager = function(rules) {
+const createRulesManager = function(rules) {
   return new RulesManager({
     rules: rules,
-    errors: []
+    errors: [],
   });
 };
 
 describe('RulesManager', function() {
   describe('runAllEnabledRules', function() {
     it('returns the error with more priority rule when all rules are enabled', function() {
-      var rulesManager = createRulesManager([
+      const rulesManager = createRulesManager([
         RULE,
         RULE_THAT_FAILS,
         ANOTHER_RULE,
         PRIORITY_RULE_THAT_FAILS,
-        ANOTHER_RULE_THAT_FAILS
+        ANOTHER_RULE_THAT_FAILS,
       ]);
 
       expect(rulesManager.runAllEnabledRules({}, {})).to.be.deep.equal([
-        ERROR_THREE
+        ERROR_THREE,
       ]);
     });
 
     it('returns the concatenation of errors with low priority when the high priotity rule is disabled', function() {
-      var rulesManager = createRulesManager([
+      const rulesManager = createRulesManager([
         RULE,
         RULE_THAT_FAILS,
         ANOTHER_RULE,
-        ANOTHER_RULE_THAT_FAILS
+        ANOTHER_RULE_THAT_FAILS,
       ]);
 
       expect(rulesManager.runAllEnabledRules({}, {})).to.be.deep.equal([
         ERROR_ONE,
-        ERROR_TWO
+        ERROR_TWO,
       ]);
     });
 
     it('returns no errors when all rules are disabled', function() {
-      var rulesManager = createRulesManager([]);
+      const rulesManager = createRulesManager([]);
 
       expect(rulesManager.runAllEnabledRules({}, {})).to.be.deep.equal([]);
     });
@@ -92,14 +98,15 @@ describe('RulesManager', function() {
     });
 
     it('the errors are printed in the screen', function() {
-      var errorMessage = 'error message';
-      var errors = [errorMessage];
+      const errorMessage = 'error message';
+      const errors = [errorMessage];
       new RulesManager({
         rules: [],
-        errors: errors
+        errors: errors,
       });
 
-      var consoleErrorArgs = console.error.args.map(function (args) { // eslint-disable-line no-console
+      // eslint-disable-next-line no-console
+      const consoleErrorArgs = console.error.args.map(function(args) {
         return args[0];
       });
 

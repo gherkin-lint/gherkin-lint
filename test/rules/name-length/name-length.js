@@ -1,14 +1,14 @@
-var ruleTestBase = require('../rule-test-base');
-var rule = require('../../../dist/rules/name-length.js');
-var runTest = ruleTestBase.createRuleTest(rule,
+const ruleTestBase = require('../rule-test-base');
+const rule = require('../../../dist/rules/name-length.js');
+const runTest = ruleTestBase.createRuleTest(rule,
   '<%= element %> name is too long. Length of <%= length %> is longer than the maximum allowed: 70');
 
 describe('Name length rule', function() {
   it('detects an error when property is not "Feature", "Step" or "Scenario"', function() {
     runTest('name-length/CorrectLength.feature', {
-      'foobar': 60
+      'foobar': 60,
     }, [
-      'Invalid rule configuration for "name-length" -  The rule does not have the specified configuration option "foobar"'
+      'Invalid rule configuration for "name-length" -  The rule does not have the specified configuration option "foobar"',
     ]);
   });
 
@@ -19,22 +19,22 @@ describe('Name length rule', function() {
   it('detects errors for features, scenarios, scenario outlines and steps', function() {
     runTest('name-length/WrongLength.feature', {}, [{
       messageElements: {element: 'Feature', length: 89},
-      line: 1
-    },{
+      line: 1,
+    }, {
       messageElements: {element: 'Step', length: 94},
-      line: 4
-    },{
+      line: 4,
+    }, {
       messageElements: {element: 'Scenario', length: 90},
-      line: 6
-    },{
+      line: 6,
+    }, {
       messageElements: {element: 'Step', length: 101},
-      line: 7
-    },{
+      line: 7,
+    }, {
       messageElements: {element: 'Scenario', length: 98},
-      line: 9
-    },{
+      line: 9,
+    }, {
       messageElements: {element: 'Step', length: 108},
-      line: 10
+      line: 10,
     }]);
   });
 });

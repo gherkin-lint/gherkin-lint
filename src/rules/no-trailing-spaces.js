@@ -1,14 +1,14 @@
-var _ = require('lodash');
-var rule = 'no-trailing-spaces';
+const _ = require('lodash');
+const rule = 'no-trailing-spaces';
 
 function noTrailingSpaces(unused, file) {
-  var errors = [];
-  var lineNo = 1;
+  const errors = [];
+  let lineNo = 1;
   file.lines.forEach(function(line) {
     if (/[\t ]+$/.test(line)) {
       errors.push({message: 'Trailing spaces are not allowed',
-        rule   : rule,
-        line   : lineNo});
+        rule: rule,
+        line: lineNo});
     }
     lineNo++;
   });
@@ -18,5 +18,5 @@ function noTrailingSpaces(unused, file) {
 module.exports = {
   name: rule,
   run: noTrailingSpaces,
-  isValidConfig: _.stubTrue
+  isValidConfig: _.stubTrue,
 };

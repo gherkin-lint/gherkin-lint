@@ -1,6 +1,6 @@
-var ruleTestBase = require('../rule-test-base');
-var rule = require('../../../dist/rules/no-superfluous-tags.js');
-var runTest = ruleTestBase.createRuleTest(rule,
+const ruleTestBase = require('../rule-test-base');
+const rule = require('../../../dist/rules/no-superfluous-tags.js');
+const runTest = ruleTestBase.createRuleTest(rule,
   'Tag(s) duplicated on a Feature and a Scenario in that Feature: <%= tags %>');
 
 describe('No Superfluous Tags Rule', function() {
@@ -11,10 +11,10 @@ describe('No Superfluous Tags Rule', function() {
   it('detects errors for scenarios, and scenario outlines', function() {
     runTest('no-superfluous-tags/Violations.feature', {}, [{
       line: 7,
-      messageElements: {tags: '@superfluoustag1'}
+      messageElements: {tags: '@superfluoustag1'},
     }, {
       line: 11,
-      messageElements: {tags: '@superfluoustag1, @superfluoustag2'}
+      messageElements: {tags: '@superfluoustag1, @superfluoustag2'},
     }]);
   });
 });

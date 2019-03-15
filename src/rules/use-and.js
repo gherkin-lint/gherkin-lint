@@ -1,11 +1,11 @@
-var _ = require('lodash');
-var rule = 'use-and';
+const _ = require('lodash');
+const rule = 'use-and';
 
 function useAnd(feature) {
-  var errors = [];
+  const errors = [];
   if (feature && feature.children) {
     feature.children.forEach(function(child) {
-      var previousKeyword = undefined;
+      let previousKeyword = undefined;
       child.steps.forEach(function(step) {
         if (step.keyword === 'And ') {
           return;
@@ -21,14 +21,15 @@ function useAnd(feature) {
   return errors;
 }
 
-function createError(step) {
-  return {message: 'Step "' + step.keyword + step.text + '" should use And instead of ' + step.keyword,
-    rule   : rule,
-    line   : step.location.line};
+function createError({keyword, location, text}) {
+  return {
+    message: `Step "${keyword}${text}" should use And instead of ${keyword}`,
+    rule: rule,
+    line: location.line};
 }
 
 module.exports = {
   name: rule,
   run: useAnd,
-  isValidConfig: _.stubTrue
+  isValidConfig: _.stubTrue,
 };

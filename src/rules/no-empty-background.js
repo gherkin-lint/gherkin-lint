@@ -1,13 +1,13 @@
-var rule = 'no-empty-background';
-var _ = require('lodash');
+const rule = 'no-empty-background';
+const _ = require('lodash');
 
 function noEmptyBackground(feature) {
-  var errors = [];
+  const errors = [];
 
   if (feature.children) {
     feature.children.forEach(function(child) {
       if (child.type ==='Background') {
-        if(child.steps.length === 0) {
+        if (child.steps.length === 0) {
           errors.push(createError(child));
         }
       }
@@ -18,12 +18,12 @@ function noEmptyBackground(feature) {
 
 function createError(background) {
   return {message: 'Empty backgrounds are not allowed.',
-    rule   : rule,
-    line   : background.location.line};
+    rule: rule,
+    line: background.location.line};
 }
 
 module.exports = {
   name: rule,
   run: noEmptyBackground,
-  isValidConfig: _.stubTrue
+  isValidConfig: _.stubTrue,
 };

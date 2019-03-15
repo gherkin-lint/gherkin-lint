@@ -1,6 +1,6 @@
-var ruleTestBase = require('../rule-test-base');
-var rule = require('../../../dist/rules/no-empty-background.js');
-var runTest = ruleTestBase.createRuleTest(rule,
+const ruleTestBase = require('../rule-test-base');
+const rule = require('../../../dist/rules/no-empty-background.js');
+const runTest = ruleTestBase.createRuleTest(rule,
   'Empty backgrounds are not allowed.');
 
 describe('No empty Backgrounds Rule', function() {
@@ -13,9 +13,9 @@ describe('No empty Backgrounds Rule', function() {
   });
 
   it('detects errors for scenarios, and scenario outlines', function() {
-    runTest('no-empty-background/Violations.feature', {}, [ {
+    runTest('no-empty-background/Violations.feature', {}, [{
       line: 4,
-      messageElements: {}
+      messageElements: {},
     }]);
   });
 });

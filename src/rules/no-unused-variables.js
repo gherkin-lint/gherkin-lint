@@ -1,13 +1,13 @@
-var _ = require('lodash');
-var rule = 'no-unused-variables';
+const _ = require('lodash');
+const rule = 'no-unused-variables';
 
 function noUnusedVariables(feature) {
-  if(!feature || !feature.children) {
+  if (!feature || !feature.children) {
     return [];
   }
 
-  var errors = [];
-  var stepVariableRegex = /<([^>]*)>/gu;
+  const errors = [];
+  const stepVariableRegex = /<([^>]*)>/gu;
 
   feature.children.forEach(function(child) {
     if (child.type != 'ScenarioOutline') {
@@ -16,9 +16,9 @@ function noUnusedVariables(feature) {
     }
 
     // Maps of variableName -> lineNo
-    var examplesVariables = {};
-    var scenarioVariables = {};
-    var match;
+    const examplesVariables = {};
+    const scenarioVariables = {};
+    let match;
 
     // Collect all the entries of the examples table
     if (child.examples) {
@@ -43,12 +43,12 @@ function noUnusedVariables(feature) {
 
     if (child.steps) {
       child.steps.forEach(function(step) {
-
         // Steps can take arguments and their argument can include variables.
         // The arguments can be of type:
         // - DocString
         // - DataTable
-        // For more details, see https://docs.cucumber.io/gherkin/reference/#step-arguments
+        // For more details, see
+        // https://docs.cucumber.io/gherkin/reference/#step-arguments
 
         // Collect variables from step arguments
         if (step.argument) {
@@ -62,7 +62,7 @@ function noUnusedVariables(feature) {
                 }
               });
             });
-          } else if(step.argument.type == 'DocString') {
+          } else if (step.argument.type == 'DocString') {
             while ((match = stepVariableRegex.exec(step.argument.content)) != null) {
               scenarioVariables[match[1]] = step.location.line;
             }
@@ -76,22 +76,22 @@ function noUnusedVariables(feature) {
       });
     }
 
-    for (var exampleVariable in examplesVariables) {
-      if (!scenarioVariables[exampleVariable]) {
+    for (const variable in examplesVariables) {
+      if (!scenarioVariables[variable]) {
         errors.push({
-          message: 'Examples table variable "' + exampleVariable + '" is not used in any step',
-          rule   : rule,
-          line   : examplesVariables[exampleVariable]
+          message: `Examples table variable "${variable}" is not used in any step`,
+          rule: rule,
+          line: examplesVariables[variable],
         });
       }
     }
 
-    for (var scenarioVariable in scenarioVariables) {
-      if (!examplesVariables[scenarioVariable]) {
+    for (const variable in scenarioVariables) {
+      if (!examplesVariables[variable]) {
         errors.push({
-          message: 'Step variable "' + scenarioVariable + '" does not exist the in examples table',
-          rule   : rule,
-          line   : scenarioVariables[scenarioVariable]
+          message: `Step variable "${variable}" does not exist the in examples table`,
+          rule: rule,
+          line: scenarioVariables[variable],
         });
       }
     }
@@ -103,5 +103,5 @@ function noUnusedVariables(feature) {
 module.exports = {
   name: rule,
   run: noUnusedVariables,
-  isValidConfig: _.stubTrue
+  isValidConfig: _.stubTrue,
 };

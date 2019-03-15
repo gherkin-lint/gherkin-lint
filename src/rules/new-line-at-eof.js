@@ -1,21 +1,21 @@
-var _ = require('lodash');
-var logger = require('./../logger.js');
-var rule = 'new-line-at-eof';
-var stringRuleValidation = require('../config-validation/string-rule-validation');
+const _ = require('lodash');
+const logger = require('./../logger.js');
+const rule = 'new-line-at-eof';
+const stringRuleValidation = require('../config-validation/string-rule-validation');
 
-var availableConfigs = [
+const availableConfigs = [
   'yes',
-  'no'
+  'no',
 ];
 
 function newLineAtEOF(unused, file, configuration) {
   if (_.indexOf(availableConfigs, configuration) === -1) {
-    logger.boldError(rule + ' requires an extra configuration value.\nAvailable configurations: ' + availableConfigs.join(', ') + '\nFor syntax please look at the documentation.');
+    logger.boldError(`${rule } requires an extra configuration value.\nAvailable configurations: ${ availableConfigs.join(', ') }\nFor syntax please look at the documentation.`);
     process.exit(1);
   }
 
-  var hasNewLineAtEOF = _.last(file.lines) === '';
-  var errormsg = '';
+  const hasNewLineAtEOF = _.last(file.lines) === '';
+  let errormsg = '';
   if (hasNewLineAtEOF && configuration === 'no') {
     errormsg = 'New line at EOF(end of file) is not allowed';
   } else if (!hasNewLineAtEOF && configuration === 'yes') {
@@ -24,13 +24,13 @@ function newLineAtEOF(unused, file, configuration) {
 
   if (errormsg !== '') {
     return {message: errormsg,
-      rule   : rule,
-      line   : file.lines.length};
+      rule: rule,
+      line: file.lines.length};
   }
 }
 
 module.exports = {
   name: rule,
   run: newLineAtEOF,
-  isValidConfig: stringRuleValidation(availableConfigs)
+  isValidConfig: stringRuleValidation(availableConfigs),
 };

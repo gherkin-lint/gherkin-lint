@@ -3,7 +3,10 @@
     "node": true,
     "mocha": true
   },
-  "extends": "eslint:recommended",
+  "extends": [
+    "eslint:recommended",
+    "google"
+  ],
   "parserOptions": {
     "sourceType": "module"
   },
@@ -27,6 +30,13 @@
     "space-before-blocks": [
       "error",
       "always"
-    ]
+    ],
+    "require-jsdoc": "off",
+    "no-invalid-this": "off",
+    "max-len": [
+      "error", {
+      "ignoreStrings": true,
+      "code": 90
+    }]
   }
 }

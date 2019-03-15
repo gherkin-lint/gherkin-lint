@@ -1,6 +1,6 @@
-var fs = require('fs');
-var defaultConfigFileName = '.gherkin-lintrc';
-var logger = require('./logger.js');
+const fs = require('fs');
+const defaultConfigFileName = '.gherkin-lintrc';
+const logger = require('./logger.js');
 
 function ConfigParser(configPath) {
   if (configPath) {
@@ -14,16 +14,17 @@ function ConfigParser(configPath) {
 ConfigParser.defaultConfigFileName = defaultConfigFileName;
 
 ConfigParser.prototype.provide = function() {
-  var configPath = this.configPath;
+  const configPath = this.configPath;
   if (this.custom) {
     if (!fs.existsSync(configPath)) {
-      logger.boldError('Could not find specified config file "' + configPath + '"');
+      logger.boldError(`Could not find specified config file "${configPath}"`);
       return process.exit(1);
     }
   } else {
     if (!fs.existsSync(configPath)) {
-      logger.boldError('Could not find default config file "' + configPath +'" in the working ' +
-                      'directory.\nTo use a custom name/path provide the config file using the "-c" arg.');
+      logger.boldError(
+        `Could not find default config file "${configPath}" in the working directory.
+        To use a custom name/path provide the config file using the "-c" arg.`);
       return process.exit(1);
     }
   }

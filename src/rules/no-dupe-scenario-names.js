@@ -1,20 +1,29 @@
-var _ = require('lodash');
-var rule = 'no-dupe-scenario-names';
-var scenarios = [];
+const _ = require('lodash');
+const rule = 'no-dupe-scenario-names';
+const scenarios = [];
 
 function noDuplicateScenarioNames(feature, file) {
-  if(feature.children) {
-    var errors = [];
+  if (feature.children) {
+    const errors = [];
     feature.children.forEach(function(scenario) {
       if (scenario.name) {
         if (scenario.name in scenarios) {
-          var dupes = getFileLinePairsAsStr(scenarios[scenario.name].locations);
-          scenarios[scenario.name].locations.push({file: file.name, line: scenario.location.line});
-          errors.push({message: 'Scenario name is already used in: ' + dupes,
-            rule   : rule,
-            line   : scenario.location.line});
+          const dupes = getFileLinePairsAsStr(scenarios[scenario.name].locations);
+          scenarios[scenario.name].locations.push({
+            file: file.name,
+            line: scenario.location.line,
+          });
+          errors.push({
+            message: `Scenario name is already used in: ${ dupes}`,
+            rule: rule,
+            line: scenario.location.line});
         } else {
-          scenarios[scenario.name] = {locations: [{file: file.name, line: scenario.location.line}]};
+          scenarios[scenario.name] = {
+            locations: [{
+              file: file.name,
+              line: scenario.location.line,
+            }],
+          };
         }
       }
     });
@@ -23,9 +32,9 @@ function noDuplicateScenarioNames(feature, file) {
 }
 
 function getFileLinePairsAsStr(objects) {
-  var strings = [];
+  const strings = [];
   objects.forEach(function(object) {
-    strings.push(object.file + ':' + object.line);
+    strings.push(`${object.file }:${ object.line}`);
   });
   return strings.join(', ');
 }
@@ -33,5 +42,5 @@ function getFileLinePairsAsStr(objects) {
 module.exports = {
   name: rule,
   run: noDuplicateScenarioNames,
-  isValidConfig: _.stubTrue
+  isValidConfig: _.stubTrue,
 };

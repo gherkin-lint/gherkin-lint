@@ -1,14 +1,14 @@
-var _ = require('lodash');
-var rule = 'no-unnamed-scenarios';
+const _ = require('lodash');
+const rule = 'no-unnamed-scenarios';
 
 function noUnNamedScenarios(feature) {
   if (feature.children) {
-    var errors = [];
+    const errors = [];
     feature.children.forEach(function(scenario) {
       if (!scenario.name && scenario.type === 'Scenario') {
         errors.push({message: 'Missing Scenario name',
-          rule   : rule,
-          line   : scenario.location.line});
+          rule: rule,
+          line: scenario.location.line});
       }
     });
     return errors;
@@ -18,5 +18,5 @@ function noUnNamedScenarios(feature) {
 module.exports = {
   name: rule,
   run: noUnNamedScenarios,
-  isValidConfig: _.stubTrue
+  isValidConfig: _.stubTrue,
 };

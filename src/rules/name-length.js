@@ -1,20 +1,25 @@
-var _ = require('lodash');
-var rule = 'name-length';
-var objectRuleValidation = require('../config-validation/object-rule-validation');
+const _ = require('lodash');
+const rule = 'name-length';
+const objectRuleValidation = require('../config-validation/object-rule-validation');
 
-var availableConfigs = {
+const availableConfigs = {
   'Feature': 70,
   'Step': 70,
-  'Scenario': 70
+  'Scenario': 70,
 };
 
-var errors = [];
+let errors = [];
 
 function test(name, location, configuration, type) {
-  if (name && (name.length > configuration[type])) {
-    errors.push({message: type + ' name is too long. Length of ' + name.length + ' is longer than the maximum allowed: ' + configuration[type],
-      rule   : rule,
-      line   : location.line});
+  const expectedLength = configuration[type];
+  const length = name && name.length;
+  if (length > expectedLength) {
+    errors.push({
+      message: `${type} name is too long. Length of ${length} ` +
+        `is longer than the maximum allowed: ${expectedLength}`,
+      rule: rule,
+      line: location.line,
+    });
   }
 }
 
@@ -22,14 +27,14 @@ function nameLength(feature, unused, configuration) {
   if (!feature || Object.keys(feature).length === 0) {
     return;
   }
-  var mergedConfiguration = _.merge(availableConfigs, configuration);
+  const mergedConfiguration = _.merge(availableConfigs, configuration);
   errors = [];
 
   // Check Feature name length
   test(feature.name, feature.location, mergedConfiguration, 'Feature');
 
   feature.children.forEach(function(child) {
-    switch(child.type) {
+    switch (child.type) {
     case 'Scenario':
     case 'ScenarioOutline':
       // Check Scenario name length
@@ -38,9 +43,10 @@ function nameLength(feature, unused, configuration) {
     case 'Background':
       break;
     default:
-      errors.push({message: 'Unknown gherkin node type ' + child.type,
-        rule   : rule,
-        line   : child.location.line});
+      errors.push({
+        message: `Unknown gherkin node type ${child.type}`,
+        rule: rule,
+        line: child.location.line});
       break;
     }
 
@@ -56,5 +62,5 @@ function nameLength(feature, unused, configuration) {
 module.exports = {
   name: rule,
   run: nameLength,
-  isValidConfig: objectRuleValidation(availableConfigs)
+  isValidConfig: objectRuleValidation(availableConfigs),
 };

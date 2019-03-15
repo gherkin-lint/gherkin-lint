@@ -1,16 +1,16 @@
-var _ = require('lodash');
-var rule = 'no-partially-commented-tag-lines';
+const _ = require('lodash');
+const rule = 'no-partially-commented-tag-lines';
 
 function noPartiallyCommentedTagLines(feature) {
-  var errors = [];
+  const errors = [];
   if (feature.children) {
     feature.children.forEach(function(scenario) {
       if (scenario.tags) {
         scenario.tags.forEach(function(tag) {
           if (tag.name.indexOf('#') > 0) {
             errors.push({message: 'Partially commented tag lines not allowed ',
-              rule   : rule,
-              line   : tag.location.line});
+              rule: rule,
+              line: tag.location.line});
           }
         });
       }
@@ -22,5 +22,5 @@ function noPartiallyCommentedTagLines(feature) {
 module.exports = {
   name: rule,
   run: noPartiallyCommentedTagLines,
-  isValidConfig: _.stubTrue
+  isValidConfig: _.stubTrue,
 };

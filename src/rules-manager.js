@@ -1,4 +1,4 @@
-var logger = require('./logger');
+const logger = require('./logger');
 
 function RulesManager(rulesOrErrors) {
   if (rulesOrErrors.errors.length > 0) {
@@ -9,16 +9,15 @@ function RulesManager(rulesOrErrors) {
     process.exit(1);
   }
   this.rules = rulesOrErrors.rules;
-
 }
 
 RulesManager.prototype.runAllEnabledRules = function(feature, file) {
-  var errors = [];
-  var ignoreFutureErrors = false;
+  let errors = [];
+  let ignoreFutureErrors = false;
 
   this.rules.forEach(function(rule) {
     if (!ignoreFutureErrors) {
-      var error = rule.run(feature, file, rule.config);
+      const error = rule.run(feature, file, rule.config);
 
       if (error) {
         if (rule.suppressOtherRules) {
