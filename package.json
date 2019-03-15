@@ -1,5 +1,5 @@
 {
-  "name": "gherkin-lint",
+  "name": "@economist/gherkin-lint",
   "version": "3.0.0",
   "description": "A Gherkin linter/validator written in javascript",
   "author": "Vasiliki Siakka",
