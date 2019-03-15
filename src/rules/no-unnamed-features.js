@@ -4,8 +4,8 @@ var rule = 'no-unnamed-features';
 function noUnNamedFeatures(feature) {
   if (!feature || !feature.name) {
     return {message: 'Missing Feature name',
-            rule   : rule,
-            line   : feature.location && feature.location.line || 0};
+      rule   : rule,
+      line   : feature.location && feature.location.line || 0};
   }
 }
 

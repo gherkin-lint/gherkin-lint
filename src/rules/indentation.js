@@ -44,8 +44,8 @@ function testFeature(feature, configuration, mergedConfiguration) {
       errors.push({message: 'Wrong indentation for "' + type +
                             '", expected indentation level of ' + mergedConfiguration[type] +
                             ', but got ' + (parsedLocation.column - 1),
-                   rule   : rule,
-                   line   : parsedLocation.line});
+      rule   : rule,
+      line   : parsedLocation.line});
     }
   }
 
@@ -100,8 +100,8 @@ function testFeature(feature, configuration, mergedConfiguration) {
       break;
     default:
       errors.push({message: 'Unknown gherkin node type ' + child.type,
-                   rule   : rule,
-                   line   : child.location.line});
+        rule   : rule,
+        line   : child.location.line});
       break;
     }
 

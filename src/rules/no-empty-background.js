@@ -18,8 +18,8 @@ function noEmptyBackground(feature) {
 
 function createError(background) {
   return {message: 'Empty backgrounds are not allowed.',
-          rule   : rule,
-          line   : background.location.line};
+    rule   : rule,
+    line   : background.location.line};
 }
 
 module.exports = {

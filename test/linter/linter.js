@@ -12,7 +12,7 @@ describe('Linter', function() {
     var actual = linter.lint(['test/linter/MultipleBackgrounds.feature']);
     var expected = [{
       'line': '9',
-      'message': 'Multiple \"Background\" definitions in the same file are disallowed',
+      'message': 'Multiple "Background" definitions in the same file are disallowed',
       'rule': 'up-to-one-background-per-file'
     }];
     assert.lengthOf(actual, 1);
@@ -34,7 +34,7 @@ describe('Linter', function() {
     var actual = linter.lint(['test/linter/MultipleFeatures.feature']);
     var expected = [{
       'line': '7',
-      'message': 'Multiple \"Feature\" definitions in the same file are disallowed',
+      'message': 'Multiple "Feature" definitions in the same file are disallowed',
       'rule': 'one-feature-per-file'
     }];
     assert.lengthOf(actual, 1);
@@ -46,7 +46,7 @@ describe('Linter', function() {
     //console.log(actual)
     var expected = [{
       'line': '9',
-      'message': 'Steps should begin with \"Given\", \"When\", \"Then\", \"And\" or \"But\". Multiline steps are dissallowed',
+      'message': 'Steps should begin with "Given", "When", "Then", "And" or "But". Multiline steps are dissallowed',
       'rule': 'no-multiline-steps'
     }];
     assert.lengthOf(actual, 1);
@@ -58,7 +58,7 @@ describe('Linter', function() {
     //console.log(actual)
     var expected = [{
       'line': '5',
-      'message': 'Steps should begin with \"Given\", \"When\", \"Then\", \"And\" or \"But\". Multiline steps are dissallowed',
+      'message': 'Steps should begin with "Given", "When", "Then", "And" or "But". Multiline steps are dissallowed',
       'rule': 'no-multiline-steps'
     }];
     assert.lengthOf(actual, 1);
@@ -70,7 +70,7 @@ describe('Linter', function() {
     //console.log(actual)
     var expected = [{
       'line': '9',
-      'message': 'Steps should begin with \"Given\", \"When\", \"Then\", \"And\" or \"But\". Multiline steps are dissallowed',
+      'message': 'Steps should begin with "Given", "When", "Then", "And" or "But". Multiline steps are dissallowed',
       'rule': 'no-multiline-steps'
     }];
     assert.lengthOf(actual, 1);

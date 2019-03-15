@@ -22,8 +22,8 @@ function verifyTags(tags, location) {
       if (!_.includes(failedTagNames, tag.name)) {
         if (_.includes(uniqueTagNames, tag.name)) {
           errors.push({message: 'Duplicate tags are not allowed: ' + tag.name,
-                       rule   : rule,
-                       line   : tag.location.line});
+            rule   : rule,
+            line   : tag.location.line});
           failedTagNames.push(tag.name);
         } else  {
           uniqueTagNames.push(tag.name);

@@ -16,8 +16,8 @@ function noSuperfluousTags(feature) {
           });
           errors.push({message: 'Tag(s) duplicated on a Feature and a Scenario in that Feature: ' +
                                 _.join(superfluousTagNames, ', '),
-                       rule   : rule,
-                       line   : superfluousTags[0].location.line});
+          rule   : rule,
+          line   : superfluousTags[0].location.line});
         }
       }
     });

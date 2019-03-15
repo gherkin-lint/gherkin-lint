@@ -48,15 +48,15 @@ function getIgnorePatterns(ignoreArg) {
   } else if (fs.existsSync(defaultIgnoreFileName)) {
     // return an array where each element of the array is a line of the ignore file
     return fs.readFileSync(defaultIgnoreFileName)
-              .toString()
-              .split(/[\n|\r]/)
-              .filter(function(i) {
-              // remove empty strings
-                if (i !== '') {
-                  return true;
-                }
-                return false;
-              });
+      .toString()
+      .split(/[\n|\r]/)
+      .filter(function(i) {
+        // remove empty strings
+        if (i !== '') {
+          return true;
+        }
+        return false;
+      });
   } else {
     return defaultIgnoredFiles;
   }

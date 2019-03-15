@@ -24,8 +24,8 @@ function newLineAtEOF(unused, file, configuration) {
 
   if (errormsg !== '') {
     return {message: errormsg,
-            rule   : rule,
-            line   : file.lines.length};
+      rule   : rule,
+      line   : file.lines.length};
   }
 }
 
