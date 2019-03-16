@@ -14,15 +14,18 @@ function run(feature) {
     }).groupBy(function(tag) {
       return tag.location.line;
     }).forEach(function(tags) {
-      _.range(tags.length - 1).map(function(i) {
-        const tag = tags[i];
-        const nextTag = tags[i + 1];
-        if (tag.location.column + tag.name.length < nextTag.location.column - 1) {
+      const sortedTags = tags.sort(function(a, b) {
+        return a.location.column - b.location.column;
+      });
+      _.range(sortedTags.length - 1).map(function(i) {
+        const tag = sortedTags[i];
+        const nextTag = sortedTags[i + 1];
+        if ((tag.location.column + tag.name.length) < nextTag.location.column - 1) {
           errors.push({
-            line: tags[i].location.line,
+            line: sortedTags[i].location.line,
             rule: rule,
-            message: `There is more than one space between the tags ${
-              tags[i].name } and ${ tags[i + 1].name}`,
+            message: 'There is more than one space between the tags ' +
+            tag.name + ' and ' + nextTag.name,
           });
         }
       });
