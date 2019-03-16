@@ -1,8 +1,8 @@
-# Gherkin lint
-[![Travis](https://img.shields.io/travis/vsiakka/gherkin-lint.svg?maxAge=2592000)](https://travis-ci.org/vsiakka/gherkin-lint/)
-[![David](https://img.shields.io/david/vsiakka/gherkin-lint.svg?maxAge=2592000)](https://david-dm.org/vsiakka/gherkin-lint)
-[![David](https://img.shields.io/david/dev/vsiakka/gherkin-lint.svg?maxAge=2592000)](https://david-dm.org/vsiakka/gherkin-lint#info=devDependencies&view=table)
-[![npm](https://img.shields.io/npm/v/gherkin-lint.svg?maxAge=2592000)](https://www.npmjs.com/package/gherkin-lint)
+# Pickle lint
+[![Travis CI][1]][2]
+[![Dependency Status][3]][4]
+[![Dev Dependency Status][5]][6]
+[![npm Version][7]][8]
 
 Uses [Gherkin](https://github.com/cucumber/gherkin-javascript) to parse feature files and runs linting against the default rules, and the optional rules you specified in your `.gherkin-lintrc` file.
 
@@ -15,7 +15,7 @@ npm install gherkin-lint
 ## Demo
 To see the output for all the errors that the linter can detect run:
 ```
-git clone https://github.com/vsiakka/gherkin-lint.git
+git clone https://github.com/xgbuils/pickle-lint.git
 npm run demo
 ```
 Or check this:
@@ -185,8 +185,19 @@ You can specify one more more custom rules directories by using the `-r` or `--r
 
 Example:
 ```
-gherkin-lint --rulesdir "/path/to/my/rulesdir" --rulesdir "from/cwd/rulesdir"
+pickle-lint --rulesdir "/path/to/my/rulesdir" --rulesdir "from/cwd/rulesdir"
 ```
 
 Paths can either be absolute or relative to the current working directory.
 Have a look at the `src/rules/` directory for examples; The `no-empty-file` rule is a good example to start with.
+
+[![devDependencies Status](https://david-dm.org/xgbuils/rearrange/dev-status.svg)](https://david-dm.org/xgbuils/rearrange?type=dev)
+
+  [1]: https://travis-ci.org/xgbuils/pickle-lint.svg?branch=master
+  [2]: https://travis-ci.org/xgbuils/pickle-lint
+  [3]: https://david-dm.org/xgbuils/pickle-lint.svg
+  [4]: https://david-dm.org/xgbuils/pickle-lint
+  [5]: https://david-dm.org/xgbuils/pickle-lint/dev-status.svg
+  [6]: https://david-dm.org/xgbuils/pickle-lint?type=dev
+  [7]: https://img.shields.io/npm/v/pickle-lint.svg
+  [8]: https://www.npmjs.com/package/pickle-lint
