@@ -3,6 +3,7 @@
 [![Dependency Status][3]][4]
 [![Dev Dependency Status][5]][6]
 [![npm Version][7]][8]
+[![Coverage Status][9]][10]
 
 Uses [Gherkin](https://github.com/cucumber/gherkin-javascript) to parse feature files and runs linting against the default rules, and the optional rules you specified in your `.gherkin-lintrc` file.
 
@@ -201,3 +202,5 @@ Have a look at the `src/rules/` directory for examples; The `no-empty-file` rule
   [6]: https://david-dm.org/xgbuils/pickle-lint?type=dev
   [7]: https://img.shields.io/npm/v/pickle-lint.svg
   [8]: https://www.npmjs.com/package/pickle-lint
+  [9]: https://coveralls.io/repos/github/xgbuils/pickle-lint/badge.svg?branch=master
+  [10]: https://coveralls.io/github/xgbuils/pickle-lint?branch=master

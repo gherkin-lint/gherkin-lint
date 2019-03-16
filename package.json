@@ -73,11 +73,13 @@
     "babel-cli": "6.26.0",
     "babel-preset-env": "1.7.0",
     "chai": "4.2.0",
+    "coveralls": "^3.0.3",
     "eslint": "5.15.2",
     "eslint-config-google": "^0.12.0",
     "mocha": "6.0.2",
     "mocha-sinon": "2.1.0",
     "npm-check": "^5.9.0",
+    "nyc": "^13.3.0",
     "sinon": "7.2.7"
   },
   "bin": {
@@ -92,7 +94,9 @@
     "prepublish": "npm run build",
     "test-only": "npm run build && npm run mocha",
     "check": "npm-check -i gherkin -i sinon",
-    "test": "npm run lint && npm run test-only && npm run check"
+    "test": "npm run lint && npm run test-only && npm run check",
+    "coveralls": "npm run coverage && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
+    "coverage": "nyc --reporter=lcov --require babel-register npm run test-only && nyc report"
   },
   "license": "ISC"
 }
