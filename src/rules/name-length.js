@@ -46,7 +46,8 @@ function nameLength(feature, unused, configuration) {
       errors.push({
         message: `Unknown gherkin node type ${child.type}`,
         rule: rule,
-        line: child.location.line});
+        line: child.location.line,
+      });
       break;
     }
 

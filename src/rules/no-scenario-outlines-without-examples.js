@@ -6,9 +6,11 @@ function noScenarioOutlinesWithoutExamples(feature) {
     const errors = [];
     feature.children.forEach(function(scenario) {
       if (scenario.type === 'ScenarioOutline' && !scenario.examples.length) {
-        errors.push({message: 'Scenario Outline does not have any Examples',
+        errors.push({
+          message: 'Scenario Outline does not have any Examples',
           rule: rule,
-          line: scenario.location.line});
+          line: scenario.location.line,
+        });
       }
     });
     return errors;

@@ -20,9 +20,11 @@ function noBackgroundEmptyScenario(feature) {
 }
 
 function createError(background) {
-  return {message: 'Backgrounds are not allowed when there is just one scenario.',
+  return {
+    message: 'Backgrounds are not allowed when there is just one scenario.',
     rule: rule,
-    line: background.location.line};
+    line: background.location.line,
+  };
 }
 
 module.exports = {

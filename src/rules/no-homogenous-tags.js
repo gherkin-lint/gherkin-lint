@@ -20,11 +20,12 @@ function noHomogenousTags(feature) {
     if (homogenousTags.length !== 0) {
       // You could argue that the line number should be the first instance of a
       // bad tag, but I think this is really a problem with the whole feature.
-      errors = [{message: `${'All Scenarios on this Feature have the same tag(s), ' +
-                            'they should be defined on the Feature instead: '}${
-        _.join(homogenousTags, ', ')}`,
-      rule: rule,
-      line: feature.location.line}];
+      errors = [{
+        message: 'All Scenarios on this Feature have the same tag(s), they' +
+          ` should be defined on the Feature instead: ${_.join(homogenousTags, ', ')}`,
+        rule: rule,
+        line: feature.location.line,
+      }];
     }
   }
   return errors;

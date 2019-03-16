@@ -16,7 +16,8 @@ function noDuplicateScenarioNames(feature, file) {
           errors.push({
             message: `Scenario name is already used in: ${ dupes}`,
             rule: rule,
-            line: scenario.location.line});
+            line: scenario.location.line,
+          });
         } else {
           scenarios[scenario.name] = {
             locations: [{

@@ -8,7 +8,8 @@ function noTrailingSpaces(unused, file) {
     if (/[\t ]+$/.test(line)) {
       errors.push({message: 'Trailing spaces are not allowed',
         rule: rule,
-        line: lineNo});
+        line: lineNo,
+      });
     }
     lineNo++;
   });

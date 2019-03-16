@@ -21,9 +21,11 @@ function verifyTags(tags, location) {
     tags.forEach(function(tag) {
       if (!_.includes(failedTagNames, tag.name)) {
         if (_.includes(uniqueTagNames, tag.name)) {
-          errors.push({message: `Duplicate tags are not allowed: ${ tag.name}`,
+          errors.push({
+            message: `Duplicate tags are not allowed: ${ tag.name}`,
             rule: rule,
-            line: tag.location.line});
+            line: tag.location.line,
+          });
           failedTagNames.push(tag.name);
         } else {
           uniqueTagNames.push(tag.name);

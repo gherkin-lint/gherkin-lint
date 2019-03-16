@@ -6,9 +6,11 @@ function noUnNamedScenarios(feature) {
     const errors = [];
     feature.children.forEach(function(scenario) {
       if (!scenario.name && scenario.type === 'Scenario') {
-        errors.push({message: 'Missing Scenario name',
+        errors.push({
+          message: 'Missing Scenario name',
           rule: rule,
-          line: scenario.location.line});
+          line: scenario.location.line,
+        });
       }
     });
     return errors;

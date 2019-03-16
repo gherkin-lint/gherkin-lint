@@ -25,7 +25,8 @@ function createError({keyword, location, text}) {
   return {
     message: `Step "${keyword}${text}" should use And instead of ${keyword}`,
     rule: rule,
-    line: location.line};
+    line: location.line,
+  };
 }
 
 module.exports = {

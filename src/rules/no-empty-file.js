@@ -4,9 +4,11 @@ const suppressOtherRules = true;
 
 function noEmptyFiles(feature) {
   if (_.isEmpty(feature)) {
-    return {message: 'Empty feature files are disallowed',
+    return {
+      message: 'Empty feature files are disallowed',
       rule: rule,
-      line: 1};
+      line: 1,
+    };
   }
 }
 

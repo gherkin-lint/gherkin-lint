@@ -29,9 +29,11 @@ function isAllowed(tag, allowedTags) {
 }
 
 function createError(node, tag) {
-  return {message: `Not allowed tag ${ tag.name } on ${ node.type}`,
+  return {
+    message: `Not allowed tag ${ tag.name } on ${ node.type}`,
     rule: rule,
-    line: tag.location.line};
+    line: tag.location.line,
+  };
 }
 
 module.exports = {

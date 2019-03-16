@@ -41,11 +41,11 @@ function testFeature(feature, configuration, mergedConfiguration) {
     // location.column is 1 index based so, when we compare with the expected
     // indentation we need to subtract 1
     if (parsedLocation.column - 1 !== mergedConfiguration[type]) {
-      errors.push({message: `Wrong indentation for "${ type
-      }", expected indentation level of ${ mergedConfiguration[type]
-      }, but got ${ parsedLocation.column - 1}`,
-      rule: rule,
-      line: parsedLocation.line});
+      errors.push({
+        message: `Wrong indentation for "${type}", expected indentation level of ` +
+          `${mergedConfiguration[type]}, but got ${parsedLocation.column - 1}`,
+        rule: rule,
+        line: parsedLocation.line});
     }
   }
 
@@ -97,9 +97,11 @@ function testFeature(feature, configuration, mergedConfiguration) {
       testTags(child.tags, 'scenario tag');
       break;
     default:
-      errors.push({message: `Unknown gherkin node type ${ child.type}`,
+      errors.push({
+        message: `Unknown gherkin node type ${ child.type}`,
         rule: rule,
-        line: child.location.line});
+        line: child.location.line,
+      });
       break;
     }
 
