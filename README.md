@@ -5,11 +5,13 @@
 [![npm Version][7]][8]
 [![Coverage Status][9]][10]
 
-Uses [Gherkin](https://github.com/cucumber/gherkin-javascript) to parse feature files and runs linting against the default rules, and the optional rules you specified in your `.gherkin-lintrc` file.
+`pickle-lint` Uses [Gherkin](https://github.com/cucumber/gherkin-javascript) to parse feature files and runs linting against the default rules, and the optional rules you specified in your `.gherkin-lintrc` file.
+
+`pickle-lint` is forked from [gherkin-lint](https://www.npmjs.com/package/gherkin-lint) and  aims to improve the code quality and documentation of the project. This project will solve the [issues](https://github.com/vsiakka/gherkin-lint/issues) that have been open for more than 6 months. If `gherkin-lint` is maintained again, `pickle-lint` will try to be merged into `gherkin-lint`.
 
 ## Installation
 ```
-npm install gherkin-lint
+npm install pickle-lint
 
 ```
 
@@ -171,7 +173,7 @@ The default is 70 characters for each of these:
 ## Configuration File
 The default name for the configuration file is `.gherkin-lintrc` and it's expected to be in your working directory.
 
-If you are using a file with a different name or a file in a different folder, you will need to specify the `-c` or `--config` option and pass in the relative path to your configuration file. Eg: `gherkin-lint -c path/to/configuration/file.extention`
+If you are using a file with a different name or a file in a different folder, you will need to specify the `-c` or `--config` option and pass in the relative path to your configuration file. Eg: `pickle-lint -c path/to/configuration/file.extention`
 
 You can find an example configuration file, that turns on all of the rules in the root of this repo (.gherkin-lintrc).
 
