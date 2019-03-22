@@ -1,9 +1,9 @@
 const ruleTestBase = require('../rule-test-base');
-const rule = require('../../../dist/rules/allowed-tags.js');
+const rule = require('../../../src/rules/allowed-tags.js');
 const runTest = ruleTestBase.createRuleTest(rule, 'Not allowed tag <%= tags %> on <%= nodeType %>');
 
-describe('No Allowed Tags Rule', function() {
-  it('detects an error when property is not "tags"', function() {
+describe('No Allowed Tags Rule', () => {
+  it('detects an error when property is not "tags"', () => {
     runTest('allowed-tags/NoViolations.feature', {
       'foobar': ['@featuretag', '@scenariotag'],
     }, [
@@ -11,13 +11,19 @@ describe('No Allowed Tags Rule', function() {
     ]);
   });
 
-  it('doesn\'t raise errors when there are no violations', function() {
+  it('doesn\'t raise errors when the file is empty', () => {
+    runTest('Empty.feature', {
+      'tags': ['@featuretag', '@scenariotag'],
+    }, []);
+  });
+
+  it('doesn\'t raise errors when there are no violations', () => {
     runTest('allowed-tags/NoViolations.feature', {
       'tags': ['@featuretag', '@scenariotag'],
     }, []);
   });
 
-  it('detects errors for features, scenarios, and scenario outlines', function() {
+  it('detects errors for features, scenarios, and scenario outlines', () => {
     runTest('allowed-tags/Violations.feature', {
       'tags': ['@featuretag', '@scenariotag'],
     }, [{
