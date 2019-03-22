@@ -74,7 +74,7 @@
     "babel-preset-env": "1.7.0",
     "chai": "4.2.0",
     "coveralls": "^3.0.3",
-    "eslint": "5.15.2",
+    "eslint": "5.15.3",
     "eslint-config-google": "^0.12.0",
     "mocha": "6.0.2",
     "mocha-sinon": "2.1.0",
