@@ -1,5 +1,5 @@
 const ruleTestBase = require('../rule-test-base');
-const rule = require('../../../dist/rules/name-length.js');
+const rule = require('../../../src/rules/name-length.js');
 const runTest = ruleTestBase.createRuleTest(rule,
   '<%= element %> name is too long. Length of <%= length %> is longer than the maximum allowed: 70');
 

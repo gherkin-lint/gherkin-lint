@@ -1,6 +1,9 @@
-const _ = require('lodash');
 const rule = 'name-length';
 const objectRuleValidation = require('../config-validation/object-rule-validation');
+const {
+  flatMap,
+  intoArray,
+} = require('../utils/main');
 
 const availableConfigs = {
   'Feature': 70,
@@ -8,56 +11,57 @@ const availableConfigs = {
   'Scenario': 70,
 };
 
-let errors = [];
-
-function test(name, location, configuration, type) {
+const test = (configuration) => (name, location, type) => {
   const expectedLength = configuration[type];
   const length = name && name.length;
-  if (length > expectedLength) {
-    errors.push({
-      message: `${type} name is too long. Length of ${length} ` +
-        `is longer than the maximum allowed: ${expectedLength}`,
-      rule: rule,
-      line: location.line,
-    });
-  }
-}
+  return length > expectedLength ? [{
+    message: `${type} name is too long. Length of ${length} ` +
+      `is longer than the maximum allowed: ${expectedLength}`,
+    rule: rule,
+    line: location.line,
+  }] : [];
+};
+
+const testOverChildren = (childrenName, test) => (node) => {
+  return intoArray(flatMap(test))(node[childrenName]);
+};
+
+const testsOverNode = (tests) => (node) => {
+  return intoArray(flatMap((test) => test(node)))(tests);
+};
+
+const testStepFactory = (testLength) => (step) => {
+  return testLength(step.text, step.location, 'Step');
+};
+
+const testNodeFactory = (testLength, type) => (scenario) => {
+  return testLength(scenario.name, scenario.location, type);
+};
 
 function nameLength(feature, unused, configuration) {
   if (!feature || Object.keys(feature).length === 0) {
     return;
   }
-  const mergedConfiguration = _.merge(availableConfigs, configuration);
-  errors = [];
-
-  // Check Feature name length
-  test(feature.name, feature.location, mergedConfiguration, 'Feature');
-
-  feature.children.forEach(function(child) {
-    switch (child.type) {
-    case 'Scenario':
-    case 'ScenarioOutline':
-      // Check Scenario name length
-      test(child.name, child.location, mergedConfiguration, 'Scenario');
-      break;
-    case 'Background':
-      break;
-    default:
-      errors.push({
-        message: `Unknown gherkin node type ${child.type}`,
-        rule: rule,
-        line: child.location.line,
-      });
-      break;
-    }
-
-    child.steps.forEach(function(step) {
-      // Check Step name length
-      test(step.text, step.location, mergedConfiguration, 'Step');
-    });
+  const testLength = test(Object.assign({}, availableConfigs, configuration));
+  const testStep = testStepFactory(testLength);
+  const testSteps = testOverChildren('steps', testStep);
+  const testScenario = testsOverNode([
+    testNodeFactory(testLength, 'Scenario'),
+    testSteps,
+  ]);
+  const tests = {
+    Scenario: testScenario,
+    ScenarioOutline: testScenario,
+    Background: testSteps,
+  };
+  const testFeatureNodes = testOverChildren('children', (child) => {
+    return tests[child.type](child);
   });
 
-  return errors;
+  return testsOverNode([
+    testNodeFactory(testLength, 'Feature'),
+    testFeatureNodes,
+  ])(feature);
 }
 
 module.exports = {
