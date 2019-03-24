@@ -1,6 +1,6 @@
 const path = require('path');
 const expect = require('chai').expect;
-const Linter = require('../../dist/linter');
+const Linter = require('../../src/linter');
 const ConfigProvider = require('../../src/config-provider.js');
 const RulesManager = require('../../src/rules-manager.js');
 const getRules = require('../../src/get-rules.js');

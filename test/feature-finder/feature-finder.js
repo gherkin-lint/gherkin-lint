@@ -1,5 +1,5 @@
 const assert = require('chai').assert;
-const featureFinder = require('../../dist/feature-finder.js');
+const featureFinder = require('../../src/feature-finder.js');
 
 describe('Feature finder', function() {
   it('does not return duplicates', function() {
