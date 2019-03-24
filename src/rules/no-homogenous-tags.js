@@ -1,38 +1,46 @@
-const _ = require('lodash');
-
 const rule = 'no-homogenous-tags';
+const {
+  append,
+  compose,
+  filter,
+  intoArray,
+  map,
+  reduce,
+} = require('../utils/main');
 
-function noHomogenousTags(feature) {
-  let errors = [];
-  if (feature.children !== undefined) {
-    const tagNames = _.flatten(_.map(feature.children, function(child) {
-      if ((child.type === 'Scenario' || child.type === 'ScenarioOutline') &&
-          child.tags !== undefined) {
-        return [_.map(child.tags, function(tag) {
-          return tag.name;
-        })];
-      } else {
-        return [];
-      }
-    }));
+const isScenario = ({type}) => ['Scenario', 'ScenarioOutline'].indexOf(type) !== -1;
+const uniq = (array) => [...new Set(array)];
 
-    const homogenousTags = _.intersection(...tagNames);
-    if (homogenousTags.length !== 0) {
-      // You could argue that the line number should be the first instance of a
-      // bad tag, but I think this is really a problem with the whole feature.
-      errors = [{
-        message: 'All Scenarios on this Feature have the same tag(s), they' +
-          ` should be defined on the Feature instead: ${_.join(homogenousTags, ', ')}`,
-        rule: rule,
-        line: feature.location.line,
-      }];
-    }
-  }
-  return errors;
-}
+const countTags = (tagStatistics, tagsNames) => {
+  return tagsNames.reduce((tagStatistics, tagName) => {
+    return tagStatistics.set(tagName, (tagStatistics.get(tagName) || 0) + 1);
+  }, tagStatistics);
+};
+
+const noHomogenousTags = (feature) => {
+  const scenarios = intoArray(filter(isScenario))(feature.children || []);
+  const {length} = scenarios;
+  const tagStatistics = reduce(compose(
+    map(({tags}) => tags.map(({name}) => name)),
+    map((tagNames) => uniq(tagNames))
+  )(countTags), new Map())(scenarios);
+
+  const homogenousTags = reduce(compose(
+    filter(([tagName, times]) => times === length),
+    map(([tagName]) => tagName)
+  )(append), [])([...tagStatistics]);
+
+  const homogenousTagsReport = homogenousTags.join(', ');
+  return homogenousTagsReport ? [{
+    message: 'All Scenarios on this Feature have the same tag(s), they' +
+      ` should be defined on the Feature instead: ${homogenousTagsReport}`,
+    rule: rule,
+    line: feature.location.line,
+  }] : [];
+};
 
 module.exports = {
   name: rule,
   run: noHomogenousTags,
-  isValidConfig: _.stubTrue,
+  isValidConfig: () => true,
 };
