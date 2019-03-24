@@ -1,47 +1,45 @@
-const _ = require('lodash');
 const rule = 'no-dupe-scenario-names';
-const scenarios = [];
+const scenarios = {};
 
-function noDuplicateScenarioNames(feature, file) {
-  if (feature.children) {
-    const errors = [];
-    feature.children.forEach(function(scenario) {
-      if (scenario.name) {
-        if (scenario.name in scenarios) {
-          const dupes = getFileLinePairsAsStr(scenarios[scenario.name].locations);
-          scenarios[scenario.name].locations.push({
-            file: file.name,
-            line: scenario.location.line,
-          });
-          errors.push({
-            message: `Scenario name is already used in: ${ dupes}`,
-            rule: rule,
-            line: scenario.location.line,
-          });
-        } else {
-          scenarios[scenario.name] = {
-            locations: [{
-              file: file.name,
-              line: scenario.location.line,
-            }],
-          };
-        }
-      }
-    });
-    return errors;
-  }
-}
+const locationTrace = (file) => (scenario) => `${file.name}:${scenario.location.line}`;
 
-function getFileLinePairsAsStr(objects) {
-  const strings = [];
-  objects.forEach(function(object) {
-    strings.push(`${object.file }:${ object.line}`);
+const appendError = (dupeLocationTrace) => ({scenarios, errors}, scenario) => {
+  const dupes = scenarios[scenario.name];
+  errors.push({
+    message: `Scenario name is already used in: ${dupes}`,
+    rule: rule,
+    line: scenario.location.line,
   });
-  return strings.join(', ');
-}
+  scenarios[scenario.name] += `, ${dupeLocationTrace(scenario)}`;
+  return {scenarios, errors};
+};
+
+const collectErrors = (appendError, dupeLocationTrace) => (track, scenario) => {
+  const {scenarios, errors} = track;
+  if (!scenario.name) {
+    return track;
+  } else if (scenarios[scenario.name]) {
+    return appendError(track, scenario);
+  }
+  scenarios[scenario.name] = dupeLocationTrace(scenario);
+  return {scenarios, errors};
+};
+
+const noDuplicateScenarioNames = (feature, file) => {
+  const dupeLocationTrace = locationTrace(file);
+  const collectScenarioErrors = collectErrors(
+    appendError(dupeLocationTrace),
+    dupeLocationTrace
+  );
+
+  return (feature.children || []).reduce(collectScenarioErrors, {
+    scenarios,
+    errors: [],
+  }).errors;
+};
 
 module.exports = {
   name: rule,
   run: noDuplicateScenarioNames,
-  isValidConfig: _.stubTrue,
+  isValidConfig: () => true,
 };
