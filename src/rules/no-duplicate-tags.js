@@ -1,43 +1,51 @@
-const _ = require('lodash');
-
 const rule = 'no-duplicate-tags';
+const {
+  compose,
+  filter,
+  flatMap,
+  intoArray,
+  map,
+} = require('../utils/main');
 
-function noDuplicateTags(feature) {
-  let errors = [];
-  errors = errors.concat(verifyTags(feature.tags, feature.location));
-  if (feature.children !== undefined) {
-    feature.children.forEach(function(child) {
-      errors = errors.concat(verifyTags(child.tags, child.location));
-    });
-  }
-  return errors;
-}
+const isScenario = ({type}) => ['Scenario', 'ScenarioOutline'].indexOf(type) !== -1;
 
-function verifyTags(tags, location) {
-  const errors = [];
-  const failedTagNames = [];
-  const uniqueTagNames = [];
-  if (tags !== undefined && location !== undefined) {
-    tags.forEach(function(tag) {
-      if (!_.includes(failedTagNames, tag.name)) {
-        if (_.includes(uniqueTagNames, tag.name)) {
-          errors.push({
-            message: `Duplicate tags are not allowed: ${ tag.name}`,
-            rule: rule,
-            line: tag.location.line,
-          });
-          failedTagNames.push(tag.name);
-        } else {
-          uniqueTagNames.push(tag.name);
-        }
-      }
-    });
+const collectTagsInfo = (tags, {name, location}) => {
+  const info = tags[name];
+  if (info) {
+    info.count++;
+  } else {
+    tags[name] = {
+      count: 1,
+      location,
+      name,
+    };
   }
-  return errors;
-}
+  return tags;
+};
+
+const verifyTags = ({tags, location}) => {
+  const tagsInfo = tags.reduce(collectTagsInfo, {});
+  return intoArray(compose(
+    filter(({count}) => count > 1),
+    map((tag) => ({
+      message: `Duplicate tags are not allowed: ${tag.name}`,
+      rule: rule,
+      line: tag.location.line,
+    }))
+  ))(tagsInfo);
+};
+
+const noDuplicateTags = (feature) => {
+  const featureErrors = verifyTags(feature);
+  const scenarioErrors = intoArray(compose(
+    filter(isScenario),
+    flatMap(verifyTags)
+  ))(feature.children || []);
+  return featureErrors.concat(scenarioErrors);
+};
 
 module.exports = {
   name: rule,
   run: noDuplicateTags,
-  isValidConfig: _.stubTrue,
+  isValidConfig: () => true,
 };
