@@ -1,22 +1,24 @@
-const _ = require('lodash');
 const rule = 'no-multiple-empty-lines';
 
-function noMulitpleEmptyLines(unused, file) {
-  const errors = [];
-  for (let i = 0; i < file.lines.length - 1; i++) {
-    if (file.lines[i].trim() === '' && file.lines[i + 1].trim() == '') {
-      errors.push({
-        message: 'Multiple empty lines are not allowed',
-        rule: rule,
-        line: i + 2,
-      });
-    }
-  }
-  return errors;
-}
+const isEmptyLine = (line) => line !== undefined ? line.trim() === '' : false;
+const isMultipleEmptyLines =
+  ([lines, index]) => isEmptyLine(lines[index]) && isEmptyLine(lines[index + 1]);
+
+const createError = ([lines, index]) => ({
+  message: 'Multiple empty lines are not allowed',
+  rule: rule,
+  line: index + 2,
+});
+
+const noMulitpleEmptyLines = (unused, file) => {
+  const {lines} = file;
+  return lines.map((unused, index) => [lines, index])
+    .filter(isMultipleEmptyLines)
+    .map(createError);
+};
 
 module.exports = {
   name: rule,
   run: noMulitpleEmptyLines,
-  isValidConfig: _.stubTrue,
+  isValidConfig: () => true,
 };
