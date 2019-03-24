@@ -1,5 +1,5 @@
 const ruleTestBase = require('../rule-test-base');
-const rule = require('../../../dist/rules/no-superfluous-tags.js');
+const rule = require('../../../src/rules/no-superfluous-tags.js');
 const runTest = ruleTestBase.createRuleTest(rule,
   'Tag(s) duplicated on a Feature and a Scenario in that Feature: <%= tags %>');
 
