@@ -1,5 +1,70 @@
-const _ = require('lodash');
 const rule = 'no-unused-variables';
+const {
+  compose,
+  filter,
+  map,
+  reduce,
+} = require('../utils/main');
+const stepVariableRegex = /<([^>]*)>/gu;
+
+const collectVariables = (selector) => (variables, node) => {
+  let match;
+  while ((match = stepVariableRegex.exec(selector(node))) != null) {
+    variables[match[1]] = node.location.line;
+  }
+  return variables;
+};
+
+const collectNameVariables = collectVariables(({name}) => name);
+
+const collectCellVariables = collectVariables(({value}) => value);
+
+const collectTableVariables = (variables, step) => {
+  return step.argument.rows.reduce((variables, row) => {
+    return row.cells.reduce(collectCellVariables, variables);
+  }, variables);
+};
+
+const collectDocStringVariables = collectVariables(({argument}) => {
+  return argument.content;
+});
+
+const collectStepArgumentVariables = (variables, step) => {
+  if (!step.argument) {
+    return variables;
+  } else if (step.argument.type == 'DataTable') {
+    return collectTableVariables(variables, step);
+  } else if (step.argument.type == 'DocString') {
+    return collectDocStringVariables(variables, step);
+  }
+  return variables;
+};
+
+const collectStepVariables = collectVariables((step) => step.text);
+
+const collectScenarioVariables = (scenario) => {
+  const variables = collectNameVariables({}, scenario);
+  return scenario.steps.reduce(function(variables, step) {
+    variables = collectStepArgumentVariables(variables, step);
+    return collectStepVariables(variables, step);
+  }, variables);
+};
+
+const appendExampleVariable = (variables, cell) => {
+  variables[cell.value] = cell.location.line;
+  return variables;
+};
+
+const collectTableExampleVariables = (variables, cells) => reduce(
+  filter(({value}) => value)(appendExampleVariable),
+  variables
+)(cells);
+
+
+const collectExampleVariables = reduce(compose(
+  filter(({tableHeader}) => tableHeader),
+  map(({tableHeader}) => tableHeader.cells)
+)(collectTableExampleVariables), {});
 
 function noUnusedVariables(feature) {
   if (!feature || !feature.children) {
@@ -7,7 +72,6 @@ function noUnusedVariables(feature) {
   }
 
   const errors = [];
-  const stepVariableRegex = /<([^>]*)>/gu;
 
   feature.children.forEach(function(child) {
     if (child.type != 'ScenarioOutline') {
@@ -15,66 +79,8 @@ function noUnusedVariables(feature) {
       return;
     }
 
-    // Maps of variableName -> lineNo
-    const examplesVariables = {};
-    const scenarioVariables = {};
-    let match;
-
-    // Collect all the entries of the examples table
-    if (child.examples) {
-      child.examples.forEach(function(example) {
-        if (example.tableHeader && example.tableHeader.cells) {
-          example.tableHeader.cells.forEach(function(cell) {
-            if (cell.value) {
-              examplesVariables[cell.value] = cell.location.line;
-            }
-          });
-        }
-      });
-    }
-
-
-    // Collect the variables used in the scenario outline
-
-    // Scenario names can include variables
-    while ((match = stepVariableRegex.exec(child.name)) != null) {
-      scenarioVariables[match[1]] = child.location.line;
-    }
-
-    if (child.steps) {
-      child.steps.forEach(function(step) {
-        // Steps can take arguments and their argument can include variables.
-        // The arguments can be of type:
-        // - DocString
-        // - DataTable
-        // For more details, see
-        // https://docs.cucumber.io/gherkin/reference/#step-arguments
-
-        // Collect variables from step arguments
-        if (step.argument) {
-          if (step.argument.type == 'DataTable') {
-            step.argument.rows.forEach(function(row) {
-              row.cells.forEach(function(cell) {
-                if (cell.value) {
-                  while ((match = stepVariableRegex.exec(cell.value)) != null) {
-                    scenarioVariables[match[1]] = cell.location.line;
-                  }
-                }
-              });
-            });
-          } else if (step.argument.type == 'DocString') {
-            while ((match = stepVariableRegex.exec(step.argument.content)) != null) {
-              scenarioVariables[match[1]] = step.location.line;
-            }
-          }
-        }
-
-        // Collect variables from the steps themselves
-        while ((match = stepVariableRegex.exec(step.text)) != null) {
-          scenarioVariables[match[1]] = step.location.line;
-        }
-      });
-    }
+    const examplesVariables = collectExampleVariables(child.examples);
+    const scenarioVariables = collectScenarioVariables(child);
 
     for (const variable in examplesVariables) {
       if (!scenarioVariables[variable]) {
@@ -103,5 +109,5 @@ function noUnusedVariables(feature) {
 module.exports = {
   name: rule,
   run: noUnusedVariables,
-  isValidConfig: _.stubTrue,
+  isValidConfig: () => true,
 };

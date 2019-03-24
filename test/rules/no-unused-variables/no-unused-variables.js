@@ -1,5 +1,5 @@
 const ruleTestBase = require('../rule-test-base');
-const rule = require('../../../dist/rules/no-unused-variables.js');
+const rule = require('../../../src/rules/no-unused-variables.js');
 
 
 describe('No unused variables rule', function() {
