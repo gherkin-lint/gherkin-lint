@@ -1,5 +1,5 @@
 const ruleTestBase = require('../rule-test-base');
-const rule = require('../../../dist/rules/indentation.js');
+const rule = require('../../../src/rules/indentation.js');
 const runTest = ruleTestBase.createRuleTest(rule,
   'Wrong indentation for "<%= element %>", expected indentation level of <%= expected %>, but got <%= actual %>');
 
@@ -50,9 +50,13 @@ const wrongIndenatationErrors = [{
   line: 15,
 }];
 
-describe('Indentation rule', function() {
+describe('Indentation rule', () => {
   it('doesn\'t raise errors when the default conifguration is used and there are no indentation violations (spaces)', function() {
     runTest('indentation/CorrectIndentationSpaces.feature', {}, []);
+  });
+
+  it('doesn\'t raise errors when the file is empty', function() {
+    runTest('Empty.feature', {}, []);
   });
 
   it('doesn\'t raise errors when the default conifguration is used are and there no indentation violations (tabs)', function() {
