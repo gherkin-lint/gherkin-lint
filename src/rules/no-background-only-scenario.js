@@ -1,34 +1,22 @@
 const rule = 'no-background-only-scenario';
-const _ = require('lodash');
 
-function noBackgroundEmptyScenario(feature) {
-  const errors = [];
+const createError = (background) => ({
+  message: 'Backgrounds are not allowed when there is just one scenario.',
+  rule: rule,
+  line: background.location.line,
+});
 
-  if (feature.children) {
-    feature.children.forEach(function(child) {
-      if (child.type ==='Background') {
-        if (feature.children.length <= 2) {
-          // as just one background is allowed, if there is a background in the feature,
-          // there must be at least, three elements in the feature to have, more than
-          // one scenario
-          errors.push(createError(child));
-        }
-      }
-    });
-  }
-  return errors;
-}
+const noBackgroundEmptyScenario = (feature) => {
+  const children = feature.children || [];
+  const firstChild = children[0] || {};
 
-function createError(background) {
-  return {
-    message: 'Backgrounds are not allowed when there is just one scenario.',
-    rule: rule,
-    line: background.location.line,
-  };
-}
+  return firstChild.type === 'Background' && children.length <= 2
+    ? [createError(firstChild)]
+    : [];
+};
 
 module.exports = {
   name: rule,
   run: noBackgroundEmptyScenario,
-  isValidConfig: _.stubTrue,
+  isValidConfig: () => true,
 };
