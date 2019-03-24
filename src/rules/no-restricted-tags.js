@@ -1,41 +1,39 @@
-const _ = require('lodash');
 const rule = 'no-restricted-tags';
 const objectRuleValidation = require('../config-validation/object-rule-validation');
 const availableConfigs = {
   'tags': [],
 };
+const {
+  compose,
+  filter,
+  flatMap,
+  intoArray,
+  map,
+} = require('../utils/main');
 
-function noRestrictedTags(feature, fileName, configuration) {
+const isForbidden = (forbiddenTags) => (tag) => forbiddenTags.indexOf(tag.name) !== -1;
+
+const createError = (node) => (tag) => ({
+  message: `Forbidden tag ${tag.name} on ${node.type}`,
+  rule: rule,
+  line: tag.location.line,
+});
+
+const checkTags = (predicate) => (node) => {
+  return intoArray(compose(
+    filter(predicate),
+    map(createError(node))
+  ))(node.tags || []);
+};
+
+const noRestrictedTags = (feature, fileName, configuration) => {
   const forbiddenTags = configuration.tags;
-
-  const featureErrors = checkTags(feature, forbiddenTags);
-
-  const childrenErrors = _(feature.children).map(function(child) {
-    return checkTags(child, forbiddenTags);
-  }).flatten().value();
+  const checkForbiddenTags = checkTags(isForbidden(forbiddenTags));
+  const featureErrors = checkForbiddenTags(feature);
+  const childrenErrors = intoArray(flatMap(checkForbiddenTags))(feature.children || []);
 
   return featureErrors.concat(childrenErrors);
-}
-
-function checkTags(node, forbiddenTags) {
-  return (node.tags || []).filter(function(tag) {
-    return isForbidden(tag, forbiddenTags);
-  }).map(function(tag) {
-    return createError(node, tag);
-  });
-}
-
-function isForbidden(tag, forbiddenTags) {
-  return _.includes(forbiddenTags, tag.name);
-}
-
-function createError(node, tag) {
-  return {
-    message: `Forbidden tag ${ tag.name } on ${ node.type}`,
-    rule: rule,
-    line: tag.location.line,
-  };
-}
+};
 
 module.exports = {
   name: rule,
