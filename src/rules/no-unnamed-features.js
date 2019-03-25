@@ -1,7 +1,7 @@
 const rule = 'no-unnamed-features';
 
 const noUnNamedFeatures = ({name, location}) => {
-  return !name ? [{
+  return !name && location ? [{
     message: 'Missing Feature name',
     rule: rule,
     line: location.line,

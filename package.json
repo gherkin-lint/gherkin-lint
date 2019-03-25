@@ -53,7 +53,7 @@
       "url": "https://github.com/JuanMaRuiz"
     }
   ],
-  "main": "dist/main.js",
+  "main": "src/main.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/xgbuils/pickle-lint"
@@ -83,16 +83,13 @@
     "sinon": "7.2.7"
   },
   "bin": {
-    "gherkin-lint": "dist/main.js"
+    "gherkin-lint": "src/main.js"
   },
   "scripts": {
-    "build": "babel src -d dist",
-    "demo": "node ./dist/main.js . -c ./test-data-wip/.gherkin-lintrc",
+    "demo": "node ./src/main.js . -c ./test-data-wip/.gherkin-lintrc",
     "lint": "eslint ./src ./test",
     "lint-fix": "eslint ./src ./test --fix",
-    "mocha": "mocha --recursive",
-    "prepublish": "npm run build",
-    "test-only": "npm run build && npm run mocha",
+    "test-only": "mocha --recursive",
     "check": "npm-check -i gherkin -i sinon",
     "test": "npm run lint && npm run test-only && npm run check",
     "coveralls": "npm run coverage && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",

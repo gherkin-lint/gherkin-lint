@@ -17,15 +17,13 @@ RulesManager.prototype.runAllEnabledRules = function(feature, file) {
 
   this.rules.forEach(function(rule) {
     if (!ignoreFutureErrors) {
-      const error = rule.run(feature, file, rule.config);
+      const ruleErrors = rule.run(feature, file, rule.config);
 
-      if (error) {
-        if (rule.suppressOtherRules) {
-          errors = [error];
-          ignoreFutureErrors = true;
-        } else {
-          errors = errors.concat(error);
-        }
+      if (rule.suppressOtherRules) {
+        errors = ruleErrors;
+        ignoreFutureErrors = true;
+      } else {
+        errors = errors.concat(...ruleErrors);
       }
     }
   });

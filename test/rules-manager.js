@@ -5,7 +5,7 @@ const RulesManager = require('../src/rules-manager.js');
 const errorRule = function(name, error) {
   return {
     name: name,
-    run: _.constant(error),
+    run: _.constant([error]),
   };
 };
 
@@ -18,7 +18,7 @@ const priorityErrorRule = function(name, error) {
 const successRule = function(name) {
   return {
     name: name,
-    run: _.noop,
+    run: _.constant([]),
   };
 };
 
