@@ -5,9 +5,15 @@
 [![npm Version][7]][8]
 [![Coverage Status][9]][10]
 
-`pickle-lint` Uses [Gherkin](https://github.com/cucumber/gherkin-javascript) to parse feature files and runs linting against the default rules, and the optional rules you specified in your `.gherkin-lintrc` file.
+Uses [Gherkin](https://github.com/cucumber/gherkin-javascript) to parse feature files and runs linting against the default rules, and the optional rules you specified in your `.gherkin-lintrc` file.
 
-`pickle-lint` is forked from [gherkin-lint](https://www.npmjs.com/package/gherkin-lint) and  aims to improve the code quality and documentation of the project. This project will solve the [issues](https://github.com/vsiakka/gherkin-lint/issues) that have been open for more than 6 months. If `gherkin-lint` is maintained again, `pickle-lint` will try to be merged into `gherkin-lint`.
+`pickle-lint` is forked from [gherkin-lint](https://www.npmjs.com/package/gherkin-lint) and  aims to:
+- solve critical bugs of the project.
+- improve the code quality adding more tests and moving side effects(logging, file reading, etc) to the top of the application.
+- solve [issues](https://github.com/vsiakka/gherkin-lint/issues) that have been open for a long time.
+- improve the documentation.
+
+If `gherkin-lint` is maintained again, `pickle-lint` will try to be merged into [gherkin-lint](https://www.npmjs.com/package/gherkin-lint).
 
 ## Installation
 ```
@@ -193,8 +199,6 @@ pickle-lint --rulesdir "/path/to/my/rulesdir" --rulesdir "from/cwd/rulesdir"
 
 Paths can either be absolute or relative to the current working directory.
 Have a look at the `src/rules/` directory for examples; The `no-empty-file` rule is a good example to start with.
-
-[![devDependencies Status](https://david-dm.org/xgbuils/rearrange/dev-status.svg)](https://david-dm.org/xgbuils/rearrange?type=dev)
 
   [1]: https://travis-ci.org/xgbuils/pickle-lint.svg?branch=master
   [2]: https://travis-ci.org/xgbuils/pickle-lint
