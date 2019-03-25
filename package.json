@@ -70,8 +70,6 @@
     "lodash": "4.17.11"
   },
   "devDependencies": {
-    "babel-cli": "6.26.0",
-    "babel-preset-env": "1.7.0",
     "chai": "4.2.0",
     "coveralls": "^3.0.3",
     "eslint": "5.15.3",
@@ -93,7 +91,7 @@
     "check": "npm-check -i gherkin -i sinon",
     "test": "npm run lint && npm run test-only && npm run check",
     "coveralls": "npm run coverage && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
-    "coverage": "nyc --reporter=lcov --require babel-register npm run test-only && nyc report"
+    "coverage": "nyc --reporter=lcov --out-dir lib npm run test-only && nyc report"
   },
   "license": "ISC"
 }
