@@ -1,15 +1,15 @@
 const rule = 'no-empty-background';
 
-const createError = (background) => {
-  return {
-    message: 'Empty backgrounds are not allowed.',
-    rule: rule,
-    line: background.location.line,
-  };
-};
+const {getFeatureNodes} = require('../utils/selectors');
+
+const createError = (background) => ({
+  message: 'Empty backgrounds are not allowed.',
+  rule: rule,
+  line: background.location.line,
+});
 
 const noEmptyBackground = (feature) => {
-  const children = feature.children || [];
+  const children = getFeatureNodes(feature);
   const firstChild = children[0] || {};
 
   return firstChild.type === 'Background' && firstChild.steps.length === 0
