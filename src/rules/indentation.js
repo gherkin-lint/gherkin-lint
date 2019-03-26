@@ -13,12 +13,12 @@ const {
   getExamples,
   getTableBody,
   getTableHeader,
-  getSteps,
 } = require('../utils/selectors');
 
 const {
   checkFeatureNode,
   checkFeatureNodes,
+  checkSteps,
 } = require('../utils/check-utils');
 
 const {
@@ -111,7 +111,7 @@ const testFeature = (testStep, test) => {
     checkTags(test('scenario tag')),
   ]);
 
-  const checkStepsAfter = appendCheck(checkOverChildren(getSteps)(testStep));
+  const checkStepsAfter = appendCheck(checkSteps(testStep));
 
   const checkIndentationOnFeatureNode = checkFeatureNode({
     Background: checkStepsAfter(test('Background')),

@@ -1,15 +1,21 @@
 const rule = 'name-length';
 const objectRuleValidation = require('../config-validation/object-rule-validation');
-const {
-  flatMap,
-  intoArray,
-} = require('../utils/main');
-
 const availableConfigs = {
   'Feature': 70,
   'Step': 70,
   'Scenario': 70,
 };
+
+const {
+  appendCheck,
+  checksOverNode,
+} = require('../utils/check-base');
+
+const {
+  checkFeatureNode,
+  checkFeatureNodes,
+  checkSteps,
+} = require('../utils/check-utils');
 
 const test = (configuration) => (name, location, type) => {
   const expectedLength = configuration[type];
@@ -22,14 +28,6 @@ const test = (configuration) => (name, location, type) => {
   }] : [];
 };
 
-const testOverChildren = (childrenName, test) => (node) => {
-  return intoArray(flatMap(test))(node[childrenName]);
-};
-
-const testsOverNode = (tests) => (node) => {
-  return intoArray(flatMap((test) => test(node)))(tests);
-};
-
 const testStepFactory = (testLength) => (step) => {
   return testLength(step.text, step.location, 'Step');
 };
@@ -39,28 +37,23 @@ const testNodeFactory = (testLength, type) => (scenario) => {
 };
 
 function nameLength(feature, unused, configuration) {
-  if (!feature || Object.keys(feature).length === 0) {
-    return;
+  if (Object.keys(feature).length === 0) {
+    return [];
   }
   const testLength = test(Object.assign({}, availableConfigs, configuration));
   const testStep = testStepFactory(testLength);
-  const testSteps = testOverChildren('steps', testStep);
-  const testScenario = testsOverNode([
-    testNodeFactory(testLength, 'Scenario'),
-    testSteps,
-  ]);
-  const tests = {
+  const testSteps = checkSteps(testStep);
+  const checkStepsAfter = appendCheck(testSteps);
+  const testScenario = checkStepsAfter(testNodeFactory(testLength, 'Scenario'));
+  const checkNameLength = checkFeatureNode({
     Scenario: testScenario,
     ScenarioOutline: testScenario,
     Background: testSteps,
-  };
-  const testFeatureNodes = testOverChildren('children', (child) => {
-    return tests[child.type](child);
   });
 
-  return testsOverNode([
+  return checksOverNode([
     testNodeFactory(testLength, 'Feature'),
-    testFeatureNodes,
+    checkFeatureNodes(checkNameLength),
   ])(feature);
 }
 
