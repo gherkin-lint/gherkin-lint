@@ -5,6 +5,7 @@ const {
   intoArray,
   map,
 } = require('../utils/main');
+const {getFeatureNodes} = require('../utils/selectors');
 
 const SUPERFLUOUS_TAGS_MESSAGE =
   'Tag(s) duplicated on a Feature and a Scenario in that Feature';
@@ -28,7 +29,7 @@ const noSuperfluousTags = (feature) => {
     map(({tags}) => tags.filter(({name}) => featureTags.has(name))),
     filter((tags) => tags.length > 0),
     map(createError)
-  ))(feature.children || []);
+  ))(getFeatureNodes(feature));
 };
 
 module.exports = {

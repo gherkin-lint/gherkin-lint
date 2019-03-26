@@ -5,6 +5,7 @@ const {
   map,
   reduce,
 } = require('../utils/main');
+const {getFeatureNodes} = require('../utils/selectors');
 const stepVariableRegex = /<([^>]*)>/gu;
 
 const collectVariables = (selector) => (variables, node) => {
@@ -67,13 +68,10 @@ const collectExampleVariables = reduce(compose(
 )(collectTableExampleVariables), {});
 
 function noUnusedVariables(feature) {
-  if (!feature || !feature.children) {
-    return [];
-  }
-
+  const children = getFeatureNodes(feature);
   const errors = [];
 
-  feature.children.forEach(function(child) {
+  children.forEach(function(child) {
     if (child.type != 'ScenarioOutline') {
       // Variables are a feature of Scenario Outlines only
       return;

@@ -1,4 +1,5 @@
 const rule = 'no-unnamed-scenarios';
+const {getFeatureNodes} = require('../utils/selectors');
 
 const createError = (scenario) => ({
   message: 'Missing Scenario name',
@@ -7,7 +8,7 @@ const createError = (scenario) => ({
 });
 
 const noUnNamedScenarios = (feature) => {
-  return (feature.children || [])
+  return getFeatureNodes(feature)
     .filter(({name, type}) => !name && type === 'Scenario')
     .map(createError);
 };

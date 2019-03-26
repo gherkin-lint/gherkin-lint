@@ -1,5 +1,6 @@
 const rule = 'no-dupe-scenario-names';
 const scenarios = {};
+const {getFeatureNodes} = require('../utils/selectors');
 
 const locationTrace = (file) => (scenario) => `${file.name}:${scenario.location.line}`;
 
@@ -32,7 +33,7 @@ const noDuplicateScenarioNames = (feature, file) => {
     dupeLocationTrace
   );
 
-  return (feature.children || []).reduce(collectScenarioErrors, {
+  return getFeatureNodes(feature).reduce(collectScenarioErrors, {
     scenarios,
     errors: [],
   }).errors;

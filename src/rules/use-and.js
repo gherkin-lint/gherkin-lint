@@ -5,6 +5,7 @@ const {
   intoArray,
   reduce,
 } = require('../utils/main');
+const {getFeatureNodes} = require('../utils/selectors');
 
 const createError = ({keyword, location, text}) => {
   return {
@@ -30,7 +31,7 @@ const useAnd = (feature) => {
         errors: [],
       }
     )(node.steps).errors;
-  }))(feature.children || []);
+  }))(getFeatureNodes(feature));
 };
 
 module.exports = {

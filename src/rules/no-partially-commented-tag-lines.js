@@ -6,6 +6,7 @@ const {
   intoArray,
   map,
 } = require('../utils/main');
+const {getFeatureNodes} = require('../utils/selectors');
 
 const isScenario = ({type}) => ['Scenario', 'ScenarioOutline'].indexOf(type) !== -1;
 
@@ -21,7 +22,7 @@ const noPartiallyCommentedTagLines = (feature) => {
     flatMap(({tags}) => tags),
     filter((tag) => tag.name.indexOf('#') > 0),
     map(createError)
-  ))(feature.children || []);
+  ))(getFeatureNodes(feature));
 };
 
 module.exports = {

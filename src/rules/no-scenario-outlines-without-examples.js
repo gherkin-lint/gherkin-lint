@@ -5,6 +5,7 @@ const {
   intoArray,
   map,
 } = require('../utils/main');
+const {getFeatureNodes} = require('../utils/selectors');
 
 const isScenarioOutline = ({type}) => type === 'ScenarioOutline';
 const hasNoExamples = ({examples}) => !examples.length;
@@ -20,7 +21,7 @@ const noScenarioOutlinesWithoutExamples = (feature) => {
     filter(isScenarioOutline),
     filter(hasNoExamples),
     map(createError)
-  ))(feature.children || []);
+  ))(getFeatureNodes(feature));
 };
 
 module.exports = {

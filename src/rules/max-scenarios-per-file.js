@@ -6,6 +6,8 @@ const {
   map,
   reduce,
 } = require('../utils/main');
+const {getFeatureNodes} = require('../utils/selectors');
+
 const defaultConfig = {
   'maxScenarios': 10,
 };
@@ -25,7 +27,7 @@ function maxScenariosPerFile(feature, unused, config) {
   const count = reduce(compose(
     filter(isScenario),
     map(({examples}) => examples ? countExamples(examples) : 1)
-  )(sum), 0)(feature.children || []);
+  )(sum), 0)(getFeatureNodes(feature));
 
   return count > maxScenarios ? [{
     message: `Number of scenarios exceeds maximum: ${count}/${ maxScenarios}`,

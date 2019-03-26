@@ -6,6 +6,7 @@ const {
   intoArray,
   map,
 } = require('../utils/main');
+const {getFeatureNodes} = require('../utils/selectors');
 
 const groupTagsPerLine = require('../utils/group-tags-per-line');
 
@@ -47,7 +48,7 @@ function run(feature) {
     filter(isScenario),
     map(({tags}) => tags),
     flatMap(testTags)
-  ))(feature.children || []);
+  ))(getFeatureNodes(feature));
 
   return featureTagErrors.concat(scenarioTagErrors);
 }
