@@ -3,16 +3,20 @@ const objectRuleValidation = require('../config-validation/object-rule-validatio
 const {
   compose,
   filter,
-  flatMap,
   intoArray,
   map,
 } = require('../utils/main');
 
+const {
+  checkScenarios,
+  checkFeatureNodes,
+} = require('../utils/check-utils');
+
+const {checksOverNode} = require('../utils/check-base');
+
 const availableConfigs = {
   'tags': [],
 };
-
-const isScenario = ({type}) => ['Scenario', 'ScenarioOutline'].indexOf(type) !== -1;
 
 const isNotAllowed = (allowedTags) => (tag) => allowedTags.indexOf(tag.name) === -1;
 
@@ -32,13 +36,11 @@ const checkTags = (predicate) => (node) => {
 function allowedTags(feature, fileName, configuration) {
   const allowedTags = configuration.tags;
   const checkAllowedTags = checkTags(isNotAllowed(allowedTags));
-  const featureErrors = checkAllowedTags(feature);
-  const childrenErrors = intoArray(compose(
-    filter(isScenario),
-    flatMap(checkAllowedTags)
-  ))(feature.children || []);
 
-  return featureErrors.concat(childrenErrors);
+  return checksOverNode([
+    checkAllowedTags,
+    checkFeatureNodes(checkScenarios(checkAllowedTags)),
+  ])(feature);
 }
 
 module.exports = {

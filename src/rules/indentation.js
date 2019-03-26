@@ -9,6 +9,27 @@ const {
   map,
 } = require('../utils/main');
 
+const {
+  getExamples,
+  getTableBody,
+  getTableHeader,
+  getSteps,
+} = require('../utils/selectors');
+
+const {
+  checkFeatureNode,
+  checkFeatureNodes,
+} = require('../utils/check-utils');
+
+const {
+  appendCheck,
+  checksOverNode,
+  checkOverChild,
+  checkOverChildren,
+} = require('../utils/check-base');
+
+const groupTagsPerLine = require('../utils/group-tags-per-line');
+
 const defaultConfig = {
   'Feature': 0,
   'Background': 0,
@@ -29,58 +50,33 @@ const availableConfigs = Object.assign({}, defaultConfig, {
   'scenario tag': -1,
 });
 
-const has = ({}).hasOwnProperty;
-
 const mergeConfiguration = (configuration) => {
   const mergedConfiguration = Object.assign({}, defaultConfig, configuration);
-  if (!has.call(mergedConfiguration, 'feature tag')) {
-    mergedConfiguration['feature tag'] = mergedConfiguration['Feature'];
-  }
-  if (!has.call(mergedConfiguration, 'scenario tag')) {
-    mergedConfiguration['scenario tag'] = mergedConfiguration['Scenario'];
-  }
-  return mergedConfiguration;
+  return Object.assign({
+    'feature tag': mergedConfiguration['Feature'],
+    'scenario tag': mergedConfiguration['Scenario'],
+  }, mergedConfiguration);
 };
 
-const testByConfig = (mergedConfiguration) => (type) => (node) => {
-  const parsedLocation = node.location;
-  // location.column is 1 index based so, when we compare with the expected
-  // indentation we need to subtract 1
-  return parsedLocation.column - 1 !== mergedConfiguration[type] ? [{
+const checkNodeIndentation = (mergedConfiguration) => (type) => (node) => {
+  const {location} = node;
+  const expectedIndentation = mergedConfiguration[type];
+  const indentation = location.column - 1;
+
+  return indentation !== expectedIndentation ? [{
     message: `Wrong indentation for "${type}", expected indentation level of ` +
-      `${mergedConfiguration[type]}, but got ${parsedLocation.column - 1}`,
+      `${expectedIndentation}, but got ${indentation}`,
     rule: rule,
-    line: parsedLocation.line,
+    line: location.line,
   }] : [];
 };
 
-const updateTag = (tagsPerLine, tag) => {
-  const {line} = tag.location;
-  const currentTag = tagsPerLine.get(line);
-  if (!currentTag || tag.location.line < currentTag.location.line) {
-    tagsPerLine.set(line, tag);
-  }
-  return tagsPerLine;
-};
-
-const testTags = (testNode) => (node) => {
-  const firstTagPerLine = [...node.tags.reduce(updateTag, new Map())];
+const checkTags = (testNode) => (node) => {
+  const tagsPerLine = groupTagsPerLine(node.tags);
   return intoArray(compose(
-    map(([, tag])=> tag),
+    map(([tag])=> tag),
     flatMap(testNode)
-  ))(firstTagPerLine);
-};
-
-const testsOverNode = (tests) => (node) => {
-  return intoArray(flatMap((test) => test(node)))(tests);
-};
-
-const testOverChild = (childName, test) => (node) => {
-  return test(node[childName]);
-};
-
-const testOverChildren = (childrenName, test) => (node) => {
-  return intoArray(flatMap(test))(node[childrenName]);
+  ))(tagsPerLine);
 };
 
 const findKey = (obj, predicate) => {
@@ -96,62 +92,54 @@ const testStep = (feature, configuration, testNode) => (step) => {
   return testNode(stepType)(step);
 };
 
-const testFeature = (feature, testStep, test) => {
-  const testScenario = testsOverNode([
+const testFeature = (testStep, test) => {
+  const testScenario = checksOverNode([
     test('Scenario'),
-    testTags(test('scenario tag')),
+    checkTags(test('scenario tag')),
   ]);
-  const testTableHeader = testOverChild('tableHeader', test('example'));
-  const testTableBody = testOverChildren('tableBody', test('example'));
-  const testExamplesPerTable = testsOverNode([
+  const testTableHeader = checkOverChild(getTableHeader)(test('example'));
+  const testTableBody = checkOverChildren(getTableBody)(test('example'));
+  const testExamplesPerTable = checksOverNode([
     test('Examples'),
     testTableHeader,
     testTableBody,
   ]);
-  const testExamples = testOverChildren('examples', testExamplesPerTable);
-  const testScenarioOutline = testsOverNode([
+  const testExamples = checkOverChildren(getExamples)(testExamplesPerTable);
+  const testScenarioOutline = checksOverNode([
     test('Scenario'),
     testExamples,
-    testTags(test('scenario tag')),
+    checkTags(test('scenario tag')),
   ]);
 
-  const featureNodesMap = {
-    Background: test('Background'),
-    Scenario: testScenario,
-    ScenarioOutline: testScenarioOutline,
-  };
+  const checkStepsAfter = appendCheck(checkOverChildren(getSteps)(testStep));
 
-  const testFeatureNode = (node) => {
-    return testsOverNode([
-      featureNodesMap[node.type],
-      testOverChildren('steps', testStep),
-    ])(node);
-  };
+  const checkIndentationOnFeatureNode = checkFeatureNode({
+    Background: checkStepsAfter(test('Background')),
+    Scenario: checkStepsAfter(testScenario),
+    ScenarioOutline: checkStepsAfter(testScenarioOutline),
+  });
 
-  const testFeatureNodes = testOverChildren('children', testFeatureNode);
-
-  return testsOverNode([
+  return checksOverNode([
     test('Feature'),
-    testTags(test('feature tag')),
-    testFeatureNodes,
-  ])(feature);
+    checkTags(test('feature tag')),
+    checkFeatureNodes(checkIndentationOnFeatureNode),
+  ]);
 };
 
-function run(feature, unused, configuration) {
-  if (!feature || Object.keys(feature).length === 0) {
+const run = (feature, unused, configuration) => {
+  if (Object.keys(feature).length === 0) {
     return [];
   }
-  const test = testByConfig(mergeConfiguration(configuration));
+  const test = checkNodeIndentation(mergeConfiguration(configuration));
 
   return testFeature(
-    feature,
     testStep(feature, configuration, test),
     test
-  );
-}
+  )(feature);
+};
 
 module.exports = {
   name: rule,
-  run: run,
+  run,
   isValidConfig: objectRuleValidation(availableConfigs),
 };

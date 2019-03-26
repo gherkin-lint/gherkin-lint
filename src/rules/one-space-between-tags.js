@@ -7,18 +7,9 @@ const {
   map,
 } = require('../utils/main');
 
-const isScenario = ({type}) => ['Scenario', 'ScenarioOutline'].indexOf(type) !== -1;
+const groupTagsPerLine = require('../utils/group-tags-per-line');
 
-const appendTagPerLine = (track, tag) => {
-  const {lines} = track;
-  if (track.line !== tag.location.line) {
-    track.line = tag.location.line;
-    lines.push([tag]);
-  } else {
-    lines[lines.length - 1].push(tag);
-  }
-  return track;
-};
+const isScenario = ({type}) => ['Scenario', 'ScenarioOutline'].indexOf(type) !== -1;
 
 const distance = (tag1, tag2) => {
   if (!tag2) {
@@ -46,13 +37,7 @@ const collectErrorsPerLine = (tags) => {
 };
 
 const testTags = (allTags) => {
-  if (allTags.length === 0) {
-    return [];
-  }
-  const tagsPerLine = allTags.reduce(appendTagPerLine, {
-    lines: [],
-    line: allTags[0].location.line - 1,
-  }).lines;
+  const tagsPerLine = groupTagsPerLine(allTags);
   return intoArray(flatMap(collectErrorsPerLine))(tagsPerLine);
 };
 
