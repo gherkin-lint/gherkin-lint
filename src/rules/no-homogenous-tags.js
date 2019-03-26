@@ -1,6 +1,5 @@
 const rule = 'no-homogenous-tags';
 const {
-  append,
   compose,
   filter,
   intoArray,
@@ -26,10 +25,10 @@ const noHomogenousTags = (feature) => {
     map((tagNames) => uniq(tagNames))
   )(countTags), new Map())(scenarios);
 
-  const homogenousTags = reduce(compose(
+  const homogenousTags = intoArray(compose(
     filter(([tagName, times]) => times === length),
     map(([tagName]) => tagName)
-  )(append), [])([...tagStatistics]);
+  ))([...tagStatistics]);
 
   const homogenousTagsReport = homogenousTags.join(', ');
   return homogenousTagsReport ? [{
