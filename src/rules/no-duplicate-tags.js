@@ -2,12 +2,14 @@ const rule = 'no-duplicate-tags';
 const {
   compose,
   filter,
-  flatMap,
   intoArray,
   map,
 } = require('../utils/main');
-
-const isScenario = ({type}) => ['Scenario', 'ScenarioOutline'].indexOf(type) !== -1;
+const {
+  checkFeatureNodes,
+  checkScenarios,
+} = require('../utils/check-utils');
+const {checksOverNode} = require('../utils/check-base');
 
 const collectTagsInfo = (tags, {name, location}) => {
   const info = tags[name];
@@ -35,14 +37,10 @@ const verifyTags = ({tags, location}) => {
   ))(tagsInfo);
 };
 
-const noDuplicateTags = (feature) => {
-  const featureErrors = verifyTags(feature);
-  const scenarioErrors = intoArray(compose(
-    filter(isScenario),
-    flatMap(verifyTags)
-  ))(feature.children || []);
-  return featureErrors.concat(scenarioErrors);
-};
+const noDuplicateTags = checksOverNode([
+  verifyTags,
+  checkFeatureNodes(checkScenarios(verifyTags)),
+]);
 
 module.exports = {
   name: rule,
