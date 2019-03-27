@@ -1,18 +1,12 @@
 const rule = 'allowed-tags';
 const objectRuleValidation = require('../config-validation/object-rule-validation');
-const {
-  compose,
-  filter,
-  intoArray,
-  map,
-} = require('../utils/main');
+const {applyOver, compose, intoArray} = require('../utils/generic');
+const {filter, map} = require('../utils/transducers');
 
 const {
-  checkScenarios,
-  checkFeatureNodes,
-} = require('../utils/check-utils');
-
-const {checksOverNode} = require('../utils/check-base');
+  applyToScenario,
+  flatMapFeatureNodes,
+} = require('../utils/gherkin');
 
 const availableConfigs = {
   'tags': [],
@@ -37,9 +31,9 @@ function allowedTags(feature, fileName, configuration) {
   const allowedTags = configuration.tags;
   const checkAllowedTags = checkTags(isNotAllowed(allowedTags));
 
-  return checksOverNode([
+  return applyOver([
     checkAllowedTags,
-    checkFeatureNodes(checkScenarios(checkAllowedTags)),
+    flatMapFeatureNodes(applyToScenario(checkAllowedTags)),
   ])(feature);
 }
 

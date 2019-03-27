@@ -3,13 +3,14 @@ const objectRuleValidation = require('../config-validation/object-rule-validatio
 const availableConfigs = {
   'tags': [],
 };
+const {filter, map} = require('../utils/transducers');
 const {
+  applyOver,
   compose,
-  filter,
   flatMap,
   intoArray,
-  map,
-} = require('../utils/main');
+} = require('../utils/generic');
+const {getFeatureNodes} = require('../utils/selectors');
 
 const isForbidden = (forbiddenTags) => (tag) => forbiddenTags.indexOf(tag.name) !== -1;
 
@@ -26,13 +27,14 @@ const checkTags = (predicate) => (node) => {
   ))(node.tags || []);
 };
 
-const noRestrictedTags = (feature, fileName, configuration) => {
+const noRestrictedTags = (feature, unused, configuration) => {
   const forbiddenTags = configuration.tags;
   const checkForbiddenTags = checkTags(isForbidden(forbiddenTags));
-  const featureErrors = checkForbiddenTags(feature);
-  const childrenErrors = intoArray(flatMap(checkForbiddenTags))(feature.children || []);
 
-  return featureErrors.concat(childrenErrors);
+  return applyOver([
+    checkForbiddenTags,
+    compose(flatMap(checkForbiddenTags), getFeatureNodes),
+  ])(feature);
 };
 
 module.exports = {

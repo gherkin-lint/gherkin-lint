@@ -1,11 +1,6 @@
 const rule = 'no-partially-commented-tag-lines';
-const {
-  compose,
-  filter,
-  flatMap,
-  intoArray,
-  map,
-} = require('../utils/main');
+const {compose, intoArray} = require('../utils/generic');
+const {filter, flatMap, map} = require('../utils/transducers');
 const {getFeatureNodes} = require('../utils/selectors');
 
 const isScenario = ({type}) => ['Scenario', 'ScenarioOutline'].indexOf(type) !== -1;

@@ -1,10 +1,6 @@
 const rule = 'no-scenario-outlines-without-examples';
-const {
-  compose,
-  filter,
-  intoArray,
-  map,
-} = require('../utils/main');
+const {compose, intoArray} = require('../utils/generic');
+const {filter, map} = require('../utils/transducers');
 const {getFeatureNodes} = require('../utils/selectors');
 
 const isScenarioOutline = ({type}) => type === 'ScenarioOutline';

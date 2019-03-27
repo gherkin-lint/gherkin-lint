@@ -1,11 +1,10 @@
 const rule = 'no-homogenous-tags';
 const {
   compose,
-  filter,
   intoArray,
-  map,
   reduce,
-} = require('../utils/main');
+} = require('../utils/generic');
+const {filter, map} = require('../utils/transducers');
 const {getFeatureNodes} = require('../utils/selectors');
 
 const isScenario = ({type}) => ['Scenario', 'ScenarioOutline'].indexOf(type) !== -1;

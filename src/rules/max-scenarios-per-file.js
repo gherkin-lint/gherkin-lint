@@ -1,11 +1,7 @@
 const rule = 'max-scenarios-per-file';
 const objectRuleValidation = require('../config-validation/object-rule-validation');
-const {
-  compose,
-  filter,
-  map,
-  reduce,
-} = require('../utils/main');
+const {compose, reduce} = require('../utils/generic');
+const {filter, map} = require('../utils/transducers');
 const {getFeatureNodes} = require('../utils/selectors');
 
 const defaultConfig = {

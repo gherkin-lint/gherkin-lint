@@ -1,14 +1,6 @@
 const languageMapping = require('gherkin').DIALECTS;
 const rule = 'indentation';
 const objectRuleValidation = require('../config-validation/object-rule-validation');
-
-const {
-  compose,
-  flatMap,
-  intoArray,
-  map,
-} = require('../utils/main');
-
 const {
   getExamples,
   getTableBody,
@@ -16,17 +8,17 @@ const {
 } = require('../utils/selectors');
 
 const {
-  checkFeatureNode,
-  checkFeatureNodes,
-  checkSteps,
-} = require('../utils/check-utils');
+  applyToFeatureNode,
+  flatMapFeatureNodes,
+  flatMapSteps,
+} = require('../utils/gherkin');
 
 const {
-  appendCheck,
-  checksOverNode,
-  checkOverChild,
-  checkOverChildren,
-} = require('../utils/check-base');
+  applyAfter,
+  applyOver,
+  compose,
+  flatMap,
+} = require('../utils/generic');
 
 const groupTagsPerLine = require('../utils/group-tags-per-line');
 
@@ -73,10 +65,8 @@ const checkNodeIndentation = (mergedConfiguration) => (type) => (node) => {
 
 const checkTags = (testNode) => (node) => {
   const tagsPerLine = groupTagsPerLine(node.tags);
-  return intoArray(compose(
-    map(([tag])=> tag),
-    flatMap(testNode)
-  ))(tagsPerLine);
+  const getFirstTag = ([tag])=> tag;
+  return flatMap(compose(testNode, getFirstTag))(tagsPerLine);
 };
 
 const findKey = (obj, predicate) => {
@@ -93,36 +83,36 @@ const testStep = (feature, configuration, testNode) => (step) => {
 };
 
 const testFeature = (testStep, test) => {
-  const testScenario = checksOverNode([
+  const testScenario = applyOver([
     test('Scenario'),
     checkTags(test('scenario tag')),
   ]);
-  const testTableHeader = checkOverChild(getTableHeader)(test('example'));
-  const testTableBody = checkOverChildren(getTableBody)(test('example'));
-  const testExamplesPerTable = checksOverNode([
+  const testTableHeader = compose(test('example'), getTableHeader);
+  const testTableBody = compose(flatMap(test('example')), getTableBody);
+  const testExamplesPerTable = applyOver([
     test('Examples'),
     testTableHeader,
     testTableBody,
   ]);
-  const testExamples = checkOverChildren(getExamples)(testExamplesPerTable);
-  const testScenarioOutline = checksOverNode([
+  const testExamples = compose(flatMap(testExamplesPerTable), getExamples);
+  const testScenarioOutline = applyOver([
     test('Scenario'),
     testExamples,
     checkTags(test('scenario tag')),
   ]);
 
-  const checkStepsAfter = appendCheck(checkSteps(testStep));
+  const checkStepsAfter = applyAfter(flatMapSteps(testStep));
 
-  const checkIndentationOnFeatureNode = checkFeatureNode({
+  const checkIndentationOnFeatureNode = applyToFeatureNode({
     Background: checkStepsAfter(test('Background')),
     Scenario: checkStepsAfter(testScenario),
     ScenarioOutline: checkStepsAfter(testScenarioOutline),
   });
 
-  return checksOverNode([
+  return applyOver([
     test('Feature'),
     checkTags(test('feature tag')),
-    checkFeatureNodes(checkIndentationOnFeatureNode),
+    flatMapFeatureNodes(checkIndentationOnFeatureNode),
   ]);
 };
 

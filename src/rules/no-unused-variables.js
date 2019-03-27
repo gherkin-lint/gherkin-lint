@@ -1,10 +1,9 @@
 const rule = 'no-unused-variables';
 const {
   compose,
-  filter,
-  map,
   reduce,
-} = require('../utils/main');
+} = require('../utils/generic');
+const {filter, map} = require('../utils/transducers');
 const {getFeatureNodes} = require('../utils/selectors');
 const stepVariableRegex = /<([^>]*)>/gu;
 

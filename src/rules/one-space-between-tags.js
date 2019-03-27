@@ -1,11 +1,6 @@
 const rule = 'one-space-between-tags';
-const {
-  compose,
-  filter,
-  flatMap,
-  intoArray,
-  map,
-} = require('../utils/main');
+const {compose, intoArray} = require('../utils/generic');
+const {filter, flatMap, map} = require('../utils/transducers');
 const {getFeatureNodes} = require('../utils/selectors');
 
 const groupTagsPerLine = require('../utils/group-tags-per-line');

@@ -1,9 +1,7 @@
 const rule = 'use-and';
-const {
-  filter,
-  reduce,
-} = require('../utils/main');
-const {checkFeatureNodes} = require('../utils/check-utils');
+const {reduce} = require('../utils/generic');
+const {filter} = require('../utils/transducers');
+const {flatMapFeatureNodes} = require('../utils/gherkin');
 
 const createError = ({keyword, location, text}) => ({
   message: `Step "${keyword}${text}" should use And instead of ${keyword}`,
@@ -21,7 +19,7 @@ const appendErrors = (track, step) => {
 };
 
 const useAnd = (feature) => {
-  return checkFeatureNodes((node) => {
+  return flatMapFeatureNodes((node) => {
     return reduce(
       filter(({keyword}) => keyword !== 'And ')(appendErrors), {
         errors: [],

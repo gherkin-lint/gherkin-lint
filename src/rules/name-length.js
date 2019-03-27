@@ -7,15 +7,15 @@ const availableConfigs = {
 };
 
 const {
-  appendCheck,
-  checksOverNode,
-} = require('../utils/check-base');
+  applyAfter,
+  applyOver,
+} = require('../utils/generic');
 
 const {
-  checkFeatureNode,
-  checkFeatureNodes,
-  checkSteps,
-} = require('../utils/check-utils');
+  applyToFeatureNode,
+  flatMapFeatureNodes,
+  flatMapSteps,
+} = require('../utils/gherkin');
 
 const test = (configuration) => (name, location, type) => {
   const expectedLength = configuration[type];
@@ -42,18 +42,18 @@ function nameLength(feature, unused, configuration) {
   }
   const testLength = test(Object.assign({}, availableConfigs, configuration));
   const testStep = testStepFactory(testLength);
-  const testSteps = checkSteps(testStep);
-  const checkStepsAfter = appendCheck(testSteps);
+  const testSteps = flatMapSteps(testStep);
+  const checkStepsAfter = applyAfter(testSteps);
   const testScenario = checkStepsAfter(testNodeFactory(testLength, 'Scenario'));
-  const checkNameLength = checkFeatureNode({
+  const checkNameLength = applyToFeatureNode({
     Scenario: testScenario,
     ScenarioOutline: testScenario,
     Background: testSteps,
   });
 
-  return checksOverNode([
+  return applyOver([
     testNodeFactory(testLength, 'Feature'),
-    checkFeatureNodes(checkNameLength),
+    flatMapFeatureNodes(checkNameLength),
   ])(feature);
 }
 
