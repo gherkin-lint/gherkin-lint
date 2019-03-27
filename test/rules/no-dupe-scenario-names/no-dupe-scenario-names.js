@@ -1,7 +1,7 @@
 const ruleTestBase = require('../rule-test-base');
 const rule = require('../../../src/rules/no-dupe-scenario-names');
-const runTest = ruleTestBase.createRuleTest(
-  rule, 'Scenario name is already used in: <%= files %>');
+const runTest = ruleTestBase.createRuleTest(rule, ({files}) =>
+  `Scenario name is already used in: ${files}`);
 const PATH = 'test/rules/';
 const NO_VIOLATIONS_FILE = 'no-dupe-scenario-names/NoViolations.feature';
 const VIOLATIONS_FILE = 'no-dupe-scenario-names/Violations.feature';

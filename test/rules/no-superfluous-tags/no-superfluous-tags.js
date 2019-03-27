@@ -1,7 +1,7 @@
 const ruleTestBase = require('../rule-test-base');
 const rule = require('../../../src/rules/no-superfluous-tags.js');
-const runTest = ruleTestBase.createRuleTest(rule,
-  'Tag(s) duplicated on a Feature and a Scenario in that Feature: <%= tags %>');
+const runTest = ruleTestBase.createRuleTest(rule, ({tags}) =>
+  `Tag(s) duplicated on a Feature and a Scenario in that Feature: ${tags}`);
 
 describe('No Superfluous Tags Rule', function() {
   it('doesn\'t raise errors when there are no violations', function() {

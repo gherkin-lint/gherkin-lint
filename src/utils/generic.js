@@ -35,6 +35,8 @@ const applyAfter = (appendedCheck) => (check) => applyOver([
   appendedCheck,
 ]);
 
+const uniq = (array) => [...new Set(array)];
+
 module.exports = {
   append,
   applyAfter,
@@ -44,4 +46,5 @@ module.exports = {
   flatMap,
   intoArray,
   reduce,
+  uniq,
 };

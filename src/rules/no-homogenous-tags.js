@@ -3,12 +3,11 @@ const {
   compose,
   intoArray,
   reduce,
+  uniq,
 } = require('../utils/generic');
 const {filter, map} = require('../utils/transducers');
 const {getFeatureNodes} = require('../utils/selectors');
 const {filterScenarios} = require('../utils/gherkin');
-
-const uniq = (array) => [...new Set(array)];
 
 const countTags = (tagStatistics, tagsNames) => {
   return tagsNames.reduce((tagStatistics, tagName) => {

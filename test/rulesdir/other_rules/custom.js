@@ -1,4 +1,3 @@
-const _ = require('lodash');
 const rule = 'another-custom';
 
 function custom() {
@@ -14,5 +13,5 @@ function custom() {
 module.exports = {
   name: rule,
   run: custom,
-  isValidConfig: _.stubTrue,
+  isValidConfig: () => true,
 };

@@ -1,6 +1,7 @@
 const ruleTestBase = require('../rule-test-base');
 const rule = require('../../../src/rules/no-restricted-tags.js');
-const runTest = ruleTestBase.createRuleTest(rule, 'Forbidden tag <%= tags %> on <%= nodeType %>');
+const runTest = ruleTestBase.createRuleTest(rule, ({tags, nodeType}) =>
+  `Forbidden tag ${tags} on ${nodeType}`);
 
 describe('No Restricted Tags Rule', function() {
   it('detects an error when property is not "tags"', function() {

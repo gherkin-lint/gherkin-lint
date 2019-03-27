@@ -1,6 +1,7 @@
 const ruleTestBase = require('../rule-test-base');
 const rule = require('../../../src/rules/use-and.js');
-const runTest = ruleTestBase.createRuleTest(rule, 'Step "<%= keyword %> <%= text %>" should use And instead of <%= keyword %> ');
+const runTest = ruleTestBase.createRuleTest(rule, ({keyword, text}) =>
+  `Step "${keyword} ${text}" should use And instead of ${keyword} `);
 
 describe('No Unnamed Features Rule', function() {
   it('doesn\'t raise errors when there are no violations', function() {

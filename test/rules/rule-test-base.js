@@ -1,7 +1,6 @@
 const assert = require('chai').assert;
 const Gherkin = require('gherkin');
 const fs = require('fs');
-const _ = require('lodash');
 const RulesParser = require('../../src/rules-parser');
 require('mocha-sinon');
 
@@ -23,13 +22,13 @@ const runRule = function(result, parsedFile, file) {
 
 function createRuleTest(rule, messageTemplate) {
   return function runTest(featureFile, configuration, expected) {
-    const expectedErrors = _.map(expected, function(error) {
+    const expectedErrors = expected.map((error) => {
       if (typeof error === 'string') {
         return error;
       }
       return {
         rule: rule.name,
-        message: _.template(messageTemplate)(error.messageElements),
+        message: messageTemplate(error.messageElements),
         line: error.line,
       };
     });

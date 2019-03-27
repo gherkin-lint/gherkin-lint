@@ -1,7 +1,9 @@
 const fs = require('fs');
-const _ = require('lodash');
 const Gherkin = require('gherkin');
 const parser = new Gherkin.Parser();
+const sortByLine = (errors) => errors.sort((a, b) => {
+  return a.line - b.line;
+});
 
 function Linter(rulesManager) {
   this.rulesManager = rulesManager;
@@ -29,7 +31,7 @@ Linter.prototype.lint = function(files) {
         throw e;
       }
     }
-    const fileBlob = {filePath: fs.realpathSync(fileName), errors: _.sortBy(errors, 'line')};
+    const fileBlob = {filePath: fs.realpathSync(fileName), errors: sortByLine(errors)};
     output.push(fileBlob);
   });
 

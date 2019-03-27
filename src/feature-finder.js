@@ -1,4 +1,4 @@
-const _ = require('lodash');
+const {uniq} = require('./utils/generic');
 const glob = require('glob');
 const fs = require('fs');
 const path = require('path');
@@ -42,7 +42,7 @@ function getFeatureFiles(args, ignoreArg) {
     const globOptions = {ignore: getIgnorePatterns(ignoreArg)};
     files = files.concat(glob.sync(fixedPattern, globOptions));
   });
-  return _.uniq(files);
+  return uniq(files);
 }
 
 function getIgnorePatterns(ignoreArg) {

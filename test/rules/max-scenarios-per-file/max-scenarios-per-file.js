@@ -1,6 +1,7 @@
 const ruleTestBase = require('../rule-test-base');
 const rule = require('../../../src/rules/max-scenarios-per-file.js');
-const runTest = ruleTestBase.createRuleTest(rule, 'Number of scenarios exceeds maximum: <%= variable %>/10');
+const runTest = ruleTestBase.createRuleTest(rule, ({variable}) =>
+  `Number of scenarios exceeds maximum: ${variable}/10`);
 
 describe('Max Scenarios per File rule', function() {
   it('detects an error when property is not "maxScenarios"', function() {

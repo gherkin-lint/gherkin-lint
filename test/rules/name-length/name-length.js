@@ -1,7 +1,8 @@
 const ruleTestBase = require('../rule-test-base');
 const rule = require('../../../src/rules/name-length.js');
-const runTest = ruleTestBase.createRuleTest(rule,
-  '<%= element %> name is too long. Length of <%= length %> is longer than the maximum allowed: 70');
+const runTest = ruleTestBase.createRuleTest(rule, ({element, length}) =>
+  `${element} name is too long. Length of ${length} ` +
+      'is longer than the maximum allowed: 70');
 
 describe('Name length rule', function() {
   it('detects an error when property is not "Feature", "Step" or "Scenario"', function() {

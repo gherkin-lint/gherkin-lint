@@ -1,8 +1,8 @@
 const ruleTestBase = require('../rule-test-base');
 const rule = require('../../../src/rules/new-line-at-eof.js');
-const runYesTest = ruleTestBase.createRuleTest(rule,
+const runYesTest = ruleTestBase.createRuleTest(rule, () =>
   'New line at EOF(end of file) is required');
-const runNoTest = ruleTestBase.createRuleTest(rule,
+const runNoTest = ruleTestBase.createRuleTest(rule, () =>
   'New line at EOF(end of file) is not allowed');
 
 describe('New Line At EOF Rule', function() {

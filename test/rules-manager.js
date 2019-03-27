@@ -1,11 +1,10 @@
-const _ = require('lodash');
 const expect = require('chai').expect;
 const RulesManager = require('../src/rules-manager.js');
 
 const errorRule = function(name, error) {
   return {
     name: name,
-    run: _.constant([error]),
+    run: () => [error],
   };
 };
 
@@ -18,7 +17,7 @@ const priorityErrorRule = function(name, error) {
 const successRule = function(name) {
   return {
     name: name,
-    run: _.constant([]),
+    run: () => [],
   };
 };
 

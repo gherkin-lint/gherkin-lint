@@ -1,4 +1,3 @@
-const _ = require('lodash');
 const rule = 'no-dupe-feature-names';
 const features = [];
 
@@ -22,5 +21,5 @@ function noDuplicateFeatureNames(feature, file) {
 module.exports = {
   name: rule,
   run: noDuplicateFeatureNames,
-  isValidConfig: _.stubTrue,
+  isValidConfig: () => true,
 };

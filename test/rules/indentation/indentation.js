@@ -1,7 +1,9 @@
 const ruleTestBase = require('../rule-test-base');
 const rule = require('../../../src/rules/indentation.js');
-const runTest = ruleTestBase.createRuleTest(rule,
-  'Wrong indentation for "<%= element %>", expected indentation level of <%= expected %>, but got <%= actual %>');
+const runTest = ruleTestBase.createRuleTest(rule, ({element, expected, actual}) => {
+  return `Wrong indentation for "${element}", expected indentation level of ` +
+      `${expected}, but got ${actual}`;
+});
 
 const wrongIndenatationErrors = [{
   messageElements: {element: 'Feature', expected: 0, actual: 1},

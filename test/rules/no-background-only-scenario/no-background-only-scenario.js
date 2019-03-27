@@ -1,7 +1,7 @@
 const ruleTestBase = require('../rule-test-base');
 const rule = require('../../../src/rules/no-background-only-scenario.js');
 const runTest = ruleTestBase.createRuleTest(rule,
-  'Backgrounds are not allowed when there is just one scenario.');
+  () => 'Backgrounds are not allowed when there is just one scenario.');
 
 describe('No empty Backgrounds Rule', function() {
   it('doesn\'t raise errors when there are no background', function() {
