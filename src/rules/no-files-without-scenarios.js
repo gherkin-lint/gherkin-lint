@@ -1,7 +1,5 @@
 const rule = 'no-files-without-scenarios';
-const {getFeatureNodes} = require('../utils/selectors');
-
-const isScenario = ({type}) => ['Scenario', 'ScenarioOutline'].indexOf(type) !== -1;
+const {isScenario, getFeatureNodes} = require('../utils/selectors');
 
 const noFilesWithoutScenarios = (feature) => {
   return getFeatureNodes(feature).some(isScenario) ? [] : [{

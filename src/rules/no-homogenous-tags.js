@@ -6,8 +6,8 @@ const {
 } = require('../utils/generic');
 const {filter, map} = require('../utils/transducers');
 const {getFeatureNodes} = require('../utils/selectors');
+const {filterScenarios} = require('../utils/gherkin');
 
-const isScenario = ({type}) => ['Scenario', 'ScenarioOutline'].indexOf(type) !== -1;
 const uniq = (array) => [...new Set(array)];
 
 const countTags = (tagStatistics, tagsNames) => {
@@ -17,7 +17,7 @@ const countTags = (tagStatistics, tagsNames) => {
 };
 
 const noHomogenousTags = (feature) => {
-  const scenarios = intoArray(filter(isScenario))(getFeatureNodes(feature));
+  const scenarios = intoArray(filterScenarios)(getFeatureNodes(feature));
   const {length} = scenarios;
   const tagStatistics = reduce(compose(
     map(({tags}) => tags.map(({name}) => name)),

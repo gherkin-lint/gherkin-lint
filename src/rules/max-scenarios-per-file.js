@@ -1,14 +1,13 @@
 const rule = 'max-scenarios-per-file';
 const objectRuleValidation = require('../config-validation/object-rule-validation');
 const {compose, reduce} = require('../utils/generic');
-const {filter, map} = require('../utils/transducers');
+const {map} = require('../utils/transducers');
 const {getFeatureNodes} = require('../utils/selectors');
+const {filterScenarios} = require('../utils/gherkin');
 
 const defaultConfig = {
   'maxScenarios': 10,
 };
-
-const isScenario = ({type}) => ['Scenario', 'ScenarioOutline'].indexOf(type) !== -1;
 
 const countExamples = (examples) => reduce((count, {tableBody}) => {
   return count + tableBody.length;
@@ -21,7 +20,7 @@ function maxScenariosPerFile(feature, unused, config) {
   const maxScenarios = mergedConfiguration.maxScenarios;
 
   const count = reduce(compose(
-    filter(isScenario),
+    filterScenarios,
     map(({examples}) => examples ? countExamples(examples) : 1)
   )(sum), 0)(getFeatureNodes(feature));
 

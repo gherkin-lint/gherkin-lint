@@ -1,11 +1,10 @@
 const rule = 'one-space-between-tags';
 const {compose, intoArray} = require('../utils/generic');
-const {filter, flatMap, map} = require('../utils/transducers');
+const {flatMap, map} = require('../utils/transducers');
 const {getFeatureNodes} = require('../utils/selectors');
+const {filterScenarios} = require('../utils/gherkin');
 
 const groupTagsPerLine = require('../utils/group-tags-per-line');
-
-const isScenario = ({type}) => ['Scenario', 'ScenarioOutline'].indexOf(type) !== -1;
 
 const distance = (tag1, tag2) => {
   if (!tag2) {
@@ -40,7 +39,7 @@ const testTags = (allTags) => {
 function run(feature) {
   const featureTagErrors = testTags(feature.tags);
   const scenarioTagErrors = intoArray(compose(
-    filter(isScenario),
+    filterScenarios,
     map(({tags}) => tags),
     flatMap(testTags)
   ))(getFeatureNodes(feature));

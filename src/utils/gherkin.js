@@ -1,4 +1,5 @@
 const {
+  isScenario,
   getType,
   getFeatureNodes,
   getSteps,
@@ -8,6 +9,7 @@ const {
   compose,
   flatMap,
 } = require('./generic');
+const {filter} = require('./transducers');
 
 const applyToFeatureNode = applyWith(getType);
 
@@ -18,6 +20,8 @@ const applyToScenario = (check) => applyToFeatureNode({
   ScenarioOutline: check,
 });
 
+const filterScenarios = filter(isScenario);
+
 const flatMapSteps = (fn) => compose(flatMap(fn), getSteps);
 
 module.exports = {
@@ -25,4 +29,5 @@ module.exports = {
   applyToFeatureNode,
   flatMapFeatureNodes,
   flatMapSteps,
+  filterScenarios,
 };

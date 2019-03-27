@@ -2,8 +2,7 @@ const rule = 'no-partially-commented-tag-lines';
 const {compose, intoArray} = require('../utils/generic');
 const {filter, flatMap, map} = require('../utils/transducers');
 const {getFeatureNodes} = require('../utils/selectors');
-
-const isScenario = ({type}) => ['Scenario', 'ScenarioOutline'].indexOf(type) !== -1;
+const {filterScenarios} = require('../utils/gherkin');
 
 const createError = (tag) => ({
   message: 'Partially commented tag lines not allowed ',
@@ -13,7 +12,7 @@ const createError = (tag) => ({
 
 const noPartiallyCommentedTagLines = (feature) => {
   return intoArray(compose(
-    filter(isScenario),
+    filterScenarios,
     flatMap(({tags}) => tags),
     filter((tag) => tag.name.indexOf('#') > 0),
     map(createError)
