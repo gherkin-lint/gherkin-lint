@@ -4,20 +4,22 @@ const RulesManager = require('../src/rules-manager.js');
 const errorRule = function(name, error) {
   return {
     name: name,
-    run: () => [error],
+    execute: () => [error],
+    hasPriority: () => false,
   };
 };
 
 const priorityErrorRule = function(name, error) {
   const rule = errorRule(name, error);
-  rule.suppressOtherRules = true;
+  rule.hasPriority = () => true;
   return rule;
 };
 
 const successRule = function(name) {
   return {
     name: name,
-    run: () => [],
+    execute: () => [],
+    hasPriority: () => false,
   };
 };
 

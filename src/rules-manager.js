@@ -17,9 +17,9 @@ RulesManager.prototype.runAllEnabledRules = function(feature, file) {
 
   this.rules.forEach(function(rule) {
     if (!ignoreFutureErrors) {
-      const ruleErrors = rule.run(feature, file, rule.config);
+      const ruleErrors = rule.execute({feature, file});
 
-      if (rule.suppressOtherRules) {
+      if (rule.hasPriority()) {
         errors = ruleErrors;
         ignoreFutureErrors = true;
       } else {

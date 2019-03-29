@@ -1,5 +1,6 @@
 const enablingSettings = ['on', 'off'];
 const genericErrorMsg = require('./config-validation/generic-error-msg');
+const RuleCommand = require('./rule-command');
 
 function errors(errorList) {
   return {
@@ -43,12 +44,13 @@ function normalizeRule(rules, config, ruleName) {
     } else if (ruleConfig[0] === 'off') {
       return errors([]);
     }
-    return success({
+    return success(new RuleCommand({
       name: rule.name,
       run: rule.run,
+      init: rule.init,
       config: ruleConfig[1],
       suppressOtherRules: rule.suppressOtherRules,
-    });
+    }));
   } else {
     if (!isValidEnablingSetting(ruleConfig)) {
       return error(
@@ -56,12 +58,12 @@ function normalizeRule(rules, config, ruleName) {
     } else if (ruleConfig === 'off') {
       return errors([]);
     }
-    return success({
+    return success(new RuleCommand({
       name: rule.name,
       run: rule.run,
-      config: {},
+      init: rule.init,
       suppressOtherRules: rule.suppressOtherRules,
-    });
+    }));
   }
 }
 
