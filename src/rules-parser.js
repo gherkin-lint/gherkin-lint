@@ -18,7 +18,7 @@ function normalizeRule(rules, config, ruleName) {
     if (!isValidEnablingSetting(ruleConfig[0])) {
       return Failures.of([{
         type: 'config',
-        message: 'The first part of the config should be "on" or "off"',
+        message: 'The first part of config should be "on" or "off"',
       }]);
     }
 
@@ -45,7 +45,7 @@ function normalizeRule(rules, config, ruleName) {
     if (!isValidEnablingSetting(ruleConfig)) {
       return Failures.of([{
         type: 'config',
-        message: 'The first part of the config should be "on" or "off"',
+        message: 'config should be "on" or "off"',
       }]);
     } else if (ruleConfig === 'off') {
       return Successes.of([]);

@@ -77,6 +77,24 @@ describe('Rule Parser', function() {
       }]);
     });
 
+    it('first item is not "on" or "off"', function() {
+      const rulesOrErrors = new RulesParser(getRules(), {'indentation': ['yes', {}]})
+        .parse();
+      hasErrors(rulesOrErrors, [{
+        type: 'config',
+        message: 'The first part of config should be "on" or "off"',
+      }]);
+    });
+
+    it('array config does not have 2 items', function() {
+      const rulesOrErrors = new RulesParser(getRules(), {'indentation': ['on', {}, 2]})
+        .parse();
+      hasErrors(rulesOrErrors, [{
+        type: 'config',
+        message: 'The config should only have 2 parts.',
+      }]);
+    });
+
     it('a non existing rule sub-config', function() {
       const rulesOrErrors = new RulesParser(getRules(), {
         'indentation': ['on', {'featur': 0}],
@@ -90,6 +108,15 @@ describe('Rule Parser', function() {
         type: 'config',
         rule: 'new-line-at-eof',
         message: 'The rule does not have the specified configuration option "y"',
+      }]);
+    });
+
+    it('string config is not "on" or "off"', function() {
+      const rulesOrErrors = new RulesParser(getRules(), {'indentation': 'no'})
+        .parse();
+      hasErrors(rulesOrErrors, [{
+        type: 'config',
+        message: 'config should be "on" or "off"',
       }]);
     });
   });
