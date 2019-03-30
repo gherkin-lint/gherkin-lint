@@ -2,6 +2,7 @@ const rule = 'no-unnamed-scenarios';
 const {getFeatureNodes} = require('../utils/selectors');
 
 const createError = (scenario) => ({
+  type: 'rule',
   message: 'Missing Scenario name',
   rule: rule,
   line: scenario.location.line,

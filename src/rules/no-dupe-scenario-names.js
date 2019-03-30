@@ -6,6 +6,7 @@ const locationTrace = (file) => (scenario) => `${file.name}:${scenario.location.
 const appendError = (dupeLocationTrace) => ({scenarios, errors}, scenario) => {
   const dupes = scenarios[scenario.name];
   errors.push({
+    type: 'rule',
     message: `Scenario name is already used in: ${dupes}`,
     rule: rule,
     line: scenario.location.line,

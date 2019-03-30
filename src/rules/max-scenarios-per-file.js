@@ -25,6 +25,7 @@ function maxScenariosPerFile(feature, unused, config) {
   )(sum), 0)(getFeatureNodes(feature));
 
   return count > maxScenarios ? [{
+    type: 'rule',
     message: `Number of scenarios exceeds maximum: ${count}/${maxScenarios}`,
     rule,
     line: 0,

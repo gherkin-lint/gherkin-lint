@@ -1,24 +1,6 @@
 const enablingSettings = ['on', 'off'];
-const genericErrorMsg = require('./config-validation/generic-error-msg');
+const {Successes, Failures} = require('./successes-failures');
 const RuleCommand = require('./rule-command');
-
-function errors(errorList) {
-  return {
-    rules: [],
-    errors: errorList,
-  };
-}
-
-function error(message) {
-  return errors([message]);
-}
-
-function success(rule) {
-  return {
-    rules: [rule],
-    errors: [],
-  };
-}
 
 function isValidEnablingSetting(enablingSetting) {
   return enablingSettings.indexOf(enablingSetting) !== -1;
@@ -28,49 +10,53 @@ function normalizeRule(rules, config, ruleName) {
   const rule = rules[ruleName];
   const ruleConfig = config[ruleName];
   if (!rule) {
-    return error(`Rule "${ ruleName }" does not exist`);
+    return Failures.of([{
+      type: 'undefined-rule',
+      message: `Rule "${ ruleName }" does not exist`,
+    }]);
   } else if (Array.isArray(ruleConfig)) {
     if (!isValidEnablingSetting(ruleConfig[0])) {
-      return error(
-        `${genericErrorMsg(rule)}The first part of the config should be "on" or "off"`);
+      return Failures.of([{
+        type: 'config',
+        message: 'The first part of the config should be "on" or "off"',
+      }]);
     }
 
     if (ruleConfig.length != 2 ) {
-      return error(`${genericErrorMsg(rule) } The config should only have 2 parts.`);
+      return Failures.of([{
+        type: 'config',
+        message: 'The config should only have 2 parts.',
+      }]);
     }
     const errorList = rule.isValidConfig(config);
     if (errorList.length > 0) {
-      return errors(errorList);
+      return Failures.of(errorList);
     } else if (ruleConfig[0] === 'off') {
-      return errors([]);
+      return Successes.of([]);
     }
-    return success(new RuleCommand({
+    return Successes.of([new RuleCommand({
       name: rule.name,
       run: rule.run,
       init: rule.init,
       config: ruleConfig[1],
       suppressOtherRules: rule.suppressOtherRules,
-    }));
+    })]);
   } else {
     if (!isValidEnablingSetting(ruleConfig)) {
-      return error(
-        `${genericErrorMsg(rule)}The first part of the config should be "on" or "off"`);
+      return Failures.of([{
+        type: 'config',
+        message: 'The first part of the config should be "on" or "off"',
+      }]);
     } else if (ruleConfig === 'off') {
-      return errors([]);
+      return Successes.of([]);
     }
-    return success(new RuleCommand({
+    return Successes.of([new RuleCommand({
       name: rule.name,
       run: rule.run,
       init: rule.init,
       suppressOtherRules: rule.suppressOtherRules,
-    }));
+    })]);
   }
-}
-
-function append(summary, results) {
-  [].push.apply(summary.rules, results.rules);
-  [].push.apply(summary.errors, results.errors);
-  return summary;
 }
 
 function RuleParser(rules, config) {
@@ -79,11 +65,10 @@ function RuleParser(rules, config) {
 }
 
 RuleParser.prototype.parse = function() {
-  const rules = this.rules;
-  const config = this.config;
+  const {config, rules} = this;
   return Object.keys(config).reduce(function(result, ruleName) {
-    return append(result, normalizeRule(rules, config, ruleName));
-  }, errors([]));
+    return result.append(normalizeRule(rules, config, ruleName));
+  }, Successes.of([]));
 };
 
 module.exports = RuleParser;

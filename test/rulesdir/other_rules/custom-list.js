@@ -7,6 +7,7 @@ const availableConfigs = {
 function custom() {
   return [
     {
+      type: 'rule',
       message: 'Another custom-list error',
       rule: rule,
       line: 109,

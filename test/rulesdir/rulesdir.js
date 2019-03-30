@@ -28,21 +28,25 @@ describe('rulesdir CLI option', function() {
            * regress and always load the default rules
            */
           {
+            type: 'rule',
             line: 1,
             message: 'Wrong indentation for "Feature", expected indentation level of 0, but got 4',
             rule: 'indentation',
           },
           {
+            type: 'rule',
             line: 109,
             message: 'Another custom-list error',
             rule: 'another-custom-list',
           },
           {
+            type: 'rule',
             line: 123,
             message: 'Custom error',
             rule: 'custom',
           },
           {
+            type: 'rule',
             line: 456,
             message: 'Another custom error',
             rule: 'another-custom',

@@ -7,9 +7,10 @@ describe('Max Scenarios per File rule', function() {
   it('detects an error when property is not "maxScenarios"', function() {
     runTest('max-scenarios-per-file/CorrectNumber.feature', {
       'foobar': 20,
-    }, [
-      'Invalid rule configuration for "max-scenarios-per-file" -  The rule does not have the specified configuration option "foobar"',
-    ]);
+    }, [{
+      type: 'config',
+      message: 'The rule does not have the specified configuration option "foobar"',
+    }]);
   });
 
   it('doesn\'t raise errors when the default configuration is used and there are correct number of scenarios', function() {
@@ -19,7 +20,7 @@ describe('Max Scenarios per File rule', function() {
   });
 
   context('Too many scenarios', () => {
-    it('detects errors for when a feature file has too many scenarios', function() {
+    it('detects errors when a feature file has too many scenarios', function() {
       runTest('max-scenarios-per-file/TooManyScenarios.feature', {
         maxScenarios: 10,
       }, [{
@@ -32,7 +33,7 @@ describe('Max Scenarios per File rule', function() {
   });
 
   context('Too many examples on Scenario Outline', () => {
-    it('detects errors for when a feature file has too many scenarios', function() {
+    it('detects errors when a feature file has too many scenarios', function() {
       runTest('max-scenarios-per-file/TooManyExamples.feature', {
         maxScenarios: 10,
       }, [{

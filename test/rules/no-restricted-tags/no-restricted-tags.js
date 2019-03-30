@@ -7,9 +7,10 @@ describe('No Restricted Tags Rule', function() {
   it('detects an error when property is not "tags"', function() {
     runTest('no-restricted-tags/NoViolations.feature', {
       'foobar': ['@featuretag', '@scenariotag'],
-    }, [
-      'Invalid rule configuration for "no-restricted-tags" -  The rule does not have the specified configuration option "foobar"',
-    ]);
+    }, [{
+      type: 'config',
+      message: 'The rule does not have the specified configuration option "foobar"',
+    }]);
   });
 
   it('doesn\'t raise errors when there are no forbidden tags', function() {

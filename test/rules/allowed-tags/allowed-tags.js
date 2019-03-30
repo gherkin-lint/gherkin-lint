@@ -7,9 +7,10 @@ describe('No Allowed Tags Rule', () => {
   it('detects an error when property is not "tags"', () => {
     runTest('allowed-tags/NoViolations.feature', {
       'foobar': ['@featuretag', '@scenariotag'],
-    }, [
-      'Invalid rule configuration for "allowed-tags" -  The rule does not have the specified configuration option "foobar"',
-    ]);
+    }, [{
+      type: 'config',
+      message: 'The rule does not have the specified configuration option "foobar"',
+    }]);
   });
 
   it('doesn\'t raise errors when the file is empty', () => {

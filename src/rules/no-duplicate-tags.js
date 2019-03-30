@@ -29,6 +29,7 @@ const verifyTags = ({tags, location}) => {
   return intoArray(compose(
     filter(({count}) => count > 1),
     map((tag) => ({
+      type: 'rule',
       message: `Duplicate tags are not allowed: ${tag.name}`,
       rule: rule,
       line: tag.location.line,

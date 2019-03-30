@@ -5,6 +5,7 @@ const {getFeatureNodes} = require('../utils/selectors');
 const {filterScenarios} = require('../utils/gherkin');
 
 const createError = (tag) => ({
+  type: 'rule',
   message: 'Partially commented tag lines not allowed ',
   rule: rule,
   line: tag.location.line,

@@ -82,6 +82,7 @@ function noUnusedVariables(feature) {
     for (const variable in examplesVariables) {
       if (!scenarioVariables[variable]) {
         errors.push({
+          type: 'rule',
           message: `Examples table variable "${variable}" is not used in any step`,
           rule: rule,
           line: examplesVariables[variable],
@@ -92,6 +93,7 @@ function noUnusedVariables(feature) {
     for (const variable in scenarioVariables) {
       if (!examplesVariables[variable]) {
         errors.push({
+          type: 'rule',
           message: `Step variable "${variable}" does not exist the in examples table`,
           rule: rule,
           line: scenarioVariables[variable],

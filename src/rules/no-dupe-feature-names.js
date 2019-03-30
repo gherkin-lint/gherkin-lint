@@ -7,6 +7,7 @@ function noDuplicateFeatureNames(feature, file) {
       const dupes = features[feature.name].files.join(', ');
       features[feature.name].files.push(file.name);
       return [{
+        type: 'rule',
         message: `Feature name is already used in: ${dupes}`,
         rule,
         line: feature.location.line,

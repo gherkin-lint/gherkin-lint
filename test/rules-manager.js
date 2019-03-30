@@ -1,5 +1,6 @@
 const expect = require('chai').expect;
-const RulesManager = require('../src/rules-manager.js');
+const {Successes, Failures} = require('../src/successes-failures');
+const RulesManager = require('../src/rules-manager');
 
 const errorRule = function(name, error) {
   return {
@@ -43,23 +44,16 @@ const PRIORITY_RULE_THAT_FAILS = priorityErrorRule(
   PRIORITY_RULE_THAT_FAILS_NAME,
   ERROR_THREE);
 
-const createRulesManager = function(rules) {
-  return new RulesManager({
-    rules: rules,
-    errors: [],
-  });
-};
-
 describe('RulesManager', function() {
   describe('runAllEnabledRules', function() {
     it('returns the error with more priority rule when all rules are enabled', function() {
-      const rulesManager = createRulesManager([
+      const rulesManager = new RulesManager(Successes.of([
         RULE,
         RULE_THAT_FAILS,
         ANOTHER_RULE,
         PRIORITY_RULE_THAT_FAILS,
         ANOTHER_RULE_THAT_FAILS,
-      ]);
+      ]));
 
       expect(rulesManager.runAllEnabledRules({}, {})).to.be.deep.equal([
         ERROR_THREE,
@@ -67,12 +61,12 @@ describe('RulesManager', function() {
     });
 
     it('returns the concatenation of errors with low priority when the high priotity rule is disabled', function() {
-      const rulesManager = createRulesManager([
+      const rulesManager = new RulesManager(Successes.of([
         RULE,
         RULE_THAT_FAILS,
         ANOTHER_RULE,
         ANOTHER_RULE_THAT_FAILS,
-      ]);
+      ]));
 
       expect(rulesManager.runAllEnabledRules({}, {})).to.be.deep.equal([
         ERROR_ONE,
@@ -81,7 +75,7 @@ describe('RulesManager', function() {
     });
 
     it('returns no errors when all rules are disabled', function() {
-      const rulesManager = createRulesManager([]);
+      const rulesManager = new RulesManager(Successes.of([]));
 
       expect(rulesManager.runAllEnabledRules({}, {})).to.be.deep.equal([]);
     });
@@ -99,20 +93,21 @@ describe('RulesManager', function() {
     });
 
     it('the errors are printed in the screen', function() {
-      const errorMessage = 'error message';
-      const errors = [errorMessage];
-      new RulesManager({
-        rules: [],
-        errors: errors,
-      });
+      const rule = 'my-rule';
+      const error = {
+        rule,
+        message: 'error message',
+      };
+      const errors = [error];
+      new RulesManager(Failures.of(errors));
 
       // eslint-disable-next-line no-console
       const consoleErrorArgs = console.error.args.map(function(args) {
         return args[0];
       });
-
       expect(consoleErrorArgs[0]).to.include('Error(s) in configuration file:');
-      expect(consoleErrorArgs[1]).to.include(errorMessage);
+      expect(consoleErrorArgs[1]).to.include(`Invalid rule configuration for "${rule}"`);
+      expect(consoleErrorArgs[1]).to.include(error.message);
       expect(process.exit.args[0][0]).to.equal(1);
     });
   });

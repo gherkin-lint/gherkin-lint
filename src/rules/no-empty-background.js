@@ -3,6 +3,7 @@ const rule = 'no-empty-background';
 const {getFeatureNodes} = require('../utils/selectors');
 
 const createError = (background) => ({
+  type: 'rule',
   message: 'Empty backgrounds are not allowed.',
   rule: rule,
   line: background.location.line,

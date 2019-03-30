@@ -15,6 +15,7 @@ const availableConfigs = {
 const isNotAllowed = (allowedTags) => (tag) => allowedTags.indexOf(tag.name) === -1;
 
 const createError = (node) => (tag) => ({
+  type: 'rule',
   message: `Not allowed tag ${tag.name} on ${node.type}`,
   rule: rule,
   line: tag.location.line,

@@ -56,6 +56,7 @@ const checkNodeIndentation = (mergedConfiguration) => (type) => (node) => {
   const indentation = location.column - 1;
 
   return indentation !== expectedIndentation ? [{
+    type: 'rule',
     message: `Wrong indentation for "${type}", expected indentation level of ` +
       `${expectedIndentation}, but got ${indentation}`,
     rule: rule,

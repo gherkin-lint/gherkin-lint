@@ -15,6 +15,7 @@ const distance = (tag1, tag2) => {
 
 const createError = ([dist, tag, nextTag]) => {
   return {
+    type: 'rule',
     line: tag.location.line,
     rule: rule,
     message: 'There is more than one space between the tags ' +

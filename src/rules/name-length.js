@@ -21,6 +21,7 @@ const test = (configuration) => (name, location, type) => {
   const expectedLength = configuration[type];
   const length = name && name.length;
   return length > expectedLength ? [{
+    type: 'rule',
     message: `${type} name is too long. Length of ${length} ` +
       `is longer than the maximum allowed: ${expectedLength}`,
     rule: rule,

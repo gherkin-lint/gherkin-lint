@@ -12,6 +12,7 @@ const getTagName = ({name}) => name;
 const createError = (tags) => {
   const superfluousTagsReport = tags.map(getTagName).join(', ');
   return {
+    type: 'rule',
     message: `${SUPERFLUOUS_TAGS_MESSAGE}: ${superfluousTagsReport}`,
     rule: rule,
     line: tags[0].location.line,

@@ -16,6 +16,7 @@ const newLineAtEOF = (unused, file, configuration) => {
   }
 
   return errormsg !== '' ? [{
+    type: 'rule',
     message: errormsg,
     rule: rule,
     line: file.lines.length,

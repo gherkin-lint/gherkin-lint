@@ -16,7 +16,7 @@ const parseRule = function(rule, config) {
 };
 
 const runRule = function(result, parsedFile, file) {
-  const rule = result.rules[0];
+  const rule = result.getSuccesses()[0];
   return rule.run(parsedFile, file, rule.config);
 };
 
@@ -26,20 +26,20 @@ function createRuleTest(rule, messageTemplate) {
       if (typeof error === 'string') {
         return error;
       }
-      return {
+      return Object.assign({
+        type: error.type || 'rule',
         rule: rule.name,
-        message: messageTemplate(error.messageElements),
-        line: error.line,
-      };
+        message: error.message || messageTemplate(error.messageElements),
+      }, error.line !== undefined ? {line: error.line} : {});
     });
     const result = parseRule(rule, configuration);
     const name = `test/rules/${featureFile}`;
     const content = fs.readFileSync(name, 'utf8');
     const lines = content.split(/\r\n|\r|\n/);
     const parsedFile = parser.parse(content).feature || {};
-    const errors = result.errors.length > 0
-      ? result.errors
-      : runRule(result, parsedFile, {name, lines});
+    const errors = result.isSuccess()
+      ? runRule(result, parsedFile, {name, lines})
+      : result.getFailures();
     assert.sameDeepMembers(errors, expectedErrors);
   };
 }

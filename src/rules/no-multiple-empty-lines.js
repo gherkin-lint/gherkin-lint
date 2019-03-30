@@ -5,6 +5,7 @@ const isMultipleEmptyLines =
   ([lines, index]) => isEmptyLine(lines[index]) && isEmptyLine(lines[index + 1]);
 
 const createError = ([lines, index]) => ({
+  type: 'rule',
   message: 'Multiple empty lines are not allowed',
   rule: rule,
   line: index + 2,

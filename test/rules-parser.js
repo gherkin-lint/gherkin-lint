@@ -3,10 +3,10 @@ const getRules = require('../src/get-rules.js');
 const RulesParser = require('../src/rules-parser.js');
 
 const hasRules = function(rulesOrErrors, expectedRules) {
-  if (rulesOrErrors.errors.length > 0) {
+  if (!rulesOrErrors.isSuccess()) {
     assert.fail(`Expected no errors. Found: ${ rulesOrErrors.errors}`);
   }
-  const rules = rulesOrErrors.rules.map(function(rule) {
+  const rules = rulesOrErrors.getSuccesses().map(function(rule) {
     return {
       name: rule.name,
       config: rule.config,
@@ -16,10 +16,10 @@ const hasRules = function(rulesOrErrors, expectedRules) {
 };
 
 const hasErrors = function(rulesOrErrors, expectedErrors) {
-  if (rulesOrErrors.errors.length <= 0) {
+  if (rulesOrErrors.isSuccess()) {
     assert.fail('Expected errors but not found');
   }
-  assert.deepEqual(rulesOrErrors.errors, expectedErrors);
+  assert.deepEqual(rulesOrErrors.getFailures(), expectedErrors);
 };
 
 describe('Rule Parser', function() {
@@ -71,7 +71,10 @@ describe('Rule Parser', function() {
   describe('Verification fails when', function() {
     it('a non existing rule', function() {
       const rulesOrErrors = new RulesParser(getRules(), {'fake-rule': 'on'}).parse();
-      hasErrors(rulesOrErrors, ['Rule "fake-rule" does not exist']);
+      hasErrors(rulesOrErrors, [{
+        type: 'undefined-rule',
+        message: 'Rule "fake-rule" does not exist',
+      }]);
     });
 
     it('a non existing rule sub-config', function() {
@@ -79,10 +82,15 @@ describe('Rule Parser', function() {
         'indentation': ['on', {'featur': 0}],
         'new-line-at-eof': ['on', 'y'],
       }).parse();
-      hasErrors(rulesOrErrors, [
-        'Invalid rule configuration for "indentation" -  The rule does not have the specified configuration option "featur"',
-        'Invalid rule configuration for "new-line-at-eof" -  The rule does not have the specified configuration option "y"',
-      ]);
+      hasErrors(rulesOrErrors, [{
+        type: 'config',
+        rule: 'indentation',
+        message: 'The rule does not have the specified configuration option "featur"',
+      }, {
+        type: 'config',
+        rule: 'new-line-at-eof',
+        message: 'The rule does not have the specified configuration option "y"',
+      }]);
     });
   });
 });

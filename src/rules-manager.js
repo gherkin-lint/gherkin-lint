@@ -1,14 +1,15 @@
 const logger = require('./logger');
 
-function RulesManager(rulesOrErrors) {
-  if (rulesOrErrors.errors.length > 0) {
+function RulesManager(result) {
+  if (!result.isSuccess()) {
     logger.boldError('Error(s) in configuration file:');
-    rulesOrErrors.errors.forEach(function(error) {
-      logger.error(`- ${error}`);
+    result.getFailures().forEach(({rule, message}) => {
+      const errorMessage = `Invalid rule configuration for "${rule}" - ${message}`;
+      logger.error(`- ${errorMessage}`);
     });
     process.exit(1);
   }
-  this.rules = rulesOrErrors.rules;
+  this.rules = result.getSuccesses();
 }
 
 RulesManager.prototype.runAllEnabledRules = function(feature, file) {

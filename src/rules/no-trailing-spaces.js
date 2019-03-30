@@ -1,6 +1,7 @@
 const rule = 'no-trailing-spaces';
 
 const createError = ([, lineNo]) => ({
+  type: 'rule',
   message: 'Trailing spaces are not allowed',
   rule: rule,
   line: lineNo,

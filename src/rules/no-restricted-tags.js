@@ -15,6 +15,7 @@ const {getFeatureNodes} = require('../utils/selectors');
 const isForbidden = (forbiddenTags) => (tag) => forbiddenTags.indexOf(tag.name) !== -1;
 
 const createError = (node) => (tag) => ({
+  type: 'rule',
   message: `Forbidden tag ${tag.name} on ${node.type}`,
   rule: rule,
   line: tag.location.line,

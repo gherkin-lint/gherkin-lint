@@ -2,6 +2,7 @@ const rule = 'no-background-only-scenario';
 const {getFeatureNodes} = require('../utils/selectors');
 
 const createError = (background) => ({
+  type: 'rule',
   message: 'Backgrounds are not allowed when there is just one scenario.',
   rule: rule,
   line: background.location.line,

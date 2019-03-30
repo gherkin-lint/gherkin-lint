@@ -30,6 +30,7 @@ const noHomogenousTags = (feature) => {
 
   const homogenousTagsReport = homogenousTags.join(', ');
   return homogenousTagsReport ? [{
+    type: 'rule',
     message: 'All Scenarios on this Feature have the same tag(s), they' +
       ` should be defined on the Feature instead: ${homogenousTagsReport}`,
     rule: rule,

@@ -7,6 +7,7 @@ const isScenarioOutline = ({type}) => type === 'ScenarioOutline';
 const hasNoExamples = ({examples}) => !examples.length;
 
 const createError = (scenario) => ({
+  type: 'rule',
   message: 'Scenario Outline does not have any Examples',
   rule: rule,
   line: scenario.location.line,
