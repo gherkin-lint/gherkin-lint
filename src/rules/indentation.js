@@ -69,15 +69,9 @@ function testFeature(feature, configuration, mergedConfiguration) {
   }
 
   function testTags(tags, type) {
-    _(tags).map(function(tag) {
-      return tag.location;
-    }).groupBy(function(tagLocation) {
-      return tagLocation.line;
-    }).forEach(function(locationsPerLine) {
-      var firstLocation = locationsPerLine.sort(function(location) {
-        return -location.column;
-      })[0];
-      test(firstLocation, type);
+    _(tags).groupBy('location.line').forEach(function(tagLocationGroup) {
+      var firstTag = _(tagLocationGroup).sortBy('location.column').head();
+      test(firstTag.location, type);
     });
   }
 

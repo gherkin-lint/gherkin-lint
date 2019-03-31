@@ -9,22 +9,19 @@ function run(feature) {
   var errors = [];
 
   function testTags(allTags) {
-    _(allTags).sort(function(tag) {
-      return -tag.location.column;
-    }).groupBy(function(tag) {
-      return tag.location.line;
-    }).forEach(function(tags) {
-      _.range(tags.length - 1).map(function(i) {
-        if (tags[i].location.column + tags[i].name.length < tags[i + 1].location.column - 1) {
-          errors.push({
-            line: tags[i].location.line,
-            rule: rule,
-            message: 'There is more than one space between the tags ' +
-                      tags[i].name + ' and ' + tags[i + 1].name
-          });
-        }
+    _(allTags).groupBy('location.line').sortBy('location.column')
+      .forEach(function(tags) {
+        _.range(tags.length - 1).map(function(i) {
+          if (tags[i].location.column + tags[i].name.length < tags[i + 1].location.column - 1) {
+            errors.push({
+              line: tags[i].location.line,
+              rule: rule,
+              message: 'There is more than one space between the tags ' +
+                        tags[i].name + ' and ' + tags[i + 1].name
+            });
+          }
+        });
       });
-    });
   }
 
   testTags(feature.tags);
