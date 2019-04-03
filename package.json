@@ -64,7 +64,7 @@
     "cucumber"
   ],
   "dependencies": {
-    "commander": "2.19.0",
+    "commander": "2.20.0",
     "gherkin": "5.1.0",
     "glob": "7.1.3"
   },
