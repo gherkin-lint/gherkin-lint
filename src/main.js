@@ -7,7 +7,6 @@ const ConfigProvider = require('./config-provider.js');
 const logger = require('./logger.js');
 const getRules = require('./get-rules');
 const RulesParser = require('./rules-parser');
-const RulesManager = require('./rules-manager');
 
 function list(val) {
   return val.split(',');
@@ -28,11 +27,15 @@ program
 
 const additionalRulesDirs = program.rulesdir;
 const config = new ConfigProvider(program.config).provide();
-const rulesOrErrors = new RulesParser(getRules(additionalRulesDirs), config).parse();
-const rulesManager = new RulesManager(rulesOrErrors);
-const linter = new Linter(rulesManager);
+const result = new RulesParser(getRules(additionalRulesDirs), config).parse();
 const files = featureFinder.getFeatureFiles(program.args, program.ignore);
-const results = linter.lint(files);
+let results;
+if (result.isSuccess()) {
+  const rules = result.getSuccesses();
+  results = new Linter(rules).lint(files);
+} else {
+  results = result.getFailures();
+}
 printResults(results, program.format);
 process.exit(getExitCode(results));
 

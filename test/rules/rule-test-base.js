@@ -2,44 +2,47 @@ const assert = require('chai').assert;
 const Gherkin = require('gherkin');
 const fs = require('fs');
 const RulesParser = require('../../src/rules-parser');
+const NoConfigurableLinter = require('../../src/linter/no-configurable-linter');
+const ConfigurableLinter = require('../../src/linter/configurable-linter');
 require('mocha-sinon');
 
-const parser = new Gherkin.Parser();
-
-const parseRule = function(rule, config) {
+const lintFile = (rule, config, file) => {
+  const parser = new Gherkin.Parser();
+  const noConfigurableLinter = new NoConfigurableLinter(parser);
   const ruleName = rule.name;
   const rawRules = {};
   const configSet = {};
   rawRules[ruleName] = rule;
   configSet[ruleName] = ['on', config];
-  return new RulesParser(rawRules, configSet).parse();
+  const result = new RulesParser(rawRules, configSet).parse();
+  if (result.isSuccess()) {
+    const rules = result.getSuccesses();
+    return new ConfigurableLinter(noConfigurableLinter, rules).lint(file);
+  }
+  return result.getFailures();
 };
 
-const runRule = function(result, parsedFile, file) {
-  const rule = result.getSuccesses()[0];
-  return rule.run(parsedFile, file, rule.config);
+const createFile = (fileName) => {
+  const path = `test/rules/${fileName}`;
+  const content = fs.readFileSync(path, 'utf-8');
+  return {
+    name: path,
+    content,
+    lines: content.split(/\r\n|\r|\n/),
+  };
 };
 
 function createRuleTest(rule, messageTemplate) {
   return function runTest(featureFile, configuration, expected) {
     const expectedErrors = expected.map((error) => {
-      if (typeof error === 'string') {
-        return error;
-      }
       return Object.assign({
         type: error.type || 'rule',
         rule: rule.name,
         message: error.message || messageTemplate(error.messageElements),
       }, error.line !== undefined ? {line: error.line} : {});
     });
-    const result = parseRule(rule, configuration);
-    const name = `test/rules/${featureFile}`;
-    const content = fs.readFileSync(name, 'utf8');
-    const lines = content.split(/\r\n|\r|\n/);
-    const parsedFile = parser.parse(content).feature || {};
-    const errors = result.isSuccess()
-      ? runRule(result, parsedFile, {name, lines})
-      : result.getFailures();
+    const file = createFile(featureFile);
+    const errors = lintFile(rule, configuration, file);
     assert.sameDeepMembers(errors, expectedErrors);
   };
 }

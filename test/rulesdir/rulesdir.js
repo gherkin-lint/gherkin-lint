@@ -2,7 +2,6 @@ const path = require('path');
 const expect = require('chai').expect;
 const Linter = require('../../src/linter');
 const ConfigProvider = require('../../src/config-provider.js');
-const RulesManager = require('../../src/rules-manager.js');
 const getRules = require('../../src/get-rules.js');
 const RulesParser = require('../../src/rules-parser.js');
 
@@ -15,10 +14,10 @@ describe('rulesdir CLI option', function() {
     const configPath = path.join(__dirname, '.gherkin-lintrc');
     const config = new ConfigProvider(configPath).provide();
     const rulesParser = new RulesParser(getRules(additionalRulesDirs), config);
-    const rulesManager = new RulesManager(rulesParser.parse());
-    const linter = new Linter(rulesManager);
+    const result = rulesParser.parse();
     const featureFile = path.join(__dirname, 'simple.features');
-    const results = linter.lint([featureFile]);
+    const rules = result.getSuccesses();
+    const results = new Linter(rules).lint([featureFile]);
 
     expect(results).to.deep.equal([
       {

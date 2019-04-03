@@ -1,6 +1,6 @@
 const expect = require('chai').expect;
-const {Successes, Failures} = require('../src/successes-failures');
-const RulesManager = require('../src/rules-manager');
+const {Successes, Failures} = require('../../../src/successes-failures');
+const ConfigurableLinter = require('../../../src/linter/configurable-linter');
 
 const errorRule = function(name, error) {
   return {
@@ -44,71 +44,69 @@ const PRIORITY_RULE_THAT_FAILS = priorityErrorRule(
   PRIORITY_RULE_THAT_FAILS_NAME,
   ERROR_THREE);
 
-describe('RulesManager', function() {
-  describe('runAllEnabledRules', function() {
+const successfulNoConfigurableLinter = {
+  lint() {
+    return Successes.of([{}]);
+  },
+};
+const file = {};
+
+describe('ConfigurableLinter', function() {
+  describe('lint', function() {
     it('returns the error with more priority rule when all rules are enabled', function() {
-      const rulesManager = new RulesManager(Successes.of([
+      const linter = new ConfigurableLinter(successfulNoConfigurableLinter, [
         RULE,
         RULE_THAT_FAILS,
         ANOTHER_RULE,
         PRIORITY_RULE_THAT_FAILS,
         ANOTHER_RULE_THAT_FAILS,
-      ]));
+      ]);
 
-      expect(rulesManager.runAllEnabledRules({}, {})).to.be.deep.equal([
+      expect(linter.lint(file)).to.be.deep.equal([
         ERROR_THREE,
       ]);
     });
 
     it('returns the concatenation of errors with low priority when the high priotity rule is disabled', function() {
-      const rulesManager = new RulesManager(Successes.of([
+      const linter = new ConfigurableLinter(successfulNoConfigurableLinter, [
         RULE,
         RULE_THAT_FAILS,
         ANOTHER_RULE,
         ANOTHER_RULE_THAT_FAILS,
-      ]));
+      ]);
 
-      expect(rulesManager.runAllEnabledRules({}, {})).to.be.deep.equal([
+      expect(linter.lint(file)).to.be.deep.equal([
         ERROR_ONE,
         ERROR_TWO,
       ]);
     });
 
     it('returns no errors when all rules are disabled', function() {
-      const rulesManager = new RulesManager(Successes.of([]));
+      const linter = new ConfigurableLinter(successfulNoConfigurableLinter, []);
 
-      expect(rulesManager.runAllEnabledRules({}, {})).to.be.deep.equal([]);
+      expect(linter.lint({})).to.be.deep.equal([]);
     });
   });
 
-  describe('Rules manager receives a set of configuration errors', function() {
-    beforeEach(function() {
-      this.sinon.stub(console, 'error');
-      this.sinon.stub(process, 'exit');
-    });
-
-    afterEach(function() {
-      console.error.restore(); // eslint-disable-line no-console
-      process.exit.restore();
-    });
-
-    it('the errors are printed in the screen', function() {
+  describe('configurable linter has a no configurable that fails', function() {
+    it('no configurable linter failures are returned', function() {
       const rule = 'my-rule';
       const error = {
         rule,
         message: 'error message',
       };
-      const errors = [error];
-      new RulesManager(Failures.of(errors));
+      const failedNoConfigurableLinter = {
+        lint() {
+          return Failures.of([error]);
+        },
+      };
+      const linter = new ConfigurableLinter(failedNoConfigurableLinter, [
+        RULE,
+        ANOTHER_RULE,
+        PRIORITY_RULE_THAT_FAILS,
+      ]);
 
-      // eslint-disable-next-line no-console
-      const consoleErrorArgs = console.error.args.map(function(args) {
-        return args[0];
-      });
-      expect(consoleErrorArgs[0]).to.include('Error(s) in configuration file:');
-      expect(consoleErrorArgs[1]).to.include(`Invalid rule configuration for "${rule}"`);
-      expect(consoleErrorArgs[1]).to.include(error.message);
-      expect(process.exit.args[0][0]).to.equal(1);
+      expect(linter.lint(file)).to.be.deep.equal([error]);
     });
   });
 });
