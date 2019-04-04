@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-
+const fs = require('fs');
 const program = require('commander');
 const Linter = require('./linter.js');
 const featureFinder = require('./feature-finder.js');
@@ -34,9 +34,14 @@ if (result.isSuccess()) {
   const rules = result.getSuccesses();
   results = new Linter(rules).lint(files);
 } else {
-  results = result.getFailures();
+  results = [{
+    filePath: fs.realpathSync(program.config),
+    errors: result.getFailures(),
+  }];
 }
-printResults(results, program.format);
+const errorLines = format(results, program.format);
+// eslint-disable-next-line no-console
+errorLines.forEach((errorLine) => console.error(errorLine));
 process.exit(getExitCode(results));
 
 function getExitCode(results) {
@@ -49,7 +54,7 @@ function getExitCode(results) {
   return exitCode;
 }
 
-function printResults(results, format) {
+function format(results, format) {
   let formatter;
   if (format === 'json') {
     formatter = require('./formatters/json.js');
@@ -59,5 +64,5 @@ function printResults(results, format) {
     logger.boldError('Unsupported format. The supported formats are json and stylish.');
     process.exit(1);
   }
-  formatter.printResults(results);
+  return formatter.format(results);
 }

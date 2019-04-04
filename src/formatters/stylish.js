@@ -1,12 +1,14 @@
 /* eslint no-console: "off"*/
+const {compose, intoArray} = require('../utils/generic');
+const {filter, flatMap} = require('../utils/transducers');
 
 const style = {
   gray: function(text) {
-    return `\x1b[38;5;243m${ text }\x1b[0m`;
+    return `\x1b[38;5;243m${text}\x1b[0m`;
   },
 
   underline: function(text) {
-    return `\x1b[0;4m${ text }\x1b[24m`;
+    return `\x1b[0;4m${text}\x1b[24m`;
   },
 
 };
@@ -15,7 +17,10 @@ function stylizeError(error, maxErrorMsgLength, maxLineChars) {
   let str = '  '; // indent 2 spaces so it looks pretty
   const padding = '    '; // padding of 4 spaces, will be used between line numbers, error msgs and rule names
 
-  let line = error.line.toString();
+  console.log(error);
+  let line = error.line ? error.line.toString() : '';
+  console.log(line);
+
   // add spaces until the line string is as long as our longest line string
   while (line.length < maxLineChars) {
     line += ' ';
@@ -23,6 +28,7 @@ function stylizeError(error, maxErrorMsgLength, maxLineChars) {
 
   // print the line number as gray
   str += style.gray(line) + padding;
+  console.log(str);
 
   let errorMsg = error.message;
 
@@ -36,7 +42,7 @@ function stylizeError(error, maxErrorMsgLength, maxLineChars) {
 
   // print the rule name in gray
   str += style.gray(error.rule);
-
+  console.log(str);
   // lastly, return our stylish-est string and pretend that this code was never written
   return str;
 }
@@ -48,33 +54,34 @@ function stylizeFilePath(filePath) {
 function getMaxLengthOfField(results, field) {
   let length = 0;
   results.forEach(function(result) {
-    result.errors.forEach(function(error) {
-      const errorStr = error[field].toString();
-      if (errorStr.length > length) {
-        length = errorStr.length;
-      }
-    });
+    result.errors
+      .filter((error) => error[field])
+      .forEach(function(error) {
+        const errorStr = error[field].toString();
+        if (errorStr.length > length) {
+          length = errorStr.length;
+        }
+      });
   });
   return length;
 }
 
 
-function printResults(results) {
+function format(results) {
   const maxErrorMsgLength = getMaxLengthOfField(results, 'message');
   const maxLineChars = getMaxLengthOfField(results, 'line');
 
-  results.forEach(function(result) {
-    if (result.errors.length > 0) {
-      console.error(stylizeFilePath(result.filePath));
-
-      result.errors.forEach(function(error) {
-        console.error(stylizeError(error, maxErrorMsgLength, maxLineChars));
-      });
-      console.error('\n');
-    }
-  });
+  return intoArray(compose(
+    filter((result) => result.errors.length > 0),
+    flatMap((result) => [
+      [stylizeFilePath(result.filePath)],
+      result.errors.map((error) => stylizeError(error, maxErrorMsgLength, maxLineChars)),
+      ['\n'],
+    ]),
+    flatMap((lines) => lines)
+  ))(results);
 }
 
 module.exports = {
-  printResults: printResults,
+  format,
 };
