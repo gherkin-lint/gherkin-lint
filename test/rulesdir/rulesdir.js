@@ -5,9 +5,16 @@ const ConfigProvider = require('../../src/config-provider');
 const getRules = require('../../src/get-rules');
 const FeatureFinder = require('../../src/feature-finder');
 const RulesParser = require('../../src/rules-parser');
+const NoConfigurableLinter = require('../../src/linter/no-configurable-linter');
+const ConfigurableLinter = require('../../src/linter/configurable-linter');
+const Gherkin = require('gherkin');
 
 describe('rulesdir CLI option', function() {
   it('loads additional rules from specified directories', function() {
+    const parser = new Gherkin.Parser();
+    const noConfigurableFileLinter = new NoConfigurableLinter(parser);
+    const configurableFileLinter = new ConfigurableLinter(noConfigurableFileLinter);
+    const linter = new Linter(configurableFileLinter);
     const additionalRulesDirs = [
       path.join(__dirname, 'rules'), // absolute path
       path.join('test', 'rulesdir', 'other_rules'), // relative path from root
@@ -22,7 +29,7 @@ describe('rulesdir CLI option', function() {
     const featureFile = path.join(__dirname, 'simple.features');
     const rules = result.getSuccesses();
     const files = FeatureFinder.getFeatureFiles([featureFile]).getSuccesses();
-    const results = new Linter().lint(files, rules).getFailures();
+    const results = linter.lint(files, rules).getFailures();
 
     expect(results).to.deep.equal([
       {

@@ -6,6 +6,10 @@ const ConfigProvider = require('./config-provider.js');
 const getRules = require('./get-rules');
 const RulesParser = require('./rules-parser');
 const formatterFactory = require('./formatters/formatter-factory');
+const NoConfigurableLinter = require('./linter/no-configurable-linter');
+const ConfigurableLinter = require('./linter/configurable-linter');
+const Gherkin = require('gherkin');
+const parser = new Gherkin.Parser();
 
 function list(val) {
   return val.split(',');
@@ -25,6 +29,9 @@ program
   .parse(process.argv);
 
 const formatter = formatterFactory(program.format);
+const noConfigurableFileLinter = new NoConfigurableLinter(parser);
+const configurableFileLinter = new ConfigurableLinter(noConfigurableFileLinter);
+const linter = new Linter(configurableFileLinter);
 
 let results;
 const rawRules = getRules(program.rulesdir);
@@ -35,7 +42,7 @@ const result = new ConfigProvider(program.config).provide()
   .chain((rules) => {
     return featureFinder.getFeatureFiles(program.args, program.ignore)
       .chain((files) => {
-        return new Linter(rules).lint(files, rules);
+        return linter.lint(files, rules);
       });
   });
 if (result.isSuccess()) {
