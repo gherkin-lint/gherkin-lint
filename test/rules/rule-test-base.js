@@ -17,7 +17,7 @@ const lintFile = (rule, config, file) => {
   const result = new RulesParser(rawRules, configSet).parse();
   if (result.isSuccess()) {
     const rules = result.getSuccesses();
-    return new ConfigurableLinter(noConfigurableLinter, rules).lint(file);
+    return new ConfigurableLinter(noConfigurableLinter).lint(file, rules);
   }
   return result.getFailures();
 };

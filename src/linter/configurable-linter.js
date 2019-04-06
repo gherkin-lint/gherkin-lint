@@ -14,16 +14,15 @@ const runRules = (rules, {file, feature = {}}) => {
 };
 
 class ConfigurableLinter {
-  constructor(noConfigurableLinter, rules) {
+  constructor(noConfigurableLinter) {
     this.noConfigurableLinter = noConfigurableLinter;
-    this.rules = rules;
   }
 
-  lint(file) {
+  lint(file, rules) {
     const result = this.noConfigurableLinter.lint(file);
     if (result.isSuccess()) {
       const [config] = result.getSuccesses();
-      return runRules(this.rules, config);
+      return runRules(rules, config);
     } else {
       return result.getFailures();
     }

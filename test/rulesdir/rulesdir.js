@@ -22,7 +22,7 @@ describe('rulesdir CLI option', function() {
     const featureFile = path.join(__dirname, 'simple.features');
     const rules = result.getSuccesses();
     const files = FeatureFinder.getFeatureFiles([featureFile]).getSuccesses();
-    const results = new Linter(rules).lint(files).getFailures();
+    const results = new Linter().lint(files, rules).getFailures();
 
     expect(results).to.deep.equal([
       {

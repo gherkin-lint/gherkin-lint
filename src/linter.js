@@ -7,17 +7,16 @@ const sortByLine = (errors) => errors.sort((a, b) => {
   return a.line - b.line;
 });
 
-function Linter(rules) {
-  this.rules = rules;
+function Linter() {
 }
 
-Linter.prototype.lint = function(files) {
+Linter.prototype.lint = function(files, rules) {
   const output = [];
   const noConfigurableLinter = new NoConfigurableLinter(parser);
-  const configurableLinter = new ConfigurableLinter(noConfigurableLinter, this.rules);
+  const configurableLinter = new ConfigurableLinter(noConfigurableLinter);
 
   files.forEach(function(file) {
-    const errors = configurableLinter.lint(file);
+    const errors = configurableLinter.lint(file, rules);
     if (errors.length > 0) {
       const fileBlob = {
         type: 'lint-failures',

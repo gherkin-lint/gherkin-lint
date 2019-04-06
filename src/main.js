@@ -35,7 +35,7 @@ const result = new ConfigProvider(program.config).provide()
   .chain((rules) => {
     return featureFinder.getFeatureFiles(program.args, program.ignore)
       .chain((files) => {
-        return new Linter(rules).lint(files);
+        return new Linter(rules).lint(files, rules);
       });
   });
 if (result.isSuccess()) {

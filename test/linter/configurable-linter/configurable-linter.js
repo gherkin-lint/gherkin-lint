@@ -54,28 +54,30 @@ const file = {};
 describe('ConfigurableLinter', function() {
   describe('lint', function() {
     it('returns the error with more priority rule when all rules are enabled', function() {
-      const linter = new ConfigurableLinter(successfulNoConfigurableLinter, [
+      const linter = new ConfigurableLinter(successfulNoConfigurableLinter);
+      const rules = [
         RULE,
         RULE_THAT_FAILS,
         ANOTHER_RULE,
         PRIORITY_RULE_THAT_FAILS,
         ANOTHER_RULE_THAT_FAILS,
-      ]);
+      ];
 
-      expect(linter.lint(file)).to.be.deep.equal([
+      expect(linter.lint(file, rules)).to.be.deep.equal([
         ERROR_THREE,
       ]);
     });
 
     it('returns the concatenation of errors with low priority when the high priotity rule is disabled', function() {
-      const linter = new ConfigurableLinter(successfulNoConfigurableLinter, [
+      const linter = new ConfigurableLinter(successfulNoConfigurableLinter);
+      const rules = [
         RULE,
         RULE_THAT_FAILS,
         ANOTHER_RULE,
         ANOTHER_RULE_THAT_FAILS,
-      ]);
+      ];
 
-      expect(linter.lint(file)).to.be.deep.equal([
+      expect(linter.lint(file, rules)).to.be.deep.equal([
         ERROR_ONE,
         ERROR_TWO,
       ]);
@@ -84,7 +86,7 @@ describe('ConfigurableLinter', function() {
     it('returns no errors when all rules are disabled', function() {
       const linter = new ConfigurableLinter(successfulNoConfigurableLinter, []);
 
-      expect(linter.lint({})).to.be.deep.equal([]);
+      expect(linter.lint(file, [])).to.be.deep.equal([]);
     });
   });
 
@@ -100,13 +102,14 @@ describe('ConfigurableLinter', function() {
           return Failures.of([error]);
         },
       };
-      const linter = new ConfigurableLinter(failedNoConfigurableLinter, [
+      const linter = new ConfigurableLinter(failedNoConfigurableLinter);
+      const rules = [
         RULE,
         ANOTHER_RULE,
         PRIORITY_RULE_THAT_FAILS,
-      ]);
+      ];
 
-      expect(linter.lint(file)).to.be.deep.equal([error]);
+      expect(linter.lint(file, rules)).to.be.deep.equal([error]);
     });
   });
 });
