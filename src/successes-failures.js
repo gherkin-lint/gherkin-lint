@@ -22,6 +22,10 @@ class Failures {
     return this.value;
   }
 
+  chain() {
+    return this;
+  }
+
   static of(value) {
     return new Failures(value);
   }
@@ -50,6 +54,10 @@ class Successes {
 
   getFailures() {
     return [];
+  }
+
+  chain(f) {
+    return f(this.value);
   }
 
   static of(value) {

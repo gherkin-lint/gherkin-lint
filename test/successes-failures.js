@@ -61,6 +61,14 @@ describe('Successes', () => {
       });
     });
   });
+
+  describe('chain', () => {
+    it('returns the object returned by function', () => {
+      const result = Failures.of([1, 2]);
+      const f = (value) => result;
+      assert.equal(Successes.of(values).chain(f), result);
+    });
+  });
 });
 
 describe('Failures', () => {
@@ -103,6 +111,14 @@ describe('Failures', () => {
         const result = Failures.of(errors).append(Failures.of(otherErrors));
         assert.deepEqual(result.getFailures(), ['a', 'b', 'c', 'd']);
       });
+    });
+  });
+
+  describe('chain', () => {
+    it('returns the same object instance (this)', () => {
+      const f = () => Successes.of([1, 2]);
+      const obj = Failures.of(values);
+      assert.equal(obj.chain(f), obj);
     });
   });
 });

@@ -28,24 +28,20 @@ const formatter = formatterFactory(program.format);
 
 let results;
 const additionalRulesDirs = program.rulesdir;
-const configResult = new ConfigProvider(program.config).provide();
-if (!configResult.isSuccess()) {
-  results = configResult.getFailures();
+const result = new ConfigProvider(program.config).provide()
+  .chain((config) => {
+    return new RulesParser(getRules(additionalRulesDirs), config).parse();
+  })
+  .chain((rules) => {
+    return featureFinder.getFeatureFiles(program.args, program.ignore)
+      .chain((files) => {
+        return new Linter(rules).lint(files);
+      });
+  });
+if (result.isSuccess()) {
+  results = result.getSuccesses();
 } else {
-  const config = configResult.getSuccesses();
-  const filesResult = featureFinder.getFeatureFiles(program.args, program.ignore);
-  if (!filesResult.isSuccess()) {
-    results = filesResult.getFailures();
-  } else {
-    const files = filesResult.getSuccesses();
-    const result = new RulesParser(getRules(additionalRulesDirs), config).parse();
-    if (result.isSuccess()) {
-      const rules = result.getSuccesses();
-      results = new Linter(rules).lint(files);
-    } else {
-      results = result.getFailures();
-    }
-  }
+  results = result.getFailures();
 }
 const errorLines = formatter.format(results, program.format);
 // eslint-disable-next-line no-console

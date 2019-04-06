@@ -20,7 +20,7 @@ describe('rulesdir CLI option', function() {
     const result = rulesParser.parse();
     const featureFile = path.join(__dirname, 'simple.features');
     const rules = result.getSuccesses();
-    const results = new Linter(rules).lint([featureFile]);
+    const results = new Linter(rules).lint([featureFile]).getFailures();
 
     expect(results).to.deep.equal([
       {

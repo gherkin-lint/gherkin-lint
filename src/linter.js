@@ -3,6 +3,7 @@ const Gherkin = require('gherkin');
 const parser = new Gherkin.Parser();
 const NoConfigurableLinter = require('./linter/no-configurable-linter');
 const ConfigurableLinter = require('./linter/configurable-linter');
+const {Successes, Failures} = require('./successes-failures');
 const sortByLine = (errors) => errors.sort((a, b) => {
   return a.line - b.line;
 });
@@ -35,7 +36,9 @@ Linter.prototype.lint = function(files) {
     }
   });
 
-  return output;
+  return output.length > 0
+    ? Failures.of(output)
+    : Successes.of([]);
 };
 
 module.exports = Linter;
