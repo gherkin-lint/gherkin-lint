@@ -29,11 +29,11 @@ const hasErrors = function(rulesOrErrors, expectedErrors) {
 describe('Rule Parser', function() {
   context('When there are rules enabled and disabled', function() {
     it('return the list of enabled rules', function() {
-      const rulesOrErrors = new RulesParser(getRules(), {
+      const rulesOrErrors = new RulesParser(getRules()).parse({
         'no-files-without-scenarios': 'on',
         'no-multiple-empty-lines': 'off',
         'no-trailing-spaces': 'on',
-      }).parse();
+      });
       hasRules(rulesOrErrors, [{
         name: 'no-files-without-scenarios',
         config: {},
@@ -46,9 +46,9 @@ describe('Rule Parser', function() {
 
   context('when the rule has enabled array configuration', function() {
     it('the rule has the configuration defined in second array item', function() {
-      const rulesOrErrors = new RulesParser(getRules(), {
+      const rulesOrErrors = new RulesParser(getRules()).parse({
         'new-line-at-eof': ['on', 'yes'],
-      }).parse();
+      });
       hasRules(rulesOrErrors, [{
         name: 'new-line-at-eof',
         config: 'yes',
@@ -58,7 +58,7 @@ describe('Rule Parser', function() {
 
   context('when the rule has disabled array configuration', function() {
     it('the rule is not returned', function() {
-      const rulesOrErrors = new RulesParser(getRules(), {
+      const rulesOrErrors = new RulesParser(getRules()).parse({
         'indentation': ['off', {
           'Feature': 1,
           'Background': 1,
@@ -67,14 +67,14 @@ describe('Rule Parser', function() {
           'given': 1,
           'and': 1,
         }],
-      }).parse();
+      });
       hasRules(rulesOrErrors, []);
     });
   });
 
   describe('Verification fails when', function() {
     it('a non existing rule', function() {
-      const rulesOrErrors = new RulesParser(getRules(), {'fake-rule': 'on'}).parse();
+      const rulesOrErrors = new RulesParser(getRules()).parse({'fake-rule': 'on'});
       hasErrors(rulesOrErrors, [{
         type: 'undefined-rule',
         message: 'Rule "fake-rule" does not exist',
@@ -82,8 +82,8 @@ describe('Rule Parser', function() {
     });
 
     it('first item is not "on" or "off"', function() {
-      const rulesOrErrors = new RulesParser(getRules(), {'indentation': ['yes', {}]})
-        .parse();
+      const rulesOrErrors = new RulesParser(getRules())
+        .parse({'indentation': ['yes', {}]});
       hasErrors(rulesOrErrors, [{
         type: 'config-rule-error',
         message: 'The first part of config should be "on" or "off"',
@@ -91,8 +91,8 @@ describe('Rule Parser', function() {
     });
 
     it('array config does not have 2 items', function() {
-      const rulesOrErrors = new RulesParser(getRules(), {'indentation': ['on', {}, 2]})
-        .parse();
+      const rulesOrErrors = new RulesParser(getRules())
+        .parse({'indentation': ['on', {}, 2]});
       hasErrors(rulesOrErrors, [{
         type: 'config-rule-error',
         message: 'The config should only have 2 parts.',
@@ -100,10 +100,10 @@ describe('Rule Parser', function() {
     });
 
     it('a non existing rule sub-config', function() {
-      const rulesOrErrors = new RulesParser(getRules(), {
+      const rulesOrErrors = new RulesParser(getRules()).parse({
         'indentation': ['on', {'featur': 0}],
         'new-line-at-eof': ['on', 'y'],
-      }).parse();
+      });
       hasErrors(rulesOrErrors, [{
         type: 'config-rule-error',
         rule: 'indentation',
@@ -116,8 +116,8 @@ describe('Rule Parser', function() {
     });
 
     it('string config is not "on" or "off"', function() {
-      const rulesOrErrors = new RulesParser(getRules(), {'indentation': 'no'})
-        .parse();
+      const rulesOrErrors = new RulesParser(getRules())
+        .parse({'indentation': 'no'});
       hasErrors(rulesOrErrors, [{
         type: 'config-rule-error',
         message: 'config should be "on" or "off"',

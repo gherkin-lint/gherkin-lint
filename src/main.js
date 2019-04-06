@@ -32,18 +32,14 @@ const formatter = formatterFactory(program.format);
 const noConfigurableFileLinter = new NoConfigurableLinter(parser);
 const configurableFileLinter = new ConfigurableLinter(noConfigurableFileLinter);
 const linter = new Linter(configurableFileLinter);
-
-let results;
 const rawRules = getRules(program.rulesdir);
+const rulesParser = new RulesParser(rawRules);
+let results;
 const result = new ConfigProvider(program.config).provide()
-  .chain((config) => {
-    return new RulesParser(rawRules, config).parse();
-  })
+  .chain((config) => rulesParser.parse(config))
   .chain((rules) => {
     return featureFinder.getFeatureFiles(program.args, program.ignore)
-      .chain((files) => {
-        return linter.lint(files, rules);
-      });
+      .chain((files) => linter.lint(files, rules));
   });
 if (result.isSuccess()) {
   results = result.getSuccesses();

@@ -60,13 +60,12 @@ function normalizeRule(rules, config, ruleName) {
   }
 }
 
-function RuleParser(rules, config) {
-  this.config = config;
+function RuleParser(rules) {
   this.rules = rules;
 }
 
-RuleParser.prototype.parse = function() {
-  const {config, rules} = this;
+RuleParser.prototype.parse = function(config) {
+  const {rules} = this;
   const result = Object.keys(config).reduce(function(result, ruleName) {
     return result.append(normalizeRule(rules, config, ruleName));
   }, Successes.of([]));

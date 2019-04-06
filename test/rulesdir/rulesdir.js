@@ -21,11 +21,8 @@ describe('rulesdir CLI option', function() {
     ];
     const configPath = path.join(__dirname, '.gherkin-lintrc');
     const configResult = new ConfigProvider(configPath).provide();
-    const rulesParser = new RulesParser(
-      getRules(additionalRulesDirs),
-      configResult.getSuccesses()
-    );
-    const result = rulesParser.parse();
+    const rulesParser = new RulesParser(getRules(additionalRulesDirs));
+    const result = rulesParser.parse(configResult.getSuccesses());
     const featureFile = path.join(__dirname, 'simple.features');
     const rules = result.getSuccesses();
     const files = FeatureFinder.getFeatureFiles([featureFile]).getSuccesses();
