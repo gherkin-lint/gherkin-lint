@@ -1,3 +1,4 @@
+const ruleName = 'new-line-at-eof';
 const ruleTestBase = require('../rule-test-base');
 const rule = require('../../../src/rules/new-line-at-eof.js');
 const runYesTest = ruleTestBase.createRuleTest(rule, () =>
@@ -8,8 +9,13 @@ const runNoTest = ruleTestBase.createRuleTest(rule, () =>
 describe('New Line At EOF Rule', function() {
   it('detects an error when property is not "yes" or "no"', function() {
     runYesTest('new-line-at-eof/NewLineAtEOF.feature', 'maybe', [{
-      type: 'config-rule-error',
-      message: 'The rule does not have the specified configuration option "maybe"',
+      message: 'Error(s) in configuration file:',
+      type: 'config-error',
+      errors: [{
+        type: 'config-rule-error',
+        rule: ruleName,
+        message: 'The rule does not have the specified configuration option "maybe"',
+      }],
     }]);
   });
 
@@ -21,6 +27,7 @@ describe('New Line At EOF Rule', function() {
     it('raises error when there are no new line at eof', function() {
       runYesTest('new-line-at-eof/NoNewLineAtEOF.feature', 'yes', [{
         messageElements: {},
+        rule: ruleName,
         line: 7,
       }]);
     });
@@ -30,6 +37,7 @@ describe('New Line At EOF Rule', function() {
     it('raises error when there are new line at eof', function() {
       runNoTest('new-line-at-eof/NewLineAtEOF.feature', 'no', [{
         messageElements: {},
+        rule: ruleName,
         line: 8,
       }]);
     });

@@ -1,27 +1,10 @@
 const {compose, intoArray} = require('../utils/generic');
-const {filter, flatMap} = require('../utils/transducers');
+const {flatMap} = require('../utils/transducers');
+const style = require('./style');
 
-const style = {
-  gray: function(text) {
-    return `\x1b[38;5;243m${text}\x1b[0m`;
-  },
-
-  underline: function(text) {
-    return `\x1b[0;4m${text}\x1b[24m`;
-  },
-
-  boldError(msg) {
-    return `\x1b[31m\x1b[1m${msg}\x1b[0m`;
-  },
-
-  error(msg) {
-    return `\x1b[31m${msg}\x1b[0m`;
-  },
-};
-
-const stylizeConfigError = ({errors}) => {
+const stylizeConfigError = ({errors = [], message}) => {
   return [
-    [style.boldError('Error(s) in configuration file:')],
+    [style.boldError(message)],
     errors.map(({rule, message, type}) => {
       const wrongConfigMessage = type === 'config-rule-error'
         ? `Invalid rule configuration for "${rule}" - `
@@ -67,8 +50,8 @@ function stylizeFilePath(filePath) {
 
 function getMaxLengthOfField(results, field) {
   let length = 0;
-  results.forEach(function(result) {
-    result.errors
+  results.forEach(function({errors = []}) {
+    errors
       .filter((error) => error[field])
       .forEach(function(error) {
         const errorStr = error[field].toString();
@@ -81,10 +64,11 @@ function getMaxLengthOfField(results, field) {
 }
 
 const stylizeResult = (result, stylizeRuleError) => {
+  const {errors = []} = result;
   if (result.type === 'lint-failures') {
     return [
-      [stylizeFilePath(result.filePath)],
-      result.errors.map(stylizeRuleError),
+      [stylizeFilePath(result.message)],
+      errors.map(stylizeRuleError),
       ['\n'],
     ];
   }
@@ -97,7 +81,6 @@ function format(results) {
   const stylizeRuleError = stylizeRuleErrorWith(maxErrorMsgLength, maxLineChars);
 
   return intoArray(compose(
-    filter((result) => result.errors.length > 0),
     flatMap((result) => stylizeResult(result, stylizeRuleError)),
     flatMap((lines) => lines)
   ))(results);

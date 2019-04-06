@@ -1,3 +1,4 @@
+const ruleName = 'no-empty-background';
 const ruleTestBase = require('../rule-test-base');
 const rule = require('../../../src/rules/no-empty-background.js');
 const runTest = ruleTestBase.createRuleTest(rule,
@@ -15,6 +16,7 @@ describe('No empty Backgrounds Rule', function() {
   it('detects errors for scenarios, and scenario outlines', function() {
     runTest('no-empty-background/Violations.feature', {}, [{
       line: 4,
+      rule: ruleName,
       messageElements: {},
     }]);
   });

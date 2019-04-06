@@ -1,44 +1,47 @@
 const expect = require('chai').expect;
 const ConfigProvider = require('../../src/config-provider.js');
-
-require('mocha-sinon');
+const CONFIG_PATH = './test/config-provider';
 
 describe('Configuration parser', () => {
   describe('early exits with a non 0 exit code when', () => {
-    beforeEach(function() {
-      this.sinon.stub(console, 'error');
-      this.sinon.stub(process, 'exit');
-    });
-
-    afterEach(() => {
-      console.error.restore(); // eslint-disable-line no-console
-      process.exit.restore();
-    });
-
     it('the specified config file doesn\'t exist', () => {
       const configFilePath = './non/existing/path';
-      new ConfigProvider(configFilePath).provide();
+      const result = new ConfigProvider(configFilePath).provide();
 
-      // eslint-disable-next-line no-console
-      const consoleErrorArgs = console.error.args.map(function(args) {
-        return args[0];
+      expect(result.isSuccess()).to.be.equal(false);
+      expect(result.getFailures()).to.be.deep.equal([{
+        type: 'config-error',
+        message: `Could not find specified config file "${configFilePath}"`,
+      }]);
+    });
+
+    it('the specified config file exists', () => {
+      const result = new ConfigProvider(`${CONFIG_PATH}/config.gherkinrc`).provide();
+
+      expect(result.isSuccess()).to.be.equal(true);
+      expect(result.getSuccesses()).to.be.deep.equal({
+        'fake-rule': 'on',
       });
-      expect(consoleErrorArgs[0])
-        .to.include(`Could not find specified config file "${configFilePath}"`);
-      expect(process.exit.args[0][0]).to.equal(1);
+    });
+
+    it('the specified config file exists but it is a badly formed JSON', () => {
+      const result = new ConfigProvider(`${CONFIG_PATH}/wrong-config.json`).provide();
+
+      expect(result.isSuccess()).to.be.equal(false);
+      expect(result.getFailures()).to.be.deep.equal([{
+        message: 'SyntaxError: Unexpected string in JSON at position 19',
+        type: 'config-error',
+      }]);
     });
 
     it('no config file has been specified and default config file doesn\'t exist', () => {
-      new ConfigProvider().provide();
+      const result = new ConfigProvider().provide();
 
-      // eslint-disable-next-line no-console
-      const consoleErrorArgs = console.error.args.map(function(args) {
-        return args[0];
-      });
-
-      expect(consoleErrorArgs[0])
-        .to.include('Could not find default config file');
-      expect(process.exit.args[0][0]).to.equal(1);
+      expect(result.isSuccess()).to.be.equal(false);
+      expect(result.getFailures()).to.be.deep.equal([{
+        type: 'config-error',
+        message: 'Could not find default config file ".gherkin-lintrc" in the working directory.\n        To use a custom name/path provide the config file using the "-c" arg.',
+      }]);
     });
   });
 });

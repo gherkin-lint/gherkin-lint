@@ -1,3 +1,4 @@
+const ruleName = 'no-restricted-tags';
 const ruleTestBase = require('../rule-test-base');
 const rule = require('../../../src/rules/no-restricted-tags.js');
 const runTest = ruleTestBase.createRuleTest(rule, ({tags, nodeType}) =>
@@ -8,8 +9,13 @@ describe('No Restricted Tags Rule', function() {
     runTest('no-restricted-tags/NoViolations.feature', {
       'foobar': ['@featuretag', '@scenariotag'],
     }, [{
-      type: 'config-rule-error',
-      message: 'The rule does not have the specified configuration option "foobar"',
+      type: 'config-error',
+      message: 'Error(s) in configuration file:',
+      errors: [{
+        type: 'config-rule-error',
+        rule: 'no-restricted-tags',
+        message: 'The rule does not have the specified configuration option "foobar"',
+      }],
     }]);
   });
 
@@ -24,26 +30,32 @@ describe('No Restricted Tags Rule', function() {
       'tags': ['@featuretag1', '@anothertag', '@scenariotag1', '@scenariotag2'],
     }, [{
       messageElements: {tags: '@featuretag1', nodeType: 'Feature'},
+      rule: ruleName,
       line: 1,
     },
     {
       messageElements: {tags: '@anothertag', nodeType: 'Feature'},
+      rule: ruleName,
       line: 1,
     },
     {
       messageElements: {tags: '@scenariotag1', nodeType: 'Scenario'},
+      rule: ruleName,
       line: 7,
     },
     {
       messageElements: {tags: '@scenariotag2', nodeType: 'Scenario'},
+      rule: ruleName,
       line: 7,
     },
     {
       messageElements: {tags: '@anothertag', nodeType: 'Scenario'},
+      rule: ruleName,
       line: 7,
     },
     {
       messageElements: {tags: '@scenariotag1', nodeType: 'ScenarioOutline'},
+      rule: ruleName,
       line: 11,
     }]);
   });

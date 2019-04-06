@@ -12,8 +12,11 @@ describe('rulesdir CLI option', function() {
       path.join('test', 'rulesdir', 'other_rules'), // relative path from root
     ];
     const configPath = path.join(__dirname, '.gherkin-lintrc');
-    const config = new ConfigProvider(configPath).provide();
-    const rulesParser = new RulesParser(getRules(additionalRulesDirs), config);
+    const configResult = new ConfigProvider(configPath).provide();
+    const rulesParser = new RulesParser(
+      getRules(additionalRulesDirs),
+      configResult.getSuccesses()
+    );
     const result = rulesParser.parse();
     const featureFile = path.join(__dirname, 'simple.features');
     const rules = result.getSuccesses();
@@ -52,7 +55,7 @@ describe('rulesdir CLI option', function() {
             rule: 'another-custom',
           },
         ],
-        filePath: featureFile,
+        message: featureFile,
       },
     ]);
   });

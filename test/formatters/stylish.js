@@ -5,7 +5,7 @@ describe('Stylish formatter', function() {
   it('formats lint failures', function() {
     const actual = format([{
       type: 'lint-failures',
-      filePath: 'path/to/file',
+      message: 'path/to/file',
       errors: [{
         message: 'weird error message',
         line: 2,
@@ -31,7 +31,7 @@ describe('Stylish formatter', function() {
   it('formats config rule errors', function() {
     const actual = format([{
       type: 'config-errors',
-      filePath: 'path/to/file',
+      message: 'error title',
       errors: [{
         type: 'config-rule-error',
         message: 'field not needed',
@@ -43,7 +43,7 @@ describe('Stylish formatter', function() {
       }],
     }]);
     assert.deepEqual(actual, [
-      '\u001b[31m\u001b[1mError(s) in configuration file:\u001b[0m',
+      '\u001b[31m\u001b[1merror title\u001b[0m',
       '\u001b[31m- Invalid rule configuration for "rule-name" - field not needed\u001b[0m',
       '\u001b[31m- rule does not exist\u001b[0m',
     ]);

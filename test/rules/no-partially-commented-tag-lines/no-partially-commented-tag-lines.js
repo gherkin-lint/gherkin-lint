@@ -1,3 +1,4 @@
+const ruleName = 'no-partially-commented-tag-lines';
 const ruleTestBase = require('../rule-test-base');
 const rule = require('../../../src/rules/no-partially-commented-tag-lines');
 const runTest = ruleTestBase.createRuleTest(rule,
@@ -11,9 +12,11 @@ describe('No partially commented tag lines Rule', function() {
   it('detects errors there are multiple empty lines', function() {
     runTest('no-partially-commented-tag-lines/Violations.feature', {}, [{
       line: 6,
+      rule: ruleName,
       messageElements: {},
     }, {
       line: 10,
+      rule: ruleName,
       messageElements: {},
     }]);
   });

@@ -1,3 +1,4 @@
+const ruleName = 'no-dupe-scenario-names';
 const ruleTestBase = require('../rule-test-base');
 const rule = require('../../../src/rules/no-dupe-scenario-names');
 const runTest = ruleTestBase.createRuleTest(rule, ({files}) =>
@@ -18,6 +19,7 @@ describe('No Duplicate Scenario Names Rule', function() {
           `${PATH}${VIOLATIONS_FILE}:7`,
         ].join(','),
       },
+      rule: ruleName,
       line: 10,
     },
     {
@@ -27,6 +29,7 @@ describe('No Duplicate Scenario Names Rule', function() {
           `${PATH}${VIOLATIONS_FILE}:10`,
         ].join(', '),
       },
+      rule: ruleName,
       line: 16,
     }, {
       messageElements: {
@@ -36,6 +39,7 @@ describe('No Duplicate Scenario Names Rule', function() {
           `${PATH}${VIOLATIONS_FILE}:16`,
         ].join(', '),
       },
+      rule: ruleName,
       line: 19,
     }]);
   });

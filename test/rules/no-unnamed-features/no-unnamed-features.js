@@ -1,3 +1,4 @@
+const ruleName = 'no-unnamed-features';
 const ruleTestBase = require('../rule-test-base');
 const rule = require('../../../src/rules/no-unnamed-features.js');
 const runTest = ruleTestBase.createRuleTest(rule, () => 'Missing Feature name');
@@ -10,6 +11,7 @@ describe('No Unnamed Features Rule', function() {
   it('detects errors for scenarios, and scenario outlines', function() {
     runTest('no-unnamed-features/Violations.feature', {}, [{
       line: 3,
+      rule: ruleName,
       messageElements: {},
     }]);
   });

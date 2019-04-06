@@ -1,3 +1,4 @@
+const ruleName = 'indentation';
 const ruleTestBase = require('../rule-test-base');
 const rule = require('../../../src/rules/indentation.js');
 const runTest = ruleTestBase.createRuleTest(rule, ({element, expected, actual}) => {
@@ -7,48 +8,63 @@ const runTest = ruleTestBase.createRuleTest(rule, ({element, expected, actual}) 
 
 const wrongIndenatationErrors = [{
   messageElements: {element: 'Feature', expected: 0, actual: 1},
+  rule: ruleName,
   line: 2,
 }, {
   messageElements: {element: 'feature tag', expected: 0, actual: 1},
+  rule: ruleName,
   line: 1,
 }, {
   messageElements: {element: 'Background', expected: 0, actual: 4},
+  rule: ruleName,
   line: 4,
 }, {
   messageElements: {element: 'Step', expected: 2, actual: 0},
+  rule: ruleName,
   line: 5,
 }, {
   messageElements: {element: 'Scenario', expected: 0, actual: 1},
+  rule: ruleName,
   line: 9,
 }, {
   messageElements: {element: 'scenario tag', expected: 0, actual: 1},
+  rule: ruleName,
   line: 7,
 }, {
   messageElements: {element: 'scenario tag', expected: 0, actual: 1},
+  rule: ruleName,
   line: 8,
 }, {
   messageElements: {element: 'Step', expected: 2, actual: 3},
+  rule: ruleName,
   line: 10,
 }, {
   messageElements: {element: 'Scenario', expected: 0, actual: 3},
+  rule: ruleName,
   line: 14,
 }, {
   messageElements: {element: 'Examples', expected: 0, actual: 2},
+  rule: ruleName,
   line: 16,
 }, {
   messageElements: {element: 'example', expected: 2, actual: 4},
+  rule: ruleName,
   line: 17,
 }, {
   messageElements: {element: 'example', expected: 2, actual: 4},
+  rule: ruleName,
   line: 18,
 }, {
   messageElements: {element: 'scenario tag', expected: 0, actual: 3},
+  rule: ruleName,
   line: 12,
 }, {
   messageElements: {element: 'scenario tag', expected: 0, actual: 4},
+  rule: ruleName,
   line: 13,
 }, {
   messageElements: {element: 'Step', expected: 2, actual: 3},
+  rule: ruleName,
   line: 15,
 }];
 
@@ -76,48 +92,63 @@ describe('Indentation rule', () => {
   it('detects errors for features, backgrounds, scenarios, scenario outlines and steps in other languages', function() {
     runTest('indentation/WrongIndentationDifferentLanguage.feature', {}, [{
       messageElements: {element: 'Feature', expected: 0, actual: 4},
+      rule: ruleName,
       line: 3,
     }, {
       messageElements: {element: 'feature tag', expected: 0, actual: 4},
+      rule: ruleName,
       line: 2,
     }, {
       messageElements: {element: 'Background', expected: 0, actual: 4},
+      rule: ruleName,
       line: 5,
     }, {
       messageElements: {element: 'Step', expected: 2, actual: 0},
+      rule: ruleName,
       line: 6,
     }, {
       messageElements: {element: 'Scenario', expected: 0, actual: 4},
+      rule: ruleName,
       line: 10,
     }, {
       messageElements: {element: 'scenario tag', expected: 0, actual: 4},
+      rule: ruleName,
       line: 8,
     }, {
       messageElements: {element: 'scenario tag', expected: 0, actual: 1},
+      rule: ruleName,
       line: 9,
     }, {
       messageElements: {element: 'Step', expected: 2, actual: 12},
+      rule: ruleName,
       line: 11,
     }, {
       messageElements: {element: 'Scenario', expected: 0, actual: 12},
+      rule: ruleName,
       line: 15,
     }, {
       messageElements: {element: 'Examples', expected: 0, actual: 7},
+      rule: ruleName,
       line: 17,
     }, {
       messageElements: {element: 'example', expected: 2, actual: 15},
+      rule: ruleName,
       line: 18,
     }, {
       messageElements: {element: 'example', expected: 2, actual: 15},
+      rule: ruleName,
       line: 19,
     }, {
       messageElements: {element: 'scenario tag', expected: 0, actual: 4},
+      rule: ruleName,
       line: 13,
     }, {
       messageElements: {element: 'scenario tag', expected: 0, actual: 1},
+      rule: ruleName,
       line: 14,
     }, {
       messageElements: {element: 'Step', expected: 2, actual: 11},
+      rule: ruleName,
       line: 16,
     }]);
   });

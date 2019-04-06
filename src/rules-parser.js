@@ -67,9 +67,16 @@ function RuleParser(rules, config) {
 
 RuleParser.prototype.parse = function() {
   const {config, rules} = this;
-  return Object.keys(config).reduce(function(result, ruleName) {
+  const result = Object.keys(config).reduce(function(result, ruleName) {
     return result.append(normalizeRule(rules, config, ruleName));
   }, Successes.of([]));
+  return result.isSuccess()
+    ? result
+    : Failures.of([{
+      type: 'config-error',
+      message: 'Error(s) in configuration file:',
+      errors: result.getFailures(),
+    }]);
 };
 
 module.exports = RuleParser;

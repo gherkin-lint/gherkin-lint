@@ -1,3 +1,4 @@
+const ruleName = 'no-trailing-spaces';
 const ruleTestBase = require('../rule-test-base');
 const rule = require('../../../src/rules/no-trailing-spaces.js');
 const runTest = ruleTestBase.createRuleTest(rule, () =>
@@ -11,12 +12,15 @@ describe('No Trailing Spaces Rule', function() {
   it('detects errors for scenarios, and scenario outlines', function() {
     runTest('no-trailing-spaces/Violations.feature', {}, [{
       line: 3,
+      rule: ruleName,
       messageElements: {},
     }, {
       line: 12,
+      rule: ruleName,
       messageElements: {},
     }, {
       line: 14,
+      rule: ruleName,
       messageElements: {},
     }]);
   });

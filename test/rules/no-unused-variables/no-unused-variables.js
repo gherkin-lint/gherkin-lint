@@ -1,3 +1,4 @@
+const ruleName = 'no-unused-variables';
 const ruleTestBase = require('../rule-test-base');
 const rule = require('../../../src/rules/no-unused-variables.js');
 
@@ -13,18 +14,22 @@ describe('No unused variables rule', function() {
 
     runTest('no-unused-variables/UnusedStepVariables.feature', {}, [{
       line: 5,
+      rule: ruleName,
       messageElements: {variable: 'b'},
     },
     {
       line: 11,
+      rule: ruleName,
       messageElements: {variable: 'b'},
     },
     {
       line: 23,
+      rule: ruleName,
       messageElements: {variable: 'b'},
     },
     {
       line: 34,
+      rule: ruleName,
       messageElements: {variable: 'b'},
     }]);
   });
@@ -35,21 +40,26 @@ describe('No unused variables rule', function() {
 
     runTest('no-unused-variables/UnusedExampleVariables.feature', {}, [{
       line: 7,
+      rule: ruleName,
       messageElements: {variable: 'b'},
     }, {
       line: 19,
+      rule: ruleName,
       messageElements: {variable: 'b'},
     },
     {
       line: 28,
+      rule: ruleName,
       messageElements: {variable: 'b'},
     },
     {
       line: 42,
+      rule: ruleName,
       messageElements: {variable: 'b'},
     },
     {
       line: 54,
+      rule: ruleName,
       messageElements: {variable: 'b'},
     }]);
   });

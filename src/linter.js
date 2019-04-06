@@ -28,7 +28,7 @@ Linter.prototype.lint = function(files) {
     if (errors.length > 0) {
       const fileBlob = {
         type: 'lint-failures',
-        filePath: fs.realpathSync(fileName),
+        message: fs.realpathSync(fileName),
         errors: sortByLine(errors),
       };
       output.push(fileBlob);

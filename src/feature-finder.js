@@ -2,10 +2,14 @@ const {uniq} = require('./utils/generic');
 const glob = require('glob');
 const fs = require('fs');
 const path = require('path');
-const logger = require('./logger.js');
+const {Successes, Failures} = require('./successes-failures');
 
 const defaultIgnoreFileName = '.gherkin-lintignore';
 const defaultIgnoredFiles = 'node_modules/**'; // Ignore node_modules by default
+const invalidFormatMessage = (pattern) =>
+  `Invalid format of the feature file path/pattern: "${pattern}".\n`;
+const USE_EXISTING_FEATURE =
+  'To run the linter please specify an existing feature file, directory or glob.';
 
 function getFeatureFiles(args, ignoreArg) {
   let files = [];
@@ -34,15 +38,16 @@ function getFeatureFiles(args, ignoreArg) {
     }
 
     if (!fixedPattern) {
-      logger.boldError(`Invalid format of the feature file path/pattern: "${pattern}".
-        To run the linter please specify an existing feature file, directory or glob.`);
-      process.exit(1);
+      return Failures.of([{
+        type: 'feature-pattern-error',
+        message: `${invalidFormatMessage(pattern)}${USE_EXISTING_FEATURE}`,
+      }]);
     }
 
     const globOptions = {ignore: getIgnorePatterns(ignoreArg)};
     files = files.concat(glob.sync(fixedPattern, globOptions));
   });
-  return uniq(files);
+  return Successes.of(uniq(files));
 }
 
 function getIgnorePatterns(ignoreArg) {

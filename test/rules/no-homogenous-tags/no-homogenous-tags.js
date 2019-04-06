@@ -1,3 +1,4 @@
+const ruleName = 'no-homogenous-tags';
 const ruleTestBase = require('../rule-test-base');
 const rule = require('../../../src/rules/no-homogenous-tags.js');
 const runTest = ruleTestBase.createRuleTest(rule, ({tags}) =>
@@ -12,6 +13,7 @@ describe('No Homogenous Tags Rule', function() {
   it('detects errors for scenarios, and scenario outlines', function() {
     runTest('no-homogenous-tags/Violations.feature', {}, [{
       line: 1,
+      rule: ruleName,
       messageElements: {tags: '@tag1, @tag2'},
     }]);
   });

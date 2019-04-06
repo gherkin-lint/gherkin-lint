@@ -1,3 +1,4 @@
+const ruleName = 'no-duplicate-tags';
 const ruleTestBase = require('../rule-test-base');
 const rule = require('../../../src/rules/no-duplicate-tags.js');
 const runTest = ruleTestBase.createRuleTest(rule, ({tags}) =>
@@ -15,14 +16,17 @@ describe('No Duplicate Tags Rule', function() {
   it('detects errors for features, scenarios, and scenario outlines', function() {
     runTest('no-duplicate-tags/Violations.feature', {}, [{
       messageElements: {tags: '@featuretag'},
+      rule: ruleName,
       line: 1,
     },
     {
       messageElements: {tags: '@scenariotag'},
+      rule: ruleName,
       line: 7,
     },
     {
       messageElements: {tags: '@scenariotag'},
+      rule: ruleName,
       line: 11,
     }]);
   });

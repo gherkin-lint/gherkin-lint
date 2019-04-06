@@ -1,3 +1,4 @@
+const ruleName = 'no-empty-file';
 const ruleTestBase = require('../rule-test-base');
 const rule = require('../../../src/rules/no-empty-file.js');
 const runTest = ruleTestBase.createRuleTest(rule,
@@ -11,6 +12,7 @@ describe('No empty files Rule', function() {
   it('detects errors for empty file', function() {
     runTest('no-empty-file/BlankFile.feature', {}, [{
       line: 1,
+      rule: ruleName,
       messageElements: {},
     }]);
   });
@@ -18,6 +20,7 @@ describe('No empty files Rule', function() {
   it('detects errors for blank file', function() {
     runTest('no-empty-file/BlankFile.feature', {}, [{
       line: 1,
+      rule: ruleName,
       messageElements: {},
     }]);
   });

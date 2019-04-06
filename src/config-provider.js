@@ -1,6 +1,6 @@
 const fs = require('fs');
 const defaultConfigFileName = '.gherkin-lintrc';
-const logger = require('./logger.js');
+const {Successes, Failures} = require('./successes-failures');
 
 function ConfigParser(configPath) {
   if (configPath) {
@@ -15,21 +15,25 @@ ConfigParser.defaultConfigFileName = defaultConfigFileName;
 
 ConfigParser.prototype.provide = function() {
   const configPath = this.configPath;
-  if (this.custom) {
-    if (!fs.existsSync(configPath)) {
-      logger.boldError(`Could not find specified config file "${configPath}"`);
-      return process.exit(1);
-    }
-  } else {
-    if (!fs.existsSync(configPath)) {
-      logger.boldError(
-        `Could not find default config file "${configPath}" in the working directory.
-        To use a custom name/path provide the config file using the "-c" arg.`);
-      return process.exit(1);
-    }
+  const message = this.custom
+    ? `Could not find specified config file "${configPath}"`
+    : `Could not find default config file "${configPath}" in the working directory.
+        To use a custom name/path provide the config file using the "-c" arg.`;
+  if (!fs.existsSync(configPath)) {
+    return Failures.of([{
+      type: 'config-error',
+      message,
+    }]);
   }
 
-  return JSON.parse(fs.readFileSync(configPath));
+  try {
+    return Successes.of(JSON.parse(fs.readFileSync(configPath)));
+  } catch (e) {
+    return Failures.of([{
+      type: 'config-error',
+      message: e.toString(),
+    }]);
+  }
 };
 
 module.exports = ConfigParser;

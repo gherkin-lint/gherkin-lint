@@ -1,3 +1,4 @@
+const ruleName = 'max-scenarios-per-file';
 const ruleTestBase = require('../rule-test-base');
 const rule = require('../../../src/rules/max-scenarios-per-file.js');
 const runTest = ruleTestBase.createRuleTest(rule, ({variable}) =>
@@ -8,8 +9,13 @@ describe('Max Scenarios per File rule', function() {
     runTest('max-scenarios-per-file/CorrectNumber.feature', {
       'foobar': 20,
     }, [{
-      type: 'config-rule-error',
-      message: 'The rule does not have the specified configuration option "foobar"',
+      type: 'config-error',
+      message: 'Error(s) in configuration file:',
+      errors: [{
+        type: 'config-rule-error',
+        rule: ruleName,
+        message: 'The rule does not have the specified configuration option "foobar"',
+      }],
     }]);
   });
 
@@ -27,6 +33,7 @@ describe('Max Scenarios per File rule', function() {
         messageElements: {
           variable: 11,
         },
+        rule: ruleName,
         line: 0,
       }]);
     });
@@ -40,6 +47,7 @@ describe('Max Scenarios per File rule', function() {
         messageElements: {
           variable: 11,
         },
+        rule: ruleName,
         line: 0,
       }]);
     });

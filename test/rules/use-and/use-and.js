@@ -1,3 +1,4 @@
+const ruleName = 'use-and';
 const ruleTestBase = require('../rule-test-base');
 const rule = require('../../../src/rules/use-and.js');
 const runTest = ruleTestBase.createRuleTest(rule, ({keyword, text}) =>
@@ -11,9 +12,11 @@ describe('No Unnamed Features Rule', function() {
   it('detects errors for scenarios, and scenario outlines', function() {
     runTest('use-and/Violations.feature', {}, [{
       line: 9,
+      rule: ruleName,
       messageElements: {keyword: 'Given', text: 'text3'},
     }, {
       line: 16,
+      rule: ruleName,
       messageElements: {keyword: 'Then', text: 'text3'},
     }]);
   });

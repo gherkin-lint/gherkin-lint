@@ -1,3 +1,4 @@
+const ruleName = 'no-dupe-feature-names';
 const ruleTestBase = require('../rule-test-base');
 const EXAMPLE_FILE = 'no-dupe-feature-names/Example.feature';
 const OTHER_FILE = 'no-dupe-feature-names/Other.feature';
@@ -27,6 +28,7 @@ describe('No Duplicate Scenario Names Rule', function() {
       messageElements: {
         files: OTHER_FILE,
       },
+      rule: ruleName,
       line: 2,
     }]);
   });

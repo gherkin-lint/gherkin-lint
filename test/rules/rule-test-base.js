@@ -35,11 +35,14 @@ const createFile = (fileName) => {
 function createRuleTest(rule, messageTemplate) {
   return function runTest(featureFile, configuration, expected) {
     const expectedErrors = expected.map((error) => {
-      return Object.assign({
-        type: error.type || 'rule',
-        rule: rule.name,
-        message: error.message || messageTemplate(error.messageElements),
-      }, error.line !== undefined ? {line: error.line} : {});
+      const messageError = error.messageElements
+        ? {message: messageTemplate(error.messageElements)}
+        : {};
+      const expectedError = Object.assign({
+        type: 'rule',
+      }, error, messageError);
+      delete expectedError['messageElements'];
+      return expectedError;
     });
     const file = createFile(featureFile);
     const errors = lintFile(rule, configuration, file);

@@ -1,3 +1,4 @@
+const ruleName = 'no-superfluous-tags';
 const ruleTestBase = require('../rule-test-base');
 const rule = require('../../../src/rules/no-superfluous-tags.js');
 const runTest = ruleTestBase.createRuleTest(rule, ({tags}) =>
@@ -11,9 +12,11 @@ describe('No Superfluous Tags Rule', function() {
   it('detects errors for scenarios, and scenario outlines', function() {
     runTest('no-superfluous-tags/Violations.feature', {}, [{
       line: 7,
+      rule: ruleName,
       messageElements: {tags: '@superfluoustag1'},
     }, {
       line: 11,
+      rule: ruleName,
       messageElements: {tags: '@superfluoustag1, @superfluoustag2'},
     }]);
   });
