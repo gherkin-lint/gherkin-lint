@@ -12,5 +12,5 @@ const noUnNamedFeatures = ({name, location}) => {
 module.exports = {
   name: rule,
   run: noUnNamedFeatures,
-  isValidConfig: () => true,
+  isValidConfig: () => [],
 };

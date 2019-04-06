@@ -108,5 +108,5 @@ function noUnusedVariables(feature) {
 module.exports = {
   name: rule,
   run: noUnusedVariables,
-  isValidConfig: () => true,
+  isValidConfig: () => [],
 };

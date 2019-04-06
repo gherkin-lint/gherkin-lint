@@ -26,7 +26,11 @@ Linter.prototype.lint = function(files) {
 
     const errors = configurableLinter.lint(file);
     if (errors.length > 0) {
-      const fileBlob = {filePath: fs.realpathSync(fileName), errors: sortByLine(errors)};
+      const fileBlob = {
+        type: 'lint-failures',
+        filePath: fs.realpathSync(fileName),
+        errors: sortByLine(errors),
+      };
       output.push(fileBlob);
     }
   });

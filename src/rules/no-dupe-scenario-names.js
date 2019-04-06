@@ -46,5 +46,5 @@ module.exports = {
   }),
   name: rule,
   run: noDuplicateScenarioNames,
-  isValidConfig: () => true,
+  isValidConfig: () => [],
 };

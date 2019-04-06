@@ -20,5 +20,5 @@ const noBackgroundEmptyScenario = (feature) => {
 module.exports = {
   name: rule,
   run: noBackgroundEmptyScenario,
-  isValidConfig: () => true,
+  isValidConfig: () => [],
 };

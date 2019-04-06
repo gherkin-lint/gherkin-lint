@@ -32,5 +32,5 @@ const noSuperfluousTags = (feature) => {
 module.exports = {
   name: rule,
   run: noSuperfluousTags,
-  isValidConfig: () => true,
+  isValidConfig: () => [],
 };

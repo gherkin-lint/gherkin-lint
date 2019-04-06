@@ -51,5 +51,5 @@ function run(feature) {
 module.exports = {
   run: run,
   name: rule,
-  isValidConfig: () => true,
+  isValidConfig: () => [],
 };

@@ -6,7 +6,7 @@ module.exports = function(availableConfigs) {
     return Object.keys(value).reduce(function(errors, name) {
       if (availableConfigs[name] == undefined) {
         errors.push({
-          type: 'config',
+          type: 'config-rule-error',
           rule: rule.name,
           message: `The rule does not have the specified configuration option "${name}"`,
         });

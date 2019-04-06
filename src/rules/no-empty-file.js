@@ -12,6 +12,6 @@ const noEmptyFiles = (feature) => {
 module.exports = {
   name: rule,
   run: noEmptyFiles,
-  isValidConfig: () => true,
+  isValidConfig: () => [],
   suppressOtherRules: true,
 };

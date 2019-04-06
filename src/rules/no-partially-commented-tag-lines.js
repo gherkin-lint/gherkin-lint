@@ -23,5 +23,5 @@ const noPartiallyCommentedTagLines = (feature) => {
 module.exports = {
   name: rule,
   run: noPartiallyCommentedTagLines,
-  isValidConfig: () => true,
+  isValidConfig: () => [],
 };

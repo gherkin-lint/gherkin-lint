@@ -17,5 +17,5 @@ const noUnNamedScenarios = (feature) => {
 module.exports = {
   name: rule,
   run: noUnNamedScenarios,
-  isValidConfig: () => true,
+  isValidConfig: () => [],
 };

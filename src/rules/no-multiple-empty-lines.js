@@ -21,5 +21,5 @@ const noMulitpleEmptyLines = (unused, file) => {
 module.exports = {
   name: rule,
   run: noMulitpleEmptyLines,
-  isValidConfig: () => true,
+  isValidConfig: () => [],
 };

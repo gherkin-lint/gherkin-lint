@@ -9,7 +9,7 @@ describe('Name length rule', function() {
     runTest('name-length/CorrectLength.feature', {
       'foobar': 60,
     }, [{
-      type: 'config',
+      type: 'config-rule-error',
       message: 'The rule does not have the specified configuration option "foobar"',
     }]);
   });

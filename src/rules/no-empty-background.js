@@ -21,5 +21,5 @@ const noEmptyBackground = (feature) => {
 module.exports = {
   name: rule,
   run: noEmptyBackground,
-  isValidConfig: () => true,
+  isValidConfig: () => [],
 };

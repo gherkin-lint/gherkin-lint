@@ -41,5 +41,5 @@ const noHomogenousTags = (feature) => {
 module.exports = {
   name: rule,
   run: noHomogenousTags,
-  isValidConfig: () => true,
+  isValidConfig: () => [],
 };

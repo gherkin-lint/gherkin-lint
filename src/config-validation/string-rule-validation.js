@@ -4,7 +4,7 @@ module.exports = function(availableConfigs) {
     const value = ruleConfig[1];
     if (availableConfigs.indexOf(value) === -1) {
       return [{
-        type: 'config',
+        type: 'config-rule-error',
         rule: this.name,
         message: `The rule does not have the specified configuration option "${value}"`,
       }];

@@ -16,5 +16,5 @@ const noTrailingSpaces = (unused, file) => {
 module.exports = {
   name: rule,
   run: noTrailingSpaces,
-  isValidConfig: () => true,
+  isValidConfig: () => [],
 };

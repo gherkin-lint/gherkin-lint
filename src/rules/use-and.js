@@ -32,5 +32,5 @@ const useAnd = (feature) => {
 module.exports = {
   name: rule,
   run: useAnd,
-  isValidConfig: () => true,
+  isValidConfig: () => [],
 };

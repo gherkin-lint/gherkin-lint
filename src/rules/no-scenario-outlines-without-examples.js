@@ -24,5 +24,5 @@ const noScenarioOutlinesWithoutExamples = (feature) => {
 module.exports = {
   name: rule,
   run: noScenarioOutlinesWithoutExamples,
-  isValidConfig: () => true,
+  isValidConfig: () => [],
 };

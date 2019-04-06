@@ -13,5 +13,5 @@ const noFilesWithoutScenarios = (feature) => {
 module.exports = {
   name: rule,
   run: noFilesWithoutScenarios,
-  isValidConfig: () => true,
+  isValidConfig: () => [],
 };

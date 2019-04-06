@@ -17,18 +17,19 @@ function normalizeRule(rules, config, ruleName) {
   } else if (Array.isArray(ruleConfig)) {
     if (!isValidEnablingSetting(ruleConfig[0])) {
       return Failures.of([{
-        type: 'config',
+        type: 'config-rule-error',
         message: 'The first part of config should be "on" or "off"',
       }]);
     }
 
     if (ruleConfig.length != 2 ) {
       return Failures.of([{
-        type: 'config',
+        type: 'config-rule-error',
         message: 'The config should only have 2 parts.',
       }]);
     }
     const errorList = rule.isValidConfig(config);
+    errorList.forEach((error) => error.type = 'config-rule-error');
     if (errorList.length > 0) {
       return Failures.of(errorList);
     } else if (ruleConfig[0] === 'off') {
@@ -44,7 +45,7 @@ function normalizeRule(rules, config, ruleName) {
   } else {
     if (!isValidEnablingSetting(ruleConfig)) {
       return Failures.of([{
-        type: 'config',
+        type: 'config-rule-error',
         message: 'config should be "on" or "off"',
       }]);
     } else if (ruleConfig === 'off') {

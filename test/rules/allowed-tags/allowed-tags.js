@@ -8,7 +8,7 @@ describe('No Allowed Tags Rule', () => {
     runTest('allowed-tags/NoViolations.feature', {
       'foobar': ['@featuretag', '@scenariotag'],
     }, [{
-      type: 'config',
+      type: 'config-rule-error',
       message: 'The rule does not have the specified configuration option "foobar"',
     }]);
   });

@@ -81,7 +81,7 @@ describe('Rule Parser', function() {
       const rulesOrErrors = new RulesParser(getRules(), {'indentation': ['yes', {}]})
         .parse();
       hasErrors(rulesOrErrors, [{
-        type: 'config',
+        type: 'config-rule-error',
         message: 'The first part of config should be "on" or "off"',
       }]);
     });
@@ -90,7 +90,7 @@ describe('Rule Parser', function() {
       const rulesOrErrors = new RulesParser(getRules(), {'indentation': ['on', {}, 2]})
         .parse();
       hasErrors(rulesOrErrors, [{
-        type: 'config',
+        type: 'config-rule-error',
         message: 'The config should only have 2 parts.',
       }]);
     });
@@ -101,11 +101,11 @@ describe('Rule Parser', function() {
         'new-line-at-eof': ['on', 'y'],
       }).parse();
       hasErrors(rulesOrErrors, [{
-        type: 'config',
+        type: 'config-rule-error',
         rule: 'indentation',
         message: 'The rule does not have the specified configuration option "featur"',
       }, {
-        type: 'config',
+        type: 'config-rule-error',
         rule: 'new-line-at-eof',
         message: 'The rule does not have the specified configuration option "y"',
       }]);
@@ -115,7 +115,7 @@ describe('Rule Parser', function() {
       const rulesOrErrors = new RulesParser(getRules(), {'indentation': 'no'})
         .parse();
       hasErrors(rulesOrErrors, [{
-        type: 'config',
+        type: 'config-rule-error',
         message: 'config should be "on" or "off"',
       }]);
     });

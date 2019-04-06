@@ -35,6 +35,7 @@ if (result.isSuccess()) {
   results = new Linter(rules).lint(files);
 } else {
   results = [{
+    type: 'config-error',
     filePath: fs.realpathSync(program.config),
     errors: result.getFailures(),
   }];

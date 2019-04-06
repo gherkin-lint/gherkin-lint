@@ -45,5 +45,5 @@ const noDuplicateTags = applyOver([
 module.exports = {
   name: rule,
   run: noDuplicateTags,
-  isValidConfig: () => true,
+  isValidConfig: () => [],
 };

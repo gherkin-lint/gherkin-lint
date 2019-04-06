@@ -25,5 +25,5 @@ module.exports = {
   }),
   name: rule,
   run: noDuplicateFeatureNames,
-  isValidConfig: () => true,
+  isValidConfig: () => [],
 };

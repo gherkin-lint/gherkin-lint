@@ -8,7 +8,7 @@ describe('Max Scenarios per File rule', function() {
     runTest('max-scenarios-per-file/CorrectNumber.feature', {
       'foobar': 20,
     }, [{
-      type: 'config',
+      type: 'config-rule-error',
       message: 'The rule does not have the specified configuration option "foobar"',
     }]);
   });

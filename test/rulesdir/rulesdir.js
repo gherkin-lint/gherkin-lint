@@ -21,6 +21,7 @@ describe('rulesdir CLI option', function() {
 
     expect(results).to.deep.equal([
       {
+        type: 'lint-failures',
         errors: [
           /*
            * This one is to make sure we don't accidentally
