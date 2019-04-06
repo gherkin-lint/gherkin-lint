@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const program = require('commander');
 const Linter = require('./linter.js');
-const featureFinder = require('./feature-finder.js');
+const FeatureFinder = require('./feature-finder.js');
 const ConfigProvider = require('./config-provider.js');
 const getRules = require('./get-rules');
 const RulesParser = require('./rules-parser');
@@ -20,11 +20,13 @@ function collect(val, memo) {
   return memo;
 }
 
+const defaultIgnoreFileName = '.gherkin-lintignore';
+
 program
   .usage('[options] <feature-files>')
   .option('-f, --format [format]', 'output format. Possible values: json, stylish. Defaults to stylish')
-  .option('-i, --ignore <...>', `comma seperated list of files/glob patterns that the linter should ignore, overrides ${featureFinder.defaultIgnoreFileName} file`, list)
-  .option('-c, --config [config]', `configuration file, defaults to ${ ConfigProvider.defaultConfigFileName}`)
+  .option('-i, --ignore <...>', `comma seperated list of files/glob patterns that the linter should ignore, overrides ${defaultIgnoreFileName} file`, list)
+  .option('-c, --config [config]', `configuration file, defaults to ${ConfigProvider.defaultConfigFileName}`)
   .option('-r, --rulesdir <...>', 'additional rule directories', collect, [])
   .parse(process.argv);
 
@@ -34,11 +36,16 @@ const configurableFileLinter = new ConfigurableLinter(noConfigurableFileLinter);
 const linter = new Linter(configurableFileLinter);
 const rawRules = getRules(program.rulesdir);
 const rulesParser = new RulesParser(rawRules);
+const featureFinder = new FeatureFinder(
+  program.args,
+  program.ignore || defaultIgnoreFileName
+);
+const configProvider = new ConfigProvider(program.config);
 let results;
-const result = new ConfigProvider(program.config).provide()
+const result = configProvider.provide()
   .chain((config) => rulesParser.parse(config))
   .chain((rules) => {
-    return featureFinder.getFeatureFiles(program.args, program.ignore)
+    return featureFinder.getFeatureFiles()
       .chain((files) => linter.lint(files, rules));
   });
 if (result.isSuccess()) {

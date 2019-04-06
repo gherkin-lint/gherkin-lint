@@ -41,30 +41,7 @@ const parseFile = (fileName) => {
   };
 };
 
-function getFeatureFiles(args, ignoreArg) {
-  const patterns = args.length ? args : ['.'];
-
-  const result = patterns.reduce(function(result, pattern) {
-    // First we need to fix up the pattern so that it only matches .feature files
-    // and it's in the format that glob expects it to be
-    const fixedPattern = getFixedPattern(pattern);
-    if (!fixedPattern) {
-      return result.chain(() => Failures.of([{
-        type: 'feature-pattern-error',
-        message: `${invalidFormatMessage(pattern)}${USE_EXISTING_FEATURE}`,
-      }]));
-    }
-
-    const globOptions = {ignore: getIgnorePatterns(ignoreArg)};
-    const fileNames = glob.sync(fixedPattern, globOptions);
-    return result.chain(() => {
-      return result.append(Successes.of(fileNames));
-    });
-  }, Successes.of([]));
-  return result.chain((files) => Successes.of(uniq(files).map(parseFile)));
-}
-
-function getIgnorePatterns(ignoreArg) {
+const getIgnorePatterns = (ignoreArg) => {
   if (ignoreArg) {
     return ignoreArg;
   } else if (fs.existsSync(defaultIgnoreFileName)) {
@@ -75,9 +52,37 @@ function getIgnorePatterns(ignoreArg) {
   } else {
     return defaultIgnoredFiles;
   }
+};
+
+class FeatureFinder {
+  constructor(args, ignoreArg) {
+    this.args = args;
+    this.ignoreArg = ignoreArg;
+  }
+
+  getFeatureFiles() {
+    const {args, ignoreArg} = this;
+    const patterns = args.length ? args : ['.'];
+
+    const result = patterns.reduce(function(result, pattern) {
+      // First we need to fix up the pattern so that it only matches .feature files
+      // and it's in the format that glob expects it to be
+      const fixedPattern = getFixedPattern(pattern);
+      if (!fixedPattern) {
+        return result.chain(() => Failures.of([{
+          type: 'feature-pattern-error',
+          message: `${invalidFormatMessage(pattern)}${USE_EXISTING_FEATURE}`,
+        }]));
+      }
+
+      const globOptions = {ignore: getIgnorePatterns(ignoreArg)};
+      const fileNames = glob.sync(fixedPattern, globOptions);
+      return result.chain(() => {
+        return result.append(Successes.of(fileNames));
+      });
+    }, Successes.of([]));
+    return result.chain((files) => Successes.of(uniq(files).map(parseFile)));
+  }
 }
 
-module.exports = {
-  getFeatureFiles: getFeatureFiles,
-  defaultIgnoreFileName: defaultIgnoreFileName,
-};
+module.exports = FeatureFinder;

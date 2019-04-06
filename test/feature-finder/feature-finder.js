@@ -1,13 +1,14 @@
 const assert = require('chai').assert;
-const featureFinder = require('../../src/feature-finder.js');
+const FeatureFinder = require('../../src/feature-finder.js');
 const path = require('path');
 
 describe('Feature finder', function() {
   it('does not return duplicates', function() {
-    const actual = featureFinder.getFeatureFiles([
+    const featureFinder = new FeatureFinder([
       'test/feature-finder/fixtures',
       'test/feature-finder',
     ]);
+    const actual = featureFinder.getFeatureFiles();
     const expectedFeature = 'test/feature-finder/fixtures/a.feature';
     assert.equal(actual.isSuccess(), true);
     assert.deepEqual(actual.getSuccesses(), [{
@@ -21,15 +22,18 @@ describe('Feature finder', function() {
   });
 
   it('ignores files when the --ignore argument is provided', function() {
-    const actual = featureFinder.getFeatureFiles(['test/feature-finder/**'],
-      ['test/feature-finder/**']);
+    const featureFinder = new FeatureFinder(
+      ['test/feature-finder/**'],
+      ['test/feature-finder/**']
+    );
+    const actual = featureFinder.getFeatureFiles();
     assert.equal(actual.isSuccess(), true);
     assert.deepEqual(actual.getSuccesses(), []);
   });
 
   it('ignores files in the .gherkin-lintignore', function() {
-    featureFinder.defaultIgnoreFileName = 'test/feature-finder/fixtures/**';
-    const actual = featureFinder.getFeatureFiles(['test/feature-finder/**']);
+    const featureFinder = new FeatureFinder(['test/feature-finder/**']);
+    const actual = featureFinder.getFeatureFiles();
     assert.equal(actual.isSuccess(), true);
     assert.deepEqual(actual.getSuccesses(), []);
   });
