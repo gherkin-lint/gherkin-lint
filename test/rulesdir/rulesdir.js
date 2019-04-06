@@ -1,9 +1,10 @@
 const path = require('path');
 const expect = require('chai').expect;
 const Linter = require('../../src/linter');
-const ConfigProvider = require('../../src/config-provider.js');
-const getRules = require('../../src/get-rules.js');
-const RulesParser = require('../../src/rules-parser.js');
+const ConfigProvider = require('../../src/config-provider');
+const getRules = require('../../src/get-rules');
+const FeatureFinder = require('../../src/feature-finder');
+const RulesParser = require('../../src/rules-parser');
 
 describe('rulesdir CLI option', function() {
   it('loads additional rules from specified directories', function() {
@@ -20,7 +21,8 @@ describe('rulesdir CLI option', function() {
     const result = rulesParser.parse();
     const featureFile = path.join(__dirname, 'simple.features');
     const rules = result.getSuccesses();
-    const results = new Linter(rules).lint([featureFile]).getFailures();
+    const files = FeatureFinder.getFeatureFiles([featureFile]).getSuccesses();
+    const results = new Linter(rules).lint(files).getFailures();
 
     expect(results).to.deep.equal([
       {

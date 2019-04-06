@@ -11,60 +11,67 @@ const invalidFormatMessage = (pattern) =>
 const USE_EXISTING_FEATURE =
   'To run the linter please specify an existing feature file, directory or glob.';
 
+const getFixedPattern = (pattern) => {
+  if (pattern == '.') {
+    return '**/*.feature';
+  } else if (pattern.match(/.*\/\*\*/)) {
+    return `${pattern.slice(0, -1)}.feature`;
+  } else if (pattern.match(/.*\.feature/)) {
+    return pattern;
+  } else {
+    try {
+      if (fs.statSync(pattern).isDirectory()) {
+        return path.join(pattern, '**/*.feature');
+      }
+    } catch (e) {
+      /* Don't show the fs callstack,
+       * we will print a custom error message bellow instead
+       */
+    }
+  }
+};
+
+const parseFile = (fileName) => {
+  const content = fs.readFileSync(fileName, 'utf-8');
+  return {
+    content,
+    name: fileName,
+    lines: content.split(/\r\n|\r|\n/),
+    path: fs.realpathSync(fileName),
+  };
+};
+
 function getFeatureFiles(args, ignoreArg) {
-  let files = [];
   const patterns = args.length ? args : ['.'];
 
-  patterns.forEach(function(pattern) {
+  const result = patterns.reduce(function(result, pattern) {
     // First we need to fix up the pattern so that it only matches .feature files
     // and it's in the format that glob expects it to be
-    let fixedPattern;
-    if (pattern == '.') {
-      fixedPattern = '**/*.feature';
-    } else if (pattern.match(/.*\/\*\*/)) {
-      fixedPattern = `${pattern.slice(0, -1) }.feature`;
-    } else if (pattern.match(/.*\.feature/)) {
-      fixedPattern = pattern;
-    } else {
-      try {
-        if (fs.statSync(pattern).isDirectory()) {
-          fixedPattern = path.join(pattern, '**/*.feature');
-        }
-      } catch (e) {
-        /* Don't show the fs callstack,
-         * we will print a custom error message bellow instead
-         */
-      }
-    }
-
+    const fixedPattern = getFixedPattern(pattern);
     if (!fixedPattern) {
-      return Failures.of([{
+      return result.chain(() => Failures.of([{
         type: 'feature-pattern-error',
         message: `${invalidFormatMessage(pattern)}${USE_EXISTING_FEATURE}`,
-      }]);
+      }]));
     }
 
     const globOptions = {ignore: getIgnorePatterns(ignoreArg)};
-    files = files.concat(glob.sync(fixedPattern, globOptions));
-  });
-  return Successes.of(uniq(files));
+    const fileNames = glob.sync(fixedPattern, globOptions);
+    return result.chain(() => {
+      return result.append(Successes.of(fileNames));
+    });
+  }, Successes.of([]));
+  return result.chain((files) => Successes.of(uniq(files).map(parseFile)));
 }
 
 function getIgnorePatterns(ignoreArg) {
   if (ignoreArg) {
     return ignoreArg;
   } else if (fs.existsSync(defaultIgnoreFileName)) {
-    // return an array where each element of the array is a line of the ignore file
     return fs.readFileSync(defaultIgnoreFileName)
       .toString()
-      .split(/[\n|\r]/)
-      .filter(function(i) {
-        // remove empty strings
-        if (i !== '') {
-          return true;
-        }
-        return false;
-      });
+      .split(/\r\n|\r|\n/)
+      .filter((str) => str !== '');
   } else {
     return defaultIgnoredFiles;
   }

@@ -27,10 +27,10 @@ program
 const formatter = formatterFactory(program.format);
 
 let results;
-const additionalRulesDirs = program.rulesdir;
+const rawRules = getRules(program.rulesdir);
 const result = new ConfigProvider(program.config).provide()
   .chain((config) => {
-    return new RulesParser(getRules(additionalRulesDirs), config).parse();
+    return new RulesParser(rawRules, config).parse();
   })
   .chain((rules) => {
     return featureFinder.getFeatureFiles(program.args, program.ignore)
