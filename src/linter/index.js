@@ -35,7 +35,7 @@ class Linter {
     const result = this.configProvider.provide()
       .chain((config) => this.rulesParser.parse(config))
       .chain((rules) => {
-        return this.featureFinder.getFeatureFiles()
+        return this.featureFinder.provide()
           .chain((files) => lintFiles(files, rules, this.fileLinter));
       });
     if (result.isSuccess()) {

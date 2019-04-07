@@ -3,7 +3,7 @@ const expect = require('chai').expect;
 const Linter = require('../../src/linter/');
 const ConfigProvider = require('../../src/config-provider');
 const getRules = require('../../src/get-rules');
-const FeatureFinder = require('../../src/feature-finder');
+const FeaturesProvider = require('../../src/features-provider');
 const RulesParser = require('../../src/rules-parser');
 const NoConfigurableLinter = require('../../src/linter/no-configurable-linter');
 const ConfigurableLinter = require('../../src/linter/configurable-linter');
@@ -12,7 +12,7 @@ const Gherkin = require('gherkin');
 const createLinter = (featureFiles, configPath, additionalRulesDirs) => {
   const configProvider = new ConfigProvider(configPath);
   const rulesParser = new RulesParser(getRules(additionalRulesDirs));
-  const featureFinder = new FeatureFinder(featureFiles);
+  const featureFinder = new FeaturesProvider(featureFiles);
   const parser = new Gherkin.Parser();
   const noConfigurableFileLinter = new NoConfigurableLinter(parser);
   const configurableFileLinter = new ConfigurableLinter(noConfigurableFileLinter);

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const program = require('commander');
 const Linter = require('./linter/');
-const FeatureFinder = require('./feature-finder.js');
+const FeaturesProvider = require('./features-provider.js');
 const ConfigProvider = require('./config-provider.js');
 const getRules = require('./get-rules');
 const RulesParser = require('./rules-parser');
@@ -35,7 +35,7 @@ const noConfigurableFileLinter = new NoConfigurableLinter(parser);
 const configurableFileLinter = new ConfigurableLinter(noConfigurableFileLinter);
 const rawRules = getRules(program.rulesdir);
 const rulesParser = new RulesParser(rawRules);
-const featureFinder = new FeatureFinder(
+const featuresProvider = new FeaturesProvider(
   program.args,
   program.ignore || defaultIgnoreFileName
 );
@@ -43,7 +43,7 @@ const configProvider = new ConfigProvider(program.config);
 const linter = new Linter(
   configProvider,
   rulesParser,
-  featureFinder,
+  featuresProvider,
   configurableFileLinter
 );
 
@@ -51,14 +51,4 @@ const results = linter.lint();
 const errorLines = formatter.format(results, program.format);
 // eslint-disable-next-line no-console
 errorLines.forEach((errorLine) => console.error(errorLine));
-process.exit(getExitCode(results));
-
-function getExitCode(results) {
-  let exitCode = 0;
-  results.forEach(({errors = []}) => {
-    if (errors.length > 0) {
-      exitCode = 1;
-    }
-  });
-  return exitCode;
-}
+process.exit(results.length > 0 ? 1 : 0);

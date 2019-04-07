@@ -56,13 +56,13 @@ const secondFile = {
 };
 
 const successfulFeatureFinder = {
-  getFeatureFiles() {
+  provide() {
     return Successes.of([firstFile, secondFile]);
   },
 };
 
 const failedFeatureFinder = {
-  getFeatureFiles() {
+  provide() {
     return Failures.of(featureFinderFailures);
   },
 };

@@ -60,7 +60,7 @@ class FeatureFinder {
     this.ignoreArg = ignoreArg;
   }
 
-  getFeatureFiles() {
+  provide() {
     const {args, ignoreArg} = this;
     const patterns = args.length ? args : ['.'];
 
