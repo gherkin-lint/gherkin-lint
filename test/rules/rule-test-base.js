@@ -4,7 +4,6 @@ const fs = require('fs');
 const RulesParser = require('../../src/rules-parser');
 const NoConfigurableLinter = require('../../src/linter/no-configurable-linter');
 const ConfigurableLinter = require('../../src/linter/configurable-linter');
-require('mocha-sinon');
 
 const lintFile = (rule, config, file) => {
   const parser = new Gherkin.Parser();

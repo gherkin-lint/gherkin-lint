@@ -74,10 +74,8 @@
     "eslint": "^5.16.0",
     "eslint-config-google": "^0.12.0",
     "mocha": "6.0.2",
-    "mocha-sinon": "2.1.0",
     "npm-check": "^5.9.0",
-    "nyc": "^13.3.0",
-    "sinon": "7.2.7"
+    "nyc": "^13.3.0"
   },
   "bin": {
     "gherkin-lint": "src/main.js"
@@ -87,7 +85,7 @@
     "lint": "eslint ./src ./test",
     "lint-fix": "eslint ./src ./test --fix",
     "test-only": "mocha --recursive",
-    "check": "npm-check -i gherkin -i sinon",
+    "check": "npm-check -i gherkin",
     "test": "npm run lint && npm run test-only && npm run check",
     "coveralls": "npm run coverage && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
     "coverage": "nyc --reporter=lcov --out-dir lib npm run test-only && nyc report"
