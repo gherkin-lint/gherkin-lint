@@ -3,7 +3,7 @@ const program = require('commander');
 const Linter = require('./linter/');
 const FeaturesProvider = require('./features-provider.js');
 const ConfigProvider = require('./config-provider.js');
-const getRules = require('./get-rules');
+const RulesProvider = require('./rules-provider');
 const RulesParser = require('./rules-parser');
 const formatterFactory = require('./formatters/formatter-factory');
 const NoConfigurableLinter = require('./linter/no-configurable-linter');
@@ -33,8 +33,8 @@ program
 const formatter = formatterFactory(program.format);
 const noConfigurableFileLinter = new NoConfigurableLinter(parser);
 const configurableFileLinter = new ConfigurableLinter(noConfigurableFileLinter);
-const rawRules = getRules(program.rulesdir);
-const rulesParser = new RulesParser(rawRules);
+const rulesProvider = new RulesProvider(program.rulesdir);
+const rulesParser = new RulesParser(rulesProvider.provide());
 const featuresProvider = new FeaturesProvider(
   program.args,
   program.ignore || defaultIgnoreFileName
