@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const program = require('commander');
-const Linter = require('./linter.js');
+const Linter = require('./linter/');
 const FeatureFinder = require('./feature-finder.js');
 const ConfigProvider = require('./config-provider.js');
 const getRules = require('./get-rules');
@@ -33,7 +33,6 @@ program
 const formatter = formatterFactory(program.format);
 const noConfigurableFileLinter = new NoConfigurableLinter(parser);
 const configurableFileLinter = new ConfigurableLinter(noConfigurableFileLinter);
-const linter = new Linter(configurableFileLinter);
 const rawRules = getRules(program.rulesdir);
 const rulesParser = new RulesParser(rawRules);
 const featureFinder = new FeatureFinder(
@@ -41,18 +40,14 @@ const featureFinder = new FeatureFinder(
   program.ignore || defaultIgnoreFileName
 );
 const configProvider = new ConfigProvider(program.config);
-let results;
-const result = configProvider.provide()
-  .chain((config) => rulesParser.parse(config))
-  .chain((rules) => {
-    return featureFinder.getFeatureFiles()
-      .chain((files) => linter.lint(files, rules));
-  });
-if (result.isSuccess()) {
-  results = result.getSuccesses();
-} else {
-  results = result.getFailures();
-}
+const linter = new Linter(
+  configProvider,
+  rulesParser,
+  featureFinder,
+  configurableFileLinter
+);
+
+const results = linter.lint();
 const errorLines = formatter.format(results, program.format);
 // eslint-disable-next-line no-console
 errorLines.forEach((errorLine) => console.error(errorLine));

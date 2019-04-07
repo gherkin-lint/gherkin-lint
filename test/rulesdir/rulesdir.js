@@ -1,6 +1,6 @@
 const path = require('path');
 const expect = require('chai').expect;
-const Linter = require('../../src/linter');
+const Linter = require('../../src/linter/');
 const ConfigProvider = require('../../src/config-provider');
 const getRules = require('../../src/get-rules');
 const FeatureFinder = require('../../src/feature-finder');
@@ -9,24 +9,31 @@ const NoConfigurableLinter = require('../../src/linter/no-configurable-linter');
 const ConfigurableLinter = require('../../src/linter/configurable-linter');
 const Gherkin = require('gherkin');
 
+const createLinter = (featureFiles, configPath, additionalRulesDirs) => {
+  const configProvider = new ConfigProvider(configPath);
+  const rulesParser = new RulesParser(getRules(additionalRulesDirs));
+  const featureFinder = new FeatureFinder(featureFiles);
+  const parser = new Gherkin.Parser();
+  const noConfigurableFileLinter = new NoConfigurableLinter(parser);
+  const configurableFileLinter = new ConfigurableLinter(noConfigurableFileLinter);
+  return new Linter(
+    configProvider,
+    rulesParser,
+    featureFinder,
+    configurableFileLinter
+  );
+};
+
 describe('rulesdir CLI option', function() {
   it('loads additional rules from specified directories', function() {
-    const parser = new Gherkin.Parser();
-    const noConfigurableFileLinter = new NoConfigurableLinter(parser);
-    const configurableFileLinter = new ConfigurableLinter(noConfigurableFileLinter);
-    const linter = new Linter(configurableFileLinter);
     const additionalRulesDirs = [
       path.join(__dirname, 'rules'), // absolute path
       path.join('test', 'rulesdir', 'other_rules'), // relative path from root
     ];
     const configPath = path.join(__dirname, '.gherkin-lintrc');
-    const configResult = new ConfigProvider(configPath).provide();
-    const rulesParser = new RulesParser(getRules(additionalRulesDirs));
-    const result = rulesParser.parse(configResult.getSuccesses());
     const featureFile = path.join(__dirname, 'simple.features');
-    const rules = result.getSuccesses();
-    const files = new FeatureFinder([featureFile]).getFeatureFiles().getSuccesses();
-    const results = linter.lint(files, rules).getFailures();
+    const linter = createLinter([featureFile], configPath, additionalRulesDirs);
+    const results = linter.lint();
 
     expect(results).to.deep.equal([
       {
