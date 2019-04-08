@@ -2,16 +2,13 @@ const fs = require('fs');
 const path = require('path');
 
 class RulesProvider {
-  constructor(additionalRulesDirs) {
-    this.additionalRulesDirs = additionalRulesDirs;
+  constructor(rulesDirs) {
+    this.rulesDirs = rulesDirs;
   }
 
   provide() {
     const rules = {};
-    const rulesDirs = [
-      path.join(__dirname, 'rules'),
-    ].concat(this.additionalRulesDirs || []);
-    rulesDirs.forEach(function(rulesDir) {
+    this.rulesDirs.forEach((rulesDir) => {
       rulesDir = path.resolve(rulesDir);
       fs.readdirSync(rulesDir).forEach(function(file) {
         const rule = require(path.join(rulesDir, file));

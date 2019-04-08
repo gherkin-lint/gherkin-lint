@@ -14,5 +14,5 @@ function custom() {
 module.exports = {
   name: rule,
   run: custom,
-  isValidConfig: () => true,
+  isValidConfig: () => [],
 };

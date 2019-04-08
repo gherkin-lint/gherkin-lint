@@ -84,7 +84,9 @@ describe('Linter', () => {
           createSuccessfulFileLinter()
         );
 
-        expect(linter.lint()).to.be.equal(configProviderFailures);
+        const result = linter.lint();
+        expect(result.isSuccess()).to.be.equal(false);
+        expect(result.getFailures()).to.be.equal(configProviderFailures);
       });
     });
 
@@ -97,7 +99,9 @@ describe('Linter', () => {
           createSuccessfulFileLinter()
         );
 
-        expect(linter.lint()).to.be.equal(rulesParserFailures);
+        const result = linter.lint();
+        expect(result.isSuccess()).to.be.equal(false);
+        expect(result.getFailures()).to.be.equal(rulesParserFailures);
       });
     });
 
@@ -110,7 +114,9 @@ describe('Linter', () => {
           createSuccessfulFileLinter()
         );
 
-        expect(linter.lint()).to.be.equal(featureFinderFailures);
+        const result = linter.lint();
+        expect(result.isSuccess()).to.be.equal(false);
+        expect(result.getFailures()).to.be.equal(featureFinderFailures);
       });
     });
 
@@ -132,7 +138,9 @@ describe('Linter', () => {
           })
         );
 
-        expect(linter.lint()).to.be.deep.equal([{
+        const result = linter.lint();
+        expect(result.isSuccess()).to.be.equal(false);
+        expect(result.getFailures()).to.be.deep.equal([{
           errors: errorsFirstFeature,
           message: firstFile.path,
           type: 'lint-failures',
@@ -152,7 +160,9 @@ describe('Linter', () => {
           })
         );
 
-        expect(linter.lint()).to.be.deep.equal([]);
+        const result = linter.lint();
+        expect(result.isSuccess()).to.be.equal(true);
+        expect(result.getSuccesses()).to.be.deep.equal([]);
       });
     });
   });

@@ -1,5 +1,5 @@
 const rule = 'another-custom-list';
-const objectRuleValidation = require('../../../src/config-validation/object-rule-validation');
+const objectRuleValidation = require('../../../../src/config-validation/object-rule-validation');
 const availableConfigs = {
   'element': [],
 };

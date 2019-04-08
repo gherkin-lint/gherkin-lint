@@ -1,24 +1,21 @@
 const fs = require('fs');
-const defaultConfigFileName = '.gherkin-lintrc';
+const defaults = require('./defaults');
 const {Successes, Failures} = require('./successes-failures');
 
 function ConfigParser(configPath) {
   if (configPath) {
     this.configPath = configPath;
-    this.custom = true;
+    this.message = `Could not find specified config file "${configPath}"`;
   } else {
-    this.configPath = defaultConfigFileName;
+    this.configPath = defaults.config;
+    this.message = `Could not find default config file "${defaults.config}" ` +
+      'in the working directory.\nTo use a custom name/path provide the config ' +
+      'file using the "-c" arg.';
   }
 }
 
-ConfigParser.defaultConfigFileName = defaultConfigFileName;
-
 ConfigParser.prototype.provide = function() {
-  const configPath = this.configPath;
-  const message = this.custom
-    ? `Could not find specified config file "${configPath}"`
-    : `Could not find default config file "${configPath}" in the working directory.
-        To use a custom name/path provide the config file using the "-c" arg.`;
+  const {configPath, message} = this;
   if (!fs.existsSync(configPath)) {
     return Failures.of([{
       type: 'config-error',

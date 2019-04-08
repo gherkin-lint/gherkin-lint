@@ -1,54 +1,42 @@
 #!/usr/bin/env node
 const program = require('commander');
-const Linter = require('./linter/');
-const FeaturesProvider = require('./features-provider.js');
-const ConfigProvider = require('./config-provider.js');
-const RulesProvider = require('./rules-provider');
-const RulesParser = require('./rules-parser');
-const formatterFactory = require('./formatters/formatter-factory');
-const NoConfigurableLinter = require('./linter/no-configurable-linter');
-const ConfigurableLinter = require('./linter/configurable-linter');
-const Gherkin = require('gherkin');
-const parser = new Gherkin.Parser();
+const path = require('path');
+const linterFactory = require('./linter/factory');
+const defaults = require('./defaults');
 
-function list(val) {
+const list = (val) => {
   return val.split(',');
-}
+};
 
-function collect(val, memo) {
+const collect = (val, memo) => {
   memo.push(val);
   return memo;
-}
+};
 
-const defaultIgnoreFileName = '.gherkin-lintignore';
+const defaultRulesDir = 'rules';
 
 program
   .usage('[options] <feature-files>')
   .option('-f, --format [format]', 'output format. Possible values: json, stylish. Defaults to stylish')
-  .option('-i, --ignore <...>', `comma seperated list of files/glob patterns that the linter should ignore, overrides ${defaultIgnoreFileName} file`, list)
-  .option('-c, --config [config]', `configuration file, defaults to ${ConfigProvider.defaultConfigFileName}`)
+  .option('-i, --ignore <...>', `comma seperated list of files/glob patterns that the linter should ignore, overrides ${defaults.ignore} file`, list)
+  .option('-c, --config [config]', `configuration file, defaults to ${defaults.config}`)
   .option('-r, --rulesdir <...>', 'additional rule directories', collect, [])
   .parse(process.argv);
 
-const formatter = formatterFactory(program.format);
-const noConfigurableFileLinter = new NoConfigurableLinter(parser);
-const configurableFileLinter = new ConfigurableLinter(noConfigurableFileLinter);
-const rulesProvider = new RulesProvider(program.rulesdir);
-const rulesParser = new RulesParser(rulesProvider.provide());
-const featuresProvider = new FeaturesProvider(
-  program.args,
-  program.ignore || defaultIgnoreFileName
-);
-const configProvider = new ConfigProvider(program.config);
-const linter = new Linter(
-  configProvider,
-  rulesParser,
-  featuresProvider,
-  configurableFileLinter
-);
+const linter = linterFactory({
+  format: program.format,
+  ignore: program.ignore,
+  config: program.config,
+  rulesDirs: [path.resolve(__dirname, defaultRulesDir)].concat(program.rulesdir || []),
+  args: program.args,
+});
+const {
+  logType,
+  errorLines,
+  exit,
+} = linter.lint();
 
-const results = linter.lint();
-const errorLines = formatter.format(results, program.format);
 // eslint-disable-next-line no-console
-errorLines.forEach((errorLine) => console.error(errorLine));
-process.exit(results.length > 0 ? 1 : 0);
+errorLines.forEach((errorLine) => console[logType](errorLine));
+
+process.exit(exit);

@@ -38,10 +38,7 @@ class Linter {
         return this.featureFinder.provide()
           .chain((files) => lintFiles(files, rules, this.fileLinter));
       });
-    if (result.isSuccess()) {
-      return result.getSuccesses();
-    }
-    return result.getFailures();
+    return result;
   }
 }
 

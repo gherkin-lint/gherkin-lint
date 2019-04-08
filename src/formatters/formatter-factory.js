@@ -1,11 +1,12 @@
 const jsonFormatter = require('./json.js');
 const stylishFormatter = require('./stylish.js');
 const style = require('./style');
+const defaults = require('../defaults');
 
-module.exports = (format) => {
+module.exports = (format = defaults.format) => {
   if (format === 'json') {
     return jsonFormatter;
-  } else if (!format || format == 'stylish') {
+  } else if (format === 'stylish') {
     return stylishFormatter;
   }
   return {

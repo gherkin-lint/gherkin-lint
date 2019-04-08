@@ -40,7 +40,7 @@ describe('Configuration parser', () => {
       expect(result.isSuccess()).to.be.equal(false);
       expect(result.getFailures()).to.be.deep.equal([{
         type: 'config-error',
-        message: 'Could not find default config file ".gherkin-lintrc" in the working directory.\n        To use a custom name/path provide the config file using the "-c" arg.',
+        message: 'Could not find default config file ".gherkin-lintrc" in the working directory.\nTo use a custom name/path provide the config file using the "-c" arg.',
       }]);
     });
   });
