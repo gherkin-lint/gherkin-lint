@@ -33,7 +33,7 @@ describe('No Allowed Tags Rule', () => {
 
   it('detects errors for features, scenarios, and scenario outlines', () => {
     runTest('allowed-tags/Violations.feature', {
-      'tags': ['@featuretag', '@scenariotag'],
+      'tags': ['@featuretag', '@scenariotag', '@exampletag'],
     }, [{
       messageElements: {tags: '@featuretag1', nodeType: 'Feature'},
       rule: ruleName,
@@ -63,6 +63,16 @@ describe('No Allowed Tags Rule', () => {
       messageElements: {tags: '@scenariotag1', nodeType: 'ScenarioOutline'},
       rule: ruleName,
       line: 11,
+    },
+    {
+      messageElements: {tags: '@exampletag1', nodeType: 'Examples'},
+      rule: ruleName,
+      line: 14,
+    },
+    {
+      messageElements: {tags: '@exampletag2', nodeType: 'Examples'},
+      rule: ruleName,
+      line: 17,
     }]);
   });
 });

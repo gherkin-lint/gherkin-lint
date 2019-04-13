@@ -1,10 +1,12 @@
 const {
   isScenario,
   getType,
+  getExamples,
   getFeatureNodes,
   getSteps,
 } = require('./selectors');
 const {
+  applyOver,
   applyWith,
   compose,
   flatMap,
@@ -14,6 +16,14 @@ const {filter} = require('./transducers');
 const applyToFeatureNode = applyWith(getType);
 
 const flatMapFeatureNodes = (fn) => compose(flatMap(fn), getFeatureNodes);
+
+const flatMapNodeTags = (fn) => applyOver([
+  fn,
+  flatMapFeatureNodes(applyToScenario(applyOver([
+    fn,
+    compose(flatMap(fn), getExamples),
+  ]))),
+]);
 
 const applyToScenario = (check) => applyToFeatureNode({
   Scenario: check,
@@ -28,6 +38,7 @@ module.exports = {
   applyToScenario,
   applyToFeatureNode,
   flatMapFeatureNodes,
+  flatMapNodeTags,
   flatMapSteps,
   filterScenarios,
 };
