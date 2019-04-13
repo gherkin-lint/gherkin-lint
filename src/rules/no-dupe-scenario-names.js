@@ -11,6 +11,7 @@ function noDuplicateScenarioNames(feature, file, configuration) {
   }
   if(feature.children) {
     var errors = [];
+    
     feature.children.forEach(function(scenario) {
       if (scenario.name) {
         if (scenario.name in scenarios) {
