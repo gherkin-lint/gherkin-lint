@@ -28,7 +28,7 @@ describe('No Duplicate scenario names Rule', function() {
     rule.reset();
     runTest([
       'no-dupe-scenario-names/FirstFeature.feature',
-      'no-dupe-scenario-names/SecondFeature.feature'], {'local': 'yes'}, [{
+      'no-dupe-scenario-names/SecondFeature.feature'], 'in-feature', [{
       line: 9,
       messageElements: {message:'Scenario name is already used in: no-dupe-scenario-names/FirstFeature.feature:6'}
     }]);

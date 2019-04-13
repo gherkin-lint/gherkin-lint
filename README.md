@@ -178,15 +178,23 @@ The default is 70 characters for each of these:
 
 ```
 {
-  "no-dupe-scenario-names": ["on", {"local": "yes"}]
+  "no-dupe-scenario-names": ["on", "in-feature"]
 }
 ```
 
-The default use is against all the features (the sma scenario name in different files is an error)
+The default use is against all the features (the same scenario name in different files is an error)
 
 ```
 {
   "no-dupe-scenario-names": "on"
+}
+```
+
+or
+
+```
+{
+  "no-dupe-scenario-names": ["on", "anywhere"]
 }
 ```
 
