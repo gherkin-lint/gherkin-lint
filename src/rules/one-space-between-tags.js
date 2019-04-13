@@ -9,25 +9,19 @@ function run(feature) {
   var errors = [];
 
   function testTags(allTags) {
-    _(allTags).sort(function(tag) {
-      return -tag.location.column;
-    }).groupBy(function(tag) {
-      return tag.location.line;
-    }).forEach(function(tags) {
-      const tags2 = tags.sort(function(a, b) {
-        return a.location.column - b.location.column;
+    _(allTags).groupBy('location.line').sortBy('location.column')
+      .forEach(function(tags) {
+        _.range(tags.length - 1).map(function(i) {
+          if (tags[i].location.column + tags[i].name.length < tags[i + 1].location.column - 1) {
+            errors.push({
+              line: tags[i].location.line,
+              rule: rule,
+              message: 'There is more than one space between the tags ' +
+                        tags[i].name + ' and ' + tags[i + 1].name
+            });
+          }
+        });
       });
-      _.range(tags2.length - 1).map(function(i) {
-        if ((tags2[i].location.column + tags2[i].name.length) < tags2[i + 1].location.column - 1) {
-          errors.push({
-            line: tags2[i].location.line,
-            rule: rule,
-            message: 'There is more than one space between the tags ' +
-            tags2[i].name + ' and ' + tags2[i + 1].name
-          });
-        }
-      });
-    });
   }
 
   testTags(feature.tags);
