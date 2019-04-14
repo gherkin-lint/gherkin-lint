@@ -5,12 +5,10 @@ const availableConfigs = {
 };
 const {filter, map} = require('../utils/transducers');
 const {
-  applyOver,
   compose,
-  flatMap,
   intoArray,
 } = require('../utils/generic');
-const {getFeatureNodes} = require('../utils/selectors');
+const {flatMapNodeTags} = require('../utils/gherkin');
 
 const isForbidden = (forbiddenTags) => (tag) => forbiddenTags.indexOf(tag.name) !== -1;
 
@@ -25,17 +23,14 @@ const checkTags = (predicate) => (node) => {
   return intoArray(compose(
     filter(predicate),
     map(createError(node))
-  ))(node.tags || []);
+  ))(node.tags);
 };
 
 const noRestrictedTags = (feature, unused, configuration) => {
   const forbiddenTags = configuration.tags;
   const checkForbiddenTags = checkTags(isForbidden(forbiddenTags));
 
-  return applyOver([
-    checkForbiddenTags,
-    compose(flatMap(checkForbiddenTags), getFeatureNodes),
-  ])(feature);
+  return flatMapNodeTags(checkForbiddenTags)(feature);
 };
 
 module.exports = {
