@@ -4,7 +4,8 @@ const {filter, map} = require('../utils/transducers');
 const {getFeatureNodes} = require('../utils/selectors');
 
 const isScenarioOutline = ({type}) => type === 'ScenarioOutline';
-const hasNoExamples = ({examples}) => !examples.length;
+const hasNoExamples = ({examples}) => !(examples.length > 0 &&
+  examples.some(({tableHeader, tableBody}) => tableHeader && tableBody.length > 0));
 
 const createError = (scenario) => ({
   type: 'rule',
