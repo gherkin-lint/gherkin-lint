@@ -14,3 +14,13 @@ Scenario Outline: This is a Scenario Outline with two duplicate tags
 Examples:
   | foo |
   | bar |
+
+Scenario Outline: This is a Scenario Outline with two duplicate tags
+  Then this is a then step <foo>
+@exampletag1
+Examples:
+  | foo |
+@exampletag2
+Examples:
+  | bar |
+

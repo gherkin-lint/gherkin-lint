@@ -27,7 +27,14 @@ describe('No Restricted Tags Rule', function() {
 
   it('detects errors for features, scenarios, and scenario outlines when there are forbidden tags', function() {
     runTest('no-restricted-tags/Violations.feature', {
-      'tags': ['@featuretag1', '@anothertag', '@scenariotag1', '@scenariotag2'],
+      'tags': [
+        '@featuretag1',
+        '@anothertag',
+        '@scenariotag1',
+        '@scenariotag2',
+        '@exampletag1',
+        '@exampletag2',
+      ],
     }, [{
       messageElements: {tags: '@featuretag1', nodeType: 'Feature'},
       rule: ruleName,
@@ -57,6 +64,16 @@ describe('No Restricted Tags Rule', function() {
       messageElements: {tags: '@scenariotag1', nodeType: 'ScenarioOutline'},
       rule: ruleName,
       line: 11,
+    },
+    {
+      messageElements: {tags: '@exampletag1', nodeType: 'Examples'},
+      rule: ruleName,
+      line: 20,
+    },
+    {
+      messageElements: {tags: '@exampletag2', nodeType: 'Examples'},
+      rule: ruleName,
+      line: 23,
     }]);
   });
 });
