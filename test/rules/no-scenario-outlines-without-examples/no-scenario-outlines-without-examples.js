@@ -14,6 +14,14 @@ describe('No Scenario Outline Without Examples Rule', function() {
       messageElements: {},
       rule: ruleName,
       line: 9,
+    }, {
+      messageElements: {},
+      rule: ruleName,
+      line: 12,
+    }, {
+      messageElements: {},
+      rule: ruleName,
+      line: 16,
     }]);
   });
 });
