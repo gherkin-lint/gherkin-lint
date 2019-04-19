@@ -5,10 +5,7 @@ const {
   intoArray,
 } = require('../utils/generic');
 const {filter, map} = require('../utils/transducers');
-const {
-  flatMapFeatureNodes,
-  applyToScenario,
-} = require('../utils/gherkin');
+const {flatMapScenarios} = require('../utils/gherkin');
 
 const collectTagsInfo = (tags, {name, location}) => {
   const info = tags[name];
@@ -39,7 +36,7 @@ const verifyTags = ({tags, location}) => {
 
 const noDuplicateTags = applyOver([
   verifyTags,
-  flatMapFeatureNodes(applyToScenario(verifyTags)),
+  flatMapScenarios(verifyTags),
 ]);
 
 module.exports = {

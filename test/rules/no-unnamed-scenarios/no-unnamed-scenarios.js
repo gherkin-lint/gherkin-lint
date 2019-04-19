@@ -13,6 +13,10 @@ describe('No Unnamed Scenarios Rule', function() {
       line: 6,
       rule: ruleName,
       messageElements: {},
+    }, {
+      line: 9,
+      rule: ruleName,
+      messageElements: {},
     }]);
   });
 });

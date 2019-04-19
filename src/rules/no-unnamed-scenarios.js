@@ -1,18 +1,14 @@
 const rule = 'no-unnamed-scenarios';
-const {getFeatureNodes} = require('../utils/selectors');
+const {flatMapScenarios} = require('../utils/gherkin');
 
-const createError = (scenario) => ({
+const createError = ({name, location}) => name ? [] : [{
   type: 'rule',
   message: 'Missing Scenario name',
   rule: rule,
-  line: scenario.location.line,
-});
+  line: location.line,
+}];
 
-const noUnNamedScenarios = (feature) => {
-  return getFeatureNodes(feature)
-    .filter(({name, type}) => !name && type === 'Scenario')
-    .map(createError);
-};
+const noUnNamedScenarios = flatMapScenarios(createError);
 
 module.exports = {
   name: rule,
