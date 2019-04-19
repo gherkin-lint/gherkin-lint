@@ -73,7 +73,7 @@ describe('No Restricted Tags Rule', function() {
     {
       messageElements: {tags: '@exampletag2', nodeType: 'Examples'},
       rule: ruleName,
-      line: 23,
+      line: 24,
     }]);
   });
 });
