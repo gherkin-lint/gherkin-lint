@@ -54,7 +54,7 @@ const getIgnorePatterns = (ignoreArg) => {
   }
 };
 
-class FeatureFinder {
+class FeatureProvider {
   constructor(args, ignoreArg) {
     this.args = args;
     this.ignoreArg = ignoreArg;
@@ -85,4 +85,4 @@ class FeatureFinder {
   }
 }
 
-module.exports = FeatureFinder;
+module.exports = FeatureProvider;
