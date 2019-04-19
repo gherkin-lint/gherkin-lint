@@ -1,4 +1,4 @@
-# Pickle lint
+# Gherkin lint
 [![Travis CI][1]][2]
 [![Dependency Status][3]][4]
 [![Dev Dependency Status][5]][6]
@@ -7,24 +7,16 @@
 
 Uses [Gherkin](https://github.com/cucumber/gherkin-javascript) to parse feature files and runs linting against the default rules, and the optional rules you specified in your `.gherkin-lintrc` file.
 
-`pickle-lint` is forked from [gherkin-lint](https://www.npmjs.com/package/gherkin-lint) and  aims to:
-- solve critical bugs of the project.
-- improve the code quality adding more tests and moving side effects(logging, file reading, etc) to the top of the application.
-- solve [issues](https://github.com/vsiakka/gherkin-lint/issues) that have been open for a long time.
-- improve the documentation.
-
-If `gherkin-lint` is maintained again, `pickle-lint` will try to be merged into [gherkin-lint](https://www.npmjs.com/package/gherkin-lint).
-
 ## Installation
 ```
-npm install pickle-lint
+npm install gherkin-lint
 
 ```
 
 ## Demo
 To see the output for all the errors that the linter can detect run:
 ```
-git clone https://github.com/xgbuils/pickle-lint.git
+git clone https://github.com/vsiakka/gherkin-lint.git
 npm run demo
 ```
 Or check this:
@@ -179,7 +171,7 @@ The default is 70 characters for each of these:
 ## Configuration File
 The default name for the configuration file is `.gherkin-lintrc` and it's expected to be in your working directory.
 
-If you are using a file with a different name or a file in a different folder, you will need to specify the `-c` or `--config` option and pass in the relative path to your configuration file. Eg: `pickle-lint -c path/to/configuration/file.extention`
+If you are using a file with a different name or a file in a different folder, you will need to specify the `-c` or `--config` option and pass in the relative path to your configuration file. Eg: `gherkin-lint -c path/to/configuration/file.extention`
 
 You can find an example configuration file, that turns on all of the rules in the root of this repo (.gherkin-lintrc).
 
@@ -194,19 +186,19 @@ You can specify one more more custom rules directories by using the `-r` or `--r
 
 Example:
 ```
-pickle-lint --rulesdir "/path/to/my/rulesdir" --rulesdir "from/cwd/rulesdir"
+gherkin-lint --rulesdir "/path/to/my/rulesdir" --rulesdir "from/cwd/rulesdir"
 ```
 
 Paths can either be absolute or relative to the current working directory.
 Have a look at the `src/rules/` directory for examples; The `no-empty-file` rule is a good example to start with.
 
-  [1]: https://travis-ci.org/xgbuils/pickle-lint.svg?branch=master
-  [2]: https://travis-ci.org/xgbuils/pickle-lint
-  [3]: https://david-dm.org/xgbuils/pickle-lint.svg
-  [4]: https://david-dm.org/xgbuils/pickle-lint
-  [5]: https://david-dm.org/xgbuils/pickle-lint/dev-status.svg
-  [6]: https://david-dm.org/xgbuils/pickle-lint?type=dev
-  [7]: https://img.shields.io/npm/v/pickle-lint.svg
-  [8]: https://www.npmjs.com/package/pickle-lint
-  [9]: https://coveralls.io/repos/github/xgbuils/pickle-lint/badge.svg?branch=master
-  [10]: https://coveralls.io/github/xgbuils/pickle-lint?branch=master
+  [1]: https://travis-ci.org/vsiakka/gherkin-lint.svg?branch=master
+  [2]: https://travis-ci.org/vsiakka/gherkin-lint
+  [3]: https://david-dm.org/vsiakka/gherkin-lint.svg
+  [4]: https://david-dm.org/vsiakka/gherkin-lint
+  [5]: https://david-dm.org/vsiakka/gherkin-lint/dev-status.svg
+  [6]: https://david-dm.org/vsiakka/gherkin-lint?type=dev
+  [7]: https://img.shields.io/npm/v/gherkin-lint.svg
+  [8]: https://www.npmjs.com/package/gherkin-lint
+  [9]: https://coveralls.io/repos/github/vsiakka/gherkin-lint/badge.svg?branch=master
+  [10]: https://coveralls.io/github/vsiakka/gherkin-lint?branch=master
