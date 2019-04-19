@@ -73,9 +73,9 @@
     "coveralls": "^3.0.3",
     "eslint": "^5.16.0",
     "eslint-config-google": "^0.12.0",
-    "mocha": "6.1.3",
+    "mocha": "6.1.4",
     "npm-check": "^5.9.0",
-    "nyc": "^13.3.0"
+    "nyc": "^14.0.0"
   },
   "bin": {
     "pickle-lint": "src/main.js"
