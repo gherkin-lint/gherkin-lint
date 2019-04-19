@@ -1,6 +1,9 @@
+@featuretag
 Feature: this is a feature name
 
-@scenariotag
+Background:
+  Given I have a Background
+
 Scenario: This is a Scenario name
   Then this is a then step
 

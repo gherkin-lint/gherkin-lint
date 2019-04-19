@@ -12,7 +12,7 @@ const noBackgroundEmptyScenario = (feature) => {
   const children = getFeatureNodes(feature);
   const firstChild = children[0] || {};
 
-  return firstChild.type === 'Background' && children.length <= 2
+  return firstChild.type === 'Background' && children.length === 2
     ? [createError(firstChild)]
     : [];
 };
