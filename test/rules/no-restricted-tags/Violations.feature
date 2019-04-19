@@ -9,18 +9,19 @@ Scenario: This is a Scenario with three duplicate tags
   Then this is a then step
 
 @scenariotag @scenariotag1
-Scenario Outline: This is a Scenario Outline with two duplicate tags
+Scenario Outline: This is a Scenario Outline without tag examples
   Then this is a then step <foo>
 Examples:
   | foo |
   | bar |
 
-Scenario Outline: This is a Scenario Outline with two duplicate tags
+Scenario Outline: This is a Scenario Outline with forbidden example tags
   Then this is a then step <foo>
 @exampletag1
 Examples:
-  | foo |
+  | foo  |
+  | fizz |
 @exampletag2
 Examples:
-  | bar |
-
+  | bar  |
+  | buzz |

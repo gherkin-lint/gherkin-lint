@@ -73,6 +73,10 @@ describe('Indentation rule', () => {
     runTest('indentation/CorrectIndentationSpaces.feature', {}, []);
   });
 
+  it('doesn\'t raise errors when scenario outline does not have examples', () => {
+    runTest('indentation/CorrectIndentationWithoutExamples.feature', {}, []);
+  });
+
   it('doesn\'t raise errors when the file is empty', function() {
     runTest('Empty.feature', {}, []);
   });

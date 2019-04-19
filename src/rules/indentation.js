@@ -51,6 +51,9 @@ const mergeConfiguration = (configuration) => {
 };
 
 const checkNodeIndentation = (mergedConfiguration) => (type) => (node) => {
+  if (!node) {
+    return [];
+  }
   const {location} = node;
   const expectedIndentation = mergedConfiguration[type];
   const indentation = location.column - 1;
