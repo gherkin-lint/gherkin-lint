@@ -51,6 +51,10 @@
     {
       "name": "JuanMa Ruiz",
       "url": "https://github.com/JuanMaRuiz"
+    },
+    {
+      "name": "Matt Jarrett",
+      "url": "https://github.com/cujarrett"
     }
   ],
   "main": "src/main.js",

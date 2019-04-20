@@ -106,7 +106,6 @@ const testFeature = (testStep, test) => {
   ]);
 
   const checkStepsAfter = applyAfter(flatMapSteps(testStep));
-
   const checkIndentationOnFeatureNode = applyToFeatureNode({
     Background: checkStepsAfter(test('Background')),
     Scenario: checkStepsAfter(testScenario),
