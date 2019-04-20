@@ -5,3 +5,6 @@ Background:
 
 Scenario:  
   Then this is a then step
+
+Scenario Outline:
+  Then this is a then step

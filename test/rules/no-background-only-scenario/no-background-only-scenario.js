@@ -9,8 +9,12 @@ describe('No Background Only Scenario Rule', function() {
     runTest('no-background-only-scenario/NoBackground.feature', {}, []);
   });
 
-  it('doesn\'t raise errors when there are no violations', function() {
-    runTest('no-background-only-scenario/NoViolations.feature', {}, []);
+  it('doesn\'t raise errors when there are more than one scenario', function() {
+    runTest('no-background-only-scenario/NoViolationsTwoScenarios.feature', {}, []);
+  });
+
+  it('doesn\'t raise errors when there are zero scenarios', function() {
+    runTest('no-background-only-scenario/NoViolationsZeroScenarios.feature', {}, []);
   });
 
   it('detects errors when there are violations with Scenario', function() {
@@ -23,7 +27,7 @@ describe('No Background Only Scenario Rule', function() {
 
   it('detects errors when there are violations with Scenario Outline', function() {
     runTest('no-background-only-scenario/ViolationsOutline.feature', {}, [{
-      line: 4,
+      line: 3,
       rule: ruleName,
       messageElements: {},
     }]);

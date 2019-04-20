@@ -1,11 +1,9 @@
-@featuretag @featuretag1 @anothertag
-Feature: Feature with multiple duplicate tags
+Feature: this is a feature name
 
 Background:
   Given I have a Background
 
-@scenariotag @scenariotag1
-Scenario Outline: This is a Scenario Outline with two duplicate tags
+Scenario Outline: This is a Scenario Outline name
   Then this is a then step <foo>
 Examples:
   | foo |
