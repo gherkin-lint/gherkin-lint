@@ -18,6 +18,18 @@ describe('No partially commented tag lines Rule', function() {
       line: 10,
       rule: ruleName,
       messageElements: {},
+    }, {
+      line: 13,
+      rule: ruleName,
+      messageElements: {},
+    }, {
+      line: 17,
+      rule: ruleName,
+      messageElements: {},
+    }, {
+      line: 23,
+      rule: ruleName,
+      messageElements: {},
     }]);
   });
 });
