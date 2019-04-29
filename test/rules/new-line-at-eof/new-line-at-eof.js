@@ -55,5 +55,4 @@ describe('New Line at EOF rule', function() {
       line: 6
     }]);
   });
-
 });
