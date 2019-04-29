@@ -61,10 +61,12 @@ function testFeature(feature, configuration, mergedConfiguration) {
     test(scenarioOutline.location, 'Scenario');
     scenarioOutline.examples.forEach(function(examples) {
       test(examples.location, 'Examples');
-      test(examples.tableHeader.location, 'example');
-      examples.tableBody.forEach(function(row) {
-        test(row.location, 'example');
-      });
+      if (examples.tableHeader) {
+        test(examples.tableHeader.location, 'example');
+        examples.tableBody.forEach(function(row) {
+          test(row.location, 'example');
+        });
+      }
     });
   }
 
