@@ -1,5 +1,3 @@
-
-
 Feature: This is a name
 
 Scenario: This is a Scenario for no-unnamed-features

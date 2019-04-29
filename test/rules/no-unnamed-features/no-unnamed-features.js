@@ -1,9 +1,8 @@
 var ruleTestBase = require('../rule-test-base');
 var rule = require('../../../dist/rules/no-unnamed-features.js');
-var runTest = ruleTestBase.createRuleTest(rule, 
-  'Missing Feature name');
+var runTest = ruleTestBase.createRuleTest(rule, 'Missing Feature name');
 
-describe('Use And rule', function() {
+describe('No Unnamed Features', function() {
   it('doesn\'t raise errors when there are no violations', function() {
     runTest('no-unnamed-features/NoViolations.feature', {}, []);
   });
@@ -17,7 +16,7 @@ describe('Use And rule', function() {
     ]);
   });
 
-  it('raises an error when the feature doesn\'t have a name', function() {
+  it('raises an error when a feature doesn\'t have a name', function() {
     runTest('no-unnamed-features/UnnamedFeature.feature', {}, [
       {
         messageElements: {},
