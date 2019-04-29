@@ -3,7 +3,10 @@
     ["env", {
       "targets": {
         "node": "4"
-      }
+      },
+      "test": {
+        "plugins": ["istanbul"]
+       }
     }]
   ]
 }

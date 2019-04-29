@@ -79,6 +79,7 @@
     "eslint": "5.14.1",
     "mocha": "5.2.0",
     "mocha-sinon": "2.1.0",
+    "nyc": "14.0.0",
     "sinon": "6.2.0"
   },
   "bin": {
@@ -89,6 +90,7 @@
     "demo": "node ./dist/main.js . -c ./test-data-wip/.gherkin-lintrc",
     "lint": "eslint ./src ./test",
     "mocha": "mocha --recursive",
+    "code-coverage": "nyc --reporter=text --include=dist/** mocha --recursive",
     "prepublish": "npm run build",
     "test": "npm run lint && npm run build && npm run mocha"
   },
