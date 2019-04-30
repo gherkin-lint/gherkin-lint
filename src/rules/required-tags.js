@@ -38,5 +38,5 @@ const checkRequiredTagsExistInScenarios = (feature, file, config) => {
 module.exports = {
   name: rule,
   run: checkRequiredTagsExistInScenarios,
-  availableConfigs
+  availableConfigs: availableConfigs
 };
