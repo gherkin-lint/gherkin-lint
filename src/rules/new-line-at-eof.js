@@ -8,6 +8,7 @@ var availableConfigs = [
 ];
 
 function newLineAtEOF(unused, file, configuration) {
+  var errors = [];
   if (_.indexOf(availableConfigs, configuration) === -1) {
     logger.boldError(rule + ' requires an extra configuration value.\nAvailable configurations: ' + availableConfigs.join(', ') + '\nFor syntax please look at the documentation.');
     process.exit(1);
@@ -22,10 +23,14 @@ function newLineAtEOF(unused, file, configuration) {
   }
 
   if (errormsg !== '') {
-    return {message: errormsg,
+    errors.push({
+      message: errormsg,
       rule   : rule,
-      line   : file.lines.length};
+      line   : file.lines.length
+    });
   }
+
+  return errors;
 }
 
 module.exports = {

@@ -1,8 +1,8 @@
 var rule = 'no-unnamed-scenarios';
 
 function noUnNamedScenarios(feature) {
-  if (feature.children) {
-    var errors = [];
+  var errors = [];
+  if (feature && feature.children) {
     feature.children.forEach(function(scenario) {
       if (!scenario.name && scenario.type === 'Scenario') {
         errors.push({message: 'Missing Scenario name',
@@ -10,8 +10,8 @@ function noUnNamedScenarios(feature) {
           line   : scenario.location.line});
       }
     });
-    return errors;
   }
+  return errors;
 }
 
 module.exports = {

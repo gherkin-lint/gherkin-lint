@@ -2,8 +2,8 @@ var rule = 'no-dupe-scenario-names';
 var scenarios = [];
 
 function noDuplicateScenarioNames(feature, file) {
-  if(feature.children) {
-    var errors = [];
+  var errors = [];
+  if (feature && feature.children) {
     feature.children.forEach(function(scenario) {
       if (scenario.name) {
         if (scenario.name in scenarios) {
@@ -17,8 +17,8 @@ function noDuplicateScenarioNames(feature, file) {
         }
       }
     });
-    return errors;
   }
+  return errors;
 }
 
 function getFileLinePairsAsStr(objects) {

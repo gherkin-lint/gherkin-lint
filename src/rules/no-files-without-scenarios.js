@@ -5,11 +5,15 @@ function filterScenarios(child) {
 }
 
 function noFilesWithoutScenarios(feature) {
+  var errors = [];
   if (!feature.children || !feature.children.some(filterScenarios)) {
-    return {message: 'Feature file does not have any Scenarios',
+    errors.push({
+      message: 'Feature file does not have any Scenarios',
       rule   : rule,
-      line   : 1};
+      line   : 1
+    });
   }
+  return errors;
 }
 
 module.exports = {
