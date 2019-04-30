@@ -2,7 +2,7 @@ var ruleTestBase = require('../rule-test-base');
 var rule = require('../../../dist/rules/no-unnamed-features.js');
 var runTest = ruleTestBase.createRuleTest(rule, 'Missing Feature name');
 
-describe('No Unnamed Features', function() {
+describe('No Unnamed Features Rule', function() {
   it('doesn\'t raise errors when there are no violations', function() {
     runTest('no-unnamed-features/NoViolations.feature', {}, []);
   });

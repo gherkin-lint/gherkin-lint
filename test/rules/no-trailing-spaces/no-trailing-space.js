@@ -2,7 +2,7 @@ var ruleTestBase = require('../rule-test-base');
 var rule = require('../../../dist/rules/no-trailing-spaces.js');
 var runTest = ruleTestBase.createRuleTest(rule, 'Trailing spaces are not allowed');
 
-describe('No Trailing Spaces rule', function() {
+describe('No Trailing Spaces Rule', function() {
   it('doesn\'t raise errors when there are no violations', function() {
     runTest('no-trailing-spaces/NoViolations.feature', {}, []);
   });

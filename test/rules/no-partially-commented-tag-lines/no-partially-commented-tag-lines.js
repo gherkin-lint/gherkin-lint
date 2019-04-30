@@ -2,7 +2,7 @@ var ruleTestBase = require('../rule-test-base');
 var rule = require('../../../dist/rules/no-partially-commented-tag-lines.js');
 var runTest = ruleTestBase.createRuleTest(rule, 'Partially commented tag lines not allowed');
 
-describe('No Partially Commented Tag Rule', function() {
+describe('No Partially Commented Tag Lines Rule', function() {
   it('doesn\'t raise errors when there are no violations', function() {
     runTest('no-partially-commented-tag-lines/NoViolations.feature', {}, []);
   });

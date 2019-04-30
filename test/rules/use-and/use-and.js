@@ -3,7 +3,7 @@ var rule = require('../../../dist/rules/use-and.js');
 var runTest = ruleTestBase.createRuleTest(rule, 
   'Step "<%= keyword %><%= text %>" should use And instead of <%= keyword %>');
 
-describe('Use And rule', function() {
+describe('Use And Rule', function() {
   it('doesn\'t raise errors when there are no violations', function() {
     runTest('use-and/NoViolations.feature', {}, []);
   });

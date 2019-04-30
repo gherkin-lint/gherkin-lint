@@ -3,7 +3,7 @@ var scenarios = [];
 
 function noDuplicateScenarioNames(feature, file) {
   var errors = [];
-  if(feature && feature.children) {
+  if (feature && feature.children) {
     feature.children.forEach(function(scenario) {
       if (scenario.name) {
         if (scenario.name in scenarios) {

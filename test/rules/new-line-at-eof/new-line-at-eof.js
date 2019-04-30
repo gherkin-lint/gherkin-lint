@@ -4,7 +4,7 @@ var expect = require('chai').expect;
 var runTestRequireNewLine = ruleTestBase.createRuleTest(rule, 'New line at EOF(end of file) is required');
 var runTestDissallowNewLine = ruleTestBase.createRuleTest(rule, 'New line at EOF(end of file) is not allowed');
 
-describe('New Line at EOF rule', function() {
+describe('New Line at EOF Rule', function() {
 
   describe('configuration', function() {
     beforeEach(function() {
