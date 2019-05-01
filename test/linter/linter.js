@@ -82,4 +82,26 @@ describe('Linter', function() {
     assert.lengthOf(actual, 1);
     assert.deepEqual(actual[0].errors, expected);
   });
+
+  it('detects additional violations that happen after the \'no-tags-on-backgrounds\' rule', function() {
+    var actual = linter.lint(['test/linter/MultipleViolations.feature'], {});
+    var expected = [ 
+      { 
+        message: 'Steps should begin with "Given", "When", "Then", "And" or "But". Multiline steps are dissallowed',
+        rule: 'no-multiline-steps',
+        line: '13' },
+      { 
+        message: 'Tags on Backgrounds are dissallowed',
+        rule: 'no-tags-on-backgrounds',
+        line: '4'
+      } 
+    ];
+    assert.deepEqual(actual[0].errors, expected);
+  });
+
+  it('correctly parses files that have the correct Gherkin format', function() {
+    var result = linter.lint(['test/linter/NoViolations.feature'], {});
+    assert.lengthOf(result, 1);
+    assert.isEmpty(result[0].errors);
+  });
 });

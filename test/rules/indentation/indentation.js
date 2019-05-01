@@ -59,6 +59,10 @@ describe('Indentation rule', function() {
     runTest('indentation/CorrectIndentationTabs.feature', {}, []);
   });
 
+  it('doesn\'t raise errors when parsing an empty feature', function() {
+    runTest('indentation/EmptyFeature.feature', {}, []);
+  });
+
   it('detects errors for features, backgrounds, scenarios, scenario outlines and steps (spaces)', function() {
     runTest('indentation/WrongIndentationSpaces.feature', {}, wrongIndenatationErrors);
   });

@@ -24,7 +24,7 @@ function lint(files, configuration, additionalRulesDirs) {
       const {feature, file} = readAndParseFile(fileName);
       errors = rules.runAllEnabledRules(feature, file, configuration, additionalRulesDirs);
     } catch(e) {
-      if(e.errors) {
+      if (e.errors) {
         errors = processFatalErrors(e.errors);
       } else {
         throw e;
@@ -63,15 +63,15 @@ function getFormatedTaggedBackgroundError(errors) {
     });
 
     index = 2;
-    for(var i = 2; i < errors.length; i++) {
+    for (var i = 2; i < errors.length; i++) {
       if (errors[i].message.indexOf('expected: #TagLine, #ScenarioLine, #ScenarioOutlineLine, #Comment, #Empty') > -1) {
-        index = i;
+        index = i + 1;
       } else {
         break;
       }
     }
   }
-  return {errors: errors.slice(index, errors.length), errorMsgs: errorMsgs};
+  return {errors: errors.slice(index), errorMsgs: errorMsgs};
 }
 
 function getFormattedFatalError(error) {
