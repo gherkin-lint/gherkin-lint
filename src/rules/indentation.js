@@ -108,7 +108,7 @@ function testFeature(feature, configuration, mergedConfiguration) {
 
 function run(feature, unused, configuration) {
   if (!feature || Object.keys(feature).length === 0) {
-    return;
+    return [];
   }
   var mergedConfiguration = mergeConfiguration(configuration);
 

@@ -18,36 +18,35 @@ function test(name, location, configuration, type) {
 }
 
 function nameLength(feature, unused, configuration) {
-  if (!feature || Object.keys(feature).length === 0) {
-    return;
-  }
-  var mergedConfiguration = _.merge(availableConfigs, configuration);
   errors = [];
+  if (feature && Object.keys(feature).length !== 0) {
+    var mergedConfiguration = _.merge(availableConfigs, configuration);
+    
+    // Check Feature name length
+    test(feature.name, feature.location, mergedConfiguration, 'Feature');
 
-  // Check Feature name length
-  test(feature.name, feature.location, mergedConfiguration, 'Feature');
+    feature.children.forEach(function(child) {
+      switch(child.type) {
+      case 'Scenario':
+      case 'ScenarioOutline':
+        // Check Scenario name length
+        test(child.name, child.location, mergedConfiguration, 'Scenario');
+        break;
+      case 'Background':
+        break;
+      default:
+        errors.push({message: 'Unknown gherkin node type ' + child.type,
+          rule   : rule,
+          line   : child.location.line});
+        break;
+      }
 
-  feature.children.forEach(function(child) {
-    switch(child.type) {
-    case 'Scenario':
-    case 'ScenarioOutline':
-      // Check Scenario name length
-      test(child.name, child.location, mergedConfiguration, 'Scenario');
-      break;
-    case 'Background':
-      break;
-    default:
-      errors.push({message: 'Unknown gherkin node type ' + child.type,
-        rule   : rule,
-        line   : child.location.line});
-      break;
-    }
-
-    child.steps.forEach(function(step) {
-      // Check Step name length
-      test(step.text, step.location, mergedConfiguration, 'Step');
+      child.steps.forEach(function(step) {
+        // Check Step name length
+        test(step.text, step.location, mergedConfiguration, 'Step');
+      });
     });
-  });
+  }
 
   return errors;
 }

@@ -8,6 +8,10 @@ describe('Name length rule', function() {
     runTest('name-length/CorrectLength.feature', {}, []);
   });
 
+  it('doesn\'t raise errors when parsing an empty feature', function() {
+    runTest('name-length/EmptyFeature.feature', {}, []);
+  });
+
   it('detects errors for features, scenarios, scenario outlines and steps', function() {
     runTest('name-length/WrongLength.feature', {}, [{
       messageElements: {element: 'Feature', length: 89},

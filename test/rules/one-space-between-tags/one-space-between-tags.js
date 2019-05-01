@@ -8,6 +8,10 @@ describe('One Space Between Tags Rule', function() {
     runTest('one-space-between-tags/NoViolations.feature', {}, []);
   });
 
+  it('doesn\'t raise errors when parsing an empty feature', function() {
+    runTest('one-space-between-tags/EmptyFeature.feature', {}, []);
+  });
+
   it('detects errors for tags on features, scenarios, and scenario outlines', function() {
     runTest('one-space-between-tags/Violations.feature', {}, [{
       line: 1,
