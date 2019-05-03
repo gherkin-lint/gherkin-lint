@@ -12,17 +12,8 @@ function createRuleTest(rule, messageTemplate) {
         line: error.line
       };
     });
-    if(Array.isArray(featureFile)) {
-      let accumulatedErrors = [];
-      featureFile.forEach(element => {
-        const {feature, file} = linter.readAndParseFile('test/rules/' + element, 'utf8');
-        accumulatedErrors = assert.sameDeepMembers(rule.run(feature, file, configuration), expectedErrors);
-      });
-      assert.sameDeepMembers(accumulatedErrors, expectedErrors);
-    } else {
-      const {feature, file} = linter.readAndParseFile('test/rules/' + featureFile, 'utf8');
-      assert.sameDeepMembers(rule.run(feature, file, configuration), expectedErrors);
-    }
+    const {feature, file} = linter.readAndParseFile('test/rules/' + featureFile, 'utf8');
+    assert.sameDeepMembers(rule.run(feature, file, configuration), expectedErrors);
   };
 }
 

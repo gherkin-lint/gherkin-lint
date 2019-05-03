@@ -5,7 +5,7 @@ var availableConfigs = [
   'in-feature'
 ];
 
-function noDuplicateScenarioNames(feature, file) {
+function noDuplicateScenarioNames(feature, file, configuration) {
   var errors = [];
   if(configuration === 'in-feature') {
     scenarios = [];
@@ -39,6 +39,5 @@ function getFileLinePairsAsStr(objects) {
 module.exports = {
   name: rule,
   run: noDuplicateScenarioNames,
-  reset: () => scenarios = [],
   availableConfigs: availableConfigs
 };

@@ -38,13 +38,9 @@ describe('No Duplicate Scenario Names Rule', function() {
     ]);
   });
   
-  it('detects errors for scenarios and scenario outlines for individual files', function() {
-    rule.reset();
-    runTest([
-      'no-dupe-scenario-names/FirstFeature.feature',
-      'no-dupe-scenario-names/SecondFeature.feature'], 'in-feature', [{
-      line: 9,
-      messageElements: {message:'Scenario name is already used in: no-dupe-scenario-names/FirstFeature.feature:6'}
-    }]);
+  it('doesn\'t raise errors when there are duplicate scenario names in different files', function() {
+    runTest('no-dupe-scenario-names/SecondFeature.feature', 'in-feature', []);
+    runTest(
+      'no-dupe-scenario-names/FirstFeature.feature', 'in-feature', []);
   });
 });
