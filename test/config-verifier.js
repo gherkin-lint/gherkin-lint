@@ -1,5 +1,5 @@
 var assert = require('chai').assert;
-var verifyConfig = require('../src/config-verifier.js');
+var verifyConfig = require('../dist/config-verifier.js');
 
 describe('Config Verifier', function() {
   describe('Verification is successful when', function() {
@@ -40,6 +40,27 @@ describe('Config Verifier', function() {
       }), [
         'Invalid rule configuration for "indentation" -  The rule does not have the specified configuration option "featur"',
         'Invalid rule configuration for "new-line-at-eof" -  The rule does not have the specified configuration option "y"'
+      ]);
+    });
+
+    it('rule config that\'s not properly configured to "on/off"', function() {
+      assert.deepEqual(verifyConfig({
+        'no-files-without-scenarios': 'o',
+        'new-line-at-eof': ['o', 'yes'],
+        'indentation': ['o', { 'Feature': 1, 'Background': 1, 'Scenario': 1, 'Step': 1, 'given': 1, 'and': 1}]
+      }), [
+        'Invalid rule configuration for "no-files-without-scenarios" - The the config should be "on" or "off"',
+        'Invalid rule configuration for "new-line-at-eof" - The first part of the config should be "on" or "off"',
+        'Invalid rule configuration for "indentation" - The first part of the config should be "on" or "off"']);
+    });
+
+    it('an array configuration doesn\'t have exactly 2 parts', function() {
+      assert.deepEqual(verifyConfig({'new-line-at-eof': ['on']}), [
+        'Invalid rule configuration for "new-line-at-eof" -  The config should only have 2 parts.'
+      ]);
+
+      assert.deepEqual(verifyConfig({'new-line-at-eof': ['on', 'yes', 'p3']}), [
+        'Invalid rule configuration for "new-line-at-eof" -  The config should only have 2 parts.'
       ]);
     });
   });

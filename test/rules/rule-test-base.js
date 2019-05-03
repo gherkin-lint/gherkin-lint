@@ -1,10 +1,7 @@
 var assert = require('chai').assert;
-var Gherkin = require('gherkin');
-var fs = require('fs');
 var _ = require('lodash');
+var linter = require('../../dist/linter.js');
 require('mocha-sinon');
-
-var parser = new Gherkin.Parser();
 
 function createRuleTest(rule, messageTemplate) {
   return function runTest(featureFile, configuration, expected) {
@@ -18,13 +15,13 @@ function createRuleTest(rule, messageTemplate) {
     if(Array.isArray(featureFile)) {
       let accumulatedErrors = [];
       featureFile.forEach(element => {
-        var parsedFile = parser.parse(fs.readFileSync('test/rules/' + element, 'utf8')).feature;
-        accumulatedErrors = accumulatedErrors.concat(rule.run(parsedFile, {name: element}, configuration));
+        const {feature, file} = linter.readAndParseFile('test/rules/' + element, 'utf8');
+        accumulatedErrors = assert.sameDeepMembers(rule.run(feature, file, configuration), expectedErrors);
       });
       assert.sameDeepMembers(accumulatedErrors, expectedErrors);
     } else {
-      var parsedFile = parser.parse(fs.readFileSync('test/rules/' + featureFile, 'utf8')).feature;
-      assert.sameDeepMembers(rule.run(parsedFile, {name: featureFile}, configuration), expectedErrors);
+      const {feature, file} = linter.readAndParseFile('test/rules/' + featureFile, 'utf8');
+      assert.sameDeepMembers(rule.run(feature, file, configuration), expectedErrors);
     }
   };
 }

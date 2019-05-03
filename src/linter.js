@@ -4,22 +4,27 @@ var Gherkin = require('gherkin');
 var parser = new Gherkin.Parser();
 var rules = require('./rules.js');
 
+function readAndParseFile(fileName) {
+  var fileContent = fs.readFileSync(fileName, 'utf-8');
+  var file = {
+    name: fileName,
+    lines: fileContent.split(/\r\n|\r|\n/)
+  };
+  var feature = parser.parse(fileContent).feature || {};
+
+  return { feature, file };
+}
+
 function lint(files, configuration, additionalRulesDirs) {
   var output = [];
 
   files.forEach(function(fileName) {
-    var fileContent = fs.readFileSync(fileName, 'utf-8');
-    var file = {
-      name: fileName,
-      lines: fileContent.split(/\r\n|\r|\n/)
-    };
-
     var errors = [];
     try {
-      var feature = parser.parse(fileContent).feature || {};
+      const {feature, file} = readAndParseFile(fileName);
       errors = rules.runAllEnabledRules(feature, file, configuration, additionalRulesDirs);
     } catch(e) {
-      if(e.errors) {
+      if (e.errors) {
         errors = processFatalErrors(e.errors);
       } else {
         throw e;
@@ -58,15 +63,15 @@ function getFormatedTaggedBackgroundError(errors) {
     });
 
     index = 2;
-    for(var i = 2; i < errors.length; i++) {
+    for (var i = 2; i < errors.length; i++) {
       if (errors[i].message.indexOf('expected: #TagLine, #ScenarioLine, #ScenarioOutlineLine, #Comment, #Empty') > -1) {
-        index = i;
+        index = i + 1;
       } else {
         break;
       }
     }
   }
-  return {errors: errors.slice(index, errors.length), errorMsgs: errorMsgs};
+  return {errors: errors.slice(index), errorMsgs: errorMsgs};
 }
 
 function getFormattedFatalError(error) {
@@ -97,5 +102,6 @@ function getFormattedFatalError(error) {
 }
 
 module.exports = {
-  lint: lint
+  lint: lint,
+  readAndParseFile: readAndParseFile
 };

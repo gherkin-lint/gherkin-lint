@@ -5,13 +5,12 @@ var availableConfigs = [
   'in-feature'
 ];
 
-function noDuplicateScenarioNames(feature, file, configuration) {
+function noDuplicateScenarioNames(feature, file) {
+  var errors = [];
   if(configuration === 'in-feature') {
     scenarios = [];
   }
-  if(feature.children) {
-    var errors = [];
-    
+  if (feature && feature.children) {
     feature.children.forEach(function(scenario) {
       if (scenario.name) {
         if (scenario.name in scenarios) {
@@ -25,8 +24,8 @@ function noDuplicateScenarioNames(feature, file, configuration) {
         }
       }
     });
-    return errors;
   }
+  return errors;
 }
 
 function getFileLinePairsAsStr(objects) {

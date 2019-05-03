@@ -1,10 +1,15 @@
 var ruleTestBase = require('../rule-test-base');
 var rule = require('../../../dist/rules/no-unused-variables.js');
 
-describe('No unused variables rule', function() {
+describe('No Unused Variables Rule', function() {
   it('doesn\'t raise errors when there are no violations', function() {
     var runTest = ruleTestBase.createRuleTest(rule, '');
     runTest('no-unused-variables/NoViolations.feature', {}, []);
+  });
+
+  it('doesn\'t raise errors when parsing an empty feature', function() {
+    var runTest = ruleTestBase.createRuleTest(rule, '');
+    runTest('no-unused-variables/EmptyFeature.feature', {}, []);
   });
 
   it('detects unused scenario variables', function() {

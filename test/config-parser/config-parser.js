@@ -1,20 +1,22 @@
 var expect = require('chai').expect;
-var configParser = require('../../src/config-parser.js');
-
 require('mocha-sinon');
 
+var configParser;
+
 describe('Configuration parser', function() {
+  beforeEach(function() {
+    configParser = require('../../dist/config-parser.js');
+    this.sinon.stub(console, 'error');
+    this.sinon.stub(process, 'exit');
+  });
+
+  afterEach(function() {
+    configParser = undefined;
+    console.error.restore(); // eslint-disable-line no-console
+    process.exit.restore();
+  });
+
   describe('early exits with a non 0 exit code when', function() {
-    beforeEach(function() {
-      this.sinon.stub(console, 'error');
-      this.sinon.stub(process, 'exit');
-    });
-
-    afterEach(function() {
-      console.error.restore(); // eslint-disable-line no-console
-      process.exit.restore();
-    });
-
     it('the specified config file doesn\'t exit', function() {
       var configFilePath = './non/existing/path';
       configParser.getConfiguration(configFilePath);
@@ -49,6 +51,21 @@ describe('Configuration parser', function() {
 
       expect(consoleErrorArgs[0]).to.include('Error(s) in configuration file:');
       expect(process.exit.args[0][0]).to.equal(1);
+    });
+  });
+
+  describe('doesn\'t exit with exit code 1 when', function() {
+    it('a good configuration file is used', function() {
+      var configFilePath = 'test/config-parser/good_config.gherkinrc';
+      configParser.getConfiguration(configFilePath);
+      expect(process.exit.neverCalledWith(1));
+    });
+
+    it('the default configuration file is found', function() {
+      var defaultConfigFilePath = 'test/config-parser/stub_default.gherkinrc';
+      configParser.defaultConfigFileName = defaultConfigFilePath;
+      configParser.getConfiguration();
+      expect(process.exit.neverCalledWith(1));
     });
   });
 });

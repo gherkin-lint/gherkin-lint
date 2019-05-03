@@ -3,9 +3,13 @@ var rule = require('../../../dist/rules/one-space-between-tags.js');
 var runTest = ruleTestBase.createRuleTest(rule,
   'There is more than one space between the tags <%= left %> and <%= right %>');
 
-describe('One space between tags rule', function() {
+describe('One Space Between Tags Rule', function() {
   it('doesn\'t raise errors when there are no violations', function() {
     runTest('one-space-between-tags/NoViolations.feature', {}, []);
+  });
+
+  it('doesn\'t raise errors when parsing an empty feature', function() {
+    runTest('one-space-between-tags/EmptyFeature.feature', {}, []);
   });
 
   it('detects errors for tags on features, scenarios, and scenario outlines', function() {
