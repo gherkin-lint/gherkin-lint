@@ -7,11 +7,6 @@ describe('No Unused Variables Rule', function() {
     runTest('no-unused-variables/NoViolations.feature', {}, []);
   });
 
-  it('doesn\'t raise errors when parsing an empty feature', function() {
-    var runTest = ruleTestBase.createRuleTest(rule, '');
-    runTest('no-unused-variables/EmptyFeature.feature', {}, []);
-  });
-
   it('detects unused scenario variables', function() {
     var runTest = ruleTestBase.createRuleTest(rule,
       'Step variable "<%= variable %>" does not exist the in examples table');

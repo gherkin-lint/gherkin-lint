@@ -6,11 +6,7 @@ describe('No Unnamed Scenarios Rule', function() {
   it('doesn\'t raise errors when there are no violations', function() {
     runTest('no-unnamed-scenarios/NoViolations.feature', {}, []);
   });
-
-  it('doesn\'t raise errors for an empty feature', function() {
-    runTest('no-unnamed-scenarios/EmptyFeature.feature', {}, []);
-  });
-
+  
   it('doesn\'t raise errors for a feature with no scenarios', function() {
     runTest('no-unnamed-scenarios/FeatureWithNoScenarios.feature', {}, []);
   });

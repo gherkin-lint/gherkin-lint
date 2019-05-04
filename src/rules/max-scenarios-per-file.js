@@ -22,7 +22,9 @@ function maxScenariosPerFile(feature, unused, config) {
       if (scenario.examples) {
         count = count - 1;
         scenario.examples.forEach(function (example) {
-          count = count + example.tableBody.length;
+          if (example.tableBody) {
+            count = count + example.tableBody.length;
+          }
         });
       }
     });

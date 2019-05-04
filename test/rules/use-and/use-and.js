@@ -8,10 +8,6 @@ describe('Use And Rule', function() {
     runTest('use-and/NoViolations.feature', {}, []);
   });
 
-  it('doesn\'t raise errors when parsing an empty feature', function() {
-    runTest('use-and/EmptyFeature.feature', {}, []);
-  });
-
   it('raises erros when there are violations', function() {
     runTest('use-and/Violations.feature', {}, [
       {
