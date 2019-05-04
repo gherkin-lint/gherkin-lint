@@ -1,8 +1,15 @@
 var rule = 'no-dupe-scenario-names';
 var scenarios = [];
+var availableConfigs = [
+  'anywhere',
+  'in-feature'
+];
 
-function noDuplicateScenarioNames(feature, file) {
+function noDuplicateScenarioNames(feature, file, configuration) {
   var errors = [];
+  if(configuration === 'in-feature') {
+    scenarios = [];
+  }
   if (feature && feature.children) {
     feature.children.forEach(function(scenario) {
       if (scenario.name) {
@@ -31,5 +38,6 @@ function getFileLinePairsAsStr(objects) {
 
 module.exports = {
   name: rule,
-  run: noDuplicateScenarioNames
+  run: noDuplicateScenarioNames,
+  availableConfigs: availableConfigs
 };

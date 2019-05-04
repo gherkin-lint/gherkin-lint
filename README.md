@@ -40,7 +40,7 @@ Or check this:
 | [`new-line-at-eof`](#new-line-at-eof)       | Disallows/enforces new line at EOF                                                       |
 | `no-background-only-scenario`               | Disallows background when there is just one scenario                                     |
 | `no-dupe-feature-names`                     | Disallows duplicate Feature names                                                        |
-| `no-dupe-scenario-names`                    | Disallows duplicate Scenario names                                                       |
+| [`no-dupe-scenario-names`](#no-dupe-scenario-names)| Disallows duplicate Scenario names                                                 |
 | `no-duplicate-tags`                         | Disallows duplicate tags on the same Feature or Scenario                                 |
 | `no-empty-background`                       | Disallows features with backgrounds without steps                                        |
 | `no-empty-file`                             | Disallows empty feature files                                                            |
@@ -55,6 +55,7 @@ Or check this:
 | `no-unnamed-features`                       | Disallows empty Feature name                                                             |
 | `no-unnamed-scenarios`                      | Disallows empty Scenario name                                                            |
 | `no-unused-variables`                       | Disallows unused variables in scenario outlines                                          |
+| [`scenario-size`](#scenario-size)       | Allos a maximum number of steps by scenario or background                                    |
 | `one-space-between-tags`                    | Tags on the same time must be separated by a single space                                |
 | `use-and`                                   | Disallows repeated step names requiring use of And instead                               |
 
@@ -155,17 +156,56 @@ The default is 70 characters for each of these:
 }
 ```
 
+### new-line-at-eof
 
-### no-restricted-tags
-
-`no-restricted-tags` must be configured with list of tags for it to have any effect:
-
+`new-line-at-eof` can also be configured to enforcing or disallowing new lines at EOF.
+- To enforce new lines at EOF:
 ```
 {
-  "no-restricted-tags": ["on", {"tags": ["@watch", "@wip", "@todo"]}]
+  "new-line-at-eof": ["on", "yes"]
+}
+```
+- To disallow new lines at EOF:
+```
+{
+  "new-line-at-eof": ["on", "no"]
 }
 ```
 
+### no-dupe-scenario-names
+
+`no-dupe-scenario-names` can be configured to launch the test agains individual features (no duplicate names in single feature files):
+
+```
+{
+  "no-dupe-scenario-names": ["on", "in-feature"]
+}
+```
+
+The default use is against all the features (the same scenario name in different files is an error)
+
+```
+{
+  "no-dupe-scenario-names": "on"
+}
+```
+
+or
+
+```
+{
+  "no-dupe-scenario-names": ["on", "anywhere"]
+}
+```
+
+### scenario-size
+
+`scenario-size` let specify a maximum step length for the scenarios and the background:
+```
+{
+  "scenario-size": ["on", { "steps-length": { "Background": 15, "Scenario": 15 }}]
+}
+```
 
 ## Configuration File
 The default name for the configuration file is `.gherkin-lintrc` and it's expected to be in your working directory.
