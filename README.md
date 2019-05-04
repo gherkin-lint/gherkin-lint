@@ -87,9 +87,9 @@ Any tag not included in this list won't be allowed.
 
 ### no-restricted-patterns
 
-`no-restricted-patterns` is a list of exact steps, or partial patterns that will
-disallow the use of any matching steps or feature/scenario descriptions:
-
+`no-restricted-patterns` is a list of exact or partial patterns whose matches are dissallowed in feature name and description, and in background, scenario and scenario outline name, description and steps. 
+All patterns are treated as case insensitive. 
+The rule can be configured like this:
 ```
 {
   "no-restricted-patterns": ["on", {[
@@ -113,7 +113,9 @@ disallow the use of any matching steps or feature/scenario descriptions:
 }
 ```
 
-Note that the `Given`, `When`, and `Then` should not be included.
+Notes:
+- Step keywords `Given`, `When`, `Then` and `And` should not be included in the patterns.
+- Description violations always get reported in the Feature/Scenario/etc definition line. This is due to the parsed gherkin tree not having information about which line the description appears. 
 
 ### indentation
 
