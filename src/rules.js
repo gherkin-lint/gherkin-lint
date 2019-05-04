@@ -44,12 +44,7 @@ function runAllEnabledRules(feature, file, configuration, additionalRulesDirs) {
       var error = rule.run(feature, file, ruleConfig);
 
       if (error) {
-        if (rule.suppressOtherRules) {
-          errors = [error];
-          ignoreFutureErrors = true;
-        } else {
-          errors = errors.concat(error);
-        }
+        errors = errors.concat(error);
       }
     }
   });
