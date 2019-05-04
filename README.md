@@ -9,7 +9,6 @@ Uses [Gherkin](https://github.com/cucumber/gherkin-javascript) to parse feature 
 ## Installation
 ```
 npm install gherkin-lint
-
 ```
 
 ## Demo
@@ -40,7 +39,7 @@ Or check this:
 | [`new-line-at-eof`](#new-line-at-eof)       | Disallows/enforces new line at EOF                                                       |
 | `no-background-only-scenario`               | Disallows background when there is just one scenario                                     |
 | `no-dupe-feature-names`                     | Disallows duplicate Feature names                                                        |
-| [`no-dupe-scenario-names`](#no-dupe-scenario-names)| Disallows duplicate Scenario names                                                 |
+| [`no-dupe-scenario-names`](#no-dupe-scenario-names)| Disallows duplicate Scenario names                                                |
 | `no-duplicate-tags`                         | Disallows duplicate tags on the same Feature or Scenario                                 |
 | `no-empty-background`                       | Disallows features with backgrounds without steps                                        |
 | `no-empty-file`                             | Disallows empty feature files                                                            |
@@ -55,7 +54,7 @@ Or check this:
 | `no-unnamed-features`                       | Disallows empty Feature name                                                             |
 | `no-unnamed-scenarios`                      | Disallows empty Scenario name                                                            |
 | `no-unused-variables`                       | Disallows unused variables in scenario outlines                                          |
-| [`scenario-size`](#scenario-size)       | Allos a maximum number of steps by scenario or background                                    |
+| [`scenario-size`](#scenario-size)           | Allows restricting the maximum number of steps in a scenario, scenario outline and background |
 | `one-space-between-tags`                    | Tags on the same time must be separated by a single space                                |
 | `use-and`                                   | Disallows repeated step names requiring use of And instead                               |
 
@@ -142,7 +141,7 @@ The default is 70 characters for each of these:
 
 ### new-line-at-eof
 
-`new-line-at-eof` can also be configured to enforcing or disallowing new lines at EOF.
+`new-line-at-eof` can be configured to enforce or disallow new lines at EOF.
 - To enforce new lines at EOF:
 ```
 {
@@ -156,25 +155,11 @@ The default is 70 characters for each of these:
 }
 ```
 
-### new-line-at-eof
-
-`new-line-at-eof` can also be configured to enforcing or disallowing new lines at EOF.
-- To enforce new lines at EOF:
-```
-{
-  "new-line-at-eof": ["on", "yes"]
-}
-```
-- To disallow new lines at EOF:
-```
-{
-  "new-line-at-eof": ["on", "no"]
-}
-```
 
 ### no-dupe-scenario-names
 
-`no-dupe-scenario-names` can be configured to launch the test agains individual features (no duplicate names in single feature files):
+`no-dupe-scenario-names` can be configured to search for duplicates in each individual feature or amongst all feature files.
+To enable searching for duplicates in each individual feature (same scenario name in different features won't raise an error) you need to configure the rule like this:
 
 ```
 {
@@ -182,7 +167,7 @@ The default is 70 characters for each of these:
 }
 ```
 
-The default use is against all the features (the same scenario name in different files is an error)
+The default case is testing against all the features (same scenario name in different features will raise an error). To get that behavor use the following configuration:
 
 ```
 {
@@ -198,9 +183,19 @@ or
 }
 ```
 
+
+### no-restricted-tags
+`no-restricted-tags` should be configured with the list of restricted tags:
+```
+{
+  "no-restricted-tags": ["on", {"tags": ["@watch", "@wip", "@todo"]}]
+}
+```
+
+
 ### scenario-size
 
-`scenario-size` let specify a maximum step length for the scenarios and the background:
+`scenario-size` lets you specify a maximum step length for scenarios and backgrounds. The `Scenario` configuration applies to both scenarios and scenario outlines:
 ```
 {
   "scenario-size": ["on", { "steps-length": { "Background": 15, "Scenario": 15 }}]
