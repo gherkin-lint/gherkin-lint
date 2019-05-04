@@ -34,6 +34,7 @@ Or check this:
 | `no-examples-in-scenarios`                  | Disallow the use of "Examples" in scenarios                                              |
 | &nbsp;                                      |                                                                                          |
 | [`allowed-tags`](#allowed-tags)             | Just the listed tags are allowed                                                         |
+| [`no-restricted-patterns`](#no-restricted-patterns)        | A list of patterns to disallow globally, or specifically in features, backgrounds, scenarios, or scenario outlines                                 |
 | [`indentation`](#indentation)               | Allows the user to specify indentation rules                                             |
 | [`max-scenarios-per-file`](#max-scenarios-per-file)| Allows the user to specify the max number of scenarios per feature file           |
 | [`name-length`](#name-length)               | Allows restricting length of Feature/Scenario/Step names                                 |
@@ -84,6 +85,35 @@ will turn on the `no-unnamed-features` rule.
 
 Any tag not included in this list won't be allowed.
 
+### no-restricted-patterns
+
+`no-restricted-patterns` is a list of exact steps, or partial patterns that will
+disallow the use of any matching steps or feature/scenario descriptions:
+
+```
+{
+  "no-restricted-patterns": ["on", {[
+    "Global": {
+      "^globally restricted pattern"
+    },
+    "Feature": {
+      "poor description",
+      "validate",
+      "verify"
+    },
+    "Background": {
+      "show last response",
+      "a debugging step"
+    },
+    "Scenario": {
+      "show last response",
+      "a debugging step"
+    }
+  ]}]
+}
+```
+
+Note that the `Given`, `When`, and `Then` should not be included.
 
 ### indentation
 
