@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var rule = 'no-restricted-patterns';
 var availableConfigs = {
   'Global': [],
@@ -24,38 +25,46 @@ function noRestrictedPatterns(feature, fileName, configuration) {
     restrictedPatterns[type] = restrictedPatterns[type].concat(globalPatterns);
   });
 
-  checkNode(feature, restrictedPatterns, errors);
+  checkFeatureNode(feature, restrictedPatterns, errors);
   return errors;
 }
 
 
-function checkNode(node, restrictedPatterns, errors, parentNodeType) {
-  // Steps use the configuration rules provided for their parents (eg Background)
-  // so allow the function to take an override for the node's type
-  var nodeType = parentNodeType || node.type; 
-  
-  if (node && restrictedPatterns.hasOwnProperty(nodeType)) {
-    restrictedPatterns[nodeType]
-      .forEach(function(pattern) {
-        check(node, 'name', pattern, errors);
-        check(node, 'description', pattern, errors, true);
-        check(node, 'text', pattern, errors);
-      });
+function checkFeatureNode(node, restrictedPatterns, errors) {
+  if (_.isEmpty(node)) {
+    return;
   }
+  checkNameAndDescription(node, restrictedPatterns, errors);
+  node.children.forEach(function(child) {
+    checkFeatureChildNode(child, restrictedPatterns, errors);
+  });  
+}
 
-  // Background, Scenarios and Scenario Outlines are children of a feature
-  if (node.children) {
-    node.children.forEach(function(child) {
-      checkNode(child, restrictedPatterns, errors);
-    });
-  }
 
-  if (node.steps) {
-    node.steps.forEach(function(step) {
-      // Use the node.type of the parent to determine which rule configuration to use
-      checkNode(step, restrictedPatterns, errors, node.type);
+function checkNameAndDescription(node, restrictedPatterns, errors) {
+  restrictedPatterns[node.type]
+    .forEach(function(pattern) {
+      check(node, 'name', pattern, errors);
+      check(node, 'description', pattern, errors, true);
     });
-  }
+}
+
+
+// Background, Scenarios and Scenario Outlines are children of a feature
+function checkFeatureChildNode(node, restrictedPatterns, errors) {
+  checkNameAndDescription(node, restrictedPatterns, errors);
+  node.steps.forEach(function(step) {
+    // Use the node type of the parent to determine which rule configuration to use
+    checkStepNode(step, restrictedPatterns[node.type], errors);
+  });
+}
+
+
+function checkStepNode(node, restrictedPatterns, errors) {
+  restrictedPatterns
+    .forEach(function(pattern) {
+      check(node, 'text', pattern, errors);
+    });
 }
 
 
