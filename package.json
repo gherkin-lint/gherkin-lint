@@ -77,6 +77,7 @@
     "@babel/core": "7.4.4",
     "@babel/preset-env": "7.4.4",
     "chai": "4.1.2",
+    "coveralls": "3.0.3",
     "eslint": "5.14.1",
     "mocha": "5.2.0",
     "mocha-sinon": "2.1.0",
@@ -88,12 +89,12 @@
   },
   "scripts": {
     "build": "babel src -d dist",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
     "demo": "node ./dist/main.js . -c ./test-data-wip/.gherkin-lintrc",
     "lint": "eslint ./src ./test",
     "mocha": "mocha --recursive",
-    "code-coverage": "nyc --reporter=text --include=dist/** mocha --recursive",
     "prepublish": "npm run build",
-    "test": "npm run lint && npm run build && npm run mocha"
+    "test": "npm run lint && npm run build && nyc -include=dist/** npm run mocha"
   },
   "license": "ISC"
 }

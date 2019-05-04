@@ -8,12 +8,5 @@
         }
       }
     ]
-  ],
-  "env": {
-    "test": {
-      "plugins": [
-        "istanbul"
-      ]
-    }
-  }
+  ]
 }
