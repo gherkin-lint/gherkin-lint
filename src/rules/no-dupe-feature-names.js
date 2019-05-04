@@ -21,6 +21,5 @@ function noDuplicateFeatureNames(feature, file) {
 
 module.exports = {
   name: rule,
-  run: noDuplicateFeatureNames,
-  reset: () => features = []
+  run: noDuplicateFeatureNames
 };
