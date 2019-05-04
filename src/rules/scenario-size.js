@@ -1,3 +1,5 @@
+var _ = require('lodash');
+
 var rule = 'scenario-size';
 var availableConfigs = {
   'steps-length': {
@@ -6,7 +8,10 @@ var availableConfigs = {
   }
 };
 
-function scenarioSize(feature, fileName, configuration = availableConfigs) {
+function scenarioSize(feature, fileName, configuration) {
+  if (_.isEmpty(configuration)) {
+    configuration = availableConfigs;
+  }
   const errors = [];
   if (feature.children) {
     feature.children.forEach((child) => {

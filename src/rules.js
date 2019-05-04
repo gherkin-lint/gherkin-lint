@@ -35,14 +35,12 @@ function isRuleEnabled(ruleConfig) {
 
 function runAllEnabledRules(feature, file, configuration, additionalRulesDirs) {
   var errors = [];
-  var ignoreFutureErrors = false;
   var rules = getAllRules(additionalRulesDirs);
   Object.keys(rules).forEach(function(ruleName) {
     var rule = rules[ruleName];
-    if (isRuleEnabled(configuration[rule.name]) && !ignoreFutureErrors) {
+    if (isRuleEnabled(configuration[rule.name])) {
       var ruleConfig = Array.isArray(configuration[rule.name]) ? configuration[rule.name][1] : {};
       var error = rule.run(feature, file, ruleConfig);
-
       if (error) {
         errors = errors.concat(error);
       }
@@ -56,5 +54,6 @@ module.exports = {
   doesRuleExist: doesRuleExist,
   isRuleEnabled: isRuleEnabled,
   runAllEnabledRules: runAllEnabledRules,
-  getRule: getRule
+  getRule: getRule,
+  getAllRules: getAllRules
 };
