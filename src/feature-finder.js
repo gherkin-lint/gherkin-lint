@@ -18,12 +18,12 @@ function getFeatureFiles(args, ignoreArg) {
     if (pattern == '.') {
       fixedPattern = '**/*.feature';
     } else if (pattern.match(/.*\/\*\*/)) {
-      fixedPattern = pattern.slice(0, -1) + '.feature';
+      fixedPattern = pattern + '/**.feature';
     } else if (pattern.match(/.*\.feature/)) {
       fixedPattern = pattern;
     } else {
       try {
-        if(fs.statSync(pattern).isDirectory()) {
+        if (fs.statSync(pattern).isDirectory()) {
           fixedPattern = path.join(pattern, '**/*.feature');
         }
       } catch(e) {
@@ -34,6 +34,7 @@ function getFeatureFiles(args, ignoreArg) {
     if (!fixedPattern) {
       logger.boldError(`Invalid format of the feature file path/pattern: "${pattern}".\nTo run the linter please specify an existing feature file, directory or glob.`);
       process.exit(1);
+      return; // This line will only be hit by tests that stub process.exit
     }
 
     var globOptions = {ignore: getIgnorePatterns(ignoreArg)};
