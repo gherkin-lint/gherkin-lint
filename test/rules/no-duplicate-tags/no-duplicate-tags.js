@@ -17,8 +17,12 @@ describe('No Duplicate Tags Rule', function() {
       line: 7
     },
     {
-      messageElements: {tags: '@scenariotag'},
+      messageElements: {tags: '@scenariooutlinetag'},
       line: 11
+    },
+    {
+      messageElements: {tags: '@examplestag'},
+      line: 14
     }]);
   });
 });
