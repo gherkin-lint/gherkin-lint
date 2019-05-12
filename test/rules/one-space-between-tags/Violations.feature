@@ -1,6 +1,6 @@
 @featuretag1  @featuretag2
 @featuretag3
-Feature: Feature with good tag spacing
+Feature: Feature with bad tag spacing
 
 Background:
   Given I have a Background
@@ -13,6 +13,7 @@ Scenario: This is a Scenario with bad tag spacing
 @scenariotag5   @scenariotag6
 Scenario Outline: This is a Scenario Outline with bad tag spacing
   Then this is a then step <foo>
+@examplestag1   @examplestag2
 Examples:
   | foo |
   | bar |

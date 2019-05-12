@@ -3,15 +3,35 @@ const _ = require('lodash');
 var rule = 'one-space-between-tags';
 
 function run(feature) {
-  if (!feature || Object.keys(feature).length === 0) {
-    return [];
-  }
   var errors = [];
+  
+  testTags(feature, errors);
+  
+  if (feature.children) {
+    feature.children.forEach(function(child) {
+      
+      testTags(child, errors);
 
-  function testTags(allTags) {
-    _(allTags).groupBy('location.line').sortBy('location.column')
-      .forEach(function(tags) {
-        _.range(tags.length - 1).map(function(i) {
+      if (child.examples) {
+        child.examples.forEach(function(example) {
+          testTags(example, errors);
+        });
+      }
+    });
+  }
+  return errors;
+}
+
+function testTags(node, errors) {
+  if (!node.tags) {
+    return;
+  }
+  _(node.tags)
+    .groupBy('location.line')
+    .sortBy('location.column')
+    .forEach(function(tags) {
+      _.range(tags.length - 1)
+        .map(function(i) {
           if (tags[i].location.column + tags[i].name.length < tags[i + 1].location.column - 1) {
             errors.push({
               line: tags[i].location.line,
@@ -21,17 +41,7 @@ function run(feature) {
             });
           }
         });
-      });
-  }
-
-  testTags(feature.tags);
-  feature.children.forEach(function(child) {
-    if (child.type === 'Scenario' || child.type === 'ScenarioOutline') {
-      testTags(child.tags);
-    }
-  });
-
-  return errors;
+    });
 }
 
 module.exports = {
