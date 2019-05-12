@@ -11,7 +11,7 @@ describe('Allowed Tags Rule', function() {
 
   it('detects errors for features, scenarios, and scenario outlines', function() {
     runTest('allowed-tags/Violations.feature', {
-      'tags': ['@featuretag', '@scenariotag']
+      'tags': ['@featuretag', '@scenariotag', '@examplestag']
     }, [{
       messageElements: {tags: '@featuretag1', nodeType:'Feature'},
       line: 1
@@ -35,6 +35,10 @@ describe('Allowed Tags Rule', function() {
     {
       messageElements: {tags: '@scenariotag1', nodeType:'ScenarioOutline'},
       line: 11
+    },
+    {
+      messageElements: {tags: '@examplestag1', nodeType:'Examples'},
+      line: 14
     }]);
   });
 });
