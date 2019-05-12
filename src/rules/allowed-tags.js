@@ -6,22 +6,33 @@ var availableConfigs = {
 
 function allowedTags(feature, fileName, configuration) {
   var allowedTags = configuration.tags;
+  var errors = [];
 
-  var featureErrors = checkTags(feature, allowedTags);
+  checkTags(feature, allowedTags, errors);
+  
+  if (feature.children) {
+    feature.children.forEach(function(child) {
+      checkTags(child, allowedTags, errors);
 
-  var childrenErrors = _(feature.children).map(function(child) {
-    return checkTags(child, allowedTags);
-  }).flatten().value();
+      if (child.examples) {
+        child.examples.forEach(function(example) {
+          checkTags(example, allowedTags, errors);
+        });
+      }
+    });
+  }
 
-  return featureErrors.concat(childrenErrors);
+  return errors;
 }
 
-function checkTags(node, allowedTags) {
-  return (node.tags || []).filter(function(tag) {
-    return !isAllowed(tag, allowedTags);
-  }).map(function(tag) {
-    return createError(node, tag);
-  });
+function checkTags(node, allowedTags, errors) {
+  return (node.tags || [])
+    .filter(function(tag) {
+      return !isAllowed(tag, allowedTags);
+    })
+    .forEach(function(tag) {
+      errors.push(createError(node, tag));
+    });
 }
 
 function isAllowed(tag, allowedTags) {
@@ -29,9 +40,11 @@ function isAllowed(tag, allowedTags) {
 }
 
 function createError(node, tag) {
-  return {message: 'Not allowed tag ' + tag.name + ' on ' + node.type,
+  return {
+    message: 'Not allowed tag ' + tag.name + ' on ' + node.type,
     rule   : rule,
-    line   : tag.location.line};
+    line   : tag.location.line
+  };
 }
 
 module.exports = {
