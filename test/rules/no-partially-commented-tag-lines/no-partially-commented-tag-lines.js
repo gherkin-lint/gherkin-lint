@@ -9,10 +9,10 @@ describe('No Partially Commented Tag Lines Rule', function() {
 
   it('detects errors for features, scenarios, and scenario outlines', function() {
     runTest('no-partially-commented-tag-lines/Violations.feature', {}, [
-      // TODO: fix features
-      //{ messageElements: {}, line: 1 },
+      { messageElements: {}, line: 1 },
       { messageElements: {}, line: 7 },
       { messageElements: {}, line: 12 },
+      { messageElements: {}, line: 15 },
     ]);
   });
 });
