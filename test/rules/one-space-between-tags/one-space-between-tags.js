@@ -9,18 +9,27 @@ describe('One Space Between Tags Rule', function() {
   });
 
   it('detects errors for tags on features, scenarios, and scenario outlines', function() {
-    runTest('one-space-between-tags/Violations.feature', {}, [{
-      line: 1,
-      messageElements: {left: '@featuretag1', right: '@featuretag2'}
-    }, {
-      line: 9,
-      messageElements: {left: '@scenariotag3', right: '@scenariotag4'}
-    }, {
-      line: 9,
-      messageElements: {left: '@scenariotag4', right: '@scenariotag5'}
-    }, {
-      line: 13,
-      messageElements: {left: '@scenariotag5', right: '@scenariotag6'}
-    }]);
+    runTest('one-space-between-tags/Violations.feature', {}, [
+      {
+        line: 1,
+        messageElements: {left: '@featuretag1', right: '@featuretag2'}
+      }, 
+      {
+        line: 9,
+        messageElements: {left: '@scenariotag3', right: '@scenariotag4'}
+      }, 
+      {
+        line: 9,
+        messageElements: {left: '@scenariotag4', right: '@scenariotag5'}
+      }, 
+      {
+        line: 13,
+        messageElements: {left: '@scenariotag5', right: '@scenariotag6'}
+      }, 
+      {
+        line: 16,
+        messageElements: {left: '@examplestag1', right: '@examplestag2'}
+      }
+    ]);
   });
 });
