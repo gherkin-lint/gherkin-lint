@@ -1,3 +1,4 @@
+/* eslint-disable */
 var _ = require('lodash');
 var rule = 'no-restricted-tags';
 var availableConfigs = {
@@ -6,32 +7,35 @@ var availableConfigs = {
 
 function noRestrictedTags(feature, fileName, configuration) {
   var forbiddenTags = configuration.tags;
+  var errors = [];
 
-  var featureErrors = checkTags(feature, forbiddenTags);
+  checkTags(feature, forbiddenTags, errors);
+  if (feature.children) {
+    feature.children.forEach(function(child) {
+      checkTags(child, forbiddenTags, errors);
 
-  var childrenErrors = _(feature.children).map(function(child) {
-    return checkTags(child, forbiddenTags);
-  }).flatten().value();
-
-  return featureErrors.concat(childrenErrors);
+      if (child.examples) {
+        child.examples.forEach(function(example) {
+          checkTags(example, forbiddenTags, errors);
+        });
+      }
+    });
+  }
+  return errors;
 }
 
-function checkTags(node, forbiddenTags) {
-  return (node.tags || []).filter(function(tag) {
-    return isForbidden(tag, forbiddenTags);
-  }).map(function(tag) {
-    return createError(node, tag);
+function checkTags(node, forbiddenTags, errors) {
+  var nodeTags = node.tags || [];
+
+  nodeTags.forEach(function(tag) {
+    if (_.includes(forbiddenTags, tag.name)) {
+      errors.push({
+        message: 'Forbidden tag ' + tag.name + ' on ' + node.type,
+        rule   : rule,
+        line   : tag.location.line
+      });
+    }
   });
-}
-
-function isForbidden(tag, forbiddenTags) {
-  return _.includes(forbiddenTags, tag.name);
-}
-
-function createError(node, tag) {
-  return {message: 'Forbidden tag ' + tag.name + ' on ' + node.type,
-    rule   : rule,
-    line   : tag.location.line};
 }
 
 module.exports = {
