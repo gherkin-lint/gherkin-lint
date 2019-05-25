@@ -4,25 +4,39 @@ var rule = 'no-superfluous-tags';
 
 function noSuperfluousTags(feature) {
   var errors = [];
-  if(feature.tags !== undefined && feature.children !== undefined) {
+  if (feature.children) {
     feature.children.forEach(function(child) {
-      if (child.tags !== undefined) {
-        var superfluousTags = _.intersectionWith(child.tags, feature.tags, function(lhs, rhs) {
-          return lhs.name === rhs.name;
+
+      checkTags(feature, child, errors);
+
+      if (child.examples) {
+        child.examples.forEach(function(example) {
+          checkTags(feature, example, errors);
+          checkTags(child, example, errors);
         });
-        if (superfluousTags.length !== 0) {
-          var superfluousTagNames = _.map(superfluousTags, function(tag) {
-            return tag.name;
-          });
-          errors.push({message: 'Tag(s) duplicated on a Feature and a Scenario in that Feature: ' +
-                                _.join(superfluousTagNames, ', '),
-          rule   : rule,
-          line   : superfluousTags[0].location.line});
-        }
       }
     });
   }
   return errors;
+}
+
+function checkTags(parent, child, errors) {
+  var superfluousTags = _.intersectionWith(child.tags, parent.tags, function(lhs, rhs) {
+    return lhs.name === rhs.name;
+  });
+
+  if (superfluousTags.length) {
+    var superfluousTagNames = _.map(superfluousTags, function(tag) {
+      return tag.name;
+    });
+
+    errors.push({
+      message: `Tag(s) duplicated on ${parent.type} and ${child.type}: ` +
+               _.join(superfluousTagNames, ', '),
+      rule   : rule,
+      line   : superfluousTags[0].location.line
+    });
+  }
 }
 
 module.exports = {

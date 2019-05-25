@@ -11,6 +11,7 @@ Scenario: This is a Scenario with superfluous tags
 @superfluoustag1 @superfluoustag2 @scenariotag1 @scenariotag3
 Scenario Outline: This is a Scenario Outline with superfluous tags
   Then this is a then step <foo>
+@superfluoustag1 @examplestag1
 Examples:
   | foo |
   | bar |
