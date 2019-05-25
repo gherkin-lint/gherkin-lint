@@ -1,4 +1,3 @@
-/* eslint-disable */
 var _ = require('lodash');
 var rule = 'no-restricted-tags';
 var availableConfigs = {
