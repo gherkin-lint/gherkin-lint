@@ -21,7 +21,6 @@ function noPartiallyCommentedTagLines(feature) {
 
 function checkTags(node, errors) {
   if (node.tags) {
-    console.log(node.tags) //eslint-disable-line
     node.tags.forEach(function(tag) {
       if (tag.name.indexOf('#') > 0) {
         errors.push({message: 'Partially commented tag lines not allowed',

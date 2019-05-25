@@ -11,6 +11,12 @@ Scenario: This is a Scenario with some tags
 Scenario Outline: This is a Scenario with the same tags
   Then this is a then step <foo>
 
+  @homogenousExampleTag
+  Examples:
+  | foo |
+  | bar |
+
+  @homogenousExampleTag
   Examples:
   | foo |
   | bar |
