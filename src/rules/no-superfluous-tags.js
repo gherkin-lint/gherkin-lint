@@ -4,25 +4,31 @@ var rule = 'no-superfluous-tags';
 
 function noSuperfluousTags(feature) {
   var errors = [];
-  if(feature.tags !== undefined && feature.children !== undefined) {
+  if (feature.children) {
     feature.children.forEach(function(child) {
-      if (child.tags !== undefined) {
-        var superfluousTags = _.intersectionWith(child.tags, feature.tags, function(lhs, rhs) {
-          return lhs.name === rhs.name;
+      checkTags(child, feature, errors);
+
+      if (child.examples) {
+        child.examples.forEach(function(example) {
+          checkTags(example, feature, errors);
+          checkTags(example, child, errors);
         });
-        if (superfluousTags.length !== 0) {
-          var superfluousTagNames = _.map(superfluousTags, function(tag) {
-            return tag.name;
-          });
-          errors.push({message: 'Tag(s) duplicated on a Feature and a Scenario in that Feature: ' +
-                                _.join(superfluousTagNames, ', '),
-          rule   : rule,
-          line   : superfluousTags[0].location.line});
-        }
       }
     });
   }
   return errors;
+}
+
+function checkTags(child, parent, errors) {
+  let superfluousTags = _.intersectionBy(child.tags, parent.tags, 'name');
+
+  superfluousTags.forEach(function(tag) {
+    errors.push({
+      message: `Tag duplication between ${child.type} and its corresponding ${parent.type}: ${tag.name}`,
+      rule   : rule,
+      line   : tag.location.line
+    });
+  });
 }
 
 module.exports = {
