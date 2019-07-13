@@ -55,6 +55,10 @@
     {
       "name": "Matt Jarrett",
       "url": "https://github.com/cujarrett"
+    },
+    {
+      "name": "Standa Opichal",
+      "url": "https://github.com/opichals"
     }
   ],
   "main": "dist/main.js",
