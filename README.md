@@ -19,7 +19,7 @@ git clone https://github.com/vsiakka/gherkin-lint.git
 npm run demo
 ```
 Or check this:
-![console](http://i.imgur.com/YaH4Anu.png)
+![console](https://i.imgur.com/Qfp1FQR.png)
 
 
 ## Available rules
