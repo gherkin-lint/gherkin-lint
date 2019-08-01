@@ -11,63 +11,64 @@ var style = {
 
 };
 
-function stylizeError(error, maxErrorMsgLength, maxLineChars) {
-  var str = '  '; // indent 2 spaces so it looks pretty
-  var padding = '    '; //padding of 4 spaces, will be used between line numbers, error msgs and rule names
-
-  var line = error.line.toString();
-  // add spaces until the line string is as long as our longest line string
-  while (line.length < maxLineChars) {
-    line += ' ';
-  }
-
-  // print the line number as gray
-  str += style.gray(line) + padding;
-
-  var errorMsg = error.message;
-
-  // add spaces until the message is as long as our longest error message
-  while (errorMsg.length < maxErrorMsgLength) {
-    errorMsg += ' ';
-  }
-
-  // print the error message in default color and add 2 spaces after it for readability
-  str += errorMsg + padding;
-
-  // print the rule name in gray
-  str += style.gray(error.rule);
-
-  return str; // lastly, return our stylish-est string and pretend that this code was never written
-}
-
 function stylizeFilePath(filePath) {
   return style.underline(filePath);
 }
 
-function getMaxLengthOfField(results, field) {
+function stylizeError(error, maxLineLength, maxMessageLength, addColors) {
+  var indent = '  '; // indent 2 spaces so it looks pretty
+  var padding = '    '; //padding of 4 spaces, will be used between line numbers, error msgs and rule names, for readability
+  var errorLinePadded = error.line.toString().padEnd(maxLineLength);
+  var errorLineStylized = addColors ? style.gray(errorLinePadded) : errorLinePadded;
+  
+  var errorRuleStylized = addColors ? style.gray(error.rule) : error.rule;
+  return indent + errorLineStylized + padding + error.message.padEnd(maxMessageLength) + padding + errorRuleStylized;
+}
+
+function getMaxLineLength(result) {
   var length = 0;
-  results.forEach(function(result) {
-    result.errors.forEach(function(error) {
-      var errorStr = error[field].toString();
-      if (errorStr.length > length) {
-        length = errorStr.length;
-      }
-    });
+  result.errors.forEach(function(error) {
+    var errorStr = error.line.toString();
+    if (errorStr.length > length) {
+      length = errorStr.length;
+    }
   });
   return length;
 }
 
+function getMaxMessageLength(result, maxLineLength, consoleWidth) {
+  var length = 0;
+  result.errors.forEach(function(error) {
+    var errorStr = error.message.toString();
+   
+    // Get the length of the formatted error message when no extra padding is applied
+    // If the formatted message is longer than the console width, we will ignore its length
+    var expandedErrorStrLength = stylizeError(error, maxLineLength, 0, false).length;
+
+    if (errorStr.length > length && expandedErrorStrLength < consoleWidth) {
+      length = errorStr.length;
+    }
+  });
+
+  return length;
+}
 
 function printResults(results) {
-  var maxErrorMsgLength = getMaxLengthOfField(results, 'message');
-  var maxLineChars = getMaxLengthOfField(results, 'line');
+  // If the console is tty, get its width and use it to ensure we don't try to write messages longer 
+  // than the console width when possible
+  var consoleWidth = Infinity;
+  if (process.stdout.isTTY) {
+    consoleWidth = process.stdout.columns;
+  }
 
   results.forEach(function(result) {
     if (result.errors.length > 0) {
+      var maxLineLength = getMaxLineLength(result);
+      var maxMessageLength = getMaxMessageLength(result, maxLineLength, consoleWidth);
       console.error(stylizeFilePath(result.filePath));
 
       result.errors.forEach(function(error) {
-        console.error(stylizeError(error, maxErrorMsgLength, maxLineChars));
+        console.error(stylizeError(error, maxLineLength, maxMessageLength, true));
       });
       console.error('\n');
     }
