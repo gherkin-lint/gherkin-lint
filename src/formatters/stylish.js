@@ -11,7 +11,7 @@ var style = {
 
 };
 
-function stylizeError(error, maxErrorMsgLength, maxLineChars) {
+function stylizeError(error, maxErrorMsgLength, maxLineChars, consoleWidth) {
   var str = '  '; // indent 2 spaces so it looks pretty
   var padding = '    '; //padding of 4 spaces, will be used between line numbers, error msgs and rule names
 
@@ -22,17 +22,13 @@ function stylizeError(error, maxErrorMsgLength, maxLineChars) {
   }
 
   // print the line number as gray
-  str += style.gray(line) + padding;
+  // print the error message in default color and add at least 2 spaces after it for readability
+  str += style.gray(line) + padding + error.message + padding;
 
-  var errorMsg = error.message;
-
-  // add spaces until the message is as long as our longest error message
-  while (errorMsg.length < maxErrorMsgLength) {
-    errorMsg += ' ';
+  var extraSpaces = Math.min(maxErrorMsgLength - error.message.length, consoleWidth - str.length - error.rule.length);
+  if (extraSpaces > 0) {
+    str +=  ' '.repeat(extraSpaces);
   }
-
-  // print the error message in default color and add 2 spaces after it for readability
-  str += errorMsg + padding;
 
   // print the rule name in gray
   str += style.gray(error.rule);
@@ -44,30 +40,34 @@ function stylizeFilePath(filePath) {
   return style.underline(filePath);
 }
 
-function getMaxLengthOfField(results, field) {
+function getMaxLengthOfField(result, field) {
   var length = 0;
-  results.forEach(function(result) {
-    result.errors.forEach(function(error) {
-      var errorStr = error[field].toString();
-      if (errorStr.length > length) {
-        length = errorStr.length;
-      }
-    });
+  result.errors.forEach(function(error) {
+    var errorStr = error[field].toString();
+    if (errorStr.length > length) {
+      length = errorStr.length;
+    }
   });
   return length;
 }
 
 
 function printResults(results) {
-  var maxErrorMsgLength = getMaxLengthOfField(results, 'message');
-  var maxLineChars = getMaxLengthOfField(results, 'line');
+  // If the console is tty, get its width and use it to ensure we don't try to write messages longer 
+  // than the console width when possible
+  var consoleWidth = Infinity;
+  if (process.stdout.isTTY) {
+    consoleWidth = process.stdout.columns;
+  }
 
   results.forEach(function(result) {
     if (result.errors.length > 0) {
+      var maxErrorMsgLength = getMaxLengthOfField(result, 'message');
+      var maxLineChars = getMaxLengthOfField(result, 'line');
       console.error(stylizeFilePath(result.filePath));
 
       result.errors.forEach(function(error) {
-        console.error(stylizeError(error, maxErrorMsgLength, maxLineChars));
+        console.error(stylizeError(error, maxErrorMsgLength, maxLineChars, consoleWidth));
       });
       console.error('\n');
     }
