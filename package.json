@@ -59,6 +59,10 @@
     {
       "name": "Standa Opichal",
       "url": "https://github.com/opichals"
+    },
+    {
+      "name": "Bloodsoul",
+      "url": "https://github.com/Bloodsoul"
     }
   ],
   "main": "dist/main.js",
