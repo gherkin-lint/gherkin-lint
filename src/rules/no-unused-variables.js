@@ -88,7 +88,7 @@ function noUnusedVariables(feature) {
     for (var scenarioVariable in scenarioVariables) {
       if (!examplesVariables[scenarioVariable]) {
         errors.push({
-          message: 'Step variable "' + scenarioVariable + '" does not exist the in examples table',
+          message: 'Step variable "' + scenarioVariable + '" does not exist in the examples table',
           rule   : rule,
           line   : scenarioVariables[scenarioVariable]
         });
