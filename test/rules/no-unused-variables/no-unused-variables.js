@@ -9,7 +9,7 @@ describe('No Unused Variables Rule', function() {
 
   it('detects unused scenario variables', function() {
     var runTest = ruleTestBase.createRuleTest(rule,
-      'Step variable "<%= variable %>" does not exist the in examples table');
+      'Step variable "<%= variable %>" does not exist in the examples table');
 
     runTest('no-unused-variables/UnusedStepVariables.feature', {}, [{
       line: 5,

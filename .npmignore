@@ -1,3 +1,5 @@
 src
 test
 test-data-wip
+coverage
+.nyc_output

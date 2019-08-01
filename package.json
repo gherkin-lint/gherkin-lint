@@ -1,6 +1,6 @@
 {
   "name": "gherkin-lint",
-  "version": "3.3.3",
+  "version": "3.3.5",
   "description": "A Gherkin linter/validator written in javascript",
   "author": "Vasiliki Siakka",
   "contributors": [
@@ -59,6 +59,10 @@
     {
       "name": "Standa Opichal",
       "url": "https://github.com/opichals"
+    },
+    {
+      "name": "Bloodsoul",
+      "url": "https://github.com/Bloodsoul"
     }
   ],
   "main": "dist/main.js",
