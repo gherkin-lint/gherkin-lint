@@ -93,22 +93,22 @@ The rule can be configured like this:
 ```
 {
   "no-restricted-patterns": ["on", {[
-    "Global": {
+    "Global": [
       "^globally restricted pattern"
-    },
-    "Feature": {
+    ],
+    "Feature": [
       "poor description",
       "validate",
       "verify"
-    },
-    "Background": {
+    ],
+    "Background": [
       "show last response",
       "a debugging step"
-    },
-    "Scenario": {
+    ],
+    "Scenario": [
       "show last response",
       "a debugging step"
-    }
+    ]
   ]}]
 }
 ```
