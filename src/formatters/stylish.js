@@ -1,4 +1,5 @@
 /*eslint no-console: "off"*/
+import 'core-js/stable/string';
 
 var style = {
   gray: function(text) {
@@ -20,7 +21,7 @@ function stylizeError(error, maxLineLength, maxMessageLength, addColors) {
   var padding = '    '; //padding of 4 spaces, will be used between line numbers, error msgs and rule names, for readability
   var errorLinePadded = error.line.toString().padEnd(maxLineLength);
   var errorLineStylized = addColors ? style.gray(errorLinePadded) : errorLinePadded;
-  
+
   var errorRuleStylized = addColors ? style.gray(error.rule) : error.rule;
   return indent + errorLineStylized + padding + error.message.padEnd(maxMessageLength) + padding + errorRuleStylized;
 }
@@ -40,7 +41,7 @@ function getMaxMessageLength(result, maxLineLength, consoleWidth) {
   var length = 0;
   result.errors.forEach(function(error) {
     var errorStr = error.message.toString();
-   
+
     // Get the length of the formatted error message when no extra padding is applied
     // If the formatted message is longer than the console width, we will ignore its length
     var expandedErrorStrLength = stylizeError(error, maxLineLength, 0, false).length;
@@ -54,7 +55,7 @@ function getMaxMessageLength(result, maxLineLength, consoleWidth) {
 }
 
 function printResults(results) {
-  // If the console is tty, get its width and use it to ensure we don't try to write messages longer 
+  // If the console is tty, get its width and use it to ensure we don't try to write messages longer
   // than the console width when possible
   var consoleWidth = Infinity;
   if (process.stdout.isTTY) {
