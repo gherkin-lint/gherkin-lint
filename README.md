@@ -12,6 +12,7 @@ Uses [Gherkin](https://github.com/cucumber/gherkin-javascript) to parse feature 
 npm install gherkin-lint
 ```
 
+
 ## Demo
 To see the output for all the errors that the linter can detect run:
 ```
