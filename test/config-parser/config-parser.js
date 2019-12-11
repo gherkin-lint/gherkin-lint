@@ -57,8 +57,16 @@ describe('Configuration parser', function() {
   describe('doesn\'t exit with exit code 1 when', function() {
     it('a good configuration file is used', function() {
       var configFilePath = 'test/config-parser/good_config.gherkinrc';
-      configParser.getConfiguration(configFilePath);
+      var parsedConfig = configParser.getConfiguration(configFilePath);
       expect(process.exit.neverCalledWith(1));
+      expect(parsedConfig).to.deep.eq({'no-files-without-scenarios': 'off'});
+    });
+
+    it('a good configuration file is used that includes comments', function() {
+      var configFilePath = 'test/config-parser/good_config_with_comments.gherkinrc';
+      var parsedConfig = configParser.getConfiguration(configFilePath);
+      expect(process.exit.neverCalledWith(1));
+      expect(parsedConfig).to.deep.eq({'no-files-without-scenarios': 'off'});
     });
 
     it('the default configuration file is found', function() {
