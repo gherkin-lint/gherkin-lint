@@ -1,4 +1,5 @@
 var fs = require('fs');
+var stripJsonComments = require('strip-json-comments');
 var verifyConfig = require('./config-verifier.js');
 var logger = require('./logger.js');
 var defaultConfigFileName = '.gherkin-lintrc';
@@ -17,7 +18,7 @@ function getConfiguration(configPath, additionalRulesDirs) {
     }
     configPath = defaultConfigFileName;
   }
-  var config = JSON.parse(fs.readFileSync(configPath));
+  var config = JSON.parse(stripJsonComments(fs.readFileSync(configPath, {encoding: 'UTF-8'})));
   var errors = verifyConfig(config, additionalRulesDirs);
 
   if (errors.length > 0) {

@@ -238,6 +238,8 @@ or
 ## Configuration File
 The default name for the configuration file is `.gherkin-lintrc` and it's expected to be in your working directory.
 
+The file contents must be valid JSON, though it does allow comments.
+
 If you are using a file with a different name or a file in a different folder, you will need to specify the `-c` or `--config` option and pass in the relative path to your configuration file. Eg: `gherkin-lint -c path/to/configuration/file.extention`
 
 You can find an example configuration file, that turns on all of the rules in the root of this repo (.gherkin-lintrc).
