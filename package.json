@@ -63,6 +63,10 @@
     {
       "name": "Bloodsoul",
       "url": "https://github.com/Bloodsoul"
+    },
+    {
+      "name": "David Goss",
+      "url": "https://github.com/davidjgoss"
     }
   ],
   "main": "dist/main.js",
