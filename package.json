@@ -79,25 +79,28 @@
     "linter"
   ],
   "dependencies": {
-    "commander": "2.18.0",
-    "core-js": "3.4.0",
-    "gherkin": "5.1.0",
-    "glob": "7.1.3",
-    "lodash": "4.17.14",
+    "commander": "4.1.1",
+    "core-js": "3.6.4",
+    "gherkin": "9.0.0",
+    "glob": "7.1.6",
+    "lodash": "4.17.15",
     "strip-json-comments": "^3.0.1"
   },
   "devDependencies": {
-    "@babel/cli": "7.7.0",
-    "@babel/core": "7.7.2",
-    "@babel/preset-env": "7.7.1",
-    "chai": "4.1.2",
-    "coveralls": "3.0.3",
-    "eslint": "5.14.1",
-    "mocha": "5.2.0",
+    "@babel/cli": "7.8.4",
+    "@babel/core": "7.8.4",
+    "@babel/preset-env": "7.8.4",
+    "chai": "4.2.0",
+    "coveralls": "3.0.9",
+    "eslint": "6.8.0",
+    "mocha": "7.0.1",
     "mocha-sinon": "2.1.0",
-    "mock-fs": "4.9.0",
-    "nyc": "14.0.0",
-    "sinon": "6.2.0"
+    "mock-fs": "4.10.4",
+    "nyc": "15.0.0",
+    "sinon": "9.0.0"
+  },
+  "engines": {
+    "node": ">=10.0.0"
   },
   "bin": {
     "gherkin-lint": "dist/main.js"
@@ -108,7 +111,7 @@
     "demo": "node ./dist/main.js -c ./test-data-wip/.gherkin-lintrc test-data-wip/**",
     "lint": "eslint ./src ./test",
     "mocha": "mocha --recursive",
-    "prepublish": "npm run build",
+    "prepare": "npm run build",
     "test": "npm run lint && npm run build && nyc -include=dist/** npm run mocha"
   },
   "license": "ISC"
