@@ -13,4 +13,9 @@ describe('Max Scenarios per File rule', function () {
     runTest('max-scenarios-per-file/TooManyScenarios.feature', { maxScenarios: 10 }, [{ messageElements: { variable: 11 }, line: 0 }]);
     runTest('max-scenarios-per-file/TooManyExamples.feature', { maxScenarios: 10 }, [{ messageElements: { variable: 11 }, line: 0 }]);
   });
+
+  it('considers a scenario outline with many examples to be one scenario when "newThing" is on', function () {
+    runTest('max-scenarios-per-file/TooManyScenarios.feature', { maxScenarios: 10, countOutlineExamples: false }, [{ messageElements: { variable: 11 }, line: 0 }]);
+    runTest('max-scenarios-per-file/TooManyExamples.feature', { maxScenarios: 10, countOutlineExamples: false }, []);
+  });
 });

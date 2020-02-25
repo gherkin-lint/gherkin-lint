@@ -2,7 +2,8 @@ var _ = require('lodash');
 var rule = 'max-scenarios-per-file';
 
 var defaultConfig = {
-  'maxScenarios': 10
+  'maxScenarios': 10,
+  'countOutlineExamples': true
 };
 
 function maxScenariosPerFile(feature, unused, config) {
@@ -19,7 +20,7 @@ function maxScenariosPerFile(feature, unused, config) {
         count = count - 1;
       }
 
-      if (scenario.examples) {
+      if (scenario.examples && mergedConfiguration.countOutlineExamples) {
         count = count - 1;
         scenario.examples.forEach(function (example) {
           if (example.tableBody) {
