@@ -57,7 +57,7 @@ Or check this:
 | `no-unnamed-scenarios`                      | Disallows empty Scenario name                                                            |
 | `no-unused-variables`                       | Disallows unused variables in scenario outlines                                          |
 | [`scenario-size`](#scenario-size)           | Allows restricting the maximum number of steps in a scenario, scenario outline and background |
-| `one-space-between-tags`                    | Tags on the same time must be separated by a single space                                |
+| `one-space-between-tags`                    | Tags on the same line must be separated by a single space                                |
 | `use-and`                                   | Disallows repeated step names requiring use of And instead                               |
 
 \* These rules cannot be turned off because they detect undocumented cucumber functionality that causes the [gherkin](https://github.com/cucumber/gherkin-javascript) parser to crash.
