@@ -67,6 +67,10 @@
     {
       "name": "David Goss",
       "url": "https://github.com/davidjgoss"
+    },
+    {
+      "name": "Alexander Bayandin",
+      "url": "https://github.com/bayandin"
     }
   ],
   "main": "dist/main.js",
