@@ -151,14 +151,17 @@ This feature is able to handle all localizations of the gherkin steps.
 
 
 ### max-scenarios-per-file
-`max-scenarios-per-file` rule can be configured to set the number of max scenarios per file. The configuration looks like this:
+The `max-scenarios-per-file` supports some configuration options:
+
+- `maxScenarios` (number) the maximum scenarios per file after which the rule fails - defaults to `10`
+- `countOutlineExamples` (boolean) whether to count every example row for a Scenario Outline, as opposed to just 1 for the whole block - defaults to `true`
+
+The configuration looks like this (showing the defaults):
 ```
 {
-  "max-scenarios-per-file": {"on", {"maxScenarios": 10}}
+  "max-scenarios-per-file": {"on", {"maxScenarios": 10, "countOutlineExamples": true}}
 }
 ```
-The default value is 10.
-
 
 ### name-length
 
