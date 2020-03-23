@@ -5,11 +5,11 @@ var runTest = ruleTestBase.createRuleTest(rule,
 
 describe('Name length rule', function() {
   it('doesn\'t raise errors when the default configuration is used and there are no length violations', function() {
-    runTest('name-length/CorrectLength.feature', {}, []);
+    return runTest('name-length/CorrectLength.feature', {}, []);
   });
 
   it('detects errors for features, scenarios, scenario outlines and steps', function() {
-    runTest('name-length/WrongLength.feature', {}, [{
+    return runTest('name-length/WrongLength.feature', {}, [{
       messageElements: {element: 'Feature', length: 89},
       line: 1
     },{

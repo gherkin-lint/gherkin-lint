@@ -5,30 +5,27 @@ var defaultConfig = {
   'maxScenarios': 10
 };
 
-function maxScenariosPerFile(feature, unused, config) {
+function run(feature, unused, config) {
+  if (!feature) {
+    return [];
+  }
   var errors = [];
-  var count = 0;
   var mergedConfiguration = _.merge({}, defaultConfig, config);
   var maxScenarios = mergedConfiguration.maxScenarios;
+  var count = feature.children.length;
 
-  if (feature.children) {
-    count = count + feature.children.length;
-
-    feature.children.forEach(function (scenario) {
-      if (scenario.type === 'Background') {
-        count = count - 1;
-      }
-
-      if (scenario.examples) {
-        count = count - 1;
-        scenario.examples.forEach(function (example) {
-          if (example.tableBody) {
-            count = count + example.tableBody.length;
-          }
-        });
-      }
-    });
-  }
+  feature.children.forEach(function (child) {
+    if (child.background) {
+      count = count - 1;
+    } else if (child.scenario.examples.length) {
+      count = count - 1;
+      child.scenario.examples.forEach(function (example) {
+        if (example.tableBody) {
+          count = count + example.tableBody.length;
+        }
+      });
+    }
+  });
 
   if (count > maxScenarios) {
     errors.push({
@@ -43,6 +40,6 @@ function maxScenariosPerFile(feature, unused, config) {
 
 module.exports = {
   name: rule,
-  run: maxScenariosPerFile,
+  run: run,
   availableConfigs: defaultConfig
 };

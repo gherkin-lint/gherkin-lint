@@ -5,22 +5,22 @@ var runTest = ruleTestBase.createRuleTest(rule,
 
 describe('No empty Backgrounds Rule', function() {
   it('doesn\'t raise errors when there are no background', function() {
-    runTest('no-background-only-scenario/NoBackground.feature', {}, []);
+    return runTest('no-background-only-scenario/NoBackground.feature', {}, []);
   });
 
   it('doesn\'t raise errors when there are no violations', function() {
-    runTest('no-background-only-scenario/NoViolations.feature', {}, []);
+    return runTest('no-background-only-scenario/NoViolations.feature', {}, []);
   });
 
   it('detects errors when there are violations with Scenario', function() {
-    runTest('no-background-only-scenario/ViolationsScenario.feature', {}, [ {
+    return runTest('no-background-only-scenario/ViolationsScenario.feature', {}, [ {
       line: 4,
       messageElements: {}
     }]);
   });
 
   it('detects errors when there are violations with Scenario Outline', function() {
-    runTest('no-background-only-scenario/ViolationsOutline.feature', {}, [ {
+    return runTest('no-background-only-scenario/ViolationsOutline.feature', {}, [ {
       line: 4,
       messageElements: {}
     }]);

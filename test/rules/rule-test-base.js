@@ -12,8 +12,10 @@ function createRuleTest(rule, messageTemplate) {
         line: error.line
       };
     });
-    const {feature, file} = linter.readAndParseFile('test/rules/' + featureFile, 'utf8');
-    assert.sameDeepMembers(rule.run(feature, file, configuration), expectedErrors);
+    return linter.readAndParseFile('test/rules/' + featureFile, 'utf8')
+      .then(({feature, fileName}) => {
+        assert.sameDeepMembers(rule.run(feature, fileName, configuration), expectedErrors);
+      });
   };
 }
 

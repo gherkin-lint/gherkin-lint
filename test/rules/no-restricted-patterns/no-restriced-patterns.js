@@ -4,7 +4,7 @@ var runTest = ruleTestBase.createRuleTest(rule, '<%= nodeType %> <%= property %>
 
 describe('No Restricted Patterns Rule', function() {
   it('doesn\'t raise errors when there are no violations', function() {
-    runTest('no-restricted-patterns/NoViolations.feature', {
+    return runTest('no-restricted-patterns/NoViolations.feature', {
       'Global': [
         '^.*disallowed.*$'
       ]}, []);
@@ -21,7 +21,7 @@ describe('No Restricted Patterns Rule', function() {
       ]
     };
 
-    runTest('no-restricted-patterns/FeatureViolations.feature', configuration, [
+    return runTest('no-restricted-patterns/FeatureViolations.feature', configuration, [
       {
         messageElements: {
           string: 'Feature with disallowed patterns',
@@ -63,7 +63,7 @@ describe('No Restricted Patterns Rule', function() {
       ]
     };
 
-    runTest('no-restricted-patterns/BackgroundViolations.feature', configuration, [
+    return runTest('no-restricted-patterns/BackgroundViolations.feature', configuration, [
       {
         messageElements: {
           pattern: 'a bad description',
@@ -105,7 +105,7 @@ describe('No Restricted Patterns Rule', function() {
       ]
     };
 
-    runTest('no-restricted-patterns/ScenarioViolations.feature', configuration, [
+    return runTest('no-restricted-patterns/ScenarioViolations.feature', configuration, [
       {
         messageElements: {
           pattern: 'a bad description',
@@ -156,7 +156,7 @@ describe('No Restricted Patterns Rule', function() {
       ]
     };
 
-    runTest('no-restricted-patterns/ScenarioOutlineViolations.feature', configuration, [
+    return runTest('no-restricted-patterns/ScenarioOutlineViolations.feature', configuration, [
       {
         messageElements: {
           pattern: 'a bad description',

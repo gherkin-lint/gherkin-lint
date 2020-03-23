@@ -2,16 +2,20 @@ var _ = require('lodash');
 
 var rule = 'no-duplicate-tags';
 
-function noDuplicateTags(feature) {
+function run(feature) {
+  if (!feature) {
+    return [];
+  }
   var errors = [];
 
   verifyTags(feature, errors);
   if (feature.children !== undefined) {
     feature.children.forEach(function(child) {
-      verifyTags(child, errors);
-
-      if (child.examples) {
-        child.examples.forEach(function(example) {
+      if (child.background) {
+        verifyTags(child.background, errors);
+      } else {
+        verifyTags(child.scenario, errors);
+        child.scenario.examples.forEach(function(example) {
           verifyTags(example, errors);
         });
       }
@@ -39,5 +43,5 @@ function verifyTags(node, errors) {
 
 module.exports = {
   name: rule,
-  run: noDuplicateTags
+  run: run
 };

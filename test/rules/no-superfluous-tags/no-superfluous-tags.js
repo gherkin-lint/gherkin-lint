@@ -5,11 +5,11 @@ var runTest = ruleTestBase.createRuleTest(rule,
 
 describe('No Superfluous Tags Rule', function() {
   it('doesn\'t raise errors when there are no violations', function() {
-    runTest('no-superfluous-tags/NoViolations.feature', {}, []);
+    return runTest('no-superfluous-tags/NoViolations.feature', {}, []);
   });
 
   it('detects errors for scenarios, and scenario outlines', function() {
-    runTest('no-superfluous-tags/Violations.feature', {}, [
+    return runTest('no-superfluous-tags/Violations.feature', {}, [
       {
         line: 7,
         messageElements: {

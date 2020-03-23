@@ -17,24 +17,25 @@ describe('All rules', function() {
       }
     });
 
-    const {feature, file} = linter.readAndParseFile('test/rules/all-rules/' + featureFile, 'utf8');
-
-    rules.runAllEnabledRules(feature, file, configuration);
+    return linter.readAndParseFile('test/rules/all-rules/' + featureFile, 'utf8')
+      .then(({feature, fileName}) => {
+        return rules.runAllEnabledRules(feature, fileName, configuration);
+      });
   }
 
   it('do not throw exceptions when processing an empty feature', function() {
-    runAllEnabledRulesAgainstFile('EmptyFeature.feature');
+    return runAllEnabledRulesAgainstFile('EmptyFeature.feature');
   });
 
   it('do not throw exceptions when processing a feature with no children', function() {
-    runAllEnabledRulesAgainstFile('ChildlessFeature.feature');
+    return runAllEnabledRulesAgainstFile('ChildlessFeature.feature');
   });
 
   it('do not throw exceptions when processing a feature with no steps', function() {
-    runAllEnabledRulesAgainstFile('SteplessFeature.feature');
+    return runAllEnabledRulesAgainstFile('SteplessFeature.feature');
   });
 
   it('do not throw exceptions when processing a scenario outline with an empty examples table', function() {
-    runAllEnabledRulesAgainstFile('EmptyExamples.feature');
+    return runAllEnabledRulesAgainstFile('EmptyExamples.feature');
   });
 });

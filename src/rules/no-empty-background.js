@@ -1,27 +1,31 @@
 var rule = 'no-empty-background';
 
-function noEmptyBackground(feature) {
+function run(feature) {
+  if (!feature) {
+    return [];
+  }
+
   var errors = [];
 
-  if (feature.children) {
-    feature.children.forEach(function(child) {
-      if (child.type ==='Background') {
-        if(child.steps.length === 0) {
-          errors.push(createError(child));
-        }
+  feature.children.forEach(function(child) {
+    if (child.background) {
+      if (child.background.steps.length === 0) {
+        errors.push(createError(child.background));
       }
-    });
-  }
+    }
+  });
   return errors;
 }
 
 function createError(background) {
-  return {message: 'Empty backgrounds are not allowed.',
+  return {
+    message: 'Empty backgrounds are not allowed.',
     rule   : rule,
-    line   : background.location.line};
+    line   : background.location.line
+  };
 }
 
 module.exports = {
   name: rule,
-  run: noEmptyBackground
+  run: run
 };

@@ -30,9 +30,7 @@ Or check this:
 | `no-tags-on-backgrounds` *                  | Disallows tags on Background                                                             |
 | `one-feature-per-file` *                    | Disallows multiple Feature definitions in the same file                                  |
 | `up-to-one-background-per-file` *           | Disallows multiple Background definition in the same file                                |
-| `no-multiline-steps` *                      | Disallows mutiline Steps                                                                 |
-| `no-examples-in-scenarios`                  | Disallow the use of "Examples" in scenarios                                              |
-| &nbsp;                                      |                                                                                          |
+| `no-multiline-steps` *                      | Disallows mutiline Steps                                                                 || &nbsp;                                      |                                                                                          |
 | [`allowed-tags`](#allowed-tags)             | Just the listed tags are allowed                                                         |
 | [`no-restricted-patterns`](#no-restricted-patterns)        | A list of patterns to disallow globally, or specifically in features, backgrounds, scenarios, or scenario outlines                                 |
 | [`indentation`](#indentation)               | Allows the user to specify indentation rules                                             |
@@ -45,6 +43,7 @@ Or check this:
 | `no-duplicate-tags`                         | Disallows duplicate tags on the same Feature or Scenario                                 |
 | `no-empty-background`                       | Disallows features with backgrounds without steps                                        |
 | `no-empty-file`                             | Disallows empty feature files                                                            |
+| `no-examples-in-scenarios`                  | Disallow the use of "Examples" in scenarios                                              |
 | `no-files-without-scenarios`                | Disallows files with no scenarios                                                        |
 | `no-homogenous-tags`                        | Disallows tags present on every Scenario in a Feature, rather than on the Feature itself |
 | `no-multiple-empty-lines`                   | Disallows multiple empty lines                                                           |

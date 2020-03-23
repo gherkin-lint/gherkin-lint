@@ -26,9 +26,11 @@ program
 var additionalRulesDirs = program.rulesdir;
 var files = featureFinder.getFeatureFiles(program.args, program.ignore);
 var config = configParser.getConfiguration(program.config, additionalRulesDirs);
-var results = linter.lint(files, config, additionalRulesDirs);
-printResults(results, program.format);
-process.exit(getExitCode(results));
+linter.lint(files, config, additionalRulesDirs)
+  .then((results) => {
+    printResults(results, program.format);
+    process.exit(getExitCode(results));
+  });
 
 function getExitCode(results) {
   var exitCode = 0;

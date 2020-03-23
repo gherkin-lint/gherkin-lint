@@ -4,14 +4,14 @@ var rule = require('../../../dist/rules/no-unused-variables.js');
 describe('No Unused Variables Rule', function() {
   it('doesn\'t raise errors when there are no violations', function() {
     var runTest = ruleTestBase.createRuleTest(rule, '');
-    runTest('no-unused-variables/NoViolations.feature', {}, []);
+    return runTest('no-unused-variables/NoViolations.feature', {}, []);
   });
 
   it('detects unused scenario variables', function() {
     var runTest = ruleTestBase.createRuleTest(rule,
       'Step variable "<%= variable %>" does not exist in the examples table');
 
-    runTest('no-unused-variables/UnusedStepVariables.feature', {}, [{
+    return runTest('no-unused-variables/UnusedStepVariables.feature', {}, [{
       line: 5,
       messageElements: {variable: 'b'}
     },
@@ -33,7 +33,7 @@ describe('No Unused Variables Rule', function() {
     var runTest = ruleTestBase.createRuleTest(rule,
       'Examples table variable "<%= variable %>" is not used in any step');
 
-    runTest('no-unused-variables/UnusedExampleVariables.feature', {}, [{
+    return runTest('no-unused-variables/UnusedExampleVariables.feature', {}, [{
       line: 7,
       messageElements: {variable: 'b'}
     }, {

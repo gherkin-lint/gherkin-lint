@@ -1,6 +1,9 @@
 var rule = 'use-and';
 
 function useAnd(feature) {
+  if (!feature) {
+    return [];
+  }
   var errors = [];
   if (feature && feature.children) {
     feature.children.forEach(function(child) {
@@ -21,9 +24,11 @@ function useAnd(feature) {
 }
 
 function createError(step) {
-  return {message: 'Step "' + step.keyword + step.text + '" should use And instead of ' + step.keyword,
+  return {
+    message: 'Step "' + step.keyword + step.text + '" should use And instead of ' + step.keyword,
     rule   : rule,
-    line   : step.location.line};
+    line   : step.location.line
+  };
 }
 
 module.exports = {

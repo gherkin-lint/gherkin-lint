@@ -1,5 +1,5 @@
 var _ = require('lodash');
-var languageMapping = require('gherkin').DIALECTS;
+var languageMapping = require('gherkin').default.dialects;
 var rule = 'indentation';
 
 var defaultConfig = {
@@ -33,18 +33,24 @@ function mergeConfiguration(configuration) {
   return mergedConfiguration;
 }
 
-function testFeature(feature, configuration, mergedConfiguration) {
-  var errors = [];
+function run(feature, unused, configuration) {
+  if (!feature) {
+    return [];
+  }
 
+  var errors = [];
+  var mergedConfiguration = mergeConfiguration(configuration);
   function test(parsedLocation, type) {
     // location.column is 1 index based so, when we compare with the expected
     // indentation we need to subtract 1
     if (parsedLocation.column - 1 !== mergedConfiguration[type]) {
-      errors.push({message: 'Wrong indentation for "' + type +
+      errors.push({
+        message: 'Wrong indentation for "' + type +
                             '", expected indentation level of ' + mergedConfiguration[type] +
                             ', but got ' + (parsedLocation.column - 1),
-      rule   : rule,
-      line   : parsedLocation.line});
+        rule   : rule,
+        line   : parsedLocation.line
+      });
     }
   }
 
@@ -55,19 +61,6 @@ function testFeature(feature, configuration, mergedConfiguration) {
     });
     stepType = stepType in configuration ? stepType : 'Step';
     test(step.location, stepType);
-  }
-
-  function testScenarioOutline(scenarioOutline) {
-    test(scenarioOutline.location, 'Scenario');
-    scenarioOutline.examples.forEach(function(examples) {
-      test(examples.location, 'Examples');
-      if (examples.tableHeader) {
-        test(examples.tableHeader.location, 'example');
-        examples.tableBody.forEach(function(row) {
-          test(row.location, 'example');
-        });
-      }
-    });
   }
 
   function testTags(tags, type) {
@@ -81,38 +74,28 @@ function testFeature(feature, configuration, mergedConfiguration) {
   testTags(feature.tags, 'feature tag');
 
   feature.children.forEach(function(child) {
-    switch(child.type) {
-    case 'Background':
-      test(child.location, 'Background');
-      break;
-    case 'Scenario':
-      test(child.location, 'Scenario');
-      testTags(child.tags, 'scenario tag');
-      break;
-    case 'ScenarioOutline':
-      testScenarioOutline(child);
-      testTags(child.tags, 'scenario tag');
-      break;
-    default:
-      errors.push({message: 'Unknown gherkin node type ' + child.type,
-        rule   : rule,
-        line   : child.location.line});
-      break;
-    }
+    if (child.background) {
+      test(child.background.location, 'Background');
+      child.background.steps.forEach(testStep);
+    } else {
+      test(child.scenario.location, 'Scenario');
+      testTags(child.scenario.tags, 'scenario tag');
+      child.scenario.steps.forEach(testStep);
 
-    child.steps.forEach(testStep);
+      child.scenario.examples.forEach(function(examples) {
+        test(examples.location, 'Examples');
+
+        if (examples.tableHeader) {
+          test(examples.tableHeader.location, 'example');
+          examples.tableBody.forEach(function(row) {
+            test(row.location, 'example');
+          });
+        }
+      });
+    }
   });
 
   return errors;
-}
-
-function run(feature, unused, configuration) {
-  if (!feature || Object.keys(feature).length === 0) {
-    return [];
-  }
-  var mergedConfiguration = mergeConfiguration(configuration);
-
-  return testFeature(feature, configuration, mergedConfiguration);
 }
 
 module.exports = {

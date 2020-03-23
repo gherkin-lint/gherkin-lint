@@ -22,7 +22,7 @@ const checkTagExists = (requiredTag, scenarioTags, scenarioType) => {
   return result;
 };
 
-const checkRequiredTagsExistInScenarios = (feature, file, config) => {
+const checkRequiredTagsExistInScenarios = (feature, fileName, config) => {
   let errors = [];
   if (feature.children) {
     feature.children.forEach((scenario) => {

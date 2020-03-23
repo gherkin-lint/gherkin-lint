@@ -1,7 +1,7 @@
 var _ = require('lodash');
 var rule = 'no-empty-file';
 
-function noEmptyFiles(feature) {
+function run(feature) {
   var errors = [];
   if (_.isEmpty(feature)) {
     errors.push({
@@ -15,5 +15,5 @@ function noEmptyFiles(feature) {
 
 module.exports = {
   name: rule,
-  run: noEmptyFiles
+  run: run
 };

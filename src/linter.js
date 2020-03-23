@@ -1,40 +1,76 @@
-var fs = require('fs');
 var _ = require('lodash');
-var Gherkin = require('gherkin');
-var parser = new Gherkin.Parser();
+var Gherkin = require('gherkin').default;
+var fs = require('fs');
+var path = require('path');
 var rules = require('./rules.js');
 
-function readAndParseFile(fileName) {
-  var fileContent = fs.readFileSync(fileName, 'utf-8');
-  var file = {
-    name: fileName,
-    lines: fileContent.split(/\r\n|\r|\n/)
-  };
-  var feature = parser.parse(fileContent).feature || {};
+function readAndParseFile(filePath) {
+  let feature ='';
+  let parsingErrors = [];
+  let fileName = path.basename(filePath);
 
-  return { feature, file };
+  return new Promise((resolve, reject) => {
+    const options = {
+      includeGherkinDocument: true,
+      includePickles: false,
+      includeSource: false,
+    };
+
+    const stream = Gherkin.fromPaths([filePath], options);
+
+    stream.on('data', envelope => {
+      if (envelope.attachment) {
+        // An attachment implies that there was a parsing error
+        parsingErrors.push(envelope.attachment);
+      } else if (envelope.gherkinDocument) {
+        feature = envelope.gherkinDocument.feature;
+      }
+    });
+
+    stream.on('error', data => {
+      reject(data);
+    });
+    stream.on('end', () => { 
+      if (parsingErrors.length) {
+        // Process all errors/attachments at once, because a tag on a background will 
+        // generate error events, and it would be confusing to print a message for each
+        // one of them, when they are all caused by a single error
+        reject(processFatalErrors(parsingErrors));
+      } else {
+        resolve({feature, fileName});
+      }
+    });
+  });
 }
 
+
 function lint(files, configuration, additionalRulesDirs) {
-  var output = [];
+  let results = [];
 
-  files.forEach(function(fileName) {
-    var errors = [];
-    try {
-      const {feature, file} = readAndParseFile(fileName);
-      errors = rules.runAllEnabledRules(feature, file, configuration, additionalRulesDirs);
-    } catch(e) {
-      if (e.errors) {
-        errors = processFatalErrors(e.errors);
-      } else {
-        throw e;
-      }
-    }
-    var fileBlob = {filePath: fs.realpathSync(fileName), errors: _.sortBy(errors, 'line')};
-    output.push(fileBlob);
+  return Promise.all(files.map((f) => {
+    let perFileErrors = [];
+
+    return readAndParseFile(f)
+      .then(
+        // Handle Promise.resolve 
+        ({feature, fileName}) => {
+          perFileErrors = rules.runAllEnabledRules(feature, fileName, configuration, additionalRulesDirs);
+        },
+        // Handle Promise.reject 
+        (parsingErrors) => {
+          perFileErrors = parsingErrors;
+        })
+      .finally(()=> {
+        let fileBlob = {
+          filePath: fs.realpathSync(f), 
+          errors: _.sortBy(perFileErrors, 'line')
+        };
+
+        results.push(fileBlob);
+      });
+  })).then(() => {
+    return results;
   });
-
-  return output;
 }
 
 function processFatalErrors(errors) {
@@ -53,18 +89,18 @@ function processFatalErrors(errors) {
 function getFormatedTaggedBackgroundError(errors) {
   var errorMsgs = [];
   var index = 0;
-  if (errors[0].message.indexOf('got \'Background') > -1 &&
-      errors[1].message.indexOf('expected: #TagLine, #ScenarioLine, #ScenarioOutlineLine, #Comment, #Empty') > -1) {
+  if (errors[0].data.indexOf('got \'Background') > -1 &&
+      errors[1].data.indexOf('expected: #TagLine, #ScenarioLine, #Comment, #Empty') > -1) {
 
     errorMsgs.push({
       message: 'Tags on Backgrounds are dissallowed',
       rule: 'no-tags-on-backgrounds',
-      line: errors[0].message.match(/\((\d+):.*/)[1]
+      line: errors[0].data.match(/\((\d+):.*/)[1]
     });
 
     index = 2;
     for (var i = 2; i < errors.length; i++) {
-      if (errors[i].message.indexOf('expected: #TagLine, #ScenarioLine, #ScenarioOutlineLine, #Comment, #Empty') > -1) {
+      if (errors[i].data.indexOf('expected: #TagLine, #ScenarioLine, #Comment, #Empty') > -1) {
         index = i + 1;
       } else {
         break;
@@ -74,26 +110,25 @@ function getFormatedTaggedBackgroundError(errors) {
   return {errors: errors.slice(index), errorMsgs: errorMsgs};
 }
 
+
+/*eslint no-console: "off"*/
 function getFormattedFatalError(error) {
-  var errorLine = error.message.match(/\((\d+):.*/)[1];
+  var errorLine = error.data.match(/\((\d+):.*/)[1];
   var errorMsg;
   var rule;
-  if (error.message.indexOf('got \'Background') > -1) {
+  if (error.data.indexOf('got \'Background') > -1) {
     errorMsg = 'Multiple "Background" definitions in the same file are disallowed';
     rule = 'up-to-one-background-per-file';
-  } else if(error.message.indexOf('got \'Feature') > -1) {
+  } else if(error.data.indexOf('got \'Feature') > -1) {
     errorMsg = 'Multiple "Feature" definitions in the same file are disallowed';
     rule = 'one-feature-per-file';
-  } else if (error.message.indexOf('expected: #EOF, #TableRow, #DocStringSeparator, #StepLine, #TagLine, #ScenarioLine, #ScenarioOutlineLine, #Comment, #Empty, got \'Examples:\'') > -1) {
-    errorMsg = 'Cannot use "Examples" in a "Scenario", use a "Scenario Outline" instead';
-    rule = 'no-examples-in-scenarios';
-  } else if (error.message.indexOf('expected: #EOF, #TableRow, #DocStringSeparator, #StepLine, #TagLine, #ScenarioLine, #ScenarioOutlineLine, #Comment, #Empty, got') > -1 ||
-             error.message.indexOf('expected: #EOF, #TableRow, #DocStringSeparator, #StepLine, #TagLine, #ExamplesLine, #ScenarioLine, #ScenarioOutlineLine, #Comment, #Empty, got') > -1) {
+  } else if (error.data.indexOf('expected: #EOF, #TableRow, #DocStringSeparator, #StepLine, #TagLine, #ScenarioLine, #RuleLine, #Comment, #Empty, got') > -1 ||
+             error.data.indexOf('expected: #EOF, #TableRow, #DocStringSeparator, #StepLine, #TagLine, #ExamplesLine, #ScenarioLine, #RuleLine, #Comment, #Empty, got') > -1) {
     errorMsg = 'Steps should begin with "Given", "When", "Then", "And" or "But". Multiline steps are dissallowed';
     rule = 'no-multiline-steps';
 
   } else {
-    errorMsg = error.message;
+    errorMsg = error.data;
     rule = 'unexpected-error';
   }
   return {message: errorMsg,

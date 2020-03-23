@@ -5,11 +5,11 @@ var runTest = ruleTestBase.createRuleTest(rule,
 
 describe('Use And Rule', function() {
   it('doesn\'t raise errors when there are no violations', function() {
-    runTest('use-and/NoViolations.feature', {}, []);
+    return runTest('use-and/NoViolations.feature', {}, []);
   });
 
   it('raises erros when there are violations', function() {
-    runTest('use-and/Violations.feature', {}, [
+    return runTest('use-and/Violations.feature', {}, [
       {
         messageElements: { keyword: 'Given ', text: 'step5'},
         line: 5

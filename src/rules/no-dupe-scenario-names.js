@@ -5,26 +5,41 @@ var availableConfigs = [
   'in-feature'
 ];
 
-function noDuplicateScenarioNames(feature, file, configuration) {
+function run(feature, fileName, configuration) {
+  if (!feature) {
+    return [];
+  }
   var errors = [];
   if(configuration === 'in-feature') {
     scenarios = [];
   }
-  if (feature && feature.children) {
-    feature.children.forEach(function(scenario) {
-      if (scenario.name) {
-        if (scenario.name in scenarios) {
-          var dupes = getFileLinePairsAsStr(scenarios[scenario.name].locations);
-          scenarios[scenario.name].locations.push({file: file.name, line: scenario.location.line});
-          errors.push({message: 'Scenario name is already used in: ' + dupes,
-            rule   : rule,
-            line   : scenario.location.line});
-        } else {
-          scenarios[scenario.name] = {locations: [{file: file.name, line: scenario.location.line}]};
-        }
+  feature.children.forEach(function(child) {
+    if (child.scenario) {
+      if (child.scenario.name in scenarios) {
+        var dupes = getFileLinePairsAsStr(scenarios[child.scenario.name].locations);
+        
+        scenarios[child.scenario.name].locations.push({
+          file: fileName, 
+          line: child.scenario.location.line
+        });
+
+        errors.push({
+          message: 'Scenario name is already used in: ' + dupes,
+          rule   : rule,
+          line   : child.scenario.location.line});
+      } else {
+        scenarios[child.scenario.name] = {
+          locations: [
+            {
+              file: fileName, 
+              line: child.scenario.location.line
+            }
+          ]
+        };
       }
-    });
-  }
+    }
+  });
+  
   return errors;
 }
 
@@ -38,6 +53,6 @@ function getFileLinePairsAsStr(objects) {
 
 module.exports = {
   name: rule,
-  run: noDuplicateScenarioNames,
+  run: run,
   availableConfigs: availableConfigs
 };
