@@ -37,7 +37,10 @@ function getFeatureFiles(args, ignoreArg) {
       return; // This line will only be hit by tests that stub process.exit
     }
 
-    var globOptions = {ignore: getIgnorePatterns(ignoreArg)};
+    var globOptions = {
+      ignore: getIgnorePatterns(ignoreArg),
+      nodir: true,
+    };
     files = files.concat(glob.sync(fixedPattern, globOptions));
   });
   return _.uniq(files);
