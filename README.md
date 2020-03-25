@@ -92,7 +92,7 @@ All patterns are treated as case insensitive.
 The rule can be configured like this:
 ```
 {
-  "no-restricted-patterns": ["on", {[
+  "no-restricted-patterns": ["on", {
     "Global": [
       "^globally restricted pattern"
     ],
@@ -109,7 +109,7 @@ The rule can be configured like this:
       "show last response",
       "a debugging step"
     ]
-  ]}]
+  }]
 }
 ```
 
