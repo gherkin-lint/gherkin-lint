@@ -159,7 +159,7 @@ The `max-scenarios-per-file` supports some configuration options:
 The configuration looks like this (showing the defaults):
 ```
 {
-  "max-scenarios-per-file": {"on", {"maxScenarios": 10, "countOutlineExamples": true}}
+  "max-scenarios-per-file": ["on", {"maxScenarios": 10, "countOutlineExamples": true}]
 }
 ```
 
