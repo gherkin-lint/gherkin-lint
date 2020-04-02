@@ -1,12 +1,15 @@
-var rule = 'no-files-without-scenarios';
+const rule = 'no-files-without-scenarios';
 
 function filterScenarios(child) {
-  return child.type === 'Scenario' || child.type === 'ScenarioOutline';
+  return child.scenario != undefined;
 }
 
-function noFilesWithoutScenarios(feature) {
-  var errors = [];
-  if (!feature.children || !feature.children.some(filterScenarios)) {
+function run(feature) {
+  if (!feature) {
+    return [];
+  }
+  let errors = [];
+  if (!feature.children.some(filterScenarios)) {
     errors.push({
       message: 'Feature file does not have any Scenarios',
       rule   : rule,
@@ -18,5 +21,5 @@ function noFilesWithoutScenarios(feature) {
 
 module.exports = {
   name: rule,
-  run: noFilesWithoutScenarios
+  run: run
 };

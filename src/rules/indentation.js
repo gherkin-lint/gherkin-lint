@@ -1,8 +1,8 @@
-var _ = require('lodash');
-var languageMapping = require('gherkin').DIALECTS;
-var rule = 'indentation';
+const _ = require('lodash');
+const gherkinUtils = require('./utils/gherkin.js');
 
-var defaultConfig = {
+const rule = 'indentation';
+const defaultConfig = {
   'Feature': 0,
   'Background': 0,
   'Scenario': 0,
@@ -16,14 +16,14 @@ var defaultConfig = {
   'but': 2
 };
 
-var availableConfigs = _.merge({}, defaultConfig, {
+const availableConfigs = _.merge({}, defaultConfig, {
   // The values here are unused by the config parsing logic.
   'feature tag': -1,
   'scenario tag': -1
 });
 
 function mergeConfiguration(configuration) {
-  var mergedConfiguration = _.merge({}, defaultConfig, configuration);
+  let mergedConfiguration = _.merge({}, defaultConfig, configuration);
   if (!Object.prototype.hasOwnProperty.call(mergedConfiguration, 'feature tag')) {
     mergedConfiguration['feature tag'] = mergedConfiguration['Feature'];
   }
@@ -33,41 +33,32 @@ function mergeConfiguration(configuration) {
   return mergedConfiguration;
 }
 
-function testFeature(feature, configuration, mergedConfiguration) {
-  var errors = [];
+function run(feature, unused, configuration) {
+  if (!feature) {
+    return [];
+  }
+
+  let errors = [];
+  const mergedConfiguration = mergeConfiguration(configuration);
 
   function test(parsedLocation, type) {
     // location.column is 1 index based so, when we compare with the expected
     // indentation we need to subtract 1
     if (parsedLocation.column - 1 !== mergedConfiguration[type]) {
-      errors.push({message: 'Wrong indentation for "' + type +
+      errors.push({
+        message: 'Wrong indentation for "' + type +
                             '", expected indentation level of ' + mergedConfiguration[type] +
                             ', but got ' + (parsedLocation.column - 1),
-      rule   : rule,
-      line   : parsedLocation.line});
+        rule   : rule,
+        line   : parsedLocation.line
+      });
     }
   }
 
   function testStep(step) {
-    var keyword = step.keyword;
-    var stepType = _.findKey(languageMapping[feature.language], function(values) {
-      return values instanceof Array && values.indexOf(keyword) !== -1;
-    });
+    let stepType = gherkinUtils.getLanguageInsitiveKeyword(step, feature.language);
     stepType = stepType in configuration ? stepType : 'Step';
     test(step.location, stepType);
-  }
-
-  function testScenarioOutline(scenarioOutline) {
-    test(scenarioOutline.location, 'Scenario');
-    scenarioOutline.examples.forEach(function(examples) {
-      test(examples.location, 'Examples');
-      if (examples.tableHeader) {
-        test(examples.tableHeader.location, 'example');
-        examples.tableBody.forEach(function(row) {
-          test(row.location, 'example');
-        });
-      }
-    });
   }
 
   function testTags(tags, type) {
@@ -81,38 +72,28 @@ function testFeature(feature, configuration, mergedConfiguration) {
   testTags(feature.tags, 'feature tag');
 
   feature.children.forEach(function(child) {
-    switch(child.type) {
-    case 'Background':
-      test(child.location, 'Background');
-      break;
-    case 'Scenario':
-      test(child.location, 'Scenario');
-      testTags(child.tags, 'scenario tag');
-      break;
-    case 'ScenarioOutline':
-      testScenarioOutline(child);
-      testTags(child.tags, 'scenario tag');
-      break;
-    default:
-      errors.push({message: 'Unknown gherkin node type ' + child.type,
-        rule   : rule,
-        line   : child.location.line});
-      break;
-    }
+    if (child.background) {
+      test(child.background.location, 'Background');
+      child.background.steps.forEach(testStep);
+    } else {
+      test(child.scenario.location, 'Scenario');
+      testTags(child.scenario.tags, 'scenario tag');
+      child.scenario.steps.forEach(testStep);
 
-    child.steps.forEach(testStep);
+      child.scenario.examples.forEach(function(examples) {
+        test(examples.location, 'Examples');
+
+        if (examples.tableHeader) {
+          test(examples.tableHeader.location, 'example');
+          examples.tableBody.forEach(function(row) {
+            test(row.location, 'example');
+          });
+        }
+      });
+    }
   });
 
   return errors;
-}
-
-function run(feature, unused, configuration) {
-  if (!feature || Object.keys(feature).length === 0) {
-    return [];
-  }
-  var mergedConfiguration = mergeConfiguration(configuration);
-
-  return testFeature(feature, configuration, mergedConfiguration);
 }
 
 module.exports = {

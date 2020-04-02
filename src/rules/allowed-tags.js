@@ -1,26 +1,31 @@
-var _ = require('lodash');
-var rule = 'allowed-tags';
-var availableConfigs = {
+const _ = require('lodash');
+const rule = 'allowed-tags';
+
+const availableConfigs = {
   'tags': []
 };
 
-function allowedTags(feature, fileName, configuration) {
-  var allowedTags = configuration.tags;
-  var errors = [];
+function run(feature, unused, configuration) {
+  if (!feature) {
+    return [];
+  }
+
+  let errors = [];
+  const allowedTags = configuration.tags;
 
   checkTags(feature, allowedTags, errors);
-  
-  if (feature.children) {
-    feature.children.forEach(function(child) {
-      checkTags(child, allowedTags, errors);
 
-      if (child.examples) {
-        child.examples.forEach(function(example) {
+  feature.children.forEach(function(child) {
+    if (child.scenario) {
+      checkTags(child.scenario, allowedTags, errors);
+
+      if (child.scenario.examples) {
+        child.scenario.examples.forEach(function(example) {
           checkTags(example, allowedTags, errors);
         });
       }
-    });
-  }
+    }      
+  });
 
   return errors;
 }
@@ -41,7 +46,7 @@ function isAllowed(tag, allowedTags) {
 
 function createError(node, tag) {
   return {
-    message: 'Not allowed tag ' + tag.name + ' on ' + node.type,
+    message: 'Not allowed tag ' + tag.name + ' on ' + node.keyword,
     rule   : rule,
     line   : tag.location.line
   };
@@ -49,6 +54,6 @@ function createError(node, tag) {
 
 module.exports = {
   name: rule,
-  run: allowedTags,
+  run: run,
   availableConfigs: availableConfigs
 };

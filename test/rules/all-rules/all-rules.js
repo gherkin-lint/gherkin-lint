@@ -2,39 +2,39 @@ var rules = require('../../../dist/rules.js');
 var linter = require('../../../dist/linter.js');
 
 // Test cases for incomplete feature files that have broken over time accross multiple rules
-describe('All rules', function() {
-
-  function runAllEnabledRulesAgainstFile(featureFile) {
-    var allRules = rules.getAllRules();
+describe('Malformated features do not break the linter', function() {
+  function testRule(file, rule) {
     var configuration = {};
-    Object.keys(allRules).forEach(function(rule) {
-      if (rule == 'new-line-at-eof') {
-        configuration[rule] = ['on', 'yes']; 
-      } else if (rule == 'required-tags') {
-        configuration[rule] = ['on', {'tags': [] }];
-      } else {
-        configuration[rule] = 'on'; 
-      }
-    });
-
-    const {feature, file} = linter.readAndParseFile('test/rules/all-rules/' + featureFile, 'utf8');
-
-    rules.runAllEnabledRules(feature, file, configuration);
+    if (rule == 'new-line-at-eof') {
+      configuration[rule] = ['on', 'yes']; 
+    } else if (rule == 'required-tags') {
+      configuration[rule] = ['on', {'tags': [] }];
+    } else {
+      configuration[rule] = 'on'; 
+    }
+    return linter.readAndParseFile('test/rules/all-rules/' + file, 'utf8')
+      .then(({feature, file}) => {
+        return rules.runAllEnabledRules(feature, file, configuration);
+      });
   }
 
-  it('do not throw exceptions when processing an empty feature', function() {
-    runAllEnabledRulesAgainstFile('EmptyFeature.feature');
-  });
+  const allRules = rules.getAllRules();
+  
+  Object.keys(allRules).forEach((rule) => {
+    it(`${rule} does not throw exceptions when processing an empty feature`, function() {
+      return testRule('EmptyFeature.feature', rule);
+    });
 
-  it('do not throw exceptions when processing a feature with no children', function() {
-    runAllEnabledRulesAgainstFile('ChildlessFeature.feature');
-  });
+    it(`${rule} does not throw exceptions when processing a feature with no children`, function() {
+      return testRule('ChildlessFeature.feature', rule);
+    });
 
-  it('do not throw exceptions when processing a feature with no steps', function() {
-    runAllEnabledRulesAgainstFile('SteplessFeature.feature');
-  });
+    it(`${rule} does not throw exceptions when processing a feature with no steps`, function() {
+      return testRule('SteplessFeature.feature', rule);
+    });
 
-  it('do not throw exceptions when processing a scenario outline with an empty examples table', function() {
-    runAllEnabledRulesAgainstFile('EmptyExamples.feature');
+    it(`${rule} does not throw exceptions when processing a scenario outline with an empty examples table`, function() {
+      return testRule('EmptyExamples.feature', rule);
+    });
   });
 });

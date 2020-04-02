@@ -4,13 +4,13 @@ var runTest = ruleTestBase.createRuleTest(rule, 'Not allowed tag <%= tags %> on 
 
 describe('Allowed Tags Rule', function() {
   it('doesn\'t raise errors when there are no violations', function() {
-    runTest('allowed-tags/NoViolations.feature', {
+    return runTest('allowed-tags/NoViolations.feature', {
       'tags': ['@featuretag', '@scenariotag']
     }, []);
   });
 
   it('detects errors for features, scenarios, and scenario outlines', function() {
-    runTest('allowed-tags/Violations.feature', {
+    return runTest('allowed-tags/Violations.feature', {
       'tags': ['@featuretag', '@scenariotag', '@examplestag']
     }, [{
       messageElements: {tags: '@featuretag1', nodeType:'Feature'},
@@ -33,7 +33,7 @@ describe('Allowed Tags Rule', function() {
       line: 7
     },
     {
-      messageElements: {tags: '@scenariotag1', nodeType:'ScenarioOutline'},
+      messageElements: {tags: '@scenariotag1', nodeType:'Scenario Outline'},
       line: 11
     },
     {

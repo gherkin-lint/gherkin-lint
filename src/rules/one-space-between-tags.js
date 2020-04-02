@@ -1,31 +1,29 @@
 const _ = require('lodash');
 
-var rule = 'one-space-between-tags';
+const rule = 'one-space-between-tags';
 
 function run(feature) {
-  var errors = [];
+  if (!feature) {
+    return;
+  }
+  let errors = [];
   
   testTags(feature, errors);
   
-  if (feature.children) {
-    feature.children.forEach(function(child) {
-      
-      testTags(child, errors);
+  feature.children.forEach(function(child) {
+    if (child.scenario) {
+      testTags(child.scenario, errors);
 
-      if (child.examples) {
-        child.examples.forEach(function(example) {
-          testTags(example, errors);
-        });
-      }
-    });
-  }
+      child.scenario.examples.forEach(function(example) {
+        testTags(example, errors);
+      });
+    }
+  });
+  
   return errors;
 }
 
 function testTags(node, errors) {
-  if (!node.tags) {
-    return;
-  }
   _(node.tags)
     .groupBy('location.line')
     .sortBy('location.column')

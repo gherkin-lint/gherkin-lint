@@ -1,91 +1,80 @@
 var assert = require('chai').assert;
 var linter = require('../../dist/linter.js');
 
+
+function linterTest(feature, expected) {
+  return linter.lint([feature], {})
+    .then((actual) => {
+      assert.lengthOf(actual, 1);
+      assert.deepEqual(actual[0].errors, expected);
+    });
+}
+
 describe('Linter', function() {
   it('detects up-to-one-background-per-file violations', function() {
-    var actual = linter.lint(['test/linter/MultipleBackgrounds.feature']);
-    var expected = [{
+    let feature = 'test/linter/MultipleBackgrounds.feature';
+    let expected = [{
       'line': '9',
       'message': 'Multiple "Background" definitions in the same file are disallowed',
       'rule': 'up-to-one-background-per-file'
     }];
-    assert.lengthOf(actual, 1);
-    assert.deepEqual(actual[0].errors, expected);
+    return linterTest(feature, expected);
   });
 
   it('detects no-tags-on-backgrounds violations', function() {
-    var actual = linter.lint(['test/linter/TagOnBackground.feature']);
-    var expected = [{
+    let feature = 'test/linter/TagOnBackground.feature';
+    let expected = [{
       'line': '4',
       'message': 'Tags on Backgrounds are dissallowed',
       'rule': 'no-tags-on-backgrounds'
     }];
-    assert.lengthOf(actual, 1);
-    assert.deepEqual(actual[0].errors, expected);
+    
+    return linterTest(feature, expected);
   });
 
   it('detects one-feature-per-file violations', function() {
-    var actual = linter.lint(['test/linter/MultipleFeatures.feature']);
-    var expected = [{
+    let feature = 'test/linter/MultipleFeatures.feature';
+    let expected = [{
       'line': '7',
       'message': 'Multiple "Feature" definitions in the same file are disallowed',
       'rule': 'one-feature-per-file'
     }];
-    assert.lengthOf(actual, 1);
-    assert.deepEqual(actual[0].errors, expected);
+    return linterTest(feature, expected);
   });
 
   it('detects no-multiline-steps violations', function() {
-    var actual = linter.lint(['test/linter/MultilineStep.feature']);
-    //console.log(actual)
-    var expected = [{
+    let feature = 'test/linter/MultilineStep.feature';
+    let expected = [{
       'line': '9',
       'message': 'Steps should begin with "Given", "When", "Then", "And" or "But". Multiline steps are dissallowed',
       'rule': 'no-multiline-steps'
     }];
-    assert.lengthOf(actual, 1);
-    assert.deepEqual(actual[0].errors, expected);
+    return linterTest(feature, expected);
   });
 
   it('detects no-multiline-steps violations in backgrounds', function() {
-    var actual = linter.lint(['test/linter/MultilineBackgroundStep.feature']);
-    //console.log(actual)
-    var expected = [{
+    let feature = 'test/linter/MultilineBackgroundStep.feature';
+    let expected = [{
       'line': '5',
       'message': 'Steps should begin with "Given", "When", "Then", "And" or "But". Multiline steps are dissallowed',
       'rule': 'no-multiline-steps'
     }];
-    assert.lengthOf(actual, 1);
-    assert.deepEqual(actual[0].errors, expected);
+    return linterTest(feature, expected);
   });
 
   it('detects no-multiline-steps violations in scenario outlines', function() {
-    var actual = linter.lint(['test/linter/MultilineScenarioOutlineStep.feature']);
-    //console.log(actual)
-    var expected = [{
+    let feature = 'test/linter/MultilineScenarioOutlineStep.feature';
+    let expected = [{
       'line': '9',
       'message': 'Steps should begin with "Given", "When", "Then", "And" or "But". Multiline steps are dissallowed',
       'rule': 'no-multiline-steps'
     }];
-    assert.lengthOf(actual, 1);
-    assert.deepEqual(actual[0].errors, expected);
-  });
-
-  it('detects no-examples-in-scenarios violations', function() {
-    var actual = linter.lint(['test/linter/ExampleInScenario.feature']);
-    //console.log(actual)
-    var expected = [{
-      'line': '6',
-      'message': 'Cannot use "Examples" in a "Scenario", use a "Scenario Outline" instead',
-      'rule': 'no-examples-in-scenarios'
-    }];
-    assert.lengthOf(actual, 1);
-    assert.deepEqual(actual[0].errors, expected);
+    return linterTest(feature, expected);
   });
 
   it('detects additional violations that happen after the \'no-tags-on-backgrounds\' rule', function() {
-    var actual = linter.lint(['test/linter/MultipleViolations.feature'], {});
-    var expected = [ 
+    let feature = 'test/linter/MultipleViolations.feature';
+    let expected = [ 
       { 
         message: 'Steps should begin with "Given", "When", "Then", "And" or "But". Multiline steps are dissallowed',
         rule: 'no-multiline-steps',
@@ -96,12 +85,16 @@ describe('Linter', function() {
         line: '4'
       } 
     ];
-    assert.deepEqual(actual[0].errors, expected);
+
+    linter.lint([feature])
+      .then((actual) => {
+        assert.deepEqual(actual[0].errors, expected);
+      });    
   });
 
   it('correctly parses files that have the correct Gherkin format', function() {
-    var result = linter.lint(['test/linter/NoViolations.feature'], {});
-    assert.lengthOf(result, 1);
-    assert.isEmpty(result[0].errors);
+    let feature = 'test/linter/NoViolations.feature';
+    let expected = [];
+    return linterTest(feature, expected);   
   });
 });

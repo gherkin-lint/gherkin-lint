@@ -5,11 +5,11 @@ var runTest = ruleTestBase.createRuleTest(rule,
 
 describe('One Space Between Tags Rule', function() {
   it('doesn\'t raise errors when there are no violations', function() {
-    runTest('one-space-between-tags/NoViolations.feature', {}, []);
+    return runTest('one-space-between-tags/NoViolations.feature', {}, []);
   });
 
   it('detects errors for tags on features, scenarios, and scenario outlines', function() {
-    runTest('one-space-between-tags/Violations.feature', {}, [
+    return runTest('one-space-between-tags/Violations.feature', {}, [
       {
         line: 1,
         messageElements: {left: '@featuretag1', right: '@featuretag2'}

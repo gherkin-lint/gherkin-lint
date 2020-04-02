@@ -1,35 +1,32 @@
-var _ = require('lodash');
-var rule = 'max-scenarios-per-file';
+const _ = require('lodash');
+const rule = 'max-scenarios-per-file';
 
-var defaultConfig = {
+const defaultConfig = {
   'maxScenarios': 10,
   'countOutlineExamples': true
 };
 
-function maxScenariosPerFile(feature, unused, config) {
-  var errors = [];
-  var count = 0;
-  var mergedConfiguration = _.merge({}, defaultConfig, config);
-  var maxScenarios = mergedConfiguration.maxScenarios;
-
-  if (feature.children) {
-    count = count + feature.children.length;
-
-    feature.children.forEach(function (scenario) {
-      if (scenario.type === 'Background') {
-        count = count - 1;
-      }
-
-      if (scenario.examples && mergedConfiguration.countOutlineExamples) {
-        count = count - 1;
-        scenario.examples.forEach(function (example) {
-          if (example.tableBody) {
-            count = count + example.tableBody.length;
-          }
-        });
-      }
-    });
+function run(feature, unused, config) {
+  if (!feature) {
+    return [];
   }
+  let errors = [];
+  const mergedConfiguration = _.merge({}, defaultConfig, config);
+  const maxScenarios = mergedConfiguration.maxScenarios;
+  let count = feature.children.length;
+
+  feature.children.forEach(function (child) {
+    if (child.background) {
+      count = count - 1;
+    } else if (child.scenario.examples.length  && mergedConfiguration.countOutlineExamples) {
+      count = count - 1;
+      child.scenario.examples.forEach(function (example) {
+        if (example.tableBody) {
+          count = count + example.tableBody.length;
+        }
+      });
+    }
+  });
 
   if (count > maxScenarios) {
     errors.push({
@@ -44,6 +41,6 @@ function maxScenariosPerFile(feature, unused, config) {
 
 module.exports = {
   name: rule,
-  run: maxScenariosPerFile,
+  run: run,
   availableConfigs: defaultConfig
 };

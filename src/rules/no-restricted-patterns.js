@@ -1,6 +1,7 @@
-var _ = require('lodash');
-var rule = 'no-restricted-patterns';
-var availableConfigs = {
+const gherkinUtils = require('./utils/gherkin.js');
+const rule = 'no-restricted-patterns';
+
+const availableConfigs = {
   'Global': [],
   'Scenario': [],
   'ScenarioOutline': [],
@@ -9,71 +10,86 @@ var availableConfigs = {
 };
 
 
-function noRestrictedPatterns(feature, fileName, configuration) {
-  var errors = [];
+function run(feature, unused, configuration) {
+  if (!feature) {
+    return [];
+  }
+  let errors = [];
+  const restrictedPatterns = getRestrictedPatterns(configuration);
+  const language = feature.language;
 
-  // Patterns applied to everything; feature, scenarios, etc.
-  var globalPatterns = (configuration.Global || []).map(function(pattern) {
-    return new RegExp(pattern, 'i');
-  });
+  // Check the feature itself
+  checkNameAndDescription(feature, restrictedPatterns, language, errors);
 
-  var restrictedPatterns = {};
-  Object.keys(availableConfigs).forEach(function(type) {
-    restrictedPatterns[type] = (configuration[type] || []).map(function(pattern) {
-      return new RegExp(pattern, 'i');
+  // Check the feature children
+  feature.children.forEach(function (child) {
+    let node = child.background || child.scenario;
+    checkNameAndDescription(node, restrictedPatterns, language, errors);
+
+    // And all the steps of each child
+    node.steps.forEach(function(step) {
+      checkStepNode(step, node, restrictedPatterns, language, errors);
     });
-    restrictedPatterns[type] = restrictedPatterns[type].concat(globalPatterns);
   });
 
-  checkFeatureNode(feature, restrictedPatterns, errors);
   return errors;
 }
 
 
-function checkFeatureNode(node, restrictedPatterns, errors) {
-  if (_.isEmpty(node)) {
-    return;
-  }
-  checkNameAndDescription(node, restrictedPatterns, errors);
-  node.children.forEach(function(child) {
-    checkFeatureChildNode(child, restrictedPatterns, errors);
-  });  
-}
-
-
-function checkNameAndDescription(node, restrictedPatterns, errors) {
-  restrictedPatterns[node.type]
-    .forEach(function(pattern) {
-      check(node, 'name', pattern, errors);
-      check(node, 'description', pattern, errors, true);
-    });
-}
-
-
-// Background, Scenarios and Scenario Outlines are children of a feature
-function checkFeatureChildNode(node, restrictedPatterns, errors) {
-  checkNameAndDescription(node, restrictedPatterns, errors);
-  node.steps.forEach(function(step) {
-    // Use the node type of the parent to determine which rule configuration to use
-    checkStepNode(step, restrictedPatterns[node.type], errors);
+function getRestrictedPatterns(configuration) {
+  // Patterns applied to everything; feature, scenarios, etc.
+  let globalPatterns = (configuration.Global || []).map(function(pattern) {
+    return new RegExp(pattern, 'i');
   });
+
+  let restrictedPatterns = {};
+  Object.keys(availableConfigs).forEach(function(key) {
+    const resolvedKey = key.toLowerCase().replace(/ /g, '');
+    const resolvedConfig = (configuration[key] || []);
+    
+    restrictedPatterns[resolvedKey] = resolvedConfig.map(function(pattern) {
+      return new RegExp(pattern, 'i');
+    });
+
+    restrictedPatterns[resolvedKey] = restrictedPatterns[resolvedKey].concat(globalPatterns);
+  });
+
+  return restrictedPatterns;
 }
 
 
-function checkStepNode(node, restrictedPatterns, errors) {
-  restrictedPatterns
+function getRestrictedPatternsForNode(node, restrictedPatterns, language) {
+  let key = gherkinUtils.getLanguageInsitiveKeyword(node, language).toLowerCase();
+
+  return restrictedPatterns[key];
+}
+
+
+function checkNameAndDescription(node, restrictedPatterns, language, errors) {
+  getRestrictedPatternsForNode(node, restrictedPatterns, language)
     .forEach(function(pattern) {
-      check(node, 'text', pattern, errors);
+      check(node, 'name', pattern, language, errors);
+      check(node, 'description', pattern, language, errors);
     });
 }
 
 
-function check(node, property, pattern, errors) {
+function checkStepNode(node, parentNode, restrictedPatterns, language, errors) {
+  // Use the node keyword of the parent to determine which rule configuration to use
+  getRestrictedPatternsForNode(parentNode, restrictedPatterns, language)
+    .forEach(function(pattern) {
+      check(node, 'text', pattern, language, errors);
+    });
+}
+
+
+function check(node, property, pattern, language, errors) {
   if (!node[property]) {
     return;
   }
 
-  var strings = [node[property]];
+  let strings = [node[property]];
+  const type = gherkinUtils.getNodeType(node, language);
 
   if (property == 'description') {
     // Descriptions can be multiline, in which case the description will contain escapted 
@@ -84,8 +100,8 @@ function check(node, property, pattern, errors) {
     // To make sure we don't accidentally pick up a doubly escaped new line "\\n" which would appear 
     // if a user wrote the string "\n" in a description, let's replace all escaped new lines 
     // with a sentinel, split lines and then restore the doubly escaped new line 
-    var escapedNewLineSentinel = '<!gherkin-lint new line sentinel!>';
-    var escapedNewLine = '\\n';
+    const escapedNewLineSentinel = '<!gherkin-lint new line sentinel!>';
+    const escapedNewLine = '\\n';
     strings = node[property]
       .replace(escapedNewLine, escapedNewLineSentinel)
       .split('\n')
@@ -94,12 +110,12 @@ function check(node, property, pattern, errors) {
       });
   }
   
-  for (var i = 0; i < strings.length; i++) {
+  for (let i = 0; i < strings.length; i++) {
     // We use trim() on the examined string because names and descriptions can contain 
     // white space before and after, unlike steps
     if (strings[i].trim().match(pattern)) {
       errors.push({
-        message: `${node.type} ${property}: "${strings[i].trim()}" matches restricted pattern "${pattern}"`,
+        message: `${type} ${property}: "${strings[i].trim()}" matches restricted pattern "${pattern}"`,
         rule: rule,
         line: node.location.line
       });
@@ -110,6 +126,6 @@ function check(node, property, pattern, errors) {
 
 module.exports = {
   name: rule,
-  run: noRestrictedPatterns,
+  run: run,
   availableConfigs: availableConfigs
 };

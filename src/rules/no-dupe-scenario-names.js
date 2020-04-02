@@ -1,35 +1,53 @@
-var rule = 'no-dupe-scenario-names';
-var scenarios = [];
-var availableConfigs = [
+const rule = 'no-dupe-scenario-names';
+const availableConfigs = [
   'anywhere',
   'in-feature'
 ];
 
-function noDuplicateScenarioNames(feature, file, configuration) {
-  var errors = [];
+let scenarios = [];
+
+function run(feature, file, configuration) {
+  if (!feature) {
+    return [];
+  }
+
+  let errors = [];
   if(configuration === 'in-feature') {
     scenarios = [];
   }
-  if (feature && feature.children) {
-    feature.children.forEach(function(scenario) {
-      if (scenario.name) {
-        if (scenario.name in scenarios) {
-          var dupes = getFileLinePairsAsStr(scenarios[scenario.name].locations);
-          scenarios[scenario.name].locations.push({file: file.name, line: scenario.location.line});
-          errors.push({message: 'Scenario name is already used in: ' + dupes,
-            rule   : rule,
-            line   : scenario.location.line});
-        } else {
-          scenarios[scenario.name] = {locations: [{file: file.name, line: scenario.location.line}]};
-        }
+
+  feature.children.forEach(function(child) {
+    if (child.scenario) {
+      if (child.scenario.name in scenarios) {
+        const dupes = getFileLinePairsAsStr(scenarios[child.scenario.name].locations);
+        
+        scenarios[child.scenario.name].locations.push({
+          file: file.relativePath, 
+          line: child.scenario.location.line
+        });
+
+        errors.push({
+          message: 'Scenario name is already used in: ' + dupes,
+          rule   : rule,
+          line   : child.scenario.location.line});
+      } else {
+        scenarios[child.scenario.name] = {
+          locations: [
+            {
+              file: file.relativePath, 
+              line: child.scenario.location.line
+            }
+          ]
+        };
       }
-    });
-  }
+    }
+  });
+  
   return errors;
 }
 
 function getFileLinePairsAsStr(objects) {
-  var strings = [];
+  let strings = [];
   objects.forEach(function(object) {
     strings.push(object.file + ':' + object.line);
   });
@@ -38,6 +56,6 @@ function getFileLinePairsAsStr(objects) {
 
 module.exports = {
   name: rule,
-  run: noDuplicateScenarioNames,
+  run: run,
   availableConfigs: availableConfigs
 };

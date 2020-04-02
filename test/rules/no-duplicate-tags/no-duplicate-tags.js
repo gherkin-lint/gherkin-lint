@@ -4,11 +4,11 @@ var runTest = ruleTestBase.createRuleTest(rule, 'Duplicate tags are not allowed:
 
 describe('No Duplicate Tags Rule', function() {
   it('doesn\'t raise errors when there are no violations', function() {
-    runTest('no-duplicate-tags/NoViolations.feature', {}, []);
+    return runTest('no-duplicate-tags/NoViolations.feature', {}, []);
   });
 
   it('detects errors for features, scenarios, and scenario outlines', function() {
-    runTest('no-duplicate-tags/Violations.feature', {}, [{
+    return runTest('no-duplicate-tags/Violations.feature', {}, [{
       messageElements: {tags: '@featuretag'},
       line: 1
     },

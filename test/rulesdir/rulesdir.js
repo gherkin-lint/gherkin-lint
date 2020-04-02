@@ -11,34 +11,35 @@ describe('rulesdir CLI option', function() {
     ];
     var config = configParser.getConfiguration(path.join(__dirname, '.gherkin-lintrc'), additionalRulesDirs);
     var featureFile = path.join(__dirname, 'simple.features');
-    var results = linter.lint([ featureFile ], config, additionalRulesDirs);
-
-    expect(results).to.deep.equal([
-      {
-        errors: [
-          { // This one is to make sure we don't accidentally regress and always load the default rules
-            line: 1,
-            message: 'Wrong indentation for "Feature", expected indentation level of 0, but got 4',
-            rule: 'indentation'
-          },
+    return linter.lint([ featureFile ], config, additionalRulesDirs)
+      .then((results) => {
+        expect(results).to.deep.equal([
           {
-            line: 109,
-            message: 'Another custom-list error',
-            rule: 'another-custom-list'
-          },
-          {
-            line: 123,
-            message: 'Custom error',
-            rule: 'custom'
-          },
-          {
-            line: 456,
-            message: 'Another custom error',
-            rule: 'another-custom'
+            errors: [
+              { // This one is to make sure we don't accidentally regress and always load the default rules
+                line: 1,
+                message: 'Wrong indentation for "Feature", expected indentation level of 0, but got 4',
+                rule: 'indentation'
+              },
+              {
+                line: 109,
+                message: 'Another custom-list error',
+                rule: 'another-custom-list'
+              },
+              {
+                line: 123,
+                message: 'Custom error',
+                rule: 'custom'
+              },
+              {
+                line: 456,
+                message: 'Another custom error',
+                rule: 'another-custom'
+              }
+            ],
+            filePath: featureFile
           }
-        ],
-        filePath: featureFile
-      }
-    ]);
-  });
+        ]);
+      });
+  });    
 });

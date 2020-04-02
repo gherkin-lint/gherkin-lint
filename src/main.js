@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
-var program = require('commander');
-var linter = require('./linter.js');
-var featureFinder = require('./feature-finder.js');
-var configParser = require('./config-parser.js');
-var logger = require('./logger.js');
+const program = require('commander');
+const linter = require('./linter.js');
+const featureFinder = require('./feature-finder.js');
+const configParser = require('./config-parser.js');
+const logger = require('./logger.js');
 
 function list(val) {
   return val.split(',');
@@ -23,15 +23,17 @@ program
   .option('-r, --rulesdir <...>', 'additional rule directories', collect, [])
   .parse(process.argv);
 
-var additionalRulesDirs = program.rulesdir;
-var files = featureFinder.getFeatureFiles(program.args, program.ignore);
-var config = configParser.getConfiguration(program.config, additionalRulesDirs);
-var results = linter.lint(files, config, additionalRulesDirs);
-printResults(results, program.format);
-process.exit(getExitCode(results));
+const additionalRulesDirs = program.rulesdir;
+const files = featureFinder.getFeatureFiles(program.args, program.ignore);
+const config = configParser.getConfiguration(program.config, additionalRulesDirs);
+linter.lint(files, config, additionalRulesDirs)
+  .then((results) => {
+    printResults(results, program.format);
+    process.exit(getExitCode(results));
+  });
 
 function getExitCode(results) {
-  var exitCode = 0;
+  let exitCode = 0;
   results.forEach(function(result) {
     if (result.errors.length > 0) {
       exitCode = 1;
@@ -41,7 +43,7 @@ function getExitCode(results) {
 }
 
 function printResults(results, format) {
-  var formatter;
+  let formatter;
   if (format === 'json') {
     formatter = require('./formatters/json.js');
   } else if (!format || format == 'stylish') {

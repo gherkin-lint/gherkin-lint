@@ -52,23 +52,23 @@ var wrongIndenatationErrors = [{
 
 describe('Indentation rule', function() {
   it('doesn\'t raise errors when the default conifguration is used and there are no indentation violations (spaces)', function() {
-    runTest('indentation/CorrectIndentationSpaces.feature', {}, []);
+    return runTest('indentation/CorrectIndentationSpaces.feature', {}, []);
   });
 
   it('doesn\'t raise errors when the default conifguration is used are and there no indentation violations (tabs)', function() {
-    runTest('indentation/CorrectIndentationTabs.feature', {}, []);
+    return runTest('indentation/CorrectIndentationTabs.feature', {}, []);
   });
 
   it('detects errors for features, backgrounds, scenarios, scenario outlines and steps (spaces)', function() {
-    runTest('indentation/WrongIndentationSpaces.feature', {}, wrongIndenatationErrors);
+    return runTest('indentation/WrongIndentationSpaces.feature', {}, wrongIndenatationErrors);
   });
 
   it('detects errors for features, backgrounds, scenarios, scenario outlines and steps (tabs)', function() {
-    runTest('indentation/WrongIndentationTabs.feature', {}, wrongIndenatationErrors);
+    return runTest('indentation/WrongIndentationTabs.feature', {}, wrongIndenatationErrors);
   });
 
   it('detects errors for features, backgrounds, scenarios, scenario outlines and steps in other languages', function() {
-    runTest('indentation/WrongIndentationDifferentLanguage.feature', {}, [{
+    return runTest('indentation/WrongIndentationDifferentLanguage.feature', {}, [{
       messageElements: {element: 'Feature', expected: 0, actual: 4},
       line: 3
     },{
@@ -117,14 +117,14 @@ describe('Indentation rule', function() {
   });
 
   it('defaults the tag indentation settings when they are not set', function() {
-    runTest('indentation/CorrectIndentationWithFeatureAndScenarioOverrides.feature', {
+    return runTest('indentation/CorrectIndentationWithFeatureAndScenarioOverrides.feature', {
       'Feature': 1,
       'Scenario': 3
     }, []);
   });
 
   it('observe tag indentation settings when they are overriden', function() {
-    runTest('indentation/CorrectIndentationWithScenarioTagOverrides.feature', {
+    return runTest('indentation/CorrectIndentationWithScenarioTagOverrides.feature', {
       'scenario tag': 3
     }, []);
   });

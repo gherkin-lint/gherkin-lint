@@ -1,32 +1,42 @@
-var rule = 'use-and';
+const gherkinUtils = require('./utils/gherkin.js');
 
-function useAnd(feature) {
-  var errors = [];
-  if (feature && feature.children) {
-    feature.children.forEach(function(child) {
-      var previousKeyword = undefined;
-      child.steps.forEach(function(step) {
-        if (step.keyword === 'And ') {
-          return;
-        }
-        if (step.keyword === previousKeyword) {
-          errors.push(createError(step));
-        }
-        previousKeyword = step.keyword;
-      });
-    });
+const rule = 'use-and';
+
+function run(feature) {
+  if (!feature) {
+    return [];
   }
+
+  let errors = [];
+  
+  feature.children.forEach(function(child) {
+    const node = child.background || child.scenario;
+    let previousKeyword = undefined;
+
+    node.steps.forEach(function(step) {
+      const keyword = gherkinUtils.getLanguageInsitiveKeyword(step, feature.language);
+      if (keyword === 'and') {
+        return;
+      }
+      if (keyword === previousKeyword) {
+        errors.push(createError(step));
+      }
+      previousKeyword = keyword;
+    });
+  });
 
   return errors;
 }
 
 function createError(step) {
-  return {message: 'Step "' + step.keyword + step.text + '" should use And instead of ' + step.keyword,
+  return {
+    message: 'Step "' + step.keyword + step.text + '" should use And instead of ' + step.keyword,
     rule   : rule,
-    line   : step.location.line};
+    line   : step.location.line
+  };
 }
 
 module.exports = {
   name: rule,
-  run: useAnd
+  run: run
 };

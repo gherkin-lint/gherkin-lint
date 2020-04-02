@@ -1,16 +1,16 @@
-var rule = 'no-unused-variables';
+const rule = 'no-unused-variables';
 
-function noUnusedVariables(feature) {
-  if(!feature || !feature.children) {
+function run(feature) {
+  if(!feature) {
     return [];
   }
 
-  var errors = [];
-  var stepVariableRegex = /<([^>]*)>/gu;
+  let errors = [];
+  const stepVariableRegex = /<([^>]*)>/gu;
 
   feature.children.forEach(function(child) {
-    if (child.type != 'ScenarioOutline') {
-      // Variables are a feature of Scenario Outlines only
+    if (!child.scenario) {
+      // Variables are a feature of Scenarios (as of Gherkin 9?) and Scenario Outlines only
       return;
     }
 
@@ -20,60 +20,56 @@ function noUnusedVariables(feature) {
     var match;
 
     // Collect all the entries of the examples table
-    if (child.examples) {
-      child.examples.forEach(function(example) {
-        if (example.tableHeader && example.tableHeader.cells) {
-          example.tableHeader.cells.forEach(function(cell) {
-            if (cell.value) {
-              examplesVariables[cell.value] = cell.location.line;
-            }
-          });
-        }
-      });
-    }
+    child.scenario.examples.forEach(function(example) {
+      if (example.tableHeader && example.tableHeader.cells) {
+        example.tableHeader.cells.forEach(function(cell) {
+          if (cell.value) {
+            examplesVariables[cell.value] = cell.location.line;
+          }
+        });
+      }
+    });
 
 
     // Collect the variables used in the scenario outline
 
     // Scenario names can include variables
-    while ((match = stepVariableRegex.exec(child.name)) != null) {
-      scenarioVariables[match[1]] = child.location.line;
+    while ((match = stepVariableRegex.exec(child.scenario.name)) != null) {
+      scenarioVariables[match[1]] = child.scenario.location.line;
     }
 
-    if (child.steps) {
-      child.steps.forEach(function(step) {
 
-        // Steps can take arguments and their argument can include variables.
-        // The arguments can be of type:
-        // - DocString
-        // - DataTable
-        // For more details, see https://docs.cucumber.io/gherkin/reference/#step-arguments
+    child.scenario.steps.forEach(function(step) {
 
-        // Collect variables from step arguments
-        if (step.argument) {
-          if (step.argument.type == 'DataTable') {
-            step.argument.rows.forEach(function(row) {
-              row.cells.forEach(function(cell) {
-                if (cell.value) {
-                  while ((match = stepVariableRegex.exec(cell.value)) != null) {
-                    scenarioVariables[match[1]] = cell.location.line;
-                  }
-                }
-              });
-            });
-          } else if(step.argument.type == 'DocString') {
-            while ((match = stepVariableRegex.exec(step.argument.content)) != null) {
-              scenarioVariables[match[1]] = step.location.line;
+      // Steps can take arguments and their argument can include variables.
+      // The arguments can be of type:
+      // - DocString
+      // - DataTable
+      // For more details, see https://docs.cucumber.io/gherkin/reference/#step-arguments
+
+      // Collect variables from step arguments
+      if (step.dataTable) {
+        step.dataTable.rows.forEach(function(row) {
+          row.cells.forEach(function(cell) {
+            if (cell.value) {
+              while ((match = stepVariableRegex.exec(cell.value)) != null) {
+                scenarioVariables[match[1]] = cell.location.line;
+              }
             }
-          }
-        }
-
-        // Collect variables from the steps themselves
-        while ((match = stepVariableRegex.exec(step.text)) != null) {
+          });
+        });
+      } else if (step.docString) {
+        while ((match = stepVariableRegex.exec(step.docString.content)) != null) {
           scenarioVariables[match[1]] = step.location.line;
         }
-      });
-    }
+      }
+
+      // Collect variables from the steps themselves
+      while ((match = stepVariableRegex.exec(step.text)) != null) {
+        scenarioVariables[match[1]] = step.location.line;
+      }
+    });
+    
 
     for (var exampleVariable in examplesVariables) {
       if (!scenarioVariables[exampleVariable]) {
@@ -101,5 +97,5 @@ function noUnusedVariables(feature) {
 
 module.exports = {
   name: rule,
-  run: noUnusedVariables
+  run: run
 };

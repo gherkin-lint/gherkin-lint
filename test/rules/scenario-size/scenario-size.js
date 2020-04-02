@@ -4,10 +4,10 @@ var runTest = ruleTestBase.createRuleTest(rule, 'Element <%= type %> too long: a
 
 describe('Scenario size Rule', function() {
   it('No violations for scenario-size', function() {
-    runTest('scenario-size/ExampleFeature.feature', undefined, []);
+    return runTest('scenario-size/ExampleFeature.feature', undefined, []);
   });
   it('Violations for scenario-size', function() {
-    runTest('scenario-size/ExampleFeature.feature', {'steps-length': {
+    return runTest('scenario-size/ExampleFeature.feature', {'steps-length': {
       'Background': 2,
       'Scenario': 3
     }}, [{
@@ -29,7 +29,7 @@ describe('Scenario size Rule', function() {
     {
       line: 17,
       messageElements: {
-        type: 'ScenarioOutline',
+        type: 'Scenario Outline',
         actual: 5,
         expected: 3
       }

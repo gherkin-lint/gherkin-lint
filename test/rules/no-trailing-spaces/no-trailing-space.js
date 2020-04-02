@@ -4,11 +4,11 @@ var runTest = ruleTestBase.createRuleTest(rule, 'Trailing spaces are not allowed
 
 describe('No Trailing Spaces Rule', function() {
   it('doesn\'t raise errors when there are no violations', function() {
-    runTest('no-trailing-spaces/NoViolations.feature', {}, []);
+    return runTest('no-trailing-spaces/NoViolations.feature', {}, []);
   });
 
   it('raises an error for trailing spaces', function() {
-    runTest('no-trailing-spaces/TrailingSpaces.feature', {}, [
+    return runTest('no-trailing-spaces/TrailingSpaces.feature', {}, [
       {
         messageElements: {},
         line: 1
@@ -25,7 +25,7 @@ describe('No Trailing Spaces Rule', function() {
   });
 
   it('raises an error for trailing tabs', function() {
-    runTest('no-trailing-spaces/TrailingTabs.feature', {}, [
+    return runTest('no-trailing-spaces/TrailingTabs.feature', {}, [
       {
         messageElements: {},
         line: 4

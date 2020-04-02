@@ -1,22 +1,30 @@
-var _ = require('lodash');
-var rule = 'no-scenario-outlines-without-examples';
+const _ = require('lodash');
+const gherkinUtils = require('./utils/gherkin.js');
+const rule = 'no-scenario-outlines-without-examples';
 
-function noScenarioOutlinesWithoutExamples(feature) {
-  if (feature.children) {
-    var errors = [];
-
-    feature.children.forEach(function(scenario) {
-      if (scenario.type === 'ScenarioOutline' && (!_.find(scenario.examples, 'tableBody') || !_.find(scenario.examples, 'tableBody')['tableBody'].length)) {
-        errors.push({message: 'Scenario Outline does not have any Examples',
-          rule   : rule,
-          line   : scenario.location.line});
-      }
-    });
-    return errors;
+function run(feature) {
+  if (!feature) {
+    return [];
   }
+
+  let errors = [];
+  feature.children.forEach(function(child) {
+    if (child.scenario) {
+      const scenario = child.scenario;
+      const nodeType = gherkinUtils.getNodeType(scenario, feature.language);
+      if (nodeType === 'Scenario Outline' &&  (!_.find(scenario.examples, 'tableBody') || !_.find(scenario.examples, 'tableBody')['tableBody'].length)) {
+        errors.push({
+          message: 'Scenario Outline does not have any Examples',
+          rule   : rule,
+          line   : scenario.location.line
+        });
+      }
+    }
+  });
+  return errors;  
 }
 
 module.exports = {
   name: rule,
-  run: noScenarioOutlinesWithoutExamples
+  run: run
 };

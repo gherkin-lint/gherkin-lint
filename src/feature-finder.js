@@ -1,20 +1,20 @@
-var _ = require('lodash');
-var glob = require('glob');
-var fs = require('fs');
-var path = require('path');
-var logger = require('./logger.js');
+const _ = require('lodash');
+const glob = require('glob');
+const fs = require('fs');
+const path = require('path');
+const logger = require('./logger.js');
 
-var defaultIgnoreFileName = '.gherkin-lintignore';
-var defaultIgnoredFiles = 'node_modules/**'; // Ignore node_modules by default
+const defaultIgnoreFileName = '.gherkin-lintignore';
+const defaultIgnoredFiles = 'node_modules/**'; // Ignore node_modules by default
 
 function getFeatureFiles(args, ignoreArg) {
-  var files = [];
-  var patterns = args.length ? args : ['.'];
+  let files = [];
+  const patterns = args.length ? args : ['.'];
 
   patterns.forEach(function(pattern) {
     // First we need to fix up the pattern so that it only matches .feature files
     // and it's in the format that glob expects it to be
-    var fixedPattern;
+    let fixedPattern;
     if (pattern == '.') {
       fixedPattern = '**/*.feature';
     } else if (pattern.match(/.*\/\*\*/)) {
@@ -32,15 +32,17 @@ function getFeatureFiles(args, ignoreArg) {
     }
 
     if (!fixedPattern) {
-      logger.boldError(`Invalid format of the feature file path/pattern: "${pattern}".\nTo run the linter please specify an existing feature file, directory or glob.`);
+      logger.boldError(`Invalid format of the feature file path/pattern: "${pattern}".\n
+        To run the linter please specify an existing feature file, directory or glob.`);
       process.exit(1);
       return; // This line will only be hit by tests that stub process.exit
     }
 
-    var globOptions = {
+    const globOptions = {
       ignore: getIgnorePatterns(ignoreArg),
       nodir: true,
     };
+
     files = files.concat(glob.sync(fixedPattern, globOptions));
   });
   return _.uniq(files);

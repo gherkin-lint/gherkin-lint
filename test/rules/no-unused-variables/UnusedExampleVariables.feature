@@ -1,5 +1,12 @@
 Feature: Feature with scenario outline with unused variables
 
+Scenario: This is a Scenario with an example variable that's not used in a step
+  Given this is step <a>
+
+  Examples:
+    | a | b |
+    | 1 | 2 |
+
 Scenario Outline: This is a Scenario Outline with an example variable that's not used in a step
   Given this is step <a>
 
