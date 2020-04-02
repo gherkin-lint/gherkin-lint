@@ -19,6 +19,8 @@ describe('Feature finder', function() {
       },
       'feature': {
         'f.txt': ''
+      },
+      'directory.feature': {
       }
     });
   });
