@@ -18,7 +18,7 @@ function test(name, location, configuration, type) {
 }
 
 function testSteps(node, mergedConfiguration) {
-  node.steps.forEach(function(step) {
+  node.steps.forEach(step => {
     // Check Step name length
     test(step.text, step.location, mergedConfiguration, 'Step');
   });
@@ -35,7 +35,7 @@ function run(feature, unused, configuration) {
   // Check Feature name length
   test(feature.name, feature.location, mergedConfiguration, 'Feature');
 
-  feature.children.forEach(function(child) { 
+  feature.children.forEach(child => { 
     if (child.background) {
       testSteps(child.background, mergedConfiguration);
     } else {

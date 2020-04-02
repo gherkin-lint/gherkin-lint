@@ -8,21 +8,21 @@ function run(feature) {
   let errors = [];
   const stepVariableRegex = /<([^>]*)>/gu;
 
-  feature.children.forEach(function(child) {
+  feature.children.forEach(child => {
     if (!child.scenario) {
       // Variables are a feature of Scenarios (as of Gherkin 9?) and Scenario Outlines only
       return;
     }
 
     // Maps of variableName -> lineNo
-    var examplesVariables = {};
-    var scenarioVariables = {};
-    var match;
+    const examplesVariables = {};
+    const scenarioVariables = {};
+    let match;
 
     // Collect all the entries of the examples table
-    child.scenario.examples.forEach(function(example) {
+    child.scenario.examples.forEach(example => {
       if (example.tableHeader && example.tableHeader.cells) {
-        example.tableHeader.cells.forEach(function(cell) {
+        example.tableHeader.cells.forEach(cell => {
           if (cell.value) {
             examplesVariables[cell.value] = cell.location.line;
           }
@@ -39,7 +39,7 @@ function run(feature) {
     }
 
 
-    child.scenario.steps.forEach(function(step) {
+    child.scenario.steps.forEach(step => {
 
       // Steps can take arguments and their argument can include variables.
       // The arguments can be of type:
@@ -49,8 +49,8 @@ function run(feature) {
 
       // Collect variables from step arguments
       if (step.dataTable) {
-        step.dataTable.rows.forEach(function(row) {
-          row.cells.forEach(function(cell) {
+        step.dataTable.rows.forEach(row => {
+          row.cells.forEach(cell => {
             if (cell.value) {
               while ((match = stepVariableRegex.exec(cell.value)) != null) {
                 scenarioVariables[match[1]] = cell.location.line;
@@ -71,7 +71,7 @@ function run(feature) {
     });
     
 
-    for (var exampleVariable in examplesVariables) {
+    for (const exampleVariable in examplesVariables) {
       if (!scenarioVariables[exampleVariable]) {
         errors.push({
           message: 'Examples table variable "' + exampleVariable + '" is not used in any step',
@@ -81,7 +81,7 @@ function run(feature) {
       }
     }
 
-    for (var scenarioVariable in scenarioVariables) {
+    for (const scenarioVariable in scenarioVariables) {
       if (!examplesVariables[scenarioVariable]) {
         errors.push({
           message: 'Step variable "' + scenarioVariable + '" does not exist in the examples table',

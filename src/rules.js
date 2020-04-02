@@ -9,10 +9,10 @@ function getAllRules(additionalRulesDirs) {
     path.join(__dirname, 'rules')
   ].concat(additionalRulesDirs || []);
 
-  rulesDirs.forEach(function(rulesDir) {
+  rulesDirs.forEach(rulesDir => {
     rulesDir = path.resolve(rulesDir);
-    glob.sync(`${rulesDir}/*.js`).forEach(function(file) {
-      var rule = require(file);
+    glob.sync(`${rulesDir}/*.js`).forEach(file => {
+      const rule = require(file);
       rules[rule.name] = rule;
     });
   });
@@ -37,7 +37,7 @@ function isRuleEnabled(ruleConfig) {
 function runAllEnabledRules(feature, file, configuration, additionalRulesDirs) {
   let errors = [];
   const rules = getAllRules(additionalRulesDirs);
-  Object.keys(rules).forEach(function(ruleName) {
+  Object.keys(rules).forEach(ruleName => {
     let rule = rules[ruleName];
     if (isRuleEnabled(configuration[rule.name])) {
       const ruleConfig = Array.isArray(configuration[rule.name]) ? configuration[rule.name][1] : {};

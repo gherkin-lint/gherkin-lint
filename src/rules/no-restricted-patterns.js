@@ -22,12 +22,12 @@ function run(feature, unused, configuration) {
   checkNameAndDescription(feature, restrictedPatterns, language, errors);
 
   // Check the feature children
-  feature.children.forEach(function (child) {
+  feature.children.forEach(child => {
     let node = child.background || child.scenario;
     checkNameAndDescription(node, restrictedPatterns, language, errors);
 
     // And all the steps of each child
-    node.steps.forEach(function(step) {
+    node.steps.forEach(step => {
       checkStepNode(step, node, restrictedPatterns, language, errors);
     });
   });
@@ -38,18 +38,14 @@ function run(feature, unused, configuration) {
 
 function getRestrictedPatterns(configuration) {
   // Patterns applied to everything; feature, scenarios, etc.
-  let globalPatterns = (configuration.Global || []).map(function(pattern) {
-    return new RegExp(pattern, 'i');
-  });
+  let globalPatterns = (configuration.Global || []).map(pattern => new RegExp(pattern, 'i'));
 
   let restrictedPatterns = {};
-  Object.keys(availableConfigs).forEach(function(key) {
+  Object.keys(availableConfigs).forEach(key => {
     const resolvedKey = key.toLowerCase().replace(/ /g, '');
     const resolvedConfig = (configuration[key] || []);
     
-    restrictedPatterns[resolvedKey] = resolvedConfig.map(function(pattern) {
-      return new RegExp(pattern, 'i');
-    });
+    restrictedPatterns[resolvedKey] = resolvedConfig.map(pattern => new RegExp(pattern, 'i'));
 
     restrictedPatterns[resolvedKey] = restrictedPatterns[resolvedKey].concat(globalPatterns);
   });
@@ -67,7 +63,7 @@ function getRestrictedPatternsForNode(node, restrictedPatterns, language) {
 
 function checkNameAndDescription(node, restrictedPatterns, language, errors) {
   getRestrictedPatternsForNode(node, restrictedPatterns, language)
-    .forEach(function(pattern) {
+    .forEach(pattern => {
       check(node, 'name', pattern, language, errors);
       check(node, 'description', pattern, language, errors);
     });
@@ -77,7 +73,7 @@ function checkNameAndDescription(node, restrictedPatterns, language, errors) {
 function checkStepNode(node, parentNode, restrictedPatterns, language, errors) {
   // Use the node keyword of the parent to determine which rule configuration to use
   getRestrictedPatternsForNode(parentNode, restrictedPatterns, language)
-    .forEach(function(pattern) {
+    .forEach(pattern => {
       check(node, 'text', pattern, language, errors);
     });
 }
@@ -105,9 +101,7 @@ function check(node, property, pattern, language, errors) {
     strings = node[property]
       .replace(escapedNewLine, escapedNewLineSentinel)
       .split('\n')
-      .map(function(string) {
-        return string.replace(escapedNewLineSentinel, escapedNewLine);
-      });
+      .map(string => string.replace(escapedNewLineSentinel, escapedNewLine));
   }
   
   for (let i = 0; i < strings.length; i++) {

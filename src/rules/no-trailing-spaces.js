@@ -1,9 +1,9 @@
-var rule = 'no-trailing-spaces';
+const rule = 'no-trailing-spaces';
 
 function run(unused, file) {
   let errors = [];
   let lineNo = 1;
-  file.lines.forEach(function(line) {
+  file.lines.forEach(line => {
     if (/[\t ]+$/.test(line)) {
       errors.push({message: 'Trailing spaces are not allowed',
         rule   : rule,

@@ -10,12 +10,12 @@ function run(feature) {
 
   let errors = [];
 
-  feature.children.forEach(function(child) {
+  feature.children.forEach(child => {
     const node = child.background || child.scenario;
     checkTags(node, feature, feature.language, errors);
 
     if (node.examples) {
-      node.examples.forEach(function(example) {
+      node.examples.forEach(example => {
         checkTags(example, feature, feature.language, errors);
         checkTags(example, node, feature.language, errors);
       });
@@ -29,7 +29,7 @@ function checkTags(child, parent, language, errors) {
   const childType = gherkinUtils.getNodeType(child, language);
   const parentType = gherkinUtils.getNodeType(parent, language);
 
-  superfluousTags.forEach(function(tag) {
+  superfluousTags.forEach(tag => {
     errors.push({
       message: `Tag duplication between ${childType} and its corresponding ${parentType}: ${tag.name}`,
       rule   : rule,

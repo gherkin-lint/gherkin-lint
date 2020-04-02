@@ -34,7 +34,7 @@ linter.lint(files, config, additionalRulesDirs)
 
 function getExitCode(results) {
   let exitCode = 0;
-  results.forEach(function(result) {
+  results.forEach(result => {
     if (result.errors.length > 0) {
       exitCode = 1;
     }

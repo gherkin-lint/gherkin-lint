@@ -10,11 +10,11 @@ function run(feature) {
   
   testTags(feature, errors);
   
-  feature.children.forEach(function(child) {
+  feature.children.forEach(child => {
     if (child.scenario) {
       testTags(child.scenario, errors);
 
-      child.scenario.examples.forEach(function(example) {
+      child.scenario.examples.forEach(example => {
         testTags(example, errors);
       });
     }
@@ -27,9 +27,9 @@ function testTags(node, errors) {
   _(node.tags)
     .groupBy('location.line')
     .sortBy('location.column')
-    .forEach(function(tags) {
+    .forEach(tags => {
       _.range(tags.length - 1)
-        .map(function(i) {
+        .map(i => {
           if (tags[i].location.column + tags[i].name.length < tags[i + 1].location.column - 1) {
             errors.push({
               line: tags[i].location.line,

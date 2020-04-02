@@ -45,7 +45,7 @@ function readAndParseFile(filePath) {
         // one of them, when they are all caused by a single cause
         reject(processFatalErrors(parsingErrors));
       } else {
-        var file = {
+        const file = {
           relativePath: filePath,
           lines: fileContent,
         };
@@ -80,29 +80,27 @@ function lint(files, configuration, additionalRulesDirs) {
 
         results.push(fileBlob);
       });
-  })).then(() => {
-    return results;
-  });
+  })).then(() => results);
 }
 
 function processFatalErrors(errors) {
-  var errorMsgs = [];
+  let errorMsgs = [];
   if (errors.length > 1) {
-    var result = getFormatedTaggedBackgroundError(errors);
+    const result = getFormatedTaggedBackgroundError(errors);
     errors = result.errors;
     errorMsgs = result.errorMsgs;
   }
-  errors.forEach(function(error) {
+  errors.forEach(error => {
     errorMsgs.push(getFormattedFatalError(error));
   });
   return errorMsgs;
 }
 
 function getFormatedTaggedBackgroundError(errors) {
-  var errorMsgs = [];
-  var index = 0;
-  if (errors[0].data.indexOf('got \'Background') > -1 &&
-      errors[1].data.indexOf('expected: #TagLine, #ScenarioLine, #Comment, #Empty') > -1) {
+  const errorMsgs = [];
+  let index = 0;
+  if (errors[0].data.includes('got \'Background') &&
+      errors[1].data.includes('expected: #TagLine, #ScenarioLine, #Comment, #Empty')) {
 
     errorMsgs.push({
       message: 'Tags on Backgrounds are dissallowed',
@@ -111,8 +109,8 @@ function getFormatedTaggedBackgroundError(errors) {
     });
 
     index = 2;
-    for (var i = 2; i < errors.length; i++) {
-      if (errors[i].data.indexOf('expected: #TagLine, #ScenarioLine, #Comment, #Empty') > -1) {
+    for (let i = 2; i < errors.length; i++) {
+      if (errors[i].data.includes('expected: #TagLine, #ScenarioLine, #Comment, #Empty')) {
         index = i + 1;
       } else {
         break;
@@ -125,17 +123,19 @@ function getFormatedTaggedBackgroundError(errors) {
 
 /*eslint no-console: "off"*/
 function getFormattedFatalError(error) {
-  var errorLine = error.data.match(/\((\d+):.*/)[1];
-  var errorMsg;
-  var rule;
-  if (error.data.indexOf('got \'Background') > -1) {
+  const errorLine = error.data.match(/\((\d+):.*/)[1];
+  let errorMsg;
+  let rule;
+  if (error.data.includes('got \'Background')) {
     errorMsg = 'Multiple "Background" definitions in the same file are disallowed';
     rule = 'up-to-one-background-per-file';
-  } else if(error.data.indexOf('got \'Feature') > -1) {
+  } else if(error.data.includes('got \'Feature')) {
     errorMsg = 'Multiple "Feature" definitions in the same file are disallowed';
     rule = 'one-feature-per-file';
-  } else if (error.data.indexOf('expected: #EOF, #TableRow, #DocStringSeparator, #StepLine, #TagLine, #ScenarioLine, #RuleLine, #Comment, #Empty, got') > -1 ||
-             error.data.indexOf('expected: #EOF, #TableRow, #DocStringSeparator, #StepLine, #TagLine, #ExamplesLine, #ScenarioLine, #RuleLine, #Comment, #Empty, got') > -1) {
+  } else if (
+    error.data.includes('expected: #EOF, #TableRow, #DocStringSeparator, #StepLine, #TagLine, #ScenarioLine, #RuleLine, #Comment, #Empty, got') ||
+    error.data.includes('expected: #EOF, #TableRow, #DocStringSeparator, #StepLine, #TagLine, #ExamplesLine, #ScenarioLine, #RuleLine, #Comment, #Empty, got')
+  ) {
     errorMsg = 'Steps should begin with "Given", "When", "Then", "And" or "But". Multiline steps are dissallowed';
     rule = 'no-multiline-steps';
 

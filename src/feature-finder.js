@@ -11,7 +11,7 @@ function getFeatureFiles(args, ignoreArg) {
   let files = [];
   const patterns = args.length ? args : ['.'];
 
-  patterns.forEach(function(pattern) {
+  patterns.forEach(pattern => {
     // First we need to fix up the pattern so that it only matches .feature files
     // and it's in the format that glob expects it to be
     let fixedPattern;
@@ -56,7 +56,7 @@ function getIgnorePatterns(ignoreArg) {
     return fs.readFileSync(defaultIgnoreFileName)
       .toString()
       .split(/[\n|\r]/)
-      .filter(function(i) {
+      .filter(i => {
         // remove empty strings
         if (i !== '') {
           return true;

@@ -62,8 +62,8 @@ function run(feature, unused, configuration) {
   }
 
   function testTags(tags, type) {
-    _(tags).groupBy('location.line').forEach(function(tagLocationGroup) {
-      var firstTag = _(tagLocationGroup).sortBy('location.column').head();
+    _(tags).groupBy('location.line').forEach(tagLocationGroup => {
+      const firstTag = _(tagLocationGroup).sortBy('location.column').head();
       test(firstTag.location, type);
     });
   }
@@ -71,7 +71,7 @@ function run(feature, unused, configuration) {
   test(feature.location, 'Feature');
   testTags(feature.tags, 'feature tag');
 
-  feature.children.forEach(function(child) {
+  feature.children.forEach(child => {
     if (child.background) {
       test(child.background.location, 'Background');
       child.background.steps.forEach(testStep);
@@ -80,12 +80,12 @@ function run(feature, unused, configuration) {
       testTags(child.scenario.tags, 'scenario tag');
       child.scenario.steps.forEach(testStep);
 
-      child.scenario.examples.forEach(function(examples) {
+      child.scenario.examples.forEach(examples => {
         test(examples.location, 'Examples');
 
         if (examples.tableHeader) {
           test(examples.tableHeader.location, 'example');
-          examples.tableBody.forEach(function(row) {
+          examples.tableBody.forEach(row => {
             test(row.location, 'example');
           });
         }

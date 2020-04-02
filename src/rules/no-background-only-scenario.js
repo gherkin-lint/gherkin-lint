@@ -7,7 +7,7 @@ function run(feature) {
 
   let errors = [];
   
-  feature.children.forEach(function(child) {
+  feature.children.forEach(child => {
     if (child.background) {
       if (feature.children.length <= 2) {
         // as just one background is allowed, if there is a background in the feature,

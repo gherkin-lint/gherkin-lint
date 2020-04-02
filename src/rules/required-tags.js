@@ -12,7 +12,7 @@ function checkTagExists(requiredTag, scenarioTags, scenarioType) {
   if (!result) {
     const lines = [];
     scenarioTags.forEach((tag) => {
-      if (lines.indexOf(tag.location.line) === -1) {
+      if (!lines.includes(tag.location.line)) {
         lines.push(tag.location.line);
       }
     });
@@ -37,9 +37,7 @@ function run(feature, unused, config) {
 
       // Check each Scenario for the required tags
       const requiredTagErrors = config.tags
-        .map((requiredTag) => {
-          return checkTagExists(requiredTag, child.scenario.tags || [], type);
-        })
+        .map(requiredTag => checkTagExists(requiredTag, child.scenario.tags || [], type))
         .filter((item) =>
           typeof item === 'object' && item.message
         );

@@ -17,7 +17,7 @@ function verifyRuleConfiguration(rule, ruleConfig, additionalRulesDirs, errors) 
   const genericErrorMsg = 'Invalid rule configuration for "' + rule + '" - ';
 
   if (Array.isArray(ruleConfig)) {
-    if (enablingSettings.indexOf(ruleConfig[0]) === -1) {
+    if (!enablingSettings.includes(ruleConfig[0])) {
       errors.push(genericErrorMsg + 'The first part of the config should be "on" or "off"');
     }
 
@@ -29,20 +29,16 @@ function verifyRuleConfiguration(rule, ruleConfig, additionalRulesDirs, errors) 
     let isValidSubConfig;
 
     if (typeof(ruleConfig[1]) === 'string') {
-      isValidSubConfig = function(availableConfigs, subConfig) {
-        return ruleObj.availableConfigs.indexOf(subConfig) > -1;
-      };
+      isValidSubConfig = (availableConfigs, subConfig) => ruleObj.availableConfigs.includes(subConfig);
       testSubconfig(genericErrorMsg, rule, ruleConfig[1], isValidSubConfig, additionalRulesDirs, errors);
     } else {
-      isValidSubConfig = function(availableConfigs, subConfig) {
-        return ruleObj.availableConfigs[subConfig] !== undefined;
-      };
+      isValidSubConfig = (availableConfigs, subConfig) => ruleObj.availableConfigs[subConfig] !== undefined;
       for (let subConfig in ruleConfig[1]) {
         testSubconfig(genericErrorMsg, rule, subConfig, isValidSubConfig, additionalRulesDirs, errors);
       }
     }
   } else {
-    if (enablingSettings.indexOf(ruleConfig) == -1) {
+    if (!enablingSettings.includes(ruleConfig)) {
       errors.push(genericErrorMsg + 'The the config should be "on" or "off"');
     }
   }

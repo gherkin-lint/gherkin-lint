@@ -9,10 +9,10 @@ function run(feature) {
   let errors = [];
 
   verifyTags(feature, errors);
-  feature.children.forEach(function(child) {
+  feature.children.forEach(child => {
     if (child.scenario) {
       verifyTags(child.scenario, errors);
-      child.scenario.examples.forEach(function(example) {
+      child.scenario.examples.forEach(example => {
         verifyTags(example, errors);
       });
     }
@@ -23,7 +23,7 @@ function run(feature) {
 function verifyTags(node, errors) {
   const failedTagNames = [];
   const uniqueTagNames = [];
-  node.tags.forEach(function(tag) {
+  node.tags.forEach(tag => {
     if (!_.includes(failedTagNames, tag.name)) {
       if (_.includes(uniqueTagNames, tag.name)) {
         errors.push({message: 'Duplicate tags are not allowed: ' + tag.name,
