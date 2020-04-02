@@ -26,7 +26,7 @@ function checkTagExists(requiredTag, scenarioTags, scenarioType) {
 }
 
 function run(feature, unused, config) {
-  if (!feature || !feature.children) {
+  if (!feature) {
     return [];
   }
 

@@ -1,7 +1,7 @@
 const rule = 'no-unused-variables';
 
 function run(feature) {
-  if(!feature || !feature.children) {
+  if(!feature) {
     return [];
   }
 

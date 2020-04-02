@@ -1,8 +1,8 @@
-var _ = require('lodash');
-var Gherkin = require('gherkin').default;
-var fs = require('fs');
-var rules = require('./rules.js');
-var logger = require('./logger.js');
+const _ = require('lodash');
+const Gherkin = require('gherkin').default;
+const fs = require('fs');
+const rules = require('./rules.js');
+const logger = require('./logger.js');
 
 function readAndParseFile(filePath) {
   let feature ='';
@@ -17,9 +17,8 @@ function readAndParseFile(filePath) {
     };
 
     const stream = Gherkin.fromPaths([filePath], options);
-
+    
     stream.on('data', envelope => {
-      //console.log(envelope);
       if (envelope.attachment) {
         // An attachment implies that there was a parsing error
         parsingErrors.push(envelope.attachment);
@@ -34,7 +33,7 @@ function readAndParseFile(filePath) {
     });
 
     stream.on('error', data => {
-      logger.error(`Gerkin emmited an error while parsing ${filePath}: ${data}`);
+      logger.error(`Gherkin emmited an error while parsing ${filePath}: ${data}`);
       let error = {data: data};
       reject(processFatalErrors(error));
     });

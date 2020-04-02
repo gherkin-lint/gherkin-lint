@@ -10,10 +10,12 @@ function run(feature, file, configuration) {
   if (!feature) {
     return [];
   }
+
   let errors = [];
   if(configuration === 'in-feature') {
     scenarios = [];
   }
+
   feature.children.forEach(function(child) {
     if (child.scenario) {
       if (child.scenario.name in scenarios) {

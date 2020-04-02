@@ -10,17 +10,16 @@ function run(feature) {
   
   testTags(feature, errors);
   
-  if (feature.children) {
-    feature.children.forEach(function(child) {
-      if (child.scenario) {
-        testTags(child.scenario, errors);
+  feature.children.forEach(function(child) {
+    if (child.scenario) {
+      testTags(child.scenario, errors);
 
-        child.scenario.examples.forEach(function(example) {
-          testTags(example, errors);
-        });
-      }
-    });
-  }
+      child.scenario.examples.forEach(function(example) {
+        testTags(example, errors);
+      });
+    }
+  });
+  
   return errors;
 }
 

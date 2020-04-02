@@ -10,7 +10,7 @@ const availableConfigs = {
 };
 
 function run(feature, unused, configuration) {
-  if (!feature || !feature.children) {
+  if (!feature) {
     return;
   }
 

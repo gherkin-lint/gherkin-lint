@@ -3,7 +3,7 @@ const gherkinUtils = require('./utils/gherkin.js');
 const rule = 'no-scenario-outlines-without-examples';
 
 function run(feature) {
-  if (!feature || !feature.children) {
+  if (!feature) {
     return [];
   }
 

@@ -1,7 +1,7 @@
 const rule = 'no-unnamed-scenarios';
 
 function run(feature) {
-  if (!feature || !feature.children) {
+  if (!feature) {
     return [];
   }
   let errors = [];

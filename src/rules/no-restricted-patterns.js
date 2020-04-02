@@ -21,18 +21,16 @@ function run(feature, unused, configuration) {
   // Check the feature itself
   checkNameAndDescription(feature, restrictedPatterns, language, errors);
 
-  if (feature.children) {
-    // Check the feature children
-    feature.children.forEach(function (child) {
-      let node = child.background || child.scenario;
-      checkNameAndDescription(node, restrictedPatterns, language, errors);
+  // Check the feature children
+  feature.children.forEach(function (child) {
+    let node = child.background || child.scenario;
+    checkNameAndDescription(node, restrictedPatterns, language, errors);
 
-      // And all the steps of each child
-      node.steps.forEach(function(step) {
-        checkStepNode(step, node, restrictedPatterns, language, errors);
-      });
+    // And all the steps of each child
+    node.steps.forEach(function(step) {
+      checkStepNode(step, node, restrictedPatterns, language, errors);
     });
-  }
+  });
 
   return errors;
 }
