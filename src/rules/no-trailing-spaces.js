@@ -1,4 +1,4 @@
-var rule = 'no-trailing-spaces';
+const rule = 'no-trailing-spaces';
 
 function run(unused, file) {
   let errors = [];

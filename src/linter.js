@@ -45,7 +45,7 @@ function readAndParseFile(filePath) {
         // one of them, when they are all caused by a single cause
         reject(processFatalErrors(parsingErrors));
       } else {
-        var file = {
+        const file = {
           relativePath: filePath,
           lines: fileContent,
         };
@@ -84,9 +84,9 @@ function lint(files, configuration, additionalRulesDirs) {
 }
 
 function processFatalErrors(errors) {
-  var errorMsgs = [];
+  let errorMsgs = [];
   if (errors.length > 1) {
-    var result = getFormatedTaggedBackgroundError(errors);
+    const result = getFormatedTaggedBackgroundError(errors);
     errors = result.errors;
     errorMsgs = result.errorMsgs;
   }
@@ -97,8 +97,8 @@ function processFatalErrors(errors) {
 }
 
 function getFormatedTaggedBackgroundError(errors) {
-  var errorMsgs = [];
-  var index = 0;
+  const errorMsgs = [];
+  let index = 0;
   if (errors[0].data.indexOf('got \'Background') > -1 &&
       errors[1].data.indexOf('expected: #TagLine, #ScenarioLine, #Comment, #Empty') > -1) {
 
@@ -109,7 +109,7 @@ function getFormatedTaggedBackgroundError(errors) {
     });
 
     index = 2;
-    for (var i = 2; i < errors.length; i++) {
+    for (let i = 2; i < errors.length; i++) {
       if (errors[i].data.indexOf('expected: #TagLine, #ScenarioLine, #Comment, #Empty') > -1) {
         index = i + 1;
       } else {
@@ -123,9 +123,9 @@ function getFormatedTaggedBackgroundError(errors) {
 
 /*eslint no-console: "off"*/
 function getFormattedFatalError(error) {
-  var errorLine = error.data.match(/\((\d+):.*/)[1];
-  var errorMsg;
-  var rule;
+  const errorLine = error.data.match(/\((\d+):.*/)[1];
+  let errorMsg;
+  let rule;
   if (error.data.indexOf('got \'Background') > -1) {
     errorMsg = 'Multiple "Background" definitions in the same file are disallowed';
     rule = 'up-to-one-background-per-file';

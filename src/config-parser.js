@@ -18,8 +18,8 @@ function getConfiguration(configPath, additionalRulesDirs) {
     }
     configPath = defaultConfigFileName;
   }
-  var config = JSON.parse(stripJsonComments(fs.readFileSync(configPath, {encoding: 'UTF-8'})));
-  var errors = verifyConfig(config, additionalRulesDirs);
+  const config = JSON.parse(stripJsonComments(fs.readFileSync(configPath, {encoding: 'UTF-8'})));
+  const errors = verifyConfig(config, additionalRulesDirs);
 
   if (errors.length > 0) {
     logger.boldError('Error(s) in configuration file:');

@@ -63,7 +63,7 @@ function run(feature, unused, configuration) {
 
   function testTags(tags, type) {
     _(tags).groupBy('location.line').forEach(tagLocationGroup => {
-      var firstTag = _(tagLocationGroup).sortBy('location.column').head();
+      const firstTag = _(tagLocationGroup).sortBy('location.column').head();
       test(firstTag.location, type);
     });
   }

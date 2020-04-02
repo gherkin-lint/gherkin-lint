@@ -12,7 +12,7 @@ function getAllRules(additionalRulesDirs) {
   rulesDirs.forEach(rulesDir => {
     rulesDir = path.resolve(rulesDir);
     glob.sync(`${rulesDir}/*.js`).forEach(file => {
-      var rule = require(file);
+      const rule = require(file);
       rules[rule.name] = rule;
     });
   });

@@ -15,9 +15,9 @@ function run(feature) {
     }
 
     // Maps of variableName -> lineNo
-    var examplesVariables = {};
-    var scenarioVariables = {};
-    var match;
+    const examplesVariables = {};
+    const scenarioVariables = {};
+    let match;
 
     // Collect all the entries of the examples table
     child.scenario.examples.forEach(example => {
@@ -71,7 +71,7 @@ function run(feature) {
     });
     
 
-    for (var exampleVariable in examplesVariables) {
+    for (const exampleVariable in examplesVariables) {
       if (!scenarioVariables[exampleVariable]) {
         errors.push({
           message: 'Examples table variable "' + exampleVariable + '" is not used in any step',
@@ -81,7 +81,7 @@ function run(feature) {
       }
     }
 
-    for (var scenarioVariable in scenarioVariables) {
+    for (const scenarioVariable in scenarioVariables) {
       if (!examplesVariables[scenarioVariable]) {
         errors.push({
           message: 'Step variable "' + scenarioVariable + '" does not exist in the examples table',
