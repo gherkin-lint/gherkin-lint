@@ -33,7 +33,7 @@ function getNodeType(node, language) {
 function getLanguageInsitiveKeyword(node, language) {
   const languageMapping = Gherkin.dialects()[language];
 
-  return _.findKey(languageMapping, values => values instanceof Array && values.indexOf(node.keyword) !== -1);
+  return _.findKey(languageMapping, values => values instanceof Array && values.includes(node.keyword));
 }
 
 

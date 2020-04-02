@@ -12,7 +12,7 @@ function checkTagExists(requiredTag, scenarioTags, scenarioType) {
   if (!result) {
     const lines = [];
     scenarioTags.forEach((tag) => {
-      if (lines.indexOf(tag.location.line) === -1) {
+      if (!lines.includes(tag.location.line)) {
         lines.push(tag.location.line);
       }
     });
