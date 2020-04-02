@@ -132,12 +132,10 @@ function getFormattedFatalError(error) {
   } else if(error.data.includes('got \'Feature')) {
     errorMsg = 'Multiple "Feature" definitions in the same file are disallowed';
     rule = 'one-feature-per-file';
-  } else if (error.data.includes(
-    'expected: #EOF, #TableRow, #DocStringSeparator, #StepLine, #TagLine, #ScenarioLine, #RuleLine, #Comment, #Empty, got'
-  ) ||
-             error.data.includes(
-               'expected: #EOF, #TableRow, #DocStringSeparator, #StepLine, #TagLine, #ExamplesLine, #ScenarioLine, #RuleLine, #Comment, #Empty, got'
-             )) {
+  } else if (
+    error.data.includes('expected: #EOF, #TableRow, #DocStringSeparator, #StepLine, #TagLine, #ScenarioLine, #RuleLine, #Comment, #Empty, got') ||
+    error.data.includes('expected: #EOF, #TableRow, #DocStringSeparator, #StepLine, #TagLine, #ExamplesLine, #ScenarioLine, #RuleLine, #Comment, #Empty, got')
+  ) {
     errorMsg = 'Steps should begin with "Given", "When", "Then", "And" or "But". Multiline steps are dissallowed';
     rule = 'no-multiline-steps';
 
