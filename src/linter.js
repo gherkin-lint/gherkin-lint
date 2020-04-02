@@ -92,7 +92,7 @@ function processFatalErrors(errors) {
     errors = result.errors;
     errorMsgs = result.errorMsgs;
   }
-  errors.forEach(function(error) {
+  errors.forEach(error => {
     errorMsgs.push(getFormattedFatalError(error));
   });
   return errorMsgs;

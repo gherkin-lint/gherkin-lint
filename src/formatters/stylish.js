@@ -28,7 +28,7 @@ function stylizeError(error, maxLineLength, maxMessageLength, addColors) {
 
 function getMaxLineLength(result) {
   var length = 0;
-  result.errors.forEach(function(error) {
+  result.errors.forEach(error => {
     var errorStr = error.line.toString();
     if (errorStr.length > length) {
       length = errorStr.length;
@@ -39,7 +39,7 @@ function getMaxLineLength(result) {
 
 function getMaxMessageLength(result, maxLineLength, consoleWidth) {
   var length = 0;
-  result.errors.forEach(function(error) {
+  result.errors.forEach(error => {
     var errorStr = error.message.toString();
 
     // Get the length of the formatted error message when no extra padding is applied
@@ -62,13 +62,13 @@ function printResults(results) {
     consoleWidth = process.stdout.columns;
   }
 
-  results.forEach(function(result) {
+  results.forEach(result => {
     if (result.errors.length > 0) {
       var maxLineLength = getMaxLineLength(result);
       var maxMessageLength = getMaxMessageLength(result, maxLineLength, consoleWidth);
       console.error(stylizeFilePath(result.filePath));
 
-      result.errors.forEach(function(error) {
+      result.errors.forEach(error => {
         console.error(stylizeError(error, maxLineLength, maxMessageLength, true));
       });
       console.error('\n');

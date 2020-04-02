@@ -12,14 +12,14 @@ function run(feature) {
   // should be applied on a feature level
   let childrenTags = [];
 
-  feature.children.forEach(function(child) {
+  feature.children.forEach(child => {
     if (child.scenario) {
       let scenario = child.scenario;
 
       childrenTags.push(getTagNames(scenario));
 
       let exampleTags = [];
-      scenario.examples.forEach(function(example) {
+      scenario.examples.forEach(example => {
         exampleTags.push(getTagNames(example));
       });
 
@@ -51,7 +51,7 @@ function run(feature) {
 }
 
 function getTagNames(node) {
-  return _.map(node.tags, function(tag) {
+  return _.map(node.tags, tag => {
     return tag.name;
   });
 }

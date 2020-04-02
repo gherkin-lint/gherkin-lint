@@ -8,11 +8,11 @@ function run(feature) {
   let errors = [];
 
   checkTags(feature, errors);
-  feature.children.forEach(function(child) {
+  feature.children.forEach(child => {
     if (child.scenario) {
       checkTags(child.scenario, errors);
 
-      child.scenario.examples.forEach(function(example) {
+      child.scenario.examples.forEach(example => {
         checkTags(example, errors);
       });
     }
@@ -22,7 +22,7 @@ function run(feature) {
 }
 
 function checkTags(node, errors) {
-  node.tags.forEach(function(tag) {
+  node.tags.forEach(tag => {
     if (tag.name.indexOf('#') > 0) {
       errors.push({
         message: 'Partially commented tag lines not allowed',

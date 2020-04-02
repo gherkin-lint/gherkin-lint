@@ -15,12 +15,12 @@ function run(feature, unused, configuration) {
 
   checkTags(feature, allowedTags, errors);
 
-  feature.children.forEach(function(child) {
+  feature.children.forEach(child => {
     if (child.scenario) {
       checkTags(child.scenario, allowedTags, errors);
 
       if (child.scenario.examples) {
-        child.scenario.examples.forEach(function(example) {
+        child.scenario.examples.forEach(example => {
           checkTags(example, allowedTags, errors);
         });
       }
@@ -32,10 +32,10 @@ function run(feature, unused, configuration) {
 
 function checkTags(node, allowedTags, errors) {
   return (node.tags || [])
-    .filter(function(tag) {
+    .filter(tag => {
       return !isAllowed(tag, allowedTags);
     })
-    .forEach(function(tag) {
+    .forEach(tag => {
       errors.push(createError(node, tag));
     });
 }

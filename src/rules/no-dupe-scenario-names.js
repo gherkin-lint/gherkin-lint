@@ -16,7 +16,7 @@ function run(feature, file, configuration) {
     scenarios = [];
   }
 
-  feature.children.forEach(function(child) {
+  feature.children.forEach(child => {
     if (child.scenario) {
       if (child.scenario.name in scenarios) {
         const dupes = getFileLinePairsAsStr(scenarios[child.scenario.name].locations);
@@ -48,7 +48,7 @@ function run(feature, file, configuration) {
 
 function getFileLinePairsAsStr(objects) {
   let strings = [];
-  objects.forEach(function(object) {
+  objects.forEach(object => {
     strings.push(object.file + ':' + object.line);
   });
   return strings.join(', ');

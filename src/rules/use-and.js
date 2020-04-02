@@ -9,11 +9,11 @@ function run(feature) {
 
   let errors = [];
   
-  feature.children.forEach(function(child) {
+  feature.children.forEach(child => {
     const node = child.background || child.scenario;
     let previousKeyword = undefined;
 
-    node.steps.forEach(function(step) {
+    node.steps.forEach(step => {
       const keyword = gherkinUtils.getLanguageInsitiveKeyword(step, feature.language);
       if (keyword === 'and') {
         return;

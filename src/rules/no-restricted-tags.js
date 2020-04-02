@@ -18,12 +18,12 @@ function run(feature, unused, configuration) {
 
   checkTags(feature, language, forbiddenTags, errors);
   
-  feature.children.forEach(function(child) {
+  feature.children.forEach(child => {
     // backgrounds don't have tags
     if (child.scenario) {
       checkTags(child.scenario, language, forbiddenTags, errors);
 
-      child.scenario.examples.forEach(function(example) {
+      child.scenario.examples.forEach(example => {
         checkTags(example, language, forbiddenTags, errors);
       });
     }      
@@ -35,7 +35,7 @@ function run(feature, unused, configuration) {
 
 function checkTags(node, language, forbiddenTags, errors) {
   const nodeType = gherkinUtils.getNodeType(node, language);
-  node.tags.forEach(function(tag) {
+  node.tags.forEach(tag => {
     if (_.includes(forbiddenTags, tag.name)) {
       errors.push({
         message: `Forbidden tag ${tag.name} on ${nodeType}`,

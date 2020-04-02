@@ -15,12 +15,12 @@ function run(feature, unused, config) {
   const maxScenarios = mergedConfiguration.maxScenarios;
   let count = feature.children.length;
 
-  feature.children.forEach(function (child) {
+  feature.children.forEach(child => {
     if (child.background) {
       count = count - 1;
     } else if (child.scenario.examples.length  && mergedConfiguration.countOutlineExamples) {
       count = count - 1;
-      child.scenario.examples.forEach(function (example) {
+      child.scenario.examples.forEach(example => {
         if (example.tableBody) {
           count = count + example.tableBody.length;
         }

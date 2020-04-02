@@ -23,7 +23,7 @@ function getConfiguration(configPath, additionalRulesDirs) {
 
   if (errors.length > 0) {
     logger.boldError('Error(s) in configuration file:');
-    errors.forEach(function(error) {
+    errors.forEach(error => {
       logger.error(`- ${error}`);
     });
     process.exit(1);

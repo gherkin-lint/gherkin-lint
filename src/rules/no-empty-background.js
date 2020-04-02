@@ -7,7 +7,7 @@ function run(feature) {
 
   let errors = [];
 
-  feature.children.forEach(function(child) {
+  feature.children.forEach(child => {
     if (child.background) {
       if (child.background.steps.length === 0) {
         errors.push(createError(child.background));
