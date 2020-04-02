@@ -29,14 +29,10 @@ function verifyRuleConfiguration(rule, ruleConfig, additionalRulesDirs, errors) 
     let isValidSubConfig;
 
     if (typeof(ruleConfig[1]) === 'string') {
-      isValidSubConfig = (availableConfigs, subConfig) => {
-        return ruleObj.availableConfigs.indexOf(subConfig) > -1;
-      };
+      isValidSubConfig = (availableConfigs, subConfig) => ruleObj.availableConfigs.indexOf(subConfig) > -1;
       testSubconfig(genericErrorMsg, rule, ruleConfig[1], isValidSubConfig, additionalRulesDirs, errors);
     } else {
-      isValidSubConfig = (availableConfigs, subConfig) => {
-        return ruleObj.availableConfigs[subConfig] !== undefined;
-      };
+      isValidSubConfig = (availableConfigs, subConfig) => ruleObj.availableConfigs[subConfig] !== undefined;
       for (let subConfig in ruleConfig[1]) {
         testSubconfig(genericErrorMsg, rule, subConfig, isValidSubConfig, additionalRulesDirs, errors);
       }

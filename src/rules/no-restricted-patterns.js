@@ -38,18 +38,14 @@ function run(feature, unused, configuration) {
 
 function getRestrictedPatterns(configuration) {
   // Patterns applied to everything; feature, scenarios, etc.
-  let globalPatterns = (configuration.Global || []).map(pattern => {
-    return new RegExp(pattern, 'i');
-  });
+  let globalPatterns = (configuration.Global || []).map(pattern => new RegExp(pattern, 'i'));
 
   let restrictedPatterns = {};
   Object.keys(availableConfigs).forEach(key => {
     const resolvedKey = key.toLowerCase().replace(/ /g, '');
     const resolvedConfig = (configuration[key] || []);
     
-    restrictedPatterns[resolvedKey] = resolvedConfig.map(pattern => {
-      return new RegExp(pattern, 'i');
-    });
+    restrictedPatterns[resolvedKey] = resolvedConfig.map(pattern => new RegExp(pattern, 'i'));
 
     restrictedPatterns[resolvedKey] = restrictedPatterns[resolvedKey].concat(globalPatterns);
   });
@@ -105,9 +101,7 @@ function check(node, property, pattern, language, errors) {
     strings = node[property]
       .replace(escapedNewLine, escapedNewLineSentinel)
       .split('\n')
-      .map(string => {
-        return string.replace(escapedNewLineSentinel, escapedNewLine);
-      });
+      .map(string => string.replace(escapedNewLineSentinel, escapedNewLine));
   }
   
   for (let i = 0; i < strings.length; i++) {

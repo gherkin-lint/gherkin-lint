@@ -80,9 +80,7 @@ function lint(files, configuration, additionalRulesDirs) {
 
         results.push(fileBlob);
       });
-  })).then(() => {
-    return results;
-  });
+  })).then(() => results);
 }
 
 function processFatalErrors(errors) {

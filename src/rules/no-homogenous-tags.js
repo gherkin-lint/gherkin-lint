@@ -51,9 +51,7 @@ function run(feature) {
 }
 
 function getTagNames(node) {
-  return _.map(node.tags, tag => {
-    return tag.name;
-  });
+  return _.map(node.tags, tag => tag.name);
 }
 
 module.exports = {

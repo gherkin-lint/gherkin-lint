@@ -32,9 +32,7 @@ function run(feature, unused, configuration) {
 
 function checkTags(node, allowedTags, errors) {
   return (node.tags || [])
-    .filter(tag => {
-      return !isAllowed(tag, allowedTags);
-    })
+    .filter(tag => !isAllowed(tag, allowedTags))
     .forEach(tag => {
       errors.push(createError(node, tag));
     });

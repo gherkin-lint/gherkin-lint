@@ -37,9 +37,7 @@ function run(feature, unused, config) {
 
       // Check each Scenario for the required tags
       const requiredTagErrors = config.tags
-        .map((requiredTag) => {
-          return checkTagExists(requiredTag, child.scenario.tags || [], type);
-        })
+        .map(requiredTag => checkTagExists(requiredTag, child.scenario.tags || [], type))
         .filter((item) =>
           typeof item === 'object' && item.message
         );
