@@ -32,7 +32,6 @@ Or check this:
 | `up-to-one-background-per-file` *           | Disallows multiple Background definition in the same file                                |
 | `no-multiline-steps` *                      | Disallows mutiline Steps                                                                 || &nbsp;                                      |                                                                                          |
 | [`allowed-tags`](#allowed-tags)             | Just the listed tags are allowed                                                         |
-| [`no-restricted-patterns`](#no-restricted-patterns)        | A list of patterns to disallow globally, or specifically in features, backgrounds, scenarios, or scenario outlines                                 |
 | [`indentation`](#indentation)               | Allows the user to specify indentation rules                                             |
 | [`max-scenarios-per-file`](#max-scenarios-per-file)| Allows the user to specify the max number of scenarios per feature file           |
 | [`name-length`](#name-length)               | Allows restricting length of Feature/Scenario/Step names                                 |
@@ -43,11 +42,12 @@ Or check this:
 | `no-duplicate-tags`                         | Disallows duplicate tags on the same Feature or Scenario                                 |
 | `no-empty-background`                       | Disallows features with backgrounds without steps                                        |
 | `no-empty-file`                             | Disallows empty feature files                                                            |
-| `no-examples-in-scenarios`                  | Disallow the use of "Examples" in scenarios                                              |
+| `no-examples-in-scenarios`                  | Disallow the use of "Examples" in Scenarios, only allowed in Scenario Outlines           |
 | `no-files-without-scenarios`                | Disallows files with no scenarios                                                        |
 | `no-homogenous-tags`                        | Disallows tags present on every Scenario in a Feature, rather than on the Feature itself |
 | `no-multiple-empty-lines`                   | Disallows multiple empty lines                                                           |
 | `no-partially-commented-tag-lines`          | Disallows partially commented tag lines                                                  |
+| [`no-restricted-patterns`](#no-restricted-patterns)        | A list of patterns to disallow globally, or specifically in features, backgrounds, scenarios, or scenario outlines                                 |
 | [`no-restricted-tags`](#no-restricted-tags) | Disallow use of particular @tags                                                         |
 | `no-scenario-outlines-without-examples`     | Disallows scenario outlines without examples                                             |
 | `no-superfluous-tags`                       | Disallows tags present on a Feature and a Scenario in that Feature                       |
@@ -55,8 +55,9 @@ Or check this:
 | `no-unnamed-features`                       | Disallows empty Feature name                                                             |
 | `no-unnamed-scenarios`                      | Disallows empty Scenario name                                                            |
 | `no-unused-variables`                       | Disallows unused variables in scenario outlines                                          |
+| `one-space-between-tags`                    | Tags on the same line must be separated by a single space                                |
+| `required-tags`                             | Require tags/patterns of tags on Scenarios                                               |
 | [`scenario-size`](#scenario-size)           | Allows restricting the maximum number of steps in a scenario, scenario outline and background |
-| `one-space-between-tags`                    | Tags on the same time must be separated by a single space                                |
 | `use-and`                                   | Disallows repeated step names requiring use of And instead                               |
 
 \* These rules cannot be turned off because they detect undocumented cucumber functionality that causes the [gherkin](https://github.com/cucumber/gherkin-javascript) parser to crash.
@@ -91,7 +92,7 @@ All patterns are treated as case insensitive.
 The rule can be configured like this:
 ```
 {
-  "no-restricted-patterns": ["on", {[
+  "no-restricted-patterns": ["on", {
     "Global": [
       "^globally restricted pattern"
     ],
@@ -108,7 +109,7 @@ The rule can be configured like this:
       "show last response",
       "a debugging step"
     ]
-  ]}]
+  }]
 }
 ```
 
@@ -150,13 +151,17 @@ This feature is able to handle all localizations of the gherkin steps.
 
 
 ### max-scenarios-per-file
-`max-scenarios-per-file` rule can be configured to set the number of max scenarios per file. The configuration looks like this:
+The `max-scenarios-per-file` supports some configuration options:
+
+- `maxScenarios` (number) the maximum scenarios per file after which the rule fails - defaults to `10`
+- `countOutlineExamples` (boolean) whether to count every example row for a Scenario Outline, as opposed to just 1 for the whole block - defaults to `true`
+
+The configuration looks like this (showing the defaults):
 ```
 {
-  "max-scenarios-per-file": {"on", {"maxScenarios": 10}}
+  "max-scenarios-per-file": ["on", {"maxScenarios": 10, "countOutlineExamples": true}]
 }
 ```
-The default value is 10.
 
 
 ### name-length

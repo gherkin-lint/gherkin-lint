@@ -1,12 +1,12 @@
-var _ = require('lodash');
+const _ = require('lodash');
 
-var rule = 'no-duplicate-tags';
+const rule = 'no-duplicate-tags';
 
 function run(feature) {
   if (!feature) {
     return [];
   }
-  var errors = [];
+  let errors = [];
 
   verifyTags(feature, errors);
   if (feature.children !== undefined) {
@@ -25,8 +25,8 @@ function run(feature) {
 }
 
 function verifyTags(node, errors) {
-  var failedTagNames = [];
-  var uniqueTagNames = [];
+  const failedTagNames = [];
+  const uniqueTagNames = [];
   (node.tags || []).forEach(function(tag) {
     if (!_.includes(failedTagNames, tag.name)) {
       if (_.includes(uniqueTagNames, tag.name)) {

@@ -1,35 +1,45 @@
-var _ = require('lodash');
-var rule = 'no-restricted-tags';
-var availableConfigs = {
+const _ = require('lodash');
+const gherkinUtils = require('./utils/gherkin.js');
+
+const rule = 'no-restricted-tags';
+const availableConfigs = {
   'tags': []
 };
 
-function noRestrictedTags(feature, fileName, configuration) {
-  var forbiddenTags = configuration.tags;
-  var errors = [];
 
-  checkTags(feature, forbiddenTags, errors);
+function run(feature, unused, configuration) {
+  if (!feature) {
+    return [];
+  }
+  
+  const forbiddenTags = configuration.tags;
+  const language = feature.language;
+  let errors = [];
+
+  checkTags(feature, language, forbiddenTags, errors);
   if (feature.children) {
     feature.children.forEach(function(child) {
-      checkTags(child, forbiddenTags, errors);
+      // backgrounds don't have tags
+      if (child.scenario) {
+        checkTags(child.scenario, language, forbiddenTags, errors);
 
-      if (child.examples) {
-        child.examples.forEach(function(example) {
-          checkTags(example, forbiddenTags, errors);
+        child.scenario.examples.forEach(function(example) {
+          checkTags(example, language, forbiddenTags, errors);
         });
-      }
+      }      
     });
   }
   return errors;
 }
 
-function checkTags(node, forbiddenTags, errors) {
-  var nodeTags = node.tags || [];
 
+function checkTags(node, language, forbiddenTags, errors) {
+  const nodeTags = node.tags || [];
+  const nodeType = gherkinUtils.getNodeType(node, language);
   nodeTags.forEach(function(tag) {
     if (_.includes(forbiddenTags, tag.name)) {
       errors.push({
-        message: 'Forbidden tag ' + tag.name + ' on ' + node.type,
+        message: `Forbidden tag ${tag.name} on ${nodeType}`,
         rule   : rule,
         line   : tag.location.line
       });
@@ -37,8 +47,9 @@ function checkTags(node, forbiddenTags, errors) {
   });
 }
 
+
 module.exports = {
   name: rule,
-  run: noRestrictedTags,
+  run: run,
   availableConfigs: availableConfigs
 };

@@ -1,16 +1,18 @@
 // Operations on rules
-var fs = require('fs');
-var path = require('path');
+const glob = require('glob');
+const path = require('path');
 
 function getAllRules(additionalRulesDirs) {
-  var rules = {};
-  var rulesDirs = [
+  let rules = {};
+  
+  const rulesDirs = [
     path.join(__dirname, 'rules')
   ].concat(additionalRulesDirs || []);
+
   rulesDirs.forEach(function(rulesDir) {
     rulesDir = path.resolve(rulesDir);
-    fs.readdirSync(rulesDir).forEach(function(file) {
-      var rule = require(path.join(rulesDir, file));
+    glob.sync(`${rulesDir}/*.js`).forEach(function(file) {
+      var rule = require(file);
       rules[rule.name] = rule;
     });
   });
@@ -33,13 +35,13 @@ function isRuleEnabled(ruleConfig) {
 }
 
 function runAllEnabledRules(feature, file, configuration, additionalRulesDirs) {
-  var errors = [];
-  var rules = getAllRules(additionalRulesDirs);
+  let errors = [];
+  const rules = getAllRules(additionalRulesDirs);
   Object.keys(rules).forEach(function(ruleName) {
-    var rule = rules[ruleName];
+    let rule = rules[ruleName];
     if (isRuleEnabled(configuration[rule.name])) {
-      var ruleConfig = Array.isArray(configuration[rule.name]) ? configuration[rule.name][1] : {};
-      var error = rule.run(feature, file, ruleConfig);
+      const ruleConfig = Array.isArray(configuration[rule.name]) ? configuration[rule.name][1] : {};
+      const error = rule.run(feature, file, ruleConfig);
       if (error) {
         errors = errors.concat(error);
       }

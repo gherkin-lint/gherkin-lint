@@ -1,8 +1,8 @@
-var fs = require('fs');
-var stripJsonComments = require('strip-json-comments');
-var verifyConfig = require('./config-verifier.js');
-var logger = require('./logger.js');
-var defaultConfigFileName = '.gherkin-lintrc';
+const fs = require('fs');
+const stripJsonComments = require('strip-json-comments');
+const verifyConfig = require('./config-verifier.js');
+const logger = require('./logger.js');
+const defaultConfigFileName = '.gherkin-lintrc';
 
 function getConfiguration(configPath, additionalRulesDirs) {
   if (configPath) {

@@ -1,43 +1,56 @@
 var _ = require('lodash');
 var Gherkin = require('gherkin').default;
 var fs = require('fs');
-var path = require('path');
 var rules = require('./rules.js');
+var logger = require('./logger.js');
 
 function readAndParseFile(filePath) {
   let feature ='';
   let parsingErrors = [];
-  let fileName = path.basename(filePath);
+  let fileContent = [];
 
   return new Promise((resolve, reject) => {
     const options = {
       includeGherkinDocument: true,
       includePickles: false,
-      includeSource: false,
+      includeSource: true,
     };
 
     const stream = Gherkin.fromPaths([filePath], options);
 
     stream.on('data', envelope => {
+      //console.log(envelope);
       if (envelope.attachment) {
         // An attachment implies that there was a parsing error
         parsingErrors.push(envelope.attachment);
-      } else if (envelope.gherkinDocument) {
-        feature = envelope.gherkinDocument.feature;
+      } else {
+        if (envelope.gherkinDocument) {
+          feature = envelope.gherkinDocument.feature;
+        }
+        if (envelope.source) {
+          fileContent = envelope.source.data.split(/\r\n|\r|\n/);
+        }
       }
     });
 
     stream.on('error', data => {
-      reject(data);
+      logger.error(`Gerkin emmited an error while parsing ${filePath}: ${data}`);
+      let error = {data: data};
+      reject(processFatalErrors(error));
     });
+
     stream.on('end', () => { 
       if (parsingErrors.length) {
         // Process all errors/attachments at once, because a tag on a background will 
-        // generate error events, and it would be confusing to print a message for each
-        // one of them, when they are all caused by a single error
+        // generate multiple error events, and it would be confusing to print a message for each
+        // one of them, when they are all caused by a single cause
         reject(processFatalErrors(parsingErrors));
       } else {
-        resolve({feature, fileName});
+        var file = {
+          relativePath: filePath,
+          lines: fileContent,
+        };
+        resolve({feature, file});
       }
     });
   });
@@ -53,8 +66,8 @@ function lint(files, configuration, additionalRulesDirs) {
     return readAndParseFile(f)
       .then(
         // Handle Promise.resolve 
-        ({feature, fileName}) => {
-          perFileErrors = rules.runAllEnabledRules(feature, fileName, configuration, additionalRulesDirs);
+        ({feature, file}) => {
+          perFileErrors = rules.runAllEnabledRules(feature, file, configuration, additionalRulesDirs);
         },
         // Handle Promise.reject 
         (parsingErrors) => {

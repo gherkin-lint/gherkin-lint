@@ -29,7 +29,7 @@ describe('Scenario size Rule', function() {
     {
       line: 17,
       messageElements: {
-        type: 'ScenarioOutline',
+        type: 'Scenario Outline',
         actual: 5,
         expected: 3
       }

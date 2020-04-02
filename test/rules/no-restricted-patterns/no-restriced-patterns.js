@@ -161,7 +161,7 @@ describe('No Restricted Patterns Rule', function() {
         messageElements: {
           pattern: 'a bad description',
           string: 'A bad description',
-          nodeType:'ScenarioOutline', 
+          nodeType:'Scenario Outline', 
           property: 'description'
         },
         line: 4
@@ -170,7 +170,7 @@ describe('No Restricted Patterns Rule', function() {
         messageElements: {
           string: 'Disallowed exact and partial matching',
           pattern: '^.*disallowed.*$',
-          nodeType:'ScenarioOutline', 
+          nodeType:'Scenario Outline', 
           property: 'name'
         },
         line: 4

@@ -1,11 +1,11 @@
-var rule = 'no-background-only-scenario';
+const rule = 'no-background-only-scenario';
 
 function run(feature) {
   if (!feature) {
     return [];
   }
 
-  var errors = [];
+  let errors = [];
   
   feature.children.forEach(function(child) {
     if (child.background) {

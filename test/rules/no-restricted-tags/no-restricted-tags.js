@@ -29,11 +29,11 @@ describe('No Restricted Tags Rule', function() {
       line: 7
     },
     {
-      messageElements: {tag: '@badTag', nodeType:'ScenarioOutline'},
+      messageElements: {tag: '@badTag', nodeType:'Scenario Outline'},
       line: 11
     },
     {
-      messageElements: {tag: '@anotherBadTag', nodeType:'ScenarioOutline'},
+      messageElements: {tag: '@anotherBadTag', nodeType:'Scenario Outline'},
       line: 11
     },
     {

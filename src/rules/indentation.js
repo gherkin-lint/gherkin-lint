@@ -1,8 +1,8 @@
-var _ = require('lodash');
-var languageMapping = require('gherkin').default.dialects;
-var rule = 'indentation';
+const _ = require('lodash');
+const gherkinUtils = require('./utils/gherkin.js');
 
-var defaultConfig = {
+const rule = 'indentation';
+const defaultConfig = {
   'Feature': 0,
   'Background': 0,
   'Scenario': 0,
@@ -16,14 +16,14 @@ var defaultConfig = {
   'but': 2
 };
 
-var availableConfigs = _.merge({}, defaultConfig, {
+const availableConfigs = _.merge({}, defaultConfig, {
   // The values here are unused by the config parsing logic.
   'feature tag': -1,
   'scenario tag': -1
 });
 
 function mergeConfiguration(configuration) {
-  var mergedConfiguration = _.merge({}, defaultConfig, configuration);
+  let mergedConfiguration = _.merge({}, defaultConfig, configuration);
   if (!Object.prototype.hasOwnProperty.call(mergedConfiguration, 'feature tag')) {
     mergedConfiguration['feature tag'] = mergedConfiguration['Feature'];
   }
@@ -38,8 +38,9 @@ function run(feature, unused, configuration) {
     return [];
   }
 
-  var errors = [];
-  var mergedConfiguration = mergeConfiguration(configuration);
+  let errors = [];
+  const mergedConfiguration = mergeConfiguration(configuration);
+
   function test(parsedLocation, type) {
     // location.column is 1 index based so, when we compare with the expected
     // indentation we need to subtract 1
@@ -55,10 +56,7 @@ function run(feature, unused, configuration) {
   }
 
   function testStep(step) {
-    var keyword = step.keyword;
-    var stepType = _.findKey(languageMapping[feature.language], function(values) {
-      return values instanceof Array && values.indexOf(keyword) !== -1;
-    });
+    let stepType = gherkinUtils.getLanguageInsitiveKeyword(step, feature.language);
     stepType = stepType in configuration ? stepType : 'Step';
     test(step.location, stepType);
   }

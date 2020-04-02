@@ -1,13 +1,13 @@
-var _ = require('lodash');
-var rule = 'name-length';
+const _ = require('lodash');
+const rule = 'name-length';
 
-var availableConfigs = {
+const availableConfigs = {
   'Feature': 70,
   'Step': 70,
   'Scenario': 70
 };
 
-var errors = [];
+let errors = [];
 
 function test(name, location, configuration, type) {
   if (name && (name.length > configuration[type])) {
@@ -30,12 +30,12 @@ function run(feature, unused, configuration) {
   }
 
   errors = [];
-  var mergedConfiguration = _.merge(availableConfigs, configuration);
+  const mergedConfiguration = _.merge(availableConfigs, configuration);
   
   // Check Feature name length
   test(feature.name, feature.location, mergedConfiguration, 'Feature');
 
-  feature.children.forEach(function(child) {
+  feature.children.forEach(function(child) { 
     if (child.background) {
       testSteps(child.background, mergedConfiguration);
     } else {

@@ -1,21 +1,21 @@
-var rule = 'no-dupe-feature-names';
-var features = [];
+const rule = 'no-dupe-feature-names';
+const features = [];
 
-function noDuplicateFeatureNames(feature, fileName) {
+function run(feature, file) {
   if (!feature) {
     return [];
   }
-  var errors = [];
+  let errors = [];
   if (feature.name in features) {
-    var dupes = features[feature.name].files.join(', ');
-    features[feature.name].files.push(fileName);
+    const dupes = features[feature.name].files.join(', ');
+    features[feature.name].files.push(file.relativePath);
     errors.push({
       message: 'Feature name is already used in: ' + dupes,
       rule   : rule,
       line   : feature.location.line
     });
   } else {
-    features[feature.name] = {files: [fileName]};
+    features[feature.name] = {files: [file.relativePath]};
   }
   
   return errors;
@@ -23,5 +23,5 @@ function noDuplicateFeatureNames(feature, fileName) {
 
 module.exports = {
   name: rule,
-  run: noDuplicateFeatureNames
+  run: run
 };

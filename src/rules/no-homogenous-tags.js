@@ -1,16 +1,16 @@
-var _ = require('lodash');
+const _ = require('lodash');
 
-var rule = 'no-homogenous-tags';
+const rule = 'no-homogenous-tags';
 
 function run(feature) {
   if (!feature) {
     return [];
   }
-  var errors = [];
+  let errors = [];
 
   // Tags that exist in every scenario and scenario outline 
   // should be applied on a feature level
-  var childrenTags = [];
+  let childrenTags = [];
 
   feature.children.forEach(function(child) {
     if (child.scenario) {
@@ -18,12 +18,12 @@ function run(feature) {
 
       childrenTags.push(getTagNames(scenario));
 
-      var exampleTags = [];
+      let exampleTags = [];
       scenario.examples.forEach(function(example) {
         exampleTags.push(getTagNames(example));
       });
 
-      var homogenousExampleTags = _.intersection(...exampleTags);
+      const homogenousExampleTags = _.intersection(...exampleTags);
       if (homogenousExampleTags.length) {
         errors.push({
           message: 'All Examples of a Scenario Outline have the same tag(s), ' +
@@ -36,7 +36,7 @@ function run(feature) {
     }    
   });
 
-  var homogenousTags = _.intersection(...childrenTags);
+  const homogenousTags = _.intersection(...childrenTags);
   if (homogenousTags.length) {
     errors.push({
       message: 'All Scenarios on this Feature have the same tag(s), ' +

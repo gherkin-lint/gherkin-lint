@@ -1,25 +1,26 @@
-var rule = 'no-dupe-scenario-names';
-var scenarios = [];
-var availableConfigs = [
+const rule = 'no-dupe-scenario-names';
+const availableConfigs = [
   'anywhere',
   'in-feature'
 ];
 
-function run(feature, fileName, configuration) {
+let scenarios = [];
+
+function run(feature, file, configuration) {
   if (!feature) {
     return [];
   }
-  var errors = [];
+  let errors = [];
   if(configuration === 'in-feature') {
     scenarios = [];
   }
   feature.children.forEach(function(child) {
     if (child.scenario) {
       if (child.scenario.name in scenarios) {
-        var dupes = getFileLinePairsAsStr(scenarios[child.scenario.name].locations);
+        const dupes = getFileLinePairsAsStr(scenarios[child.scenario.name].locations);
         
         scenarios[child.scenario.name].locations.push({
-          file: fileName, 
+          file: file.relativePath, 
           line: child.scenario.location.line
         });
 
@@ -31,7 +32,7 @@ function run(feature, fileName, configuration) {
         scenarios[child.scenario.name] = {
           locations: [
             {
-              file: fileName, 
+              file: file.relativePath, 
               line: child.scenario.location.line
             }
           ]
@@ -44,7 +45,7 @@ function run(feature, fileName, configuration) {
 }
 
 function getFileLinePairsAsStr(objects) {
-  var strings = [];
+  let strings = [];
   objects.forEach(function(object) {
     strings.push(object.file + ':' + object.line);
   });

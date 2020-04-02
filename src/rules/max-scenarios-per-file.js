@@ -1,23 +1,24 @@
-var _ = require('lodash');
-var rule = 'max-scenarios-per-file';
+const _ = require('lodash');
+const rule = 'max-scenarios-per-file';
 
-var defaultConfig = {
-  'maxScenarios': 10
+const defaultConfig = {
+  'maxScenarios': 10,
+  'countOutlineExamples': true
 };
 
 function run(feature, unused, config) {
   if (!feature) {
     return [];
   }
-  var errors = [];
-  var mergedConfiguration = _.merge({}, defaultConfig, config);
-  var maxScenarios = mergedConfiguration.maxScenarios;
-  var count = feature.children.length;
+  let errors = [];
+  const mergedConfiguration = _.merge({}, defaultConfig, config);
+  const maxScenarios = mergedConfiguration.maxScenarios;
+  let count = feature.children.length;
 
   feature.children.forEach(function (child) {
     if (child.background) {
       count = count - 1;
-    } else if (child.scenario.examples.length) {
+    } else if (child.scenario.examples.length  && mergedConfiguration.countOutlineExamples) {
       count = count - 1;
       child.scenario.examples.forEach(function (example) {
         if (example.tableBody) {

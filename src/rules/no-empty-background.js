@@ -1,11 +1,11 @@
-var rule = 'no-empty-background';
+const rule = 'no-empty-background';
 
 function run(feature) {
   if (!feature) {
     return [];
   }
 
-  var errors = [];
+  let errors = [];
 
   feature.children.forEach(function(child) {
     if (child.background) {

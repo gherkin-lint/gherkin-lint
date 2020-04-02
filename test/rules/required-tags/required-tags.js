@@ -15,13 +15,13 @@ describe('Required Tags Rule', function() {
       messageElements: {tags: '@requiredScenarioTag', nodeType: 'Scenario'},
       line: '7'
     }, {
-      messageElements: {tags: '@requiredScenarioTag', nodeType: 'ScenarioOutline'},
+      messageElements: {tags: '@requiredScenarioTag', nodeType: 'Scenario Outline'},
       line: '11,12'
     }, {
       messageElements: {tags: '@required-scenario-tag-\\d+', nodeType: 'Scenario'},
       line: '7'
     }, {
-      messageElements: {tags: '@required-scenario-tag-\\d+', nodeType: 'ScenarioOutline'},
+      messageElements: {tags: '@required-scenario-tag-\\d+', nodeType: 'Scenario Outline'},
       line: '11,12'
     }]);
   });

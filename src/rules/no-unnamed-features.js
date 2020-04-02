@@ -1,17 +1,20 @@
-var rule = 'no-unnamed-features';
+const rule = 'no-unnamed-features';
 
-function noUnNamedFeatures(feature) {
-  var errors = [];
+function run(feature) {
+  let errors = [];
+
   if (!feature || !feature.name) {
+    const location = feature ? feature.location.line : 0;
     errors.push({
       message: 'Missing Feature name',
       rule   : rule,
-      line   : feature.location && feature.location.line || 0});
+      line   : location
+    });
   }
   return errors;
 }
 
 module.exports = {
   name: rule,
-  run: noUnNamedFeatures
+  run: run
 };

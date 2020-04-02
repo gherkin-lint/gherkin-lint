@@ -21,7 +21,7 @@ describe('No Superfluous Tags Rule', function() {
       {
         line: 11,
         messageElements: {
-          childType: 'ScenarioOutline',
+          childType: 'Scenario Outline',
           parentType: 'Feature',
           tags: '@superfluoustag1'
         }
@@ -29,7 +29,7 @@ describe('No Superfluous Tags Rule', function() {
       {
         line: 11,
         messageElements: {
-          childType: 'ScenarioOutline',
+          childType: 'Scenario Outline',
           parentType: 'Feature',
           tags: '@superfluoustag2'
         }
@@ -46,7 +46,7 @@ describe('No Superfluous Tags Rule', function() {
         line: 14,
         messageElements: {
           childType: 'Examples',
-          parentType: 'ScenarioOutline',
+          parentType: 'Scenario Outline',
           tags: '@superfluoustag2'
         }
       },
@@ -54,7 +54,7 @@ describe('No Superfluous Tags Rule', function() {
         line: 14,
         messageElements: {
           childType: 'Examples',
-          parentType: 'ScenarioOutline',
+          parentType: 'Scenario Outline',
           tags: '@scenariotag3'
         }
       },

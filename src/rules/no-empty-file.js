@@ -1,8 +1,8 @@
-var _ = require('lodash');
-var rule = 'no-empty-file';
+const _ = require('lodash');
+const rule = 'no-empty-file';
 
 function run(feature) {
-  var errors = [];
+  let errors = [];
   if (_.isEmpty(feature)) {
     errors.push({
       message: 'Empty feature files are disallowed',

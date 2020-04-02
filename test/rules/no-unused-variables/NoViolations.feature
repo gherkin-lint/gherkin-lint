@@ -5,8 +5,12 @@ Background:
   Then I shouldn't get an unused variable error
 
 Scenario:
-  Given I have a scenario step with a word that looks like a <variable> even though it's not, because this is not a scenario outline step
-  Then I shouldn't get an unused variable error
+  Given I have a scenario step with a word that looks like a <a> 
+  Then I shouldn get an unused variable error cause 
+  
+  Examples:
+    | a |
+    | 1 |
 
 Scenario Outline: This is a Scenario Outline
   Given this is step <a>

@@ -1,16 +1,19 @@
-var _ = require('lodash');
-var rule = 'allowed-tags';
-var availableConfigs = {
+const _ = require('lodash');
+const rule = 'allowed-tags';
+
+const availableConfigs = {
   'tags': []
 };
 
-function run(feature, fileName, configuration) {
+function run(feature, unused, configuration) {
   if (!feature) {
     return [];
   }
 
-  var errors = [];
-  var allowedTags = configuration.tags;
+  let errors = [];
+  const allowedTags = configuration.tags;
+
+  checkTags(feature, allowedTags, errors);
   
   if (feature.children) {
     feature.children.forEach(function(child) {

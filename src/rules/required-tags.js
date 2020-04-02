@@ -1,9 +1,12 @@
+const gherkinUtils = require('./utils/gherkin.js');
+
 const rule = 'required-tags';
 const availableConfigs = {
   tags: []
 };
 
-const checkTagExists = (requiredTag, scenarioTags, scenarioType) => {
+
+function checkTagExists(requiredTag, scenarioTags, scenarioType) {
   const result = scenarioTags.length == 0
     || scenarioTags.some((tagObj) => RegExp(requiredTag).test(tagObj.name));
   if (!result) {
@@ -20,29 +23,37 @@ const checkTagExists = (requiredTag, scenarioTags, scenarioType) => {
     };
   }
   return result;
-};
+}
 
-const checkRequiredTagsExistInScenarios = (feature, fileName, config) => {
+function run(feature, unused, config) {
+  if (!feature || !feature.children) {
+    return [];
+  }
+
   let errors = [];
-  if (feature.children) {
-    feature.children.forEach((scenario) => {
+  feature.children.forEach((child) => {
+    if (child.scenario) {
+      const type = gherkinUtils.getNodeType(child.scenario, feature.language);
+
       // Check each Scenario for the required tags
       const requiredTagErrors = config.tags
         .map((requiredTag) => {
-          return checkTagExists(requiredTag, scenario.tags || [], scenario.type);
+          return checkTagExists(requiredTag, child.scenario.tags || [], type);
         })
         .filter((item) =>
           typeof item === 'object' && item.message
         );
+
       // Update errors
       errors = errors.concat(requiredTagErrors);
-    });
-  }
+    }
+  });
+  
   return errors;
-};
+}
 
 module.exports = {
   name: rule,
-  run: checkRequiredTagsExistInScenarios,
+  run: run,
   availableConfigs: availableConfigs
 };
