@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Module: rules/indentation</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Module: rules/indentation</h1>
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id="~availableConfigs"><span class="type-signature">(inner) </span>availableConfigs<span class="type-signature"> :Object</span></h4>
+
+
+
+
+<div class="description">
+    The indentation rule can be configured for each gherkin kewyword and uses following values by default:
+<br>- Expected indentation for Feature, Background, Scenario, Examples heading: 0 spaces
+<br>- Expected indentation for Steps and each example: 2 spaces
+<br>The user provided configuration will be merged with the defaults. That means that you only need to specify only the 
+keywords for which you want to override the default indentantion config.
+<br>Additionally:  
+<br>- `Step` will be used as a fallback if the keyword of the step, eg. 'given', is not specified.  
+<br>- If `feature tag` is not set then `Feature` is used as a fallback
+<br>- If `scenario tag` is not set then `Scenario` is used as a fallback.
+
+<br>This rule works in all locales.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="indentation.js.html">indentation.js</a>, <a href="indentation.js.html#line28">line 28</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+    <h5>Example</h5>
+    
+        <p class="code-caption">The rule configuration should look like this (only specify the keywords for which you want to override the defaults)</p>
+    
+    <pre class="prettyprint"><code>{
+  "indentation" : [
+    "on", {
+      "Feature": 0,
+      "Background": 0,
+      "Scenario": 0,
+      "Step": 2,
+      "Examples": 0,
+      "example": 2,
+      "given": 2,
+      "when": 2,
+      "then": 2,
+      "and": 2,
+      "but": 2,
+      "feature tag": 0,
+      "scenario tag": 0
+    }
+  ]
+}</code></pre>
+
+
+
+        
+            
+<h4 class="name" id="~name"><span class="type-signature">(inner) </span>name<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    The name of the rule
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="indentation.js.html">indentation.js</a>, <a href="indentation.js.html#line8">line 8</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~run"><span class="type-signature">(inner) </span>run<span class="signature">(feature, unused, configuration)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    runs the rule's logic against the provide feature file/object
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>feature</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Gerkin.Feature</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">A Gerkin.Feature object</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>unused</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Unused parameter, exists to conform to the rule run method signature</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>configuration</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The rule configuration whose format should match `availableConfigs`</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="indentation.js.html">indentation.js</a>, <a href="indentation.js.html#line70">line 70</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    - The detected errors
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-rules_allowed-tags.html">rules/allowed-tags</a></li><li><a href="module-rules_indentation.html">rules/indentation</a></li><li><a href="module-rules_max-scenarios-per-file.html">rules/max-scenarios-per-file</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sun Apr 05 2020 01:46:58 GMT+0300 (Eastern European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
