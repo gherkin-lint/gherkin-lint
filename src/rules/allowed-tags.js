@@ -3,17 +3,25 @@
 **/
 const _ = require('lodash');
 
+
 /** The name of the rule
 * @member {string} name
 **/
 const name = 'allowed-tags';
 
-/** The avalable configurations of the rule
-* @member {Object} availableConfigs
+
+/** 
+The allowed-tags rule should be configured with a list of the allowed tags, in order to have an effect.
+@example <caption>The rule configuration should look like this</caption>
+{
+  "allowed-tags": ["on", {"tags": ["@watch", "@wip", "@todo"]}]
+}
+@member {Object} availableConfigs
 **/
 const availableConfigs = {
   'tags': []
 };
+
 
 /**
 @function run
@@ -48,6 +56,7 @@ function run(feature, unused, configuration) {
 
   return errors;
 }
+
 
 /**
 @function checkTags
