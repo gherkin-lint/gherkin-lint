@@ -30,8 +30,9 @@ const availableConfigs = [
 
 
 /**
-@method
+@function run
 @description Runs the rule's logic against the provide feature file/object
+@alias module:run
 @param unused        {}               - Unused parameter, exists to conform to the rule run method signature
 @param file          {Array}          - A list of lines that represent the content of the feature file
 @param configuration {Object}         - The rule configuration whose format should match `availableConfigs`
@@ -65,6 +66,6 @@ function run(unused, file, configuration) {
 
 module.exports = {
   name,
-  runn,
+  run,
   availableConfigs
 };
