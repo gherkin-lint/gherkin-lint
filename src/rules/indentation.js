@@ -2,8 +2,12 @@
 * @module rules/indentation
 **/
 
+
+// --- Dependencies ---
 const _ = require('lodash');
 const gherkinUtils = require('./utils/gherkin.js');
+// --- Dependencies end ---
+
 
 /** The name of the rule
 * @member {string} name
@@ -26,39 +30,39 @@ const defaultConfig = {
 };
 
 /** 
-The indentation rule can be configured for each gherkin kewyword and uses following values by default:
-<br>- Expected indentation for Feature, Background, Scenario, Examples heading: 0 spaces
-<br>- Expected indentation for Steps and each example: 2 spaces
-<br>The user provided configuration will be merged with the defaults. That means that you only need to specify only the 
-keywords for which you want to override the default indentantion config.
-<br>Additionally:  
-<br>- `Step` will be used as a fallback if the keyword of the step, eg. 'given', is not specified.  
-<br>- If `feature tag` is not set then `Feature` is used as a fallback
-<br>- If `scenario tag` is not set then `Scenario` is used as a fallback.
-
-<br>This rule works in all locales.
-
-@example <caption>The rule configuration should look like this (only specify the keywords for which you want to override the defaults)</caption> 
-{
-  "indentation" : [
-    "on", {
-      "Feature": 0,
-      "Background": 0,
-      "Scenario": 0,
-      "Step": 2,
-      "Examples": 0,
-      "example": 2,
-      "given": 2,
-      "when": 2,
-      "then": 2,
-      "and": 2,
-      "but": 2,
-      "feature tag": 0,
-      "scenario tag": 0
-    }
-  ]
-}
-@member {Object} availableConfigs
+* The indentation rule can be configured for each gherkin kewyword and uses following values by default:
+* <br>- Expected indentation for Feature, Background, Scenario, Examples heading: 0 spaces
+* <br>- Expected indentation for Steps and each example: 2 spaces
+* <br>The user provided configuration will be merged with the defaults. That means that you only need to specify only the 
+* keywords for which you want to override the default indentantion config.
+* <br>Additionally:  
+* <br>- `Step` will be used as a fallback if the keyword of the step, eg. 'given', is not specified.  
+* <br>- If `feature tag` is not set then `Feature` is used as a fallback
+* <br>- If `scenario tag` is not set then `Scenario` is used as a fallback.
+*
+* <br>This rule works in all locales.
+*
+* @example <caption>The rule configuration should look like this (only specify the keywords for which you want to override the defaults)</caption> 
+* {
+*   "indentation" : [
+*     "on", {
+*       "Feature": 0,
+*       "Background": 0,
+*       "Scenario": 0,
+*       "Step": 2,
+*       "Examples": 0,
+*       "example": 2,
+*       "given": 2,
+*       "when": 2,
+*       "then": 2,
+*       "and": 2,
+*       "but": 2,
+*       "feature tag": 0,
+*       "scenario tag": 0
+*     }
+*   ]
+* }
+* @member {Object} availableConfigs
 **/
 const availableConfigs = _.merge({}, defaultConfig, {
   // The values here are unused by the config parsing logic.
@@ -68,13 +72,12 @@ const availableConfigs = _.merge({}, defaultConfig, {
 
 
 /**
-@function run
-@description Runs the rule's logic against the provide feature file/object
-@alias module:run
-@param feature       {Gerkin.Feature} - A Gerkin.Feature object
-@param unused        {}               - Unused parameter, exists to conform to the rule run method signature
-@param configuration {Object}         - The rule configuration whose format should match `availableConfigs`
-@returns             {Array}          - The detected errors
+* @function    run
+* @description Runs the rule's logic against the provide feature file/object
+* @param feature       {Gerkin.Feature} - A Gerkin.Feature object
+* @param unused        {}               - Unused parameter, exists to conform to the rule run method signature
+* @param configuration {Object}         - The rule configuration whose format should match `availableConfigs`
+* @returns             {Array}          - The detected errors
 **/
 function run(feature, unused, configuration) {
   if (!feature) {
@@ -89,7 +92,7 @@ function run(feature, unused, configuration) {
     // indentation we need to subtract 1
     if (parsedLocation.column - 1 !== mergedConfiguration[type]) {
       errors.push({
-        message: `Wrong indentation for "${type}", expected indentation level of`+ 
+        message: `Wrong indentation for "${type}", expected indentation level of `+ 
                  `${mergedConfiguration[type]}, but got ${(parsedLocation.column - 1)}`,
         rule   : name,
         line   : parsedLocation.line
@@ -140,12 +143,12 @@ function run(feature, unused, configuration) {
 
 
 /**
-@function mergeConfiguration
-@description If the user hasn't provided a configuration value for feature tags and scenario tags, it sets the 
-             indentation for those to the corresponding feature and scenario settings
-@private
-@param configuration  {Object} - The used defined rule configuration
-@returns              {Object} - The merged configuration  
+* @function    mergeConfiguration
+* @description If the user hasn't provided a configuration value for feature tags and scenario tags, it sets the 
+*              indentation for those to the corresponding feature and scenario settings
+* @private
+* @param configuration  {Object} - The used defined rule configuration
+* @returns              {Object} - The merged configuration  
 **/
 function mergeConfiguration(configuration) {
   let mergedConfiguration = _.merge({}, defaultConfig, configuration);

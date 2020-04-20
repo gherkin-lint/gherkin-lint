@@ -1,6 +1,54 @@
-const gherkinUtils = require('./utils/gherkin.js');
-const rule = 'no-restricted-patterns';
+/**
+* @module rules/no-restricted-patterns
+**/
 
+
+// --- Dependencies ---
+const gherkinUtils = require('./utils/gherkin.js');
+// --- Dependencies end ---
+
+
+/** The name of the rule
+* @member {string} name
+**/
+const name = 'no-restricted-patterns';
+
+
+// TODO:
+// Notes:
+// - Step keywords `Given`, `When`, `Then` and `And` should not be included in the patterns.
+// - Description violations always get reported in the Feature/Scenario/etc definition line. This is due to the parsed gherkin tree not having information about which line the description appears. 
+
+
+/**
+* The no-restricted-patterns patterns rule can be configured with lists of exact or partial patterns whose matches are dissallowed in:
+* <br> - feature name and description
+* <br> - background steps
+* <br> - scenario and scenario outline name, description and steps
+* All patterns are treated as case insensitive. 
+*
+* @examples <caption>The rule configuration should look like this</caption>
+* {
+*   "no-restricted-patterns": ["on", {
+*     "Global": [
+*       "^globally restricted pattern"
+*     ],
+*     "Feature": [
+*       "poor description",
+*       "validate",
+*       "verify"
+*     ],
+*     "Background": [
+*       "show last response",
+*       "a debugging step"
+*     ],
+*     "Scenario": [
+*       "show last response",
+*       "a debugging step"
+*     ]
+*   }]
+* }
+**/
 const availableConfigs = {
   'Global': [],
   'Scenario': [],
@@ -10,6 +58,14 @@ const availableConfigs = {
 };
 
 
+/**
+* @function    run
+* @description Runs the rule's logic against the provide feature file/object
+* @param feature       {Gerkin.Feature} - A Gerkin.Feature object
+* @param unused        {}               - Unused parameter, exists to conform to the rule run method signature
+* @param configuration {Object}         - The rule configuration whose format should match `availableConfigs`
+* @returns             {Array}          - The detected errors
+**/
 function run(feature, unused, configuration) {
   if (!feature) {
     return [];
@@ -36,6 +92,15 @@ function run(feature, unused, configuration) {
 }
 
 
+/**
+* @function    getRestrictedPatterns
+* @description Applies the Global configuration to the per node type config, removes whitespace from config keys
+*              and adds the case insensitive flag to all patterns 
+* @private
+* @param configuration  {Object} - The used defined rule configuration
+* @returns              {Object} - An object with node types as its keys and a list of restricted patters for the node type 
+*                                  as its values
+**/
 function getRestrictedPatterns(configuration) {
   // Patterns applied to everything; feature, scenarios, etc.
   let globalPatterns = (configuration.Global || []).map(pattern => new RegExp(pattern, 'i'));
@@ -54,6 +119,16 @@ function getRestrictedPatterns(configuration) {
 }
 
 
+/**
+* @function    getRestrictedPatternsForNode
+* @description Uses Gherkin locales to extract the node type corresponding to the node keyword and returns the corresponding 
+*              restricted patterns
+* @private
+* @param node               {Gherkin.Feature|Gherkin.Feature.Child} - A gherkin feature or child node
+* @param restrictedPatterns {Object}                                - Key value pairs of node type to restricted patterns
+* @param language           {string}                                - Language in which the feature file is written
+* @returns                  {Array}                                 - An array of restricted patterns corresponding to the node type
+**/
 function getRestrictedPatternsForNode(node, restrictedPatterns, language) {
   let key = gherkinUtils.getLanguageInsitiveKeyword(node, language).toLowerCase();
 
@@ -61,6 +136,15 @@ function getRestrictedPatternsForNode(node, restrictedPatterns, language) {
 }
 
 
+/**
+* @function    checkNameAndDescription
+* @description Checks a node's name and description for voilations
+* @private
+* @param node               {Gherkin.Feature|Gherkin.Feature.Child} - A gherkin feature or child node
+* @param restrictedPatterns {Object}                                - Key value pairs of node type to restricted patterns
+* @param language           {string}                                - Language in which the feature file is written
+* @param errors             {Array}                                 - A reference to the array of rule violations
+**/
 function checkNameAndDescription(node, restrictedPatterns, language, errors) {
   getRestrictedPatternsForNode(node, restrictedPatterns, language)
     .forEach(pattern => {
@@ -70,6 +154,17 @@ function checkNameAndDescription(node, restrictedPatterns, language, errors) {
 }
 
 
+/**
+* @function    checkStepNode
+* @description Checks a steps's text for voilations
+* @private
+* @param node               {Gherkin.Step}          - A step node
+* @param parentNo           {Gherkin.Feature.Child} - The parent node of a step (eg Background, Scenario) which will be used to 
+*                                                     determine which rule configuration to use
+* @param restrictedPatterns {Object}                - Key value pairs of node type to restricted patterns
+* @param language           {string}                - Language in which the feature file is written
+* @param errors             {Array}                 - A reference to the array of rule violations
+**/
 function checkStepNode(node, parentNode, restrictedPatterns, language, errors) {
   // Use the node keyword of the parent to determine which rule configuration to use
   getRestrictedPatternsForNode(parentNode, restrictedPatterns, language)
@@ -79,6 +174,16 @@ function checkStepNode(node, parentNode, restrictedPatterns, language, errors) {
 }
 
 
+/**
+* @function    check
+* @description Checks a steps's text for voilations
+* @private
+* @param node     {Gherkin.Feature|Gherkin.Feature.Child|Gherkin.Step} - A Gherkin node
+* @param property {string}                                             - The name of the property of the node we should test
+* @param pattern  {string}                                             - A restricted pattern
+* @param language {string}                                             - Language in which the feature file is written
+* @param errors   {Array}                                              - A reference to the array of rule violations
+**/                            
 function check(node, property, pattern, language, errors) {
   if (!node[property]) {
     return;
@@ -110,7 +215,7 @@ function check(node, property, pattern, language, errors) {
     if (strings[i].trim().match(pattern)) {
       errors.push({
         message: `${type} ${property}: "${strings[i].trim()}" matches restricted pattern "${pattern}"`,
-        rule: rule,
+        rule: name,
         line: node.location.line
       });
     }
@@ -119,7 +224,7 @@ function check(node, property, pattern, language, errors) {
 
 
 module.exports = {
-  name: rule,
-  run: run,
-  availableConfigs: availableConfigs
+  name,
+  run,
+  availableConfigs,
 };

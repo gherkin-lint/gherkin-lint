@@ -1,7 +1,25 @@
-const _ = require('lodash');
+/**
+* @module rules/no-homogenous-tags
+**/
 
+
+//  --- Dependencies --- 
+const _ = require('lodash');
+// --- Dependencies end ----
+
+
+/** The name of the rule
+* @member {string} name
+**/
 const rule = 'no-homogenous-tags';
 
+
+/**
+* @function    run
+* @description Runs the rule's logic against the provide feature file/object
+* @param feature       {Gerkin.Feature} - A Gerkin.Feature object
+* @returns             {Array}          - The detected errors
+**/
 function run(feature) {
   if (!feature) {
     return [];
@@ -50,9 +68,17 @@ function run(feature) {
   return errors;
 }
 
+
+/**
+* @function getTagNames
+* @private
+* @param node    {Gerkin.Feature|Gerkin.Scenario|Gerkin.Example} - A Gherkin object that has tags
+* @param errors  {Array}                                         - A List of the node tag names
+**/ 
 function getTagNames(node) {
   return _.map(node.tags, tag => tag.name);
 }
+
 
 module.exports = {
   name: rule,

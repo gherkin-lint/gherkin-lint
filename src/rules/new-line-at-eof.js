@@ -1,8 +1,12 @@
 /**
 * @module rules/new-line-at-eof
 **/
+
+
+//  --- Dependencies --- 
 const _ = require('lodash');
 const logger = require('./../logger.js');
+// --- Dependencies end ----
 
 
 /** The name of the rule
@@ -12,31 +16,30 @@ const name = 'new-line-at-eof';
 
 
 /**
-The new-line-at-eof rule can be configured to enforce or disallow new lines at EOF.
-@example <caption>Enforce new lines at EOF</caption>
-{
-  "new-line-at-eof": ["on", "yes"]
-}
-@example <caption>Disallow new lines at EOF</caption>
-{
-  "new-line-at-eof": ["on", "no"]
-}
-@member {Object} availableConfigs
+* The new-line-at-eof rule can be configured to enforce or disallow new lines at EOF.
+* @example <caption>Enforce new lines at EOF</caption>
+* {
+*   "new-line-at-eof": ["on", "yes"]
+* }
+* @example <caption>Disallow new lines at EOF</caption>
+* {
+*   "new-line-at-eof": ["on", "no"]
+* }
+* @member {Array} availableConfigs
 **/
 const availableConfigs = [
   'yes',
-  'no'
+  'no',
 ];
 
 
 /**
-@function run
-@description Runs the rule's logic against the provide feature file/object
-@alias module:run
-@param unused        {}               - Unused parameter, exists to conform to the rule run method signature
-@param file          {Array}          - A list of lines that represent the content of the feature file
-@param configuration {Object}         - The rule configuration whose format should match `availableConfigs`
-@returns             {Array}          - The detected errors
+* @function    run
+* @description Runs the rule's logic against the provide feature file/object
+* @param unused        {}               - Unused parameter, exists to conform to the rule run method signature
+* @param file          {Object}         - An Object containing the lines and relative path of the feature file
+* @param configuration {Object}         - The rule configuration whose format should match `availableConfigs`
+* @returns             {Array}          - The detected errors
 **/
 function run(unused, file, configuration) {
   let errors = [];
@@ -67,5 +70,5 @@ function run(unused, file, configuration) {
 module.exports = {
   name,
   run,
-  availableConfigs
+  availableConfigs,
 };

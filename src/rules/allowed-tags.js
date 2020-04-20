@@ -11,12 +11,12 @@ const name = 'allowed-tags';
 
 
 /** 
-The allowed-tags rule should be configured with a list of the allowed tags, in order to have an effect.
-@example <caption>The rule configuration should look like this</caption>
-{
-  "allowed-tags": ["on", {"tags": ["@watch", "@wip", "@todo"]}]
-}
-@member {Object} availableConfigs
+* The allowed-tags rule should be configured with a list of the allowed tags, in order to have an effect.
+* @example <caption>The rule configuration should look like this</caption>
+* {
+*   "allowed-tags": ["on", {"tags": ["@watch", "@wip", "@todo"]}]
+* }
+* @member {Object} availableConfigs
 **/
 const availableConfigs = {
   'tags': []
@@ -24,14 +24,13 @@ const availableConfigs = {
 
 
 /**
-@function run
-@description Runs the rule's logic against the provide feature file/object
-@alias module:run
-@param feature       {Gerkin.Feature} - A Gerkin.Feature object
-@param unused        {}               - Unused parameter, exists to conform to the rule run method signature
-@param configuration {Object}         - The rule configuration whose format should match `availableConfigs`
-@returns             {Array}          - The detected errors
-**/
+* @function    run
+* @description Runs the rule's logic against the provide feature file/object
+* @param feature       {Gerkin.Feature} - A Gerkin.Feature object
+* @param unused        {}               - Unused parameter, exists to conform to the rule run method signature
+* @param configuration {Object}         - The rule configuration whose format should match `availableConfigs`
+* @returns             {Array}          - The detected errors
+* **/
 function run(feature, unused, configuration) {
   if (!feature) {
     return [];
@@ -59,11 +58,11 @@ function run(feature, unused, configuration) {
 
 
 /**
-@function checkTags
-@private
-@param feature        {Gerkin.Feature} - A node that represents the feature or a scenario (the only types of nodes that have tags)
-@param allowedTags    {Array}          - An array of allowedTags
-@param errors         {Array}          - A reference to the rule's errors array that gets filled as errors get detected
+* @function checkTags
+* @private
+* @param feature        {Gerkin.Feature} - A node that represents the feature or a scenario (the only types of nodes that have tags)
+* @param allowedTags    {Array}          - An array of allowedTags
+* @param errors         {Array}          - A reference to the rule's errors array that gets filled as errors get detected
 **/
 function checkTags(node, allowedTags, errors) {
   return node.tags

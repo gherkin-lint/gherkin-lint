@@ -1,5 +1,21 @@
-const rule = 'no-background-only-scenario';
+/**
+* @module rules/no-background-only-scenario
+**/
 
+
+/** The name of the rule
+* @member {string} name
+**/
+const name = 'no-background-only-scenario';
+
+
+/**
+* @function    run
+* @description Runs the rule's logic against the provide feature file/object
+* @alias module:run
+* @param feature       {Gerkin.Feature} - A Gerkin.Feature object
+* @returns             {Array}          - The detected errors
+**/
 function run(feature) {
   if (!feature) {
     return [];
@@ -13,21 +29,18 @@ function run(feature) {
         // as just one background is allowed, if there is a background in the feature,
         // there must be at least, three elements in the feature to have, more than
         // one scenario
-        errors.push(createError(child.background));
+        errors.push({
+          message: 'Backgrounds are not allowed when there is just one scenario.',
+          rule   : name,
+          line   : child.background.location.line
+        });
       }
     }
   });
   return errors;
 }
 
-function createError(background) {
-  return {
-    message: 'Backgrounds are not allowed when there is just one scenario.',
-    rule   : rule,
-    line   : background.location.line};
-}
-
 module.exports = {
-  name: rule,
-  run: run
+  name,
+  run,
 };
