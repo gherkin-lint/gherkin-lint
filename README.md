@@ -1,5 +1,5 @@
 # Gherkin lint
-[![Travis](https://img.shields.io/travis/vsiakka/gherkin-lint.svg?maxAge=2592000)](https://travis-ci.org/vsiakka/gherkin-lint/)
+[![Travis](https://travis-ci.com/vsiakka/gherkin-lint.svg?branch=master)](https://travis-ci.com/github/vsiakka/gherkin-lint/branches)
 [![Coverage Status](https://coveralls.io/repos/github/vsiakka/gherkin-lint/badge.svg?branch=master)](https://coveralls.io/github/vsiakka/gherkin-lint?branch=master)
 [![David](https://img.shields.io/david/vsiakka/gherkin-lint.svg?maxAge=2592000)](https://david-dm.org/vsiakka/gherkin-lint)
 [![David](https://img.shields.io/david/dev/vsiakka/gherkin-lint.svg?maxAge=2592000)](https://david-dm.org/vsiakka/gherkin-lint#info=devDependencies&view=table)
