@@ -6,27 +6,11 @@ const availableConfigs = {
   'style': 'TitleCase'
 };
 const checkers = {
-  TitleCase(filename) {
-    return _.startCase(filename).replace(' ', '');
-  },
-  camelCase(filename) {
-    return _.camelCase(filename);
-  },
-  ['kebab-case'](filename) {
-    return _.kebabCase(filename);
-  },
-  ['snake_case'](filename) {
-    return _.snakeCase(filename);
-  }
+  'TitleCase': filename => _.startCase(filename).replace(' ', ''),
+  'camelCase': filename => _.camelCase(filename),
+  'kebab-case': filename => _.kebabCase(filename),
+  'snake_case': filename => _.snakeCase(filename)
 };
-
-function report(style, expected) {
-  return [{
-    message: `File names should be written in ${style} e.g. "${expected}.feature"`,
-    rule: rule,
-    line: 0
-  }];
-}
 
 function run(feature, file, configuration) {
   if (!file) {
@@ -41,7 +25,11 @@ function run(feature, file, configuration) {
   if (filename === expected) {
     return [];
   }
-  return report(style, expected);
+  return [{
+    message: `File names should be written in ${style} e.g. "${expected}.feature"`,
+    rule: rule,
+    line: 0
+  }];
 }
 
 module.exports = {
