@@ -7,32 +7,16 @@ const availableConfigs = {
 };
 const checkers = {
   TitleCase(filename) {
-    const expected = _.startCase(filename).replace(' ', '');
-    if (filename === expected) {
-      return [];
-    }
-    return report('TitleCase', expected);
+    return _.startCase(filename).replace(' ', '');
   },
   camelCase(filename) {
-    const expected = _.camelCase(filename);
-    if (filename === expected) {
-      return [];
-    }
-    return report('camelCase', expected);
+    return _.camelCase(filename);
   },
   ['kebab-case'](filename) {
-    const expected = _.kebabCase(filename);
-    if (filename === expected) {
-      return [];
-    }
-    return report('kebab-case', expected);
+    return _.kebabCase(filename);
   },
   ['snake_case'](filename) {
-    const expected = _.snakeCase(filename);
-    if (filename === expected) {
-      return [];
-    }
-    return report('snake_case', expected);
+    return _.snakeCase(filename);
   }
 };
 
@@ -53,7 +37,11 @@ function run(feature, file, configuration) {
   if (!checkers[style]) {
     throw new Error('style "' + style + '" not supported for file-name rule');
   }
-  return checkers[style](filename);
+  const expected = checkers[style](filename);
+  if (filename === expected) {
+    return [];
+  }
+  return report(style, expected);
 }
 
 module.exports = {
