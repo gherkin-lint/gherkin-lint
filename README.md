@@ -32,6 +32,7 @@ Or check this:
 | `up-to-one-background-per-file` *           | Disallows multiple Background definition in the same file                                |
 | `no-multiline-steps` *                      | Disallows mutiline Steps                                                                 || &nbsp;                                      |                                                                                          |
 | [`allowed-tags`](#allowed-tags)             | Just the listed tags are allowed                                                         |
+| [`file-name`](#file-name)                   | Restrict feature file names to a commmon style                                           |
 | [`indentation`](#indentation)               | Allows the user to specify indentation rules                                             |
 | [`max-scenarios-per-file`](#max-scenarios-per-file)| Allows the user to specify the max number of scenarios per feature file           |
 | [`name-length`](#name-length)               | Allows restricting length of Feature/Scenario/Step names                                 |
@@ -84,6 +85,23 @@ will turn on the `no-unnamed-features` rule.
 ```
 
 Any tag not included in this list won't be allowed.
+
+### file-name
+
+`file-name` is configured with a style to enforce. The default is `TitleCase`:
+
+```json
+{
+  "file-name": ["on", {"style": "TitleCase"}]
+}
+```
+
+The list of supported styles is:
+
+- `TitleCase`
+- `camelCase`
+- `kebab-case`
+- `snake_case`
 
 ### no-restricted-patterns
 
