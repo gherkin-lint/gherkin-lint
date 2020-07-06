@@ -3,10 +3,11 @@ const _ = require('lodash');
 
 const rule = 'file-name';
 const availableConfigs = {
-  'style': 'TitleCase'
+  'style': 'PascalCase'
 };
 const checkers = {
-  'TitleCase': filename => _.startCase(filename).replace(' ', ''),
+  'PascalCase': filename => _.startCase(filename).replace(' ', ''),
+  'Title Case': filename => _.startCase(filename),
   'camelCase': filename => _.camelCase(filename),
   'kebab-case': filename => _.kebabCase(filename),
   'snake_case': filename => _.snakeCase(filename)
