@@ -88,20 +88,21 @@ Any tag not included in this list won't be allowed.
 
 ### file-name
 
-`file-name` is configured with a style to enforce. The default is `TitleCase`:
+`file-name` is configured with a style to enforce. The default is `PascalCase`:
 
 ```json
 {
-  "file-name": ["on", {"style": "TitleCase"}]
+  "file-name": ["on", {"style": "PascalCase"}]
 }
 ```
 
 The list of supported styles is:
 
-- `TitleCase`
-- `camelCase`
-- `kebab-case`
-- `snake_case`
+- `PascalCase` - first letter of each word capitalized (no spaces) e.g. "MyFancyFeature.feature"
+- `Title Case` - first letter of each word capitalized (with spaces) e.g. "My Fancy Feature.feature"
+- `camelCase` - first letter of each word capitalized, except first e.g. "myFancyFeature.feature"
+- `kebab-case` - all lowercase, hyphen-delimited e.g. "my-fancy-feature.feature"
+- `snake_case` - all lowercase, underscore-delimited e.g. "my_fancy_feature.feature"
 
 ### no-restricted-patterns
 
