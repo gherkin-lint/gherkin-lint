@@ -5,7 +5,8 @@ const _ = require('lodash');
 
 
 /** The name of the rule
-* @member {string} name
+* @type string
+* @alias module:rules/allowed-tags.name
 **/
 const name = 'allowed-tags';
 
@@ -16,7 +17,8 @@ const name = 'allowed-tags';
 * {
 *   "allowed-tags": ["on", {"tags": ["@watch", "@wip", "@todo"]}]
 * }
-* @member {Object} availableConfigs
+* @type Object
+* @alias module:rules/allowed-tags.availableConfigs
 **/
 const availableConfigs = {
   'tags': []
@@ -24,7 +26,7 @@ const availableConfigs = {
 
 
 /**
-* @function    run
+* @alias module:rules/allowed-tags.run
 * @description Runs the rule's logic against the provide feature file/object
 * @param feature       {Gerkin.Feature} - A Gerkin.Feature object
 * @param unused        {}               - Unused parameter, exists to conform to the rule run method signature
@@ -60,9 +62,9 @@ function run(feature, unused, configuration) {
 /**
 * @function checkTags
 * @private
-* @param feature        {Gerkin.Feature} - A node that represents the feature or a scenario (the only types of nodes that have tags)
-* @param allowedTags    {Array}          - An array of allowedTags
-* @param errors         {Array}          - A reference to the rule's errors array that gets filled as errors get detected
+* @param node        {Gerkin.Feature|Gerkin.Scenario|Gerkin.Example} - A Gherkin object that has tags
+* @param allowedTags {Array}                                         - An array of allowedTags
+* @param errors      {Array}                                         - A reference to the rule's errors array that gets filled as errors get detected
 **/
 function checkTags(node, allowedTags, errors) {
   return node.tags

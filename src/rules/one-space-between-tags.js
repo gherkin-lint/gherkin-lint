@@ -1,21 +1,39 @@
+/**
+* @module rules/one-space-between-tags
+**/
+
+
+// --- Dependencies ---
 const _ = require('lodash');
+// --- Dependencies end ---
 
-const rule = 'one-space-between-tags';
 
+/** The name of the rule
+* @member {string} name
+**/
+const name = 'one-space-between-tags';
+
+
+/**
+* @function run
+* @description Runs the rule's logic against the provide feature file/object
+* @param feature       {Gerkin.Feature} - A Gerkin.Feature object
+* @returns             {Array}          - The detected errors
+**/
 function run(feature) {
   if (!feature) {
     return;
   }
   let errors = [];
   
-  testTags(feature, errors);
+  checkTags(feature, errors);
   
   feature.children.forEach(child => {
     if (child.scenario) {
-      testTags(child.scenario, errors);
+      checkTags(child.scenario, errors);
 
       child.scenario.examples.forEach(example => {
-        testTags(example, errors);
+        checkTags(example, errors);
       });
     }
   });
@@ -23,7 +41,14 @@ function run(feature) {
   return errors;
 }
 
-function testTags(node, errors) {
+
+/**
+* @function checkTags
+* @private
+* @param node   {Gerkin.Feature|Gerkin.Scenario|Gerkin.Example} - A Gherkin object that has tags
+* @param errors {Array}                                         - A reference to the rule's errors array that gets filled as errors get detected
+**/
+function checkTags(node, errors) {
   _(node.tags)
     .groupBy('location.line')
     .sortBy('location.column')
@@ -33,7 +58,7 @@ function testTags(node, errors) {
           if (tags[i].location.column + tags[i].name.length < tags[i + 1].location.column - 1) {
             errors.push({
               line: tags[i].location.line,
-              rule: rule,
+              rule: name,
               message: 'There is more than one space between the tags ' +
                         tags[i].name + ' and ' + tags[i + 1].name
             });
@@ -42,7 +67,8 @@ function testTags(node, errors) {
     });
 }
 
+
 module.exports = {
-  run: run,
-  name: rule
+  run,
+  name,
 };

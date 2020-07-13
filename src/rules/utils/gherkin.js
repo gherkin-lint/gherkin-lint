@@ -1,6 +1,20 @@
+/**
+* A utility that wraps some of the gherkin package functionality
+* @module rules/utils/gherkin
+**/
+
+
+// --- Dependencies ---
 const _ = require('lodash');
 const Gherkin = require('gherkin').default;
+// --- Dependencies end --
 
+
+/** A function that return a gherkin node's type based on the used keyword because it's the only way to distinguish a scenario with a scenario outline.
+* @function getNodeType
+* @param node               {Gherkin.Node} - A gherkin node
+* @param language           {string}       - Language in which the feature file is written
+**/
 // We use the node's keyword to determine the node's type
 // because it's the only way to distinguish a scenario with a scenario outline
 function getNodeType(node, language) {
@@ -30,6 +44,11 @@ function getNodeType(node, language) {
 }
  
 
+/** A function that return a gherkin node's language insensitive keyword.
+* @function getNodeType
+* @param node               {Gherkin.Node} - A gherkin node
+* @param language           {string}       - Language in which the feature file is written
+**/
 function getLanguageInsitiveKeyword(node, language) {
   const languageMapping = Gherkin.dialects()[language];
 
@@ -38,6 +57,6 @@ function getLanguageInsitiveKeyword(node, language) {
 
 
 module.exports = {
-  getNodeType: getNodeType,
-  getLanguageInsitiveKeyword: getLanguageInsitiveKeyword,
+  getNodeType,
+  getLanguageInsitiveKeyword,
 };

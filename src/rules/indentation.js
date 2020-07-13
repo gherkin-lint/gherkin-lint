@@ -10,7 +10,8 @@ const gherkinUtils = require('./utils/gherkin.js');
 
 
 /** The name of the rule
-* @member {string} name
+* @type string
+* @alias module:rules/indentation.name
 **/
 const name = 'indentation';
 
@@ -62,7 +63,8 @@ const defaultConfig = {
 *     }
 *   ]
 * }
-* @member {Object} availableConfigs
+* @type Object
+* @alias module:rules/indentation.availableConfigs
 **/
 const availableConfigs = _.merge({}, defaultConfig, {
   // The values here are unused by the config parsing logic.
@@ -72,7 +74,7 @@ const availableConfigs = _.merge({}, defaultConfig, {
 
 
 /**
-* @function    run
+* @alias module:rules/indentation.run
 * @description Runs the rule's logic against the provide feature file/object
 * @param feature       {Gerkin.Feature} - A Gerkin.Feature object
 * @param unused        {}               - Unused parameter, exists to conform to the rule run method signature

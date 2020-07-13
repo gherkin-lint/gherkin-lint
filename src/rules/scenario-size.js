@@ -1,7 +1,28 @@
+/**
+* @module rules/scenario-size
+**/
+
+
+// --- Dependencies ---
 const _ = require('lodash');
 const gherkinUtils = require('./utils/gherkin.js');
+// --- Dependencies end ---
 
-const rule = 'scenario-size';
+
+/** The name of the rule
+* @member {string} name
+**/
+const name = 'scenario-size';
+
+
+/**
+The rule scenario-size lets you specify the maximum number of steps for scenarios and backgrounds.<br>
+The `Scenario` configuration applies to both scenarios and scenario outlines.
+@example <caption>The rule configuration should look like this</configuration>
+{
+  "scenario-size": ["on", { "steps-length": { "Background": 15, "Scenario": 15 }}]
+}
+**/
 const availableConfigs = {
   'steps-length': {
     'Background': 15,
@@ -9,6 +30,15 @@ const availableConfigs = {
   }
 };
 
+
+/**
+* @function    run
+* @description Runs the rule's logic against the provide feature file/object
+* @param feature       {Gerkin.Feature} - A Gerkin.Feature object
+* @param unused        {}               - Unused parameter, exists to conform to the rule run method signature
+* @param configuration {Object}         - The rule configuration whose format should match `availableConfigs`
+* @returns             {Array}          - The detected errors
+**/
 function run(feature, unused, configuration) {
   if (!feature) {
     return;
@@ -28,7 +58,7 @@ function run(feature, unused, configuration) {
     if (maxSize && node.steps.length > maxSize) {
       errors.push({
         message: `Element ${nodeType} too long: actual ${node.steps.length}, expected ${maxSize}`,
-        rule   : 'scenario-size',
+        rule   : name,
         line   : node.location.line
       });
     }
@@ -39,7 +69,7 @@ function run(feature, unused, configuration) {
 
 
 module.exports = {
-  name: rule,
-  run: run,
-  availableConfigs: availableConfigs
+  name,
+  run,
+  availableConfigs,
 };

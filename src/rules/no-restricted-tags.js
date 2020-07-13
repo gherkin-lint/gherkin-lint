@@ -15,7 +15,7 @@ const gherkinUtils = require('./utils/gherkin.js');
 const name = 'no-restricted-tags';
 
 
-/** The no-restricted-tags rule should be configured with the list of restricted tags
+/** The no-restricted-tags rule should be configured with the list of restricted tags.
 @example <caption>The rule configuration should look like this</configuration>
 {
   "no-restricted-tags": ["on", {"tags": ["@watch", "@wip", "@todo"]}]
@@ -59,7 +59,14 @@ function run(feature, unused, configuration) {
   return errors;
 }
 
-
+/**
+* @function checkTags
+* @private
+* @param node          {Gerkin.Feature|Gerkin.Scenario|Gerkin.Example} - A Gherkin object that has tags
+* @param language      {string}                                        - Language in which the feature file is written
+* @param forbiddenTags {Array}                                         - Array of forbidden (restricted) tags
+* @param errors        {Array}                                         - A reference to the rule's errors array that gets filled as errors get detected
+**/
 function checkTags(node, language, forbiddenTags, errors) {
   const nodeType = gherkinUtils.getNodeType(node, language);
   node.tags.forEach(tag => {

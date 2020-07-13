@@ -1,5 +1,20 @@
-const rule = 'no-unused-variables';
+/**
+* @module rules/no-unused-variables
+**/
 
+
+/** The name of the rule
+* @member {string} name
+**/
+const name = 'no-unused-variables';
+
+
+/**
+* @function run
+* @description Runs the rule's logic against the provide feature file/object
+* @param feature       {Gerkin.Feature} - A Gerkin.Feature object
+* @returns             {Array}          - The detected errors
+**/
 function run(feature) {
   if(!feature) {
     return [];
@@ -75,7 +90,7 @@ function run(feature) {
       if (!scenarioVariables[exampleVariable]) {
         errors.push({
           message: 'Examples table variable "' + exampleVariable + '" is not used in any step',
-          rule   : rule,
+          rule   : name,
           line   : examplesVariables[exampleVariable]
         });
       }
@@ -85,7 +100,7 @@ function run(feature) {
       if (!examplesVariables[scenarioVariable]) {
         errors.push({
           message: 'Step variable "' + scenarioVariable + '" does not exist in the examples table',
-          rule   : rule,
+          rule   : name,
           line   : scenarioVariables[scenarioVariable]
         });
       }
@@ -95,7 +110,8 @@ function run(feature) {
   return errors;
 }
 
+
 module.exports = {
-  name: rule,
-  run: run
+  name,
+  run,
 };
