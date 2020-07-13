@@ -32,6 +32,7 @@ Or check this:
 | `up-to-one-background-per-file` *           | Disallows multiple Background definition in the same file                                |
 | `no-multiline-steps` *                      | Disallows mutiline Steps                                                                 || &nbsp;                                      |                                                                                          |
 | [`allowed-tags`](#allowed-tags)             | Just the listed tags are allowed                                                         |
+| [`file-name`](#file-name)                   | Restrict feature file names to a commmon style                                           |
 | [`indentation`](#indentation)               | Allows the user to specify indentation rules                                             |
 | [`max-scenarios-per-file`](#max-scenarios-per-file)| Allows the user to specify the max number of scenarios per feature file           |
 | [`name-length`](#name-length)               | Allows restricting length of Feature/Scenario/Step names                                 |
@@ -84,6 +85,24 @@ will turn on the `no-unnamed-features` rule.
 ```
 
 Any tag not included in this list won't be allowed.
+
+### file-name
+
+`file-name` is configured with a style to enforce. The default is `PascalCase`:
+
+```json
+{
+  "file-name": ["on", {"style": "PascalCase"}]
+}
+```
+
+The list of supported styles is:
+
+- `PascalCase` - first letter of each word capitalized (no spaces) e.g. "MyFancyFeature.feature"
+- `Title Case` - first letter of each word capitalized (with spaces) e.g. "My Fancy Feature.feature"
+- `camelCase` - first letter of each word capitalized, except first e.g. "myFancyFeature.feature"
+- `kebab-case` - all lowercase, hyphen-delimited e.g. "my-fancy-feature.feature"
+- `snake_case` - all lowercase, underscore-delimited e.g. "my_fancy_feature.feature"
 
 ### no-restricted-patterns
 
