@@ -87,7 +87,7 @@
     "core-js": "3.6.4",
     "gherkin": "9.0.0",
     "glob": "7.1.6",
-    "lodash": "4.17.15",
+    "lodash": "4.17.19",
     "strip-json-comments": "3.0.1"
   },
   "devDependencies": {
