@@ -15,7 +15,9 @@ function getNodeType(node, language) {
 
   if (key === 'feature') {
     return 'Feature';
-  }  else if (key === 'background') {
+  } else if (key === 'rule') {
+    return 'Rule';
+  } else if (key === 'background') {
     return 'Background';
   } else if (key === 'scenario') {
     return 'Scenario';
