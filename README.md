@@ -76,11 +76,11 @@ will turn on the `no-unnamed-features` rule.
 
 ### allowed-tags
 
-`allowed-tags` must be configured with list of tags for it to have any effect:
+`allowed-tags` should be configured with the list of allowed tags and patterns:
 
 ```
 {
-  "allowed-tags": ["on", {"tags": ["@watch", "@wip", "@todo"]}]
+  "allowed-tags": ["on", {"tags": ["@watch", "@wip"], "patterns": ["^@todo$"]}]
 }
 ```
 
@@ -241,10 +241,10 @@ or
 
 
 ### no-restricted-tags
-`no-restricted-tags` should be configured with the list of restricted tags:
+`no-restricted-tags` should be configured with the list of restricted tags and patterns:
 ```
 {
-  "no-restricted-tags": ["on", {"tags": ["@watch", "@wip", "@todo"]}]
+  "no-restricted-tags": ["on", {"tags": ["@watch", "@wip"], "patterns": ["^@todo$"]}]
 }
 ```
 

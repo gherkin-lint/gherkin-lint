@@ -3,7 +3,8 @@ const gherkinUtils = require('./utils/gherkin.js');
 
 const rule = 'no-restricted-tags';
 const availableConfigs = {
-  'tags': []
+  'tags': [],
+  'patterns': []
 };
 
 
@@ -13,18 +14,19 @@ function run(feature, unused, configuration) {
   }
   
   const forbiddenTags = configuration.tags;
+  const forbiddenPatterns = getForbiddenPatterns(configuration);
   const language = feature.language;
   let errors = [];
 
-  checkTags(feature, language, forbiddenTags, errors);
+  checkTags(feature, language, forbiddenTags, forbiddenPatterns, errors);
   
   feature.children.forEach(child => {
     // backgrounds don't have tags
     if (child.scenario) {
-      checkTags(child.scenario, language, forbiddenTags, errors);
+      checkTags(child.scenario, language, forbiddenTags, forbiddenPatterns, errors);
 
       child.scenario.examples.forEach(example => {
-        checkTags(example, language, forbiddenTags, errors);
+        checkTags(example, language, forbiddenTags, forbiddenPatterns, errors);
       });
     }      
   });
@@ -33,10 +35,15 @@ function run(feature, unused, configuration) {
 }
 
 
-function checkTags(node, language, forbiddenTags, errors) {
+function getForbiddenPatterns(configuration) {
+  return (configuration.patterns || []).map((pattern) => new RegExp(pattern));
+}
+
+
+function checkTags(node, language, forbiddenTags, forbiddenPatterns, errors) {
   const nodeType = gherkinUtils.getNodeType(node, language);
   node.tags.forEach(tag => {
-    if (_.includes(forbiddenTags, tag.name)) {
+    if (isForbidden(tag, forbiddenTags, forbiddenPatterns)) {
       errors.push({
         message: `Forbidden tag ${tag.name} on ${nodeType}`,
         rule   : rule,
@@ -44,6 +51,12 @@ function checkTags(node, language, forbiddenTags, errors) {
       });
     }
   });
+}
+
+
+function isForbidden(tag, forbiddenTags, forbiddenPatterns) {
+  return _.includes(forbiddenTags, tag.name)
+    || forbiddenPatterns.some((pattern) => pattern.test(tag.name));
 }
 
 
