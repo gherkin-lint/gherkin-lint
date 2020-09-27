@@ -254,11 +254,11 @@ or
 `required-tags` supports some configuration options:
 
 - `tags` (array) the array of tag patterns that must match at least one tag - defaults to `[]`
-- `ignore-untagged` (boolean) whether to ignore scenarios that have no tag - defaults to `true`
+- `ignoreUntagged` (boolean) whether to ignore scenarios that have no tag - defaults to `true`
 
 ```
 {
-  "required-tags": ["on", {"tags": ["^@issue:[1-9]\\d*$"], "ignore-untagged": false}]
+  "required-tags": ["on", {"tags": ["^@issue:[1-9]\\d*$"], "ignoreUntagged": false}]
 }
 ```
 

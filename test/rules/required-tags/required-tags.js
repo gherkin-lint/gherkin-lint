@@ -28,7 +28,7 @@ describe('Required Tags Rule', function() {
   it('detects errors for scenarios and scenario outlines that have no tag', () => {
     return runTest('required-tags/Violations.feature', {
       'tags': ['@requiredscenariotag'],
-      'ignore-untagged': false
+      'ignoreUntagged': false
     }, [{
       messageElements: {tags: '@requiredscenariotag', nodeType: 'Scenario'},
       line: 20

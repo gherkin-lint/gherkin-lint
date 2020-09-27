@@ -3,8 +3,8 @@ const gherkinUtils = require('./utils/gherkin.js');
 
 const rule = 'required-tags';
 const availableConfigs = {
-  'tags': [],
-  'ignore-untagged': true
+  tags: [],
+  ignoreUntagged: true
 };
 
 
@@ -35,8 +35,8 @@ function run(feature, unused, config) {
       const line = child.scenario.location.line;
 
       // Check each Scenario for the required tags
-      const requiredTagErrors = mergedConfig['tags']
-        .map((requiredTag) => checkTagExists(requiredTag, mergedConfig['ignore-untagged'], child.scenario.tags || [], type, line))
+      const requiredTagErrors = mergedConfig.tags
+        .map((requiredTag) => checkTagExists(requiredTag, mergedConfig.ignoreUntagged, child.scenario.tags || [], type, line))
         .filter((item) =>
           typeof item === 'object' && item.message
         );
