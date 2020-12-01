@@ -14,13 +14,20 @@ function run(feature) {
       return;
     }
 
+    const examples = child.scenario.examples;
+
+    if (!examples.length) {
+      // If there is no examples table, the rule doesn't apply
+      return;
+    }
+
     // Maps of variableName -> lineNo
     const examplesVariables = {};
     const scenarioVariables = {};
     let match;
 
     // Collect all the entries of the examples table
-    child.scenario.examples.forEach(example => {
+    examples.forEach(example => {
       if (example.tableHeader && example.tableHeader.cells) {
         example.tableHeader.cells.forEach(cell => {
           if (cell.value) {
