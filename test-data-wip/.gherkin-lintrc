@@ -14,6 +14,7 @@
   "name-length": ["on", {"Feature": 50}],
   "no-restricted-tags": ["on", {"tags": ["@watch", "@wip"]}],
   "use-and": "on",
+  "keywords-in-logical-order": "on",
   "no-duplicate-tags": "on",
   "no-superfluous-tags": "on",
   "no-homogenous-tags": "on",

@@ -60,6 +60,7 @@ Or check this:
 | `required-tags`                             | Require tags/patterns of tags on Scenarios                                               |
 | [`scenario-size`](#scenario-size)           | Allows restricting the maximum number of steps in a scenario, scenario outline and background |
 | `use-and`                                   | Disallows repeated step names requiring use of And instead                               |
+| `keywords-in-logical-order`                 | Requires that Given, When and Then appear in logical sequence                            |
 
 \* These rules cannot be turned off because they detect undocumented cucumber functionality that causes the [gherkin](https://github.com/cucumber/gherkin-javascript) parser to crash.
 
@@ -106,8 +107,8 @@ The list of supported styles is:
 
 ### no-restricted-patterns
 
-`no-restricted-patterns` is a list of exact or partial patterns whose matches are dissallowed in feature name and description, and in background, scenario and scenario outline name, description and steps. 
-All patterns are treated as case insensitive. 
+`no-restricted-patterns` is a list of exact or partial patterns whose matches are dissallowed in feature name and description, and in background, scenario and scenario outline name, description and steps.
+All patterns are treated as case insensitive.
 The rule can be configured like this:
 ```
 {
@@ -134,7 +135,7 @@ The rule can be configured like this:
 
 Notes:
 - Step keywords `Given`, `When`, `Then` and `And` should not be included in the patterns.
-- Description violations always get reported in the Feature/Scenario/etc definition line. This is due to the parsed gherkin tree not having information about which line the description appears. 
+- Description violations always get reported in the Feature/Scenario/etc definition line. This is due to the parsed gherkin tree not having information about which line the description appears.
 
 ### indentation
 
