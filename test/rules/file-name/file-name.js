@@ -11,10 +11,10 @@ describe('File Name Rule', function() {
     });
 
     it('raises errors for a pascal cased file name', function() {
-      return runTest('file-name/PascalCase.feature', {
+      return runTest('file-name/PascalCaseWithFiveWords.feature', {
         'style': 'kebab-case'
       }, [{
-        messageElements: {style: 'kebab-case', corrected:'pascal-case.feature'},
+        messageElements: {style: 'kebab-case', corrected:'pascal-case-with-five-words.feature'},
         line: 0
       }]);
     });
@@ -55,10 +55,10 @@ describe('File Name Rule', function() {
     });
 
     it('raises errors for a pascal cased file name', function() {
-      return runTest('file-name/PascalCase.feature', {
+      return runTest('file-name/PascalCaseWithFiveWords.feature', {
         'style': 'camelCase'
       }, [{
-        messageElements: {style: 'camelCase', corrected:'pascalCase.feature'},
+        messageElements: {style: 'camelCase', corrected:'pascalCaseWithFiveWords.feature'},
         line: 0
       }]);
     });
@@ -93,7 +93,7 @@ describe('File Name Rule', function() {
 
   describe('when set up for PascalCase', () => {
     it('doesn\'t raise errors when there are no violations', function() {
-      return runTest('file-name/PascalCase.feature', {
+      return runTest('file-name/PascalCaseWithFiveWords.feature', {
         'style': 'PascalCase'
       }, []);
     });
@@ -152,10 +152,10 @@ describe('File Name Rule', function() {
     });
 
     it('raises errors for a pascal cased file name', function() {
-      return runTest('file-name/PascalCase.feature', {
+      return runTest('file-name/PascalCaseWithFiveWords.feature', {
         'style': 'Title Case'
       }, [{
-        messageElements: {style: 'Title Case', corrected:'Pascal Case.feature'},
+        messageElements: {style: 'Title Case', corrected:'Pascal Case With Five Words.feature'},
         line: 0
       }]);
     });
@@ -187,10 +187,10 @@ describe('File Name Rule', function() {
     });
 
     it('raises errors for a pascal cased file name', function() {
-      return runTest('file-name/PascalCase.feature', {
+      return runTest('file-name/PascalCaseWithFiveWords.feature', {
         'style': 'snake_case'
       }, [{
-        messageElements: {style: 'snake_case', corrected:'pascal_case.feature'},
+        messageElements: {style: 'snake_case', corrected:'pascal_case_with_five_words.feature'},
         line: 0
       }]);
     });
