@@ -1,6 +1,8 @@
 {
-  "indentation": "on",
-  "custom" : "on",
-  "another-custom" : "on",
-  "another-custom-list" : ["on", {"element": ["first_element"]}]
+  "rules":{
+    "indentation": "on",
+    "custom" : "on",
+    "another-custom" : "on",
+    "another-custom-list" : ["on", {"element": ["first_element"]}]
+  }
 }
