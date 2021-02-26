@@ -5,13 +5,15 @@ var runTest = ruleTestBase.createRuleTest(rule, 'Forbidden tag <%= tag %> on <%=
 describe('No Restricted Tags Rule', function() {
   it('doesn\'t raise errors when there are no violations', function() {
     return runTest('no-restricted-tags/NoViolations.feature', {
-      'tags': ['@badTag']
+      'tags': ['@badTag'],
+      'patterns': ['^@anotherBadTag$']
     }, []);
   });
 
   it('detects errors for features, scenarios, and scenario outlines', function() {
     return runTest('no-restricted-tags/Violations.feature', {
-      'tags': ['@badTag', '@anotherBadTag']
+      'tags': ['@badTag'],
+      'patterns': ['^@anotherBadTag$']
     }, [{
       messageElements: {tag: '@badTag', nodeType:'Feature'},
       line: 1
