@@ -3,6 +3,7 @@ const rule = 'name-length';
 
 const availableConfigs = {
   'Feature': 70,
+  'Rule': 70,
   'Step': 70,
   'Scenario': 70
 };
@@ -36,7 +37,9 @@ function run(feature, unused, configuration) {
   test(feature.name, feature.location, mergedConfiguration, 'Feature');
 
   feature.children.forEach(child => { 
-    if (child.background) {
+    if (child.rule) {
+      test(child.rule.name, child.rule.location, mergedConfiguration, 'Rule');
+    } else if (child.background) {
       testSteps(child.background, mergedConfiguration);
     } else {
       test(child.scenario.name, child.scenario.location, mergedConfiguration, 'Scenario');
