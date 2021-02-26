@@ -71,6 +71,26 @@
     {
       "name": "Alexander Bayandin",
       "url": "https://github.com/bayandin"
+    },
+    {
+      "name": "Mike O'Connor",
+      "url": "https://github.com/mikeoconnor0308"
+    },
+    {
+      "name": "Dave M",
+      "url": "https://github.com/dsm2005"
+    },
+    {
+      "name": "Justin Zelinsky",
+      "url": "https://github.com/justinzelinsky"
+    },
+    {
+      "name": "Mathieu Couette",
+      "url": "https://github.com/MathieuCouette"
+    },
+    {
+      "name": "David Rodríguez",
+      "url": "https://github.com/deivid-rodriguez"
     }
   ],
   "main": "dist/main.js",
