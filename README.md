@@ -57,9 +57,10 @@ Or check this:
 | `no-unnamed-scenarios`                      | Disallows empty Scenario name                                                            |
 | `no-unused-variables`                       | Disallows unused variables in scenario outlines                                          |
 | `one-space-between-tags`                    | Tags on the same line must be separated by a single space                                |
-| `required-tags`                             | Require tags/patterns of tags on Scenarios                                               |
+| [`required-tags`](#required-tags)           | Require tags/patterns of tags on Scenarios                                               |
 | [`scenario-size`](#scenario-size)           | Allows restricting the maximum number of steps in a scenario, scenario outline and background |
 | `use-and`                                   | Disallows repeated step names requiring use of And instead                               |
+| `keywords-in-logical-order`                 | Requires that Given, When and Then appear in logical sequence                            |
 
 \* These rules cannot be turned off because they detect undocumented cucumber functionality that causes the [gherkin](https://github.com/cucumber/gherkin-javascript) parser to crash.
 
@@ -76,11 +77,11 @@ will turn on the `no-unnamed-features` rule.
 
 ### allowed-tags
 
-`allowed-tags` must be configured with list of tags for it to have any effect:
+`allowed-tags` should be configured with the list of allowed tags and patterns:
 
 ```
 {
-  "allowed-tags": ["on", {"tags": ["@watch", "@wip", "@todo"]}]
+  "allowed-tags": ["on", {"tags": ["@watch", "@wip"], "patterns": ["^@todo$"]}]
 }
 ```
 
@@ -106,8 +107,8 @@ The list of supported styles is:
 
 ### no-restricted-patterns
 
-`no-restricted-patterns` is a list of exact or partial patterns whose matches are dissallowed in feature name and description, and in background, scenario and scenario outline name, description and steps. 
-All patterns are treated as case insensitive. 
+`no-restricted-patterns` is a list of exact or partial patterns whose matches are dissallowed in feature name and description, and in background, scenario and scenario outline name, description and steps.
+All patterns are treated as case insensitive.
 The rule can be configured like this:
 ```
 {
@@ -134,7 +135,7 @@ The rule can be configured like this:
 
 Notes:
 - Step keywords `Given`, `When`, `Then` and `And` should not be included in the patterns.
-- Description violations always get reported in the Feature/Scenario/etc definition line. This is due to the parsed gherkin tree not having information about which line the description appears. 
+- Description violations always get reported in the Feature/Scenario/etc definition line. This is due to the parsed gherkin tree not having information about which line the description appears.
 
 ### indentation
 
@@ -241,10 +242,24 @@ or
 
 
 ### no-restricted-tags
-`no-restricted-tags` should be configured with the list of restricted tags:
+`no-restricted-tags` should be configured with the list of restricted tags and patterns:
 ```
 {
-  "no-restricted-tags": ["on", {"tags": ["@watch", "@wip", "@todo"]}]
+  "no-restricted-tags": ["on", {"tags": ["@watch", "@wip"], "patterns": ["^@todo$"]}]
+}
+```
+
+
+### required-tags
+
+`required-tags` supports some configuration options:
+
+- `tags` (array) the array of tag patterns that must match at least one tag - defaults to `[]`
+- `ignoreUntagged` (boolean) whether to ignore scenarios that have no tag - defaults to `true`
+
+```
+{
+  "required-tags": ["on", {"tags": ["^@issue:[1-9]\\d*$"], "ignoreUntagged": false}]
 }
 ```
 

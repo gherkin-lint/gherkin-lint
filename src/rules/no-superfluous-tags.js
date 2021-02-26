@@ -11,7 +11,7 @@ function run(feature) {
   let errors = [];
 
   feature.children.forEach(child => {
-    const node = child.background || child.scenario;
+    const node = child.rule || child.background || child.scenario;
     checkTags(node, feature, feature.language, errors);
 
     if (node.examples) {

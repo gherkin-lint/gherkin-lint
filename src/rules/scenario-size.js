@@ -4,6 +4,7 @@ const gherkinUtils = require('./utils/gherkin.js');
 const rule = 'scenario-size';
 const availableConfigs = {
   'steps-length': {
+    'Rule': 15,
     'Background': 15,
     'Scenario': 15
   }
@@ -20,9 +21,9 @@ function run(feature, unused, configuration) {
 
   let errors = [];
   feature.children.forEach((child) => {
-    const node = child.background || child.scenario;
+    const node = child.rule || child.background || child.scenario;
     const nodeType = gherkinUtils.getNodeType(node, feature.language);
-    const configKey = child.background ? 'Background' : 'Scenario';
+    const configKey = child.rule ? 'Rule' : child.background ? 'Background' : 'Scenario';
     const maxSize = configuration['steps-length'][configKey];
 
     if (maxSize && node.steps.length > maxSize) {

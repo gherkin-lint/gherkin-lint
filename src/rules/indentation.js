@@ -5,6 +5,7 @@ const rule = 'indentation';
 const defaultConfig = {
   'Feature': 0,
   'Background': 0,
+  'Rule': 0,
   'Scenario': 0,
   'Step': 2,
   'Examples': 0,
@@ -72,7 +73,9 @@ function run(feature, unused, configuration) {
   testTags(feature.tags, 'feature tag');
 
   feature.children.forEach(child => {
-    if (child.background) {
+    if (child.rule) {
+      test(child.rule.location, 'Rule');
+    } else if (child.background) {
       test(child.background.location, 'Background');
       child.background.steps.forEach(testStep);
     } else {

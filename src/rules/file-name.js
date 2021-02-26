@@ -6,7 +6,7 @@ const availableConfigs = {
   'style': 'PascalCase'
 };
 const checkers = {
-  'PascalCase': filename => _.startCase(filename).replace(' ', ''),
+  'PascalCase': filename => _.startCase(filename).replace(/ /g, ''),
   'Title Case': filename => _.startCase(filename),
   'camelCase': filename => _.camelCase(filename),
   'kebab-case': filename => _.kebabCase(filename),
