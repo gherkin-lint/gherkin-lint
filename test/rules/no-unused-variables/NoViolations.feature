@@ -5,6 +5,10 @@ Background:
   Then I shouldn't get an unused variable error
 
 Scenario:
+  Given I have a scenario step with a word that looks like a <variable> even though it's not, because there's no examples table
+  Then I shouldn't get an unused variable error
+
+Scenario:
   Given I have a scenario step with a word that looks like a <a> 
   Then I shouldn get an unused variable error cause 
   
