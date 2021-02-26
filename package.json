@@ -91,6 +91,10 @@
     {
       "name": "David Rodríguez",
       "url": "https://github.com/deivid-rodriguez"
+    },
+    {
+      "name": "Andrew Nicols",
+      "url": "https://github.com/andrewnicols"
     }
   ],
   "main": "dist/main.js",

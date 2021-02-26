@@ -3,7 +3,7 @@ var linter = require('../../dist/linter.js');
 
 
 function linterTest(feature, expected) {
-  return linter.lint([feature], {})
+  return linter.lint([feature], {rules: {}})
     .then((actual) => {
       assert.lengthOf(actual, 1);
       assert.deepEqual(actual[0].errors, expected);
@@ -28,7 +28,7 @@ describe('Linter', function() {
       'message': 'Tags on Backgrounds are dissallowed',
       'rule': 'no-tags-on-backgrounds'
     }];
-    
+
     return linterTest(feature, expected);
   });
 
@@ -74,27 +74,27 @@ describe('Linter', function() {
 
   it('detects additional violations that happen after the \'no-tags-on-backgrounds\' rule', function() {
     let feature = 'test/linter/MultipleViolations.feature';
-    let expected = [ 
-      { 
+    let expected = [
+      {
         message: 'Steps should begin with "Given", "When", "Then", "And" or "But". Multiline steps are dissallowed',
         rule: 'no-multiline-steps',
         line: '13' },
-      { 
+      {
         message: 'Tags on Backgrounds are dissallowed',
         rule: 'no-tags-on-backgrounds',
         line: '4'
-      } 
+      }
     ];
 
-    linter.lint([feature])
+    linter.lint([feature], {rules: {}})
       .then((actual) => {
         assert.deepEqual(actual[0].errors, expected);
-      });    
+      });
   });
 
   it('correctly parses files that have the correct Gherkin format', function() {
     let feature = 'test/linter/NoViolations.feature';
     let expected = [];
-    return linterTest(feature, expected);   
+    return linterTest(feature, expected);
   });
 });
