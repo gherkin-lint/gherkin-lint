@@ -18,6 +18,8 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+        with:
+          token: ${{secrets.PERSONAL_ACCESS_TOKEN}}
 
       # Runs a set of commands using the runners shell
       - name: Bump the patch version and push that back to the repo
