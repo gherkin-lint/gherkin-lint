@@ -15,7 +15,10 @@ function run(feature) {
   let ruleStepContainers = feature.children
     .filter(child => child.rule)
     .map(child => child.rule.children)
-    .flat();
+    // .flat(); NOTE: flat not available until nodejs 11, which this project does not require
+    // using reduce() equivalent instead
+    // When revisiting wth nodejs 11, consider using flatmap()
+    .reduce((flattened, element) => flattened.concat(element), []);
 
   let allStepContainers = simpleStepContainers.concat(ruleStepContainers);
 
