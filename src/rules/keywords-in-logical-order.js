@@ -9,17 +9,25 @@ function run(feature) {
 
   let errors = [];
 
-  feature.children.forEach((child) => {
+  let simpleStepContainers = feature.children
+    .filter(child => child.background || child.scenario);
+
+  let ruleStepContainers = feature.children
+    .filter(child => child.rule)
+    .map(child => child.rule.children)
+    .flat();
+
+  let allStepContainers = simpleStepContainers.concat(ruleStepContainers);
+
+  allStepContainers.forEach(child => {
     const node = child.background || child.scenario;
+
     const keywordList = ['given', 'when', 'then'];
 
     let maxKeywordPosition = undefined;
 
     node.steps.forEach((step) => {
-      const keyword = gherkinUtils.getLanguageInsitiveKeyword(
-        step,
-        feature.language
-      );
+      const keyword = gherkinUtils.getLanguageInsitiveKeyword(step, feature.language);
       let keywordPosition = keywordList.indexOf(keyword);
 
       if (keywordPosition === -1) {
@@ -29,7 +37,6 @@ function run(feature) {
 
       if (keywordPosition < maxKeywordPosition) {
         let maxKeyword = keywordList[maxKeywordPosition];
-        // console.log(createError(step, maxKeyword));
         errors.push(createError(step, maxKeyword));
       }
 
@@ -43,12 +50,7 @@ function run(feature) {
 
 function createError(step, maxKeyword) {
   return {
-    message:
-      'Step "' +
-      step.keyword +
-      step.text +
-      '" should not appear after step using keyword ' +
-      maxKeyword,
+    message: `Step "${step.keyword}${step.text}" should not appear after step using keyword ${maxKeyword}`,
     rule: rule,
     line: step.location.line,
   };
