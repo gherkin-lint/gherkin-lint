@@ -29,18 +29,24 @@ function run(feature) {
   scenarios.forEach(scenario => {
     let lastRealKeyword = '';
     let whenCount = 0;
+    let firstViolationLine = 0;
+
     scenario.steps.forEach(step => {
       let keyword = gherkinUtils.getLanguageInsitiveKeyword(step, feature.language);
       if (keyword === 'when' || (keyword === 'and' && lastRealKeyword === 'when')) {
         lastRealKeyword = 'when';
         whenCount++;
+        if (whenCount > 1 && firstViolationLine === 0) {
+          firstViolationLine = step.location.line;
+        }
+
       } else {
         lastRealKeyword = keyword;
       }
     });
 
     if (whenCount > 1) {
-      errors.push(createError(scenario, whenCount));
+      errors.push(createError(scenario, whenCount, firstViolationLine));
     }
   });
 
@@ -48,11 +54,11 @@ function run(feature) {
 }
 
 
-function createError(scenario, whenCount) {
+function createError(scenario, whenCount, lineNumber) {
   return {
     message: `Scenario "${scenario.name}" contains ${whenCount} When statements (max 1)`,
     rule: rule,
-    line: scenario.location.line,
+    line: lineNumber,
   };
 }
 

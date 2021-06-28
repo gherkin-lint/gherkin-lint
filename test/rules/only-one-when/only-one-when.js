@@ -15,27 +15,27 @@ describe('Only one When step', function () {
   let expectedViolations = [
     {
       messageElements: {scenario: 'When, When', whenCount: 2},
-      line: 5
+      line: 7
     },
     {
       messageElements: {scenario: 'When, And', whenCount: 2},
-      line: 9
+      line: 11
     },
     {
       messageElements: {scenario: 'Given, When, And, Then', whenCount: 2},
-      line: 13
+      line: 16
     },
     {
       messageElements: {scenario: 'Outline Given, When, And, Then', whenCount: 2},
-      line: 19
+      line: 22
     },
     {
       messageElements: {scenario: 'Given, When, When, And, Then', whenCount: 3},
-      line: 28
+      line: 31
     },
     {
       messageElements: {scenario: 'Given, When, Then, When, And', whenCount: 3},
-      line: 35
+      line: 39
     },
   ];
 
