@@ -1,7 +1,14 @@
-dist
+lib
 node_modules
 *.origin
 npm-debug.log
-.DS_Store
 .nyc_output
 coverage
+
+.DS_Store
+.idea
+.vscode
+
+yarn-error.log
+local.log
+*.tsbuildinfo

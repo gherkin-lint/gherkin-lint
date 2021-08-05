@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "outDir": "lib",
+    "baseUrl": ".",
+    // "rootDir": "./src",
+    "allowJs": true,
+    "composite": true,
+    "target": "es2017",
+    "module": "commonjs",
+    "strict": true,
+    "strictFunctionTypes": true,
+    "removeComments": false,
+    "preserveConstEnums": true,
+    "skipLibCheck": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "noImplicitAny": false,
+    "noUnusedLocals": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "lib": [
+      "dom",
+      "es2017"
+    ],
+    "types": [
+      "jest",
+      "node"
+    ]
+  },
+  "include": [
+    "**/*"
+  ]
+}

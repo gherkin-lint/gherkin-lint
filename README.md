@@ -107,7 +107,7 @@ The list of supported styles is:
 
 ### no-restricted-patterns
 
-`no-restricted-patterns` is a list of exact or partial patterns whose matches are dissallowed in feature name and description, and in background, scenario and scenario outline name, description and steps.
+`no-restricted-patterns` is a list of exact or partial patterns whose matches are disallowed in feature name and description, and in background, scenario and scenario outline name, description and steps.
 All patterns are treated as case insensitive.
 The rule can be configured like this:
 ```

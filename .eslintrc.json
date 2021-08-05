@@ -1,21 +1,25 @@
 {
+  "extends": [
+    "eslint:recommended"
+  ],
   "env": {
     "node": true,
     "mocha": true,
     "es6": true
   },
-  "extends": "eslint:recommended",
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "import",
+    "@typescript-eslint/eslint-plugin"
+  ],
   "parserOptions": {
-    "sourceType": "module"
+    "sourceType": "module",
+    "ecmaVersion": 6
   },
   "rules": {
     "indent": [
       "error",
-      2
-    ],
-    "quotes": [
-      "error",
-      "single"
+      4
     ],
     "semi": [
       "error",
@@ -28,6 +32,213 @@
     "space-before-blocks": [
       "error",
       "always"
+    ],
+    "comma-dangle": [
+      "error",
+      "always-multiline"
+    ],
+    "no-console": [
+      "error",
+      {
+        "allow": [
+          "warn",
+          "error",
+          "info"
+        ]
+      }
+    ],
+    "max-len": [
+      "error",
+      {
+        "code": 140,
+        "comments": 0,
+        "ignorePattern": "^import |//|\"[^\"]{100,}\""
+      }
+    ],
+    "eqeqeq": [
+      "error",
+      "smart"
+    ],
+    "no-undef": "off",
+    // ensured by TypeScript
+    "no-unused-vars": "off",
+    // ensured by TypeScript
+    "no-case-declarations": "off",
+    "no-empty": [
+      "error",
+      {
+        "allowEmptyCatch": true
+      }
+    ],
+    "no-prototype-builtins": "off",
+    // we don't use `Object.create`
+    "no-dupe-class-members": "off",
+    // ensured by TypeScript
+    "no-new": "error",
+    "no-bitwise": "error",
+    "guard-for-in": "warn",
+    "no-irregular-whitespace": [
+      "error",
+      {
+        "skipStrings": false
+      }
+    ],
+    "keyword-spacing": "error",
+    "quotes": [
+      "error",
+      "double",
+      {
+        "allowTemplateLiterals": true,
+        "avoidEscape": true
+      }
+    ],
+    "no-control-regex": "off",
+    "no-extra-boolean-cast": "off",
+    "object-curly-spacing": [
+      "error",
+      "always"
+    ],
+    "space-infix-ops": "error",
+    "eol-last": "error",
+    "no-trailing-spaces": "error",
+    "no-var": "error",
+    "no-multiple-empty-lines": [
+      "error",
+      {
+        "max": 1,
+        "maxBOF": 0
+      }
+    ],
+    "camelcase": [
+      "warn",
+      {
+        "properties": "never",
+        "ignoreDestructuring": true
+      }
+    ],
+    "comma-spacing": [
+      "error"
+    ],
+    "template-curly-spacing": [
+      "error"
+    ],
+    "curly": [
+      "error"
+    ],
+    "no-restricted-properties": [
+      "warn",
+      {
+        "object": "process",
+        "property": "env",
+        "message": "Use strongly typed BUILD_OPTIONS instead. See MOBREF-1628"
+      }
+    ],
+    "padding-line-between-statements": [
+      "error",
+      {
+        "blankLine": "always",
+        "prev": "*",
+        "next": "function"
+      }
+    ],
+    "lines-between-class-members": [
+      "error",
+      "always",
+      {
+        "exceptAfterSingleLine": true
+      }
+    ],
+    "import/newline-after-import": [
+      "error",
+      {
+        "count": 1
+      }
+    ],
+    "prefer-template": [
+      "warn"
+    ],
+    // @typescript-eslint
+    "@typescript-eslint/triple-slash-reference": [
+      "error",
+      {
+        "path": "never",
+        "types": "never",
+        "lib": "never"
+      }
+    ],
+    "@typescript-eslint/member-delimiter-style": [
+      "error",
+      {
+        "multiline": {
+          "requireLast": true,
+          "delimiter": "semi"
+        },
+        "singleline": {
+          "requireLast": true,
+          "delimiter": "semi"
+        }
+      }
+    ],
+    "@typescript-eslint/no-redeclare": [
+      "error"
+    ],
+    "no-redeclare": "off",
+    "@typescript-eslint/no-this-alias": [
+      "error"
+    ],
+    "@typescript-eslint/prefer-for-of": [
+      "warn"
+    ],
+    "@typescript-eslint/no-unused-expressions": [
+      "error",
+      {
+        "allowTernary": true
+      }
+    ],
+    "@typescript-eslint/no-namespace": [
+      "warn"
+    ],
+    "@typescript-eslint/no-shadow": [
+      "error"
+    ],
+    "@typescript-eslint/member-ordering": [
+      "error",
+      {
+        "default": [
+          "public-static-field",
+          "public-static-method",
+          "protected-static-field",
+          "protected-static-method",
+          "private-static-field",
+          "private-static-method",
+          "public-abstract-field",
+          "protected-abstract-field",
+          "private-abstract-field",
+          "public-instance-field",
+          "protected-instance-field",
+          "private-instance-field",
+          "constructor",
+          "public-abstract-method",
+          "protected-abstract-method",
+          "private-abstract-method",
+          "public-instance-method",
+          "protected-instance-method",
+          "private-instance-method",
+          "method"
+        ],
+        "interfaces": "never",
+        "typeLiterals": "never"
+      }
+    ],
+    "import/no-default-export": "warn",
+    "import/no-unassigned-import": [
+      "warn",
+      {
+        "allow": [
+          "react",
+          "**/*.pcss"
+        ]
+      }
     ]
   }
 }
