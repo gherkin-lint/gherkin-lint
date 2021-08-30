@@ -2,13 +2,13 @@ const gherkinUtils = require('./utils/gherkin.js');
 
 const rule = 'use-and';
 
-function run(feature) {
+function run({feature}) {
   if (!feature) {
     return [];
   }
 
   let errors = [];
-  
+
   feature.children.forEach(child => {
     const node = child.rule || child.background || child.scenario;
     let previousKeyword = undefined;

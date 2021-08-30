@@ -13,7 +13,7 @@ const checkers = {
   'snake_case': filename => _.snakeCase(filename)
 };
 
-function run(feature, file, configuration) {
+function run({file}, configuration) {
   if (!file) {
     return [];
   }

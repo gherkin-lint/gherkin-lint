@@ -25,18 +25,18 @@ function testSteps(node, mergedConfiguration) {
   });
 }
 
-function run(feature, unused, configuration) {
+function run({feature}, configuration) {
   if (!feature) {
     return [];
   }
 
   errors = [];
   const mergedConfiguration = _.merge(availableConfigs, configuration);
-  
+
   // Check Feature name length
   test(feature.name, feature.location, mergedConfiguration, 'Feature');
 
-  feature.children.forEach(child => { 
+  feature.children.forEach(child => {
     if (child.rule) {
       test(child.rule.name, child.rule.location, mergedConfiguration, 'Rule');
     } else if (child.background) {

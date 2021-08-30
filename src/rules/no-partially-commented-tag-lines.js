@@ -1,6 +1,6 @@
 const rule = 'no-partially-commented-tag-lines';
 
-function run(feature) {
+function run({feature}) {
   if (!feature) {
     return [];
   }
@@ -17,7 +17,7 @@ function run(feature) {
       });
     }
   });
-  
+
   return errors;
 }
 

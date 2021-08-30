@@ -8,18 +8,18 @@ const availableConfigs = {
 };
 
 
-function run(feature, unused, configuration) {
+function run({feature}, configuration) {
   if (!feature) {
     return [];
   }
-  
+
   const forbiddenTags = configuration.tags;
   const forbiddenPatterns = getForbiddenPatterns(configuration);
   const language = feature.language;
   let errors = [];
 
   checkTags(feature, language, forbiddenTags, forbiddenPatterns, errors);
-  
+
   feature.children.forEach(child => {
     // backgrounds don't have tags
     if (child.scenario) {
@@ -28,9 +28,9 @@ function run(feature, unused, configuration) {
       child.scenario.examples.forEach(example => {
         checkTags(example, language, forbiddenTags, forbiddenPatterns, errors);
       });
-    }      
+    }
   });
-  
+
   return errors;
 }
 

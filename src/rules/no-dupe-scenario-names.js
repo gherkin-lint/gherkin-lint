@@ -1,48 +1,56 @@
+import * as _ from 'lodash';
 const rule = 'no-dupe-scenario-names';
 const availableConfigs = [
   'anywhere',
-  'in-feature'
+  'in-feature',
+  'anywhere-compile',
+  'in-feature-compile'
 ];
 
-let scenarios = [];
+let scenarios = {};
 
-function run(feature, file, configuration) {
+function run({feature, pickles, file}, configuration) {
   if (!feature) {
     return [];
   }
 
   let errors = [];
-  if(configuration === 'in-feature') {
-    scenarios = [];
+
+  const compile = _.isString(configuration) && configuration && configuration.endsWith('-compile');
+  if(_.isString(configuration) && configuration.startsWith('in-feature')) {
+    scenarios = {};
   }
 
-  feature.children.forEach(child => {
-    if (child.scenario) {
-      if (child.scenario.name in scenarios) {
-        const dupes = getFileLinePairsAsStr(scenarios[child.scenario.name].locations);
-        
-        scenarios[child.scenario.name].locations.push({
-          file: file.relativePath, 
-          line: child.scenario.location.line
-        });
+  const items = compile ? pickles : feature.children.filter(child => child.scenario).map(child => child.scenario);
 
-        errors.push({
-          message: 'Scenario name is already used in: ' + dupes,
-          rule   : rule,
-          line   : child.scenario.location.line});
-      } else {
-        scenarios[child.scenario.name] = {
-          locations: [
-            {
-              file: file.relativePath, 
-              line: child.scenario.location.line
-            }
-          ]
-        };
-      }
+  items.forEach(scenario => {
+    const scenarioName = scenario.name;
+    const scenarioLine = compile ? guessPickleLine(feature, scenario) : scenario.location.line;
+    if (Object.prototype.hasOwnProperty.call(scenarios, scenarioName)) {
+      const dupes = getFileLinePairsAsStr(scenarios[scenarioName].locations);
+
+      scenarios[scenarioName].locations.push({
+        file: file.relativePath,
+        line: scenarioLine
+      });
+
+      errors.push({
+        message: 'Scenario name is already used in: ' + dupes,
+        rule   : rule,
+        line   : scenarioLine
+      });
+    } else {
+      scenarios[scenarioName] = {
+        locations: [
+          {
+            file: file.relativePath,
+            line: scenarioLine
+          }
+        ]
+      };
     }
   });
-  
+
   return errors;
 }
 
@@ -52,6 +60,15 @@ function getFileLinePairsAsStr(objects) {
     strings.push(object.file + ':' + object.line);
   });
   return strings.join(', ');
+}
+
+function guessPickleLine(feature, pickle) {
+  let item = feature.children.filter(child => child.scenario).find(child => child.scenario.id === pickle.astNodeIds[0]).scenario;
+
+  if (pickle.astNodeIds.length === 2) // Scenario Outline
+    item = item.examples.flatMap(e => e.tableBody).find(t => t.id === pickle.astNodeIds[1]);
+
+  return item.location.line;
 }
 
 module.exports = {

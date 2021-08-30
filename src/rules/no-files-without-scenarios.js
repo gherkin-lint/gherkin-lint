@@ -4,7 +4,7 @@ function filterScenarios(child) {
   return child.scenario != undefined;
 }
 
-function run(feature) {
+function run({feature}) {
   if (!feature) {
     return [];
   }

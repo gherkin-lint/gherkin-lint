@@ -2,14 +2,14 @@ const _ = require('lodash');
 
 const rule = 'one-space-between-tags';
 
-function run(feature) {
+function run({feature}) {
   if (!feature) {
     return;
   }
   let errors = [];
-  
+
   testTags(feature, errors);
-  
+
   feature.children.forEach(child => {
     if (child.scenario) {
       testTags(child.scenario, errors);
@@ -19,7 +19,7 @@ function run(feature) {
       });
     }
   });
-  
+
   return errors;
 }
 

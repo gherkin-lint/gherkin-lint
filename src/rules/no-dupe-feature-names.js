@@ -1,7 +1,7 @@
 const rule = 'no-dupe-feature-names';
 const features = [];
 
-function run(feature, file) {
+function run({feature, file}) {
   if (!feature) {
     return [];
   }
@@ -17,7 +17,7 @@ function run(feature, file) {
   } else {
     features[feature.name] = {files: [file.relativePath]};
   }
-  
+
   return errors;
 }
 

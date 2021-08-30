@@ -1,6 +1,6 @@
 const rule = 'no-unnamed-scenarios';
 
-function run(feature) {
+function run({feature}) {
   if (!feature) {
     return [];
   }

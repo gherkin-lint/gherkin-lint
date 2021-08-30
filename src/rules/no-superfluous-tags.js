@@ -3,7 +3,7 @@ const gherkinUtils = require('./utils/gherkin.js');
 
 const rule = 'no-superfluous-tags';
 
-function run(feature) {
+function run({feature}) {
   if (!feature) {
     return [];
   }

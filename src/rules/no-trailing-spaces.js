@@ -1,6 +1,6 @@
 const rule = 'no-trailing-spaces';
 
-function run(unused, file) {
+function run({file}) {
   let errors = [];
   let lineNo = 1;
   file.lines.forEach(line => {
@@ -12,7 +12,7 @@ function run(unused, file) {
 
     lineNo++;
   });
-  
+
   return errors;
 }
 

@@ -1,6 +1,6 @@
 const rule = 'no-empty-background';
 
-function run(feature) {
+function run({feature}) {
   if (!feature) {
     return [];
   }
