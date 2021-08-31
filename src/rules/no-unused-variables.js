@@ -31,7 +31,7 @@ function run(feature) {
       if (example.tableHeader && example.tableHeader.cells) {
         example.tableHeader.cells.forEach(cell => {
           if (cell.value) {
-            examplesVariables[cell.value] = cell.location.line;
+            examplesVariables[cell.value] = cell.location;
           }
         });
       }
@@ -42,7 +42,10 @@ function run(feature) {
 
     // Scenario names can include variables
     while ((match = stepVariableRegex.exec(child.scenario.name)) != null) {
-      scenarioVariables[match[1]] = child.scenario.location.line;
+      scenarioVariables[match[1]] = {
+        line: child.scenario.location.line,
+        column: child.scenario.keyword.length + 2 + child.scenario.location.column + match.index // If multiple spaces (or any) are separating the keyword, the column is wrong
+      };
     }
 
 
@@ -60,30 +63,40 @@ function run(feature) {
           row.cells.forEach(cell => {
             if (cell.value) {
               while ((match = stepVariableRegex.exec(cell.value)) != null) {
-                scenarioVariables[match[1]] = cell.location.line;
+                scenarioVariables[match[1]] = {
+                  line: cell.location.line,
+                  column: cell.location.column + match.index
+                };
               }
             }
           });
         });
       } else if (step.docString) {
         while ((match = stepVariableRegex.exec(step.docString.content)) != null) {
-          scenarioVariables[match[1]] = step.location.line;
+          scenarioVariables[match[1]] = {
+            line: step.docString.location.line,
+            column: 0 // With multiple lines needs a complex way to find the column
+          };
         }
       }
 
       // Collect variables from the steps themselves
       while ((match = stepVariableRegex.exec(step.text)) != null) {
-        scenarioVariables[match[1]] = step.location.line;
+        scenarioVariables[match[1]] = {
+          line: step.location.line, // Matches the docstring line, not the matching line
+          column: step.keyword.length + step.location.column + match.index // If multiple spaces (or any) are separating the keyword, the column is wrong
+        };
       }
     });
-    
+
 
     for (const exampleVariable in examplesVariables) {
       if (!scenarioVariables[exampleVariable]) {
         errors.push({
           message: 'Examples table variable "' + exampleVariable + '" is not used in any step',
           rule   : rule,
-          line   : examplesVariables[exampleVariable]
+          line   : examplesVariables[exampleVariable].line,
+          column : examplesVariables[exampleVariable].column,
         });
       }
     }
@@ -93,7 +106,8 @@ function run(feature) {
         errors.push({
           message: 'Step variable "' + scenarioVariable + '" does not exist in the examples table',
           rule   : rule,
-          line   : scenarioVariables[scenarioVariable]
+          line   : scenarioVariables[scenarioVariable].line,
+          column : scenarioVariables[scenarioVariable].column,
         });
       }
     }

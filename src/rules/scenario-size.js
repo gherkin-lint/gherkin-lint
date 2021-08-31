@@ -30,7 +30,8 @@ function run(feature, unused, configuration) {
       errors.push({
         message: `Element ${nodeType} too long: actual ${node.steps.length}, expected ${maxSize}`,
         rule   : 'scenario-size',
-        line   : node.location.line
+        line   : node.location.line,
+        column   : node.location.column,
       });
     }
   });

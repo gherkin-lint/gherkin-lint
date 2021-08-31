@@ -9,7 +9,8 @@ describe('No Examples in Scenarios', function() {
 
   it('detects errors when an scenario has examples', function() {
     return runTest('no-examples-in-scenarios/Violations.feature', {}, [{
-      line: 6
+      line: 6,
+      column: 1,
     }]);
   });
 });

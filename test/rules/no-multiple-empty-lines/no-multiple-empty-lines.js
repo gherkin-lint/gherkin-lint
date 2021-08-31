@@ -9,13 +9,13 @@ describe('No Multiple Empty Lines Rule', function() {
 
   it('detects errors for features, scenarios, and scenario outlines', function() {
     return runTest('no-multiple-empty-lines/Violations.feature', {}, [
-      { messageElements: {}, line: 2 },
-      { messageElements: {}, line: 6 },
-      { messageElements: {}, line: 7 },
-      { messageElements: {}, line: 8 },
-      { messageElements: {}, line: 12 },
-      { messageElements: {}, line: 17 },
-      { messageElements: {}, line: 25 },
+      { messageElements: {}, line: 2, column: 0 },
+      { messageElements: {}, line: 6, column: 0 },
+      { messageElements: {}, line: 7, column: 0 },
+      { messageElements: {}, line: 8, column: 0 },
+      { messageElements: {}, line: 12, column: 0 },
+      { messageElements: {}, line: 17, column: 0 },
+      { messageElements: {}, line: 25, column: 0 },
     ]);
   });
 });

@@ -44,7 +44,7 @@ function getRestrictedPatterns(configuration) {
   Object.keys(availableConfigs).forEach(key => {
     const resolvedKey = key.toLowerCase().replace(/ /g, '');
     const resolvedConfig = (configuration[key] || []);
-    
+
     restrictedPatterns[resolvedKey] = resolvedConfig.map(pattern => new RegExp(pattern, 'i'));
 
     restrictedPatterns[resolvedKey] = restrictedPatterns[resolvedKey].concat(globalPatterns);
@@ -88,14 +88,14 @@ function check(node, property, pattern, language, errors) {
   const type = gherkinUtils.getNodeType(node, language);
 
   if (property == 'description') {
-    // Descriptions can be multiline, in which case the description will contain escapted 
+    // Descriptions can be multiline, in which case the description will contain escapted
     // newline characters "\n". If a multiline description matches one of the restricted patterns
     // when the error message gets printed in the console, it will break the message into multiple lines.
     // So let's split the description on newline chars and test each line separately.
 
-    // To make sure we don't accidentally pick up a doubly escaped new line "\\n" which would appear 
-    // if a user wrote the string "\n" in a description, let's replace all escaped new lines 
-    // with a sentinel, split lines and then restore the doubly escaped new line 
+    // To make sure we don't accidentally pick up a doubly escaped new line "\\n" which would appear
+    // if a user wrote the string "\n" in a description, let's replace all escaped new lines
+    // with a sentinel, split lines and then restore the doubly escaped new line
     const escapedNewLineSentinel = '<!gherkin-lint new line sentinel!>';
     const escapedNewLine = '\\n';
     strings = node[property]
@@ -103,18 +103,19 @@ function check(node, property, pattern, language, errors) {
       .split('\n')
       .map(string => string.replace(escapedNewLineSentinel, escapedNewLine));
   }
-  
+
   for (let i = 0; i < strings.length; i++) {
-    // We use trim() on the examined string because names and descriptions can contain 
+    // We use trim() on the examined string because names and descriptions can contain
     // white space before and after, unlike steps
     if (strings[i].trim().match(pattern)) {
       errors.push({
         message: `${type} ${property}: "${strings[i].trim()}" matches restricted pattern "${pattern}"`,
         rule: rule,
-        line: node.location.line
+        line: node.location.line,
+        column: node.location.column,
       });
     }
-  } 
+  }
 }
 
 

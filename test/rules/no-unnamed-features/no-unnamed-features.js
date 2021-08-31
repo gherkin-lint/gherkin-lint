@@ -11,7 +11,8 @@ describe('No Unnamed Features Rule', function() {
     return runTest('no-unnamed-features/EmptyFeature.feature', {}, [
       {
         messageElements: {},
-        line: 0
+        line: 0,
+        column: 0,
       }
     ]);
   });
@@ -20,7 +21,8 @@ describe('No Unnamed Features Rule', function() {
     return runTest('no-unnamed-features/UnnamedFeature.feature', {}, [
       {
         messageElements: {},
-        line: 3
+        line: 3,
+        column: 1,
       }
     ]);
   });

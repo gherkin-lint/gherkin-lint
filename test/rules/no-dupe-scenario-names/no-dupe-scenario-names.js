@@ -18,6 +18,7 @@ describe('No Duplicate Scenario Names Rule', function() {
   it('raises errors when there duplicate Scenario and Scenario Outline names in a single file', function() {
     return runTest('no-dupe-scenario-names/DublicateScenarioNames.feature', {}, [{
       line: 9,
+      column: 1,
       messageElements: {location: 'test/rules/no-dupe-scenario-names/DublicateScenarioNames.feature:6'}
     }]);
   });
@@ -28,12 +29,14 @@ describe('No Duplicate Scenario Names Rule', function() {
         return runTest('no-dupe-scenario-names/DublicateScenarioNamesAcrossFiles2.feature', {}, [
           {
             line: 6,
+            column: 1,
             messageElements: {
               location: 'test/rules/no-dupe-scenario-names/DublicateScenarioNamesAcrossFiles1.feature:6'
             }
           },
           {
             line: 9,
+            column: 1,
             messageElements: {
               location: 'test/rules/no-dupe-scenario-names/DublicateScenarioNamesAcrossFiles1.feature:9'
             }
@@ -41,7 +44,7 @@ describe('No Duplicate Scenario Names Rule', function() {
         ]);
       });
   });
-  
+
   it('doesn\'t raise errors when there are duplicate scenario names in different files', function() {
     return runTest('no-dupe-scenario-names/DublicateScenarioNamesAcrossFiles1.feature', 'in-feature', [])
       .then(() => {

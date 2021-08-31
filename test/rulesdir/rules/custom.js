@@ -5,7 +5,8 @@ function custom() {
     {
       message: 'Custom error',
       rule   : rule,
-      line   : 123
+      line   : 123,
+      column : 21
     }
   ];
 }

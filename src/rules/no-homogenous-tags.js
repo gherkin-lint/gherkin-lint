@@ -8,7 +8,7 @@ function run(feature) {
   }
   let errors = [];
 
-  // Tags that exist in every scenario and scenario outline 
+  // Tags that exist in every scenario and scenario outline
   // should be applied on a feature level
   let childrenTags = [];
 
@@ -27,26 +27,28 @@ function run(feature) {
       if (homogenousExampleTags.length) {
         errors.push({
           message: 'All Examples of a Scenario Outline have the same tag(s), ' +
-            'they should be defined on the Scenario Outline instead: ' + 
+            'they should be defined on the Scenario Outline instead: ' +
             homogenousExampleTags.join(', '),
           rule: rule,
-          line: scenario.location.line
+          line: scenario.location.line,
+          column: scenario.location.column,
         });
       }
-    }    
+    }
   });
 
   const homogenousTags = _.intersection(...childrenTags);
   if (homogenousTags.length) {
     errors.push({
       message: 'All Scenarios on this Feature have the same tag(s), ' +
-        'they should be defined on the Feature instead: ' + 
+        'they should be defined on the Feature instead: ' +
         homogenousTags.join(', '),
       rule   : rule,
-      line   : feature.location.line
+      line   : feature.location.line,
+      column : feature.location.column,
     });
   }
-  
+
   return errors;
 }
 

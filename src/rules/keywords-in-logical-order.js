@@ -51,6 +51,7 @@ function createError(step, maxKeyword) {
       maxKeyword,
     rule: rule,
     line: step.location.line,
+    column: step.location.column,
   };
 }
 

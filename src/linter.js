@@ -17,7 +17,7 @@ function readAndParseFile(filePath) {
     };
 
     const stream = Gherkin.fromPaths([filePath], options);
-    
+
     stream.on('data', envelope => {
       if (envelope.attachment) {
         // An attachment implies that there was a parsing error
@@ -38,9 +38,9 @@ function readAndParseFile(filePath) {
       reject(processFatalErrors(error));
     });
 
-    stream.on('end', () => { 
+    stream.on('end', () => {
       if (parsingErrors.length) {
-        // Process all errors/attachments at once, because a tag on a background will 
+        // Process all errors/attachments at once, because a tag on a background will
         // generate multiple error events, and it would be confusing to print a message for each
         // one of them, when they are all caused by a single cause
         reject(processFatalErrors(parsingErrors));
@@ -64,17 +64,17 @@ function lint(files, configuration, additionalRulesDirs) {
 
     return readAndParseFile(f)
       .then(
-        // Handle Promise.resolve 
+        // Handle Promise.resolve
         ({feature, file}) => {
           perFileErrors = rules.runAllEnabledRules(feature, file, configuration, additionalRulesDirs);
         },
-        // Handle Promise.reject 
+        // Handle Promise.reject
         (parsingErrors) => {
           perFileErrors = parsingErrors;
         })
       .finally(()=> {
         let fileBlob = {
-          filePath: fs.realpathSync(f), 
+          filePath: fs.realpathSync(f),
           errors: _.sortBy(perFileErrors, 'line')
         };
 
@@ -105,7 +105,8 @@ function getFormatedTaggedBackgroundError(errors) {
     errorMsgs.push({
       message: 'Tags on Backgrounds are dissallowed',
       rule: 'no-tags-on-backgrounds',
-      line: errors[0].data.match(/\((\d+):.*/)[1]
+      line: errors[0].data.match(/\((\d+):.*/)[1],
+      column: 0
     });
 
     index = 2;
@@ -143,9 +144,12 @@ function getFormattedFatalError(error) {
     errorMsg = error.data;
     rule = 'unexpected-error';
   }
-  return {message: errorMsg,
+  return {
+    message: errorMsg,
     rule   : rule,
-    line   : errorLine};
+    line   : errorLine,
+    column: 0
+  };
 }
 
 module.exports = {

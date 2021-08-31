@@ -12,6 +12,7 @@ describe('Scenario size Rule', function() {
       'Scenario': 3
     }}, [{
       line: 3,
+      column: 1,
       messageElements: {
         type: 'Background',
         actual: 5,
@@ -20,14 +21,16 @@ describe('Scenario size Rule', function() {
     },
     {
       line: 10,
+      column: 1,
       messageElements: {
-        type: 'Scenario', 
+        type: 'Scenario',
         actual: 5,
         expected: 3
       }
     },
     {
       line: 17,
+      column: 1,
       messageElements: {
         type: 'Scenario Outline',
         actual: 5,

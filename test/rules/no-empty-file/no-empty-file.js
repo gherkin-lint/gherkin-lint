@@ -9,13 +9,13 @@ describe('No Empty Files Rule', function() {
 
   it('raises an error an error for feature files that are empty', function() {
     return runTest('no-empty-file/EmptyFeature.feature', {}, [
-      { messageElements: {}, line: 1 }
+      { messageElements: {}, line: 1, column: 0 }
     ]);
   });
 
   it('raises an error an error for feature files that only contain whitespace', function() {
     return runTest('no-empty-file/OnlyWhitespace.feature', {}, [
-      { messageElements: {}, line: 1 }
+      { messageElements: {}, line: 1, column: 0 }
     ]);
   });
 });

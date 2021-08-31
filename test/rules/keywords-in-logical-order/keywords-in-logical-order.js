@@ -12,35 +12,43 @@ describe('Keywords in logical order', function() {
     return runTest('keywords-in-logical-order/Violations.feature', {}, [
       {
         messageElements: { keyword: 'When', text: 'step2', priorKeyword: 'then'},
-        line: 5
+        line: 5,
+        column: 3,
       },
       {
         messageElements: { keyword: 'Given', text: 'step3', priorKeyword: 'then'},
-        line: 6
+        line: 6,
+        column: 3,
       },
       {
         messageElements: { keyword: 'Given', text: 'step12', priorKeyword: 'when'},
-        line: 10
+        line: 10,
+        column: 3,
       },
       {
         messageElements: { keyword: 'Given', text: 'step22', priorKeyword: 'then'},
-        line: 14
+        line: 14,
+        column: 3,
       },
       {
         messageElements: { keyword: 'When', text: 'step32', priorKeyword: 'then'},
-        line: 18
+        line: 18,
+        column: 3,
       },
       {
         messageElements: { keyword: 'When', text: 'step54', priorKeyword: 'then'},
-        line: 24
+        line: 24,
+        column: 3,
       },
       {
         messageElements: { keyword: 'When', text: 'step42', priorKeyword: 'then'},
-        line: 28
+        line: 28,
+        column: 3,
       },
       {
         messageElements: { keyword: 'Given', text: 'step43', priorKeyword: 'then'},
-        line: 29
+        line: 29,
+        column: 3,
       },
     ]);
   });

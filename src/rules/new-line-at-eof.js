@@ -13,7 +13,7 @@ function run(unused, file, configuration) {
     logger.boldError(rule + ' requires an extra configuration value.\nAvailable configurations: ' + availableConfigs.join(', ') + '\nFor syntax please look at the documentation.');
     process.exit(1);
   }
-  
+
   const hasNewLineAtEOF = _.last(file.lines) === '';
   let errormsg = '';
   if (hasNewLineAtEOF && configuration === 'no') {
@@ -26,7 +26,8 @@ function run(unused, file, configuration) {
     errors.push({
       message: errormsg,
       rule   : rule,
-      line   : file.lines.length
+      line   : file.lines.length,
+      column : 0
     });
   }
 

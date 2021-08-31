@@ -11,15 +11,18 @@ describe('No Trailing Spaces Rule', function() {
     return runTest('no-trailing-spaces/TrailingSpaces.feature', {}, [
       {
         messageElements: {},
-        line: 1
+        line: 1,
+        column: 0
       },
       {
         messageElements: {},
-        line: 3
+        line: 3,
+        column: 0
       },
       {
         messageElements: {},
-        line: 4
+        line: 4,
+        column: 0
       }
     ]);
   });
@@ -28,7 +31,8 @@ describe('No Trailing Spaces Rule', function() {
     return runTest('no-trailing-spaces/TrailingTabs.feature', {}, [
       {
         messageElements: {},
-        line: 4
+        line: 4,
+        column: 0
       }
     ]);
   });

@@ -5,49 +5,64 @@ var runTest = ruleTestBase.createRuleTest(rule,
 
 var wrongIndenatationErrors = [{
   messageElements: {element: 'Feature', expected: 0, actual: 1},
-  line: 2
+  line: 2,
+  column: 2,
 },{
   messageElements: {element: 'feature tag', expected: 0, actual: 1},
-  line: 1
+  line: 1,
+  column: 2,
 },{
   messageElements: {element: 'Background', expected: 0, actual: 4},
-  line: 4
+  line: 4,
+  column: 5,
 },{
   messageElements: {element: 'Step', expected: 2, actual: 0},
-  line: 5
+  line: 5,
+  column: 1,
 },{
   messageElements: {element: 'Scenario', expected: 0, actual: 1},
-  line: 9
+  line: 9,
+  column: 2,
 },{
   messageElements: {element: 'scenario tag', expected: 0, actual: 1},
-  line: 7
+  line: 7,
+  column: 2,
 },{
   messageElements: {element: 'scenario tag', expected: 0, actual: 1},
-  line: 8
+  line: 8,
+  column: 2,
 },{
   messageElements: {element: 'Step', expected: 2, actual: 3},
-  line: 10
+  line: 10,
+  column: 4,
 },{
   messageElements: {element: 'Scenario', expected: 0, actual: 3},
-  line: 14
-},{
-  messageElements: {element: 'Examples', expected: 0, actual: 2},
-  line: 16
-},{
-  messageElements: {element: 'example', expected: 2, actual: 4},
-  line: 17
-},{
-  messageElements: {element: 'example', expected: 2, actual: 4},
-  line: 18
+  line: 14,
+  column: 4,
 },{
   messageElements: {element: 'scenario tag', expected: 0, actual: 3},
-  line: 12
+  line: 12,
+  column: 4,
 },{
   messageElements: {element: 'scenario tag', expected: 0, actual: 4},
-  line: 13
+  line: 13,
+  column: 5,
 },{
   messageElements: {element: 'Step', expected: 2, actual: 3},
-  line: 15
+  line: 15,
+  column: 4,
+},{
+  messageElements: {element: 'Examples', expected: 0, actual: 2},
+  line: 16,
+  column: 3,
+},{
+  messageElements: {element: 'example', expected: 2, actual: 4},
+  line: 17,
+  column: 5,
+},{
+  messageElements: {element: 'example', expected: 2, actual: 4},
+  line: 18,
+  column: 5,
 }];
 
 describe('Indentation rule', function() {
@@ -70,49 +85,64 @@ describe('Indentation rule', function() {
   it('detects errors for features, backgrounds, scenarios, scenario outlines and steps in other languages', function() {
     return runTest('indentation/WrongIndentationDifferentLanguage.feature', {}, [{
       messageElements: {element: 'Feature', expected: 0, actual: 4},
-      line: 3
+      line: 3,
+      column: 5,
     },{
       messageElements: {element: 'feature tag', expected: 0, actual: 4},
-      line: 2
+      line: 2,
+      column: 5,
     },{
       messageElements: {element: 'Background', expected: 0, actual: 4},
-      line: 5
+      line: 5,
+      column: 5,
     },{
       messageElements: {element: 'Step', expected: 2, actual: 0},
-      line: 6
+      line: 6,
+      column: 1,
     },{
       messageElements: {element: 'Scenario', expected: 0, actual: 4},
-      line: 10
+      line: 10,
+      column: 5,
     },{
       messageElements: {element: 'scenario tag', expected: 0, actual: 4},
-      line: 8
+      line: 8,
+      column: 5,
     },{
       messageElements: {element: 'scenario tag', expected: 0, actual: 1},
-      line: 9
+      line: 9,
+      column: 2,
     },{
       messageElements: {element: 'Step', expected: 2, actual: 12},
-      line: 11
+      line: 11,
+      column: 13,
     },{
       messageElements: {element: 'Scenario', expected: 0, actual: 12},
-      line: 15
-    },{
-      messageElements: {element: 'Examples', expected: 0, actual: 7},
-      line: 17
-    },{
-      messageElements: {element: 'example', expected: 2, actual: 15},
-      line: 18
-    },{
-      messageElements: {element: 'example', expected: 2, actual: 15},
-      line: 19
+      line: 15,
+      column: 13,
     },{
       messageElements: {element: 'scenario tag', expected: 0, actual: 4},
-      line: 13
+      line: 13,
+      column: 5,
     },{
       messageElements: {element: 'scenario tag', expected: 0, actual: 1},
-      line: 14
+      line: 14,
+      column: 2,
     },{
       messageElements: {element: 'Step', expected: 2, actual: 11},
-      line: 16
+      line: 16,
+      column: 12,
+    },{
+      messageElements: {element: 'Examples', expected: 0, actual: 7},
+      line: 17,
+      column: 8,
+    },{
+      messageElements: {element: 'example', expected: 2, actual: 15},
+      line: 18,
+      column: 16,
+    },{
+      messageElements: {element: 'example', expected: 2, actual: 15},
+      line: 19,
+      column: 16,
     }]);
   });
 

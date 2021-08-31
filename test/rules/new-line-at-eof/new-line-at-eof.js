@@ -21,9 +21,9 @@ describe('New Line at EOF Rule', function() {
       var featureStub = undefined; // not used by the rule
       var fileStub = {name: 'foo.feature', lines: []};
       var invalidConfiguration = ['on', 'k'];
-      
+
       rule.run(featureStub, fileStub, invalidConfiguration);
-      
+
       var consoleErrorArgs = console.error.args.map(function (args) { // eslint-disable-line no-console
         return args[0];
       });
@@ -35,24 +35,26 @@ describe('New Line at EOF Rule', function() {
   });
 
   it('doesn\'t raise errors when the rule is configured to "yes" and there is a new line at EOF', function() {
-    runTestRequireNewLine('new-line-at-eof/NewLineAtEOF.feature', 'yes', []);
+    return runTestRequireNewLine('new-line-at-eof/NewLineAtEOF.feature', 'yes', []);
   });
 
   it('doesn\'t raise errors when the rule is configured to "no" and there is no new line at EOF', function() {
-    runTestDissallowNewLine('new-line-at-eof/NoNewLineAtEOF.feature', 'no', []);
+    return runTestDissallowNewLine('new-line-at-eof/NoNewLineAtEOF.feature', 'no', []);
   });
 
   it('raises an error when the rule is configured to "yes" and there is no new line at EOF', function() {
-    runTestRequireNewLine('new-line-at-eof/NoNewLineAtEOF.feature', 'yes', [{
+    return runTestRequireNewLine('new-line-at-eof/NoNewLineAtEOF.feature', 'yes', [{
       messageElements: {},
-      line: 5
+      line: 5,
+      column: 0
     }]);
   });
 
   it('doesn\'t raise errors when the rule is configured to "no" and there is a new line at EOF', function() {
-    runTestDissallowNewLine('new-line-at-eof/NewLineAtEOF.feature', 'no', [{
+    return runTestDissallowNewLine('new-line-at-eof/NewLineAtEOF.feature', 'no', [{
       messageElements: {},
-      line: 6
+      line: 6,
+      column: 0
     }]);
   });
 });

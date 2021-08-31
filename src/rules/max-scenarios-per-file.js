@@ -32,7 +32,8 @@ function run(feature, unused, config) {
     errors.push({
       message: 'Number of scenarios exceeds maximum: ' + count + '/' + maxScenarios,
       rule,
-      line: 0
+      line: 0,
+      column: 0
     });
   }
 

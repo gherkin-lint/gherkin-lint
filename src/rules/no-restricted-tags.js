@@ -12,14 +12,14 @@ function run(feature, unused, configuration) {
   if (!feature) {
     return [];
   }
-  
+
   const forbiddenTags = configuration.tags;
   const forbiddenPatterns = getForbiddenPatterns(configuration);
   const language = feature.language;
   let errors = [];
 
   checkTags(feature, language, forbiddenTags, forbiddenPatterns, errors);
-  
+
   feature.children.forEach(child => {
     // backgrounds don't have tags
     if (child.scenario) {
@@ -28,9 +28,9 @@ function run(feature, unused, configuration) {
       child.scenario.examples.forEach(example => {
         checkTags(example, language, forbiddenTags, forbiddenPatterns, errors);
       });
-    }      
+    }
   });
-  
+
   return errors;
 }
 
@@ -47,7 +47,8 @@ function checkTags(node, language, forbiddenTags, forbiddenPatterns, errors) {
       errors.push({
         message: `Forbidden tag ${tag.name} on ${nodeType}`,
         rule   : rule,
-        line   : tag.location.line
+        line   : tag.location.line,
+        column : tag.location.column,
       });
     }
   });

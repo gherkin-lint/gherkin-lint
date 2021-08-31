@@ -15,6 +15,7 @@ describe('No empty Backgrounds Rule', function() {
   it('detects errors when there are violations with Scenario', function() {
     return runTest('no-background-only-scenario/ViolationsScenario.feature', {}, [ {
       line: 4,
+      column: 1,
       messageElements: {}
     }]);
   });
@@ -22,6 +23,7 @@ describe('No empty Backgrounds Rule', function() {
   it('detects errors when there are violations with Scenario Outline', function() {
     return runTest('no-background-only-scenario/ViolationsOutline.feature', {}, [ {
       line: 4,
+      column: 1,
       messageElements: {}
     }]);
   });

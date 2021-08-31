@@ -8,14 +8,15 @@ const availableConfigs = {
 };
 
 
-function checkTagExists(requiredTag, ignoreUntagged, scenarioTags, scenarioType, scenarioLine) {
+function checkTagExists(requiredTag, ignoreUntagged, scenarioTags, scenarioType, scenarioLocation) {
   const result = (ignoreUntagged && scenarioTags.length == 0)
     || scenarioTags.some((tagObj) => RegExp(requiredTag).test(tagObj.name));
   if (!result) {
     return {
       message: `No tag found matching ${requiredTag} for ${scenarioType}`,
       rule,
-      line: scenarioLine
+      line: scenarioLocation.line,
+      column: scenarioLocation.column,
     };
   }
   return result;
@@ -32,11 +33,11 @@ function run(feature, unused, config) {
   feature.children.forEach((child) => {
     if (child.scenario) {
       const type = gherkinUtils.getNodeType(child.scenario, feature.language);
-      const line = child.scenario.location.line;
+      const location = child.scenario.location;
 
       // Check each Scenario for the required tags
       const requiredTagErrors = mergedConfig.tags
-        .map((requiredTag) => checkTagExists(requiredTag, mergedConfig.ignoreUntagged, child.scenario.tags || [], type, line))
+        .map((requiredTag) => checkTagExists(requiredTag, mergedConfig.ignoreUntagged, child.scenario.tags || [], type, location))
         .filter((item) =>
           typeof item === 'object' && item.message
         );
@@ -45,7 +46,7 @@ function run(feature, unused, config) {
       errors = errors.concat(requiredTagErrors);
     }
   });
-  
+
   return errors;
 }
 

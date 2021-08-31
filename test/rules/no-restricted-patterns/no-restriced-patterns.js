@@ -26,28 +26,31 @@ describe('No Restricted Patterns Rule', function() {
         messageElements: {
           string: 'Feature with disallowed patterns',
           pattern: '^.*disallowed.*$',
-          nodeType:'Feature', 
+          nodeType:'Feature',
           property: 'name'
         },
-        line: 1
+        line: 1,
+        column: 1,
       },
       {
         messageElements: {
           pattern: '^a restricted global pattern$',
           string: 'A restricted global pattern',
-          nodeType:'Feature', 
+          nodeType:'Feature',
           property: 'description'
         },
-        line: 1
+        line: 1,
+        column: 1
       },
       {
         messageElements: {
           pattern: 'a bad description',
           string: 'A bad description',
-          nodeType:'Feature', 
+          nodeType:'Feature',
           property: 'description'
         },
-        line: 1
+        line: 1,
+        column: 1
       }
     ]);
   });
@@ -68,28 +71,31 @@ describe('No Restricted Patterns Rule', function() {
         messageElements: {
           pattern: 'a bad description',
           string: 'A bad description',
-          nodeType:'Background', 
+          nodeType:'Background',
           property: 'description'
         },
-        line: 4
+        line: 4,
+        column: 1,
       },
       {
         messageElements: {
           string: 'disallowed background step',
           pattern: '^.*disallowed.*$',
-          nodeType:'Step', 
+          nodeType:'Step',
           property: 'text'
         },
-        line: 6
+        line: 6,
+        column: 3,
       },
       {
         messageElements: {
           pattern: '^a restricted global pattern$',
           string: 'a restricted global pattern',
-          nodeType:'Step', 
+          nodeType:'Step',
           property: 'text'
         },
-        line: 7
+        line: 7,
+        column: 3,
       }
     ]);
   });
@@ -110,37 +116,41 @@ describe('No Restricted Patterns Rule', function() {
         messageElements: {
           pattern: 'a bad description',
           string: 'A bad description',
-          nodeType:'Scenario', 
+          nodeType:'Scenario',
           property: 'description'
         },
-        line: 4
+        line: 4,
+        column: 1,
       },
       {
         messageElements: {
           string: 'Disallowed exact and partial matching',
           pattern: '^.*disallowed.*$',
-          nodeType:'Scenario', 
+          nodeType:'Scenario',
           property: 'name'
         },
-        line: 4
+        line: 4,
+        column: 1,
       },
       {
         messageElements: {
           string: 'disallowed scenario step',
           pattern: '^.*disallowed.*$',
-          nodeType:'Step', 
+          nodeType:'Step',
           property: 'text'
         },
-        line: 6
+        line: 6,
+        column: 3,
       },
       {
         messageElements: {
           pattern: '^a restricted global pattern$',
           string: 'a restricted global pattern',
-          nodeType:'Step', 
+          nodeType:'Step',
           property: 'text'
         },
-        line: 7
+        line: 7,
+        column: 3,
       }
     ]);
   });
@@ -161,37 +171,41 @@ describe('No Restricted Patterns Rule', function() {
         messageElements: {
           pattern: 'a bad description',
           string: 'A bad description',
-          nodeType:'Scenario Outline', 
+          nodeType:'Scenario Outline',
           property: 'description'
         },
-        line: 4
+        line: 4,
+        column: 1
       },
       {
         messageElements: {
           string: 'Disallowed exact and partial matching',
           pattern: '^.*disallowed.*$',
-          nodeType:'Scenario Outline', 
+          nodeType:'Scenario Outline',
           property: 'name'
         },
-        line: 4
+        line: 4,
+        column: 1
       },
       {
         messageElements: {
           string: 'disallowed scenario outline step',
           pattern: '^.*disallowed.*$',
-          nodeType:'Step', 
+          nodeType:'Step',
           property: 'text'
         },
-        line: 6
+        line: 6,
+        column: 3
       },
       {
         messageElements: {
           pattern: '^a restricted global pattern$',
           string: 'a restricted global pattern',
-          nodeType:'Step', 
+          nodeType:'Step',
           property: 'text'
         },
-        line: 7
+        line: 7,
+        column: 3
       }
     ]);
   });

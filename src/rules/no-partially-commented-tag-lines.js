@@ -17,7 +17,7 @@ function run(feature) {
       });
     }
   });
-  
+
   return errors;
 }
 
@@ -27,7 +27,8 @@ function checkTags(node, errors) {
       errors.push({
         message: 'Partially commented tag lines not allowed',
         rule   : rule,
-        line   : tag.location.line
+        line   : tag.location.line,
+        column : tag.location.column,
       });
     }
   });

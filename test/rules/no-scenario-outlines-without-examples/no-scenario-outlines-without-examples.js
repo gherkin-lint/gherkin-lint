@@ -9,20 +9,20 @@ describe('No scenario outlines without examples rule', function() {
   });
 
   it('detects errors for scenario outlines that are missing the "Examples" keyword completely', function() {
-    return runTest('no-scenario-outlines-without-examples/ViolationsNoExamples.feature', {}, [ 
-      {line: 3}
+    return runTest('no-scenario-outlines-without-examples/ViolationsNoExamples.feature', {}, [
+      {line: 3,column: 1}
     ]);
   });
 
   it('detects errors for scenario outlines that have empty "Examples"', function() {
-    return runTest('no-scenario-outlines-without-examples/ViolationsEmptyExamples.feature', {}, [ 
-      {line: 3}
+    return runTest('no-scenario-outlines-without-examples/ViolationsEmptyExamples.feature', {}, [
+      {line: 3,column: 1}
     ]);
   });
 
   it('detects errors for scenario outlines that define variable names but don\'t have any values to iterate over', function() {
-    return runTest('no-scenario-outlines-without-examples/ViolationsNoExamplesBody.feature', {}, [ 
-      {line: 3}
+    return runTest('no-scenario-outlines-without-examples/ViolationsNoExamplesBody.feature', {}, [
+      {line: 3,column: 1}
     ]);
   });
 });

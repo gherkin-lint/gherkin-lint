@@ -29,7 +29,8 @@ function run(feature, file, configuration) {
   return [{
     message: `File names should be written in ${style} e.g. "${expected}.feature"`,
     rule: rule,
-    line: 0
+    line: 0,
+    column: 0
   }];
 }
 

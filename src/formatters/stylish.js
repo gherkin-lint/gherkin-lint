@@ -19,17 +19,23 @@ function stylizeFilePath(filePath) {
 function stylizeError(error, maxLineLength, maxMessageLength, addColors) {
   const indent = '  '; // indent 2 spaces so it looks pretty
   const padding = '    '; //padding of 4 spaces, will be used between line numbers, error msgs and rule names, for readability
-  const errorLinePadded = error.line.toString().padEnd(maxLineLength);
-  const errorLineStylized = addColors ? style.gray(errorLinePadded) : errorLinePadded;
+  const errorLocation = getLocationString(error);
+  const errorLocationPadded = errorLocation.padEnd(maxLineLength);
+  const errorLocationStylized = addColors ? style.gray(errorLocationPadded) : errorLocationPadded;
+  const level = 'error'; // forced as levels are not implemented.
 
   const errorRuleStylized = addColors ? style.gray(error.rule) : error.rule;
-  return indent + errorLineStylized + padding + error.message.padEnd(maxMessageLength) + padding + errorRuleStylized;
+  return indent + errorLocationStylized + padding + level + padding + error.message.padEnd(maxMessageLength) + padding + errorRuleStylized;
 }
 
-function getMaxLineLength(result) {
+function getLocationString(loc) {
+  return `${loc.line}:${loc.column ? loc.column : '0'}`;
+}
+
+function getMaxLocationLength(result) {
   let length = 0;
   result.errors.forEach(error => {
-    const errorStr = error.line.toString();
+    const errorStr = getLocationString(error);
     if (errorStr.length > length) {
       length = errorStr.length;
     }
@@ -64,7 +70,7 @@ function printResults(results) {
 
   results.forEach(result => {
     if (result.errors.length > 0) {
-      const maxLineLength = getMaxLineLength(result);
+      const maxLineLength = getMaxLocationLength(result);
       const maxMessageLength = getMaxMessageLength(result, maxLineLength, consoleWidth);
       console.error(stylizeFilePath(result.filePath));
 

@@ -16,31 +16,38 @@ describe('Allowed Tags Rule', function() {
       'patterns': ['^@examplestag$']
     }, [{
       messageElements: {tags: '@featuretag1', nodeType:'Feature'},
-      line: 1
+      line: 1,
+      column: 13
     },
     {
       messageElements: {tags: '@anothertag', nodeType:'Feature'},
-      line: 1
+      line: 1,
+      column: 26
     },
     {
       messageElements: {tags: '@scenariotag1', nodeType:'Scenario'},
-      line: 7
+      line: 7,
+      column: 14
     },
     {
       messageElements: {tags: '@scenariotag2', nodeType:'Scenario'},
-      line: 7
+      line: 7,
+      column: 28
     },
     {
       messageElements: {tags: '@anothertag', nodeType:'Scenario'},
-      line: 7
+      line: 7,
+      column: 42
     },
     {
       messageElements: {tags: '@scenariotag1', nodeType:'Scenario Outline'},
-      line: 11
+      line: 11,
+      column: 14
     },
     {
       messageElements: {tags: '@examplestag1', nodeType:'Examples'},
-      line: 14
+      line: 14,
+      column: 14
     }]);
   });
 });
