@@ -306,7 +306,7 @@ You can overwrite it by using the option `-l` or `--language` followed by the
 
 Example:  
 ```
-`gherkin-lint -l 'fr'` (for french as default language).
+gherkin-lint -l 'fr'  (for french as default language)
 ```
 
 Another option is to add the language as comment for each your feature file.  
