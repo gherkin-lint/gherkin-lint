@@ -298,3 +298,20 @@ gherkin-lint --rulesdir "/path/to/my/rulesdir" --rulesdir "from/cwd/rulesdir"
 
 Paths can either be absolute or relative to the current working directory.
 Have a look at the `src/rules/` directory for examples; The `no-empty-file` rule is a good example to start with.
+
+## Feature Files default language
+"English" is the default supported feature files language.
+You can overwrite it by using the option `-l` or `--language` followed by the
+[supported regional code](https://cucumber.io/docs/gherkin/languages/).  
+
+Example:  
+```
+`gherkin-lint -l 'fr'` (for french as default language).
+```
+
+Another option is to add the language as comment for each your feature file.  
+Example:  
+```gherkin
+# language:en
+Feature: This is a feature in English
+```
