@@ -1,4 +1,4 @@
-Fonctionnalité: Se déconnecter de l'application 
+Fonctionnalité: This is a feature in french 
 
  Scénario: Se déconnecter de l'application 
   Étant donné que Ulrick est connecté à son compte
