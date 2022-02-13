@@ -4,7 +4,7 @@ const fs = require('fs');
 const rules = require('./rules.js');
 const logger = require('./logger.js');
 
-function readAndParseFile(filePath) {
+function readAndParseFile(filePath, unused, language = undefined) {
   let feature ='';
   let parsingErrors = [];
   let fileContent = [];
@@ -14,6 +14,8 @@ function readAndParseFile(filePath) {
       includeGherkinDocument: true,
       includePickles: false,
       includeSource: true,
+      defaultDialect: language,
+
     };
 
     const stream = Gherkin.fromPaths([filePath], options);
@@ -56,13 +58,13 @@ function readAndParseFile(filePath) {
 }
 
 
-function lint(files, configuration, additionalRulesDirs) {
+function lint(files, configuration, additionalRulesDirs, language = 'en') {
   let results = [];
 
   return Promise.all(files.map((f) => {
     let perFileErrors = [];
 
-    return readAndParseFile(f)
+    return readAndParseFile(f, null, language)
       .then(
         // Handle Promise.resolve 
         ({feature, file}) => {

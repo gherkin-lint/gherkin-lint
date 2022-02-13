@@ -21,12 +21,13 @@ program
   .option('-i, --ignore <...>', 'comma seperated list of files/glob patterns that the linter should ignore, overrides ' + featureFinder.defaultIgnoreFileName + ' file', list)
   .option('-c, --config [config]', 'configuration file, defaults to ' + configParser.defaultConfigFileName)
   .option('-r, --rulesdir <...>', 'additional rule directories', collect, [])
+  .option('-l, --language [language]', 'feature file language. Defaults to English')
   .parse(process.argv);
 
 const additionalRulesDirs = program.rulesdir;
 const files = featureFinder.getFeatureFiles(program.args, program.ignore);
 const config = configParser.getConfiguration(program.config, additionalRulesDirs);
-linter.lint(files, config, additionalRulesDirs)
+linter.lint(files, config, additionalRulesDirs, program.language)
   .then((results) => {
     printResults(results, program.format);
     process.exit(getExitCode(results));
