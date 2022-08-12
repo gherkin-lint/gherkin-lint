@@ -103,9 +103,11 @@
     "linter"
   ],
   "dependencies": {
+    "@cucumber/gherkin": "^24.0.0",
+    "@cucumber/gherkin-streams": "^5.0.1",
+    "@cucumber/message-streams": "^4.0.1",
     "commander": "5.0.0",
     "core-js": "3.6.4",
-    "gherkin": "9.0.0",
     "glob": "7.1.6",
     "lodash": "4.17.21",
     "strip-json-comments": "3.0.1",

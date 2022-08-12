@@ -1,5 +1,5 @@
-@tag 
-Feature: Test for the no-partially-commented-tag-lines
+@tag
+Feature: Feature with Scenario outline
 
 Background:
   Given I have a Feature file
