@@ -1,6 +1,6 @@
 {
-  "name": "gherkin-lint",
-  "version": "4.2.2",
+  "name": "cucumber-gherkin-lint",
+  "version": "5.0.3",
   "description": "A Gherkin linter/validator written in javascript",
   "author": "Vasiliki Siakka",
   "contributors": [
@@ -91,12 +91,22 @@
     {
       "name": "David Rodríguez",
       "url": "https://github.com/deivid-rodriguez"
+    },
+    {
+      "name": "Jon Hammerskov",
+      "url": "https://github.com/jonhamm"
+    }
+  ],
+  "maintainers": [
+    {
+      "name": "Jon Hammerskov",
+      "url": "https://github.com/jonhamm"
     }
   ],
   "main": "dist/main.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/vsiakka/gherkin-lint"
+    "url": "https://github.com/jonhamm/cucumber-gherkin-lint"
   },
   "keywords": [
     "gherkin",

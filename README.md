@@ -1,65 +1,65 @@
 # Gherkin lint
-[![Travis](https://travis-ci.com/vsiakka/gherkin-lint.svg?branch=master)](https://travis-ci.com/github/vsiakka/gherkin-lint/branches)
-[![Coverage Status](https://coveralls.io/repos/github/vsiakka/gherkin-lint/badge.svg?branch=master)](https://coveralls.io/github/vsiakka/gherkin-lint?branch=master)
-[![David](https://img.shields.io/david/vsiakka/gherkin-lint.svg?maxAge=2592000)](https://david-dm.org/vsiakka/gherkin-lint)
-[![David](https://img.shields.io/david/dev/vsiakka/gherkin-lint.svg?maxAge=2592000)](https://david-dm.org/vsiakka/gherkin-lint#info=devDependencies&view=table)
-[![npm](https://img.shields.io/npm/v/gherkin-lint.svg?maxAge=2592000)](https://www.npmjs.com/package/gherkin-lint)
 
-Uses [Gherkin](https://github.com/cucumber/gherkin-javascript) to parse feature files and runs linting against the default rules, and the optional rules you specified in your `.gherkin-lintrc` file.
+This is a - hopefully temporary fork - of [gherkin-lint](https://www.npmjs.com/package/gherkin-lint) awaiting a new version with inclusion of the PR [replace package 'gherkin' with '@cucumber/gherkin'](https://github.com/vsiakka/gherkin-lint/pull/276).
+
+It is based on version `4.2.2` with inclusion of the above mentioned PR.
+
+Uses [@cucumber/gherkin](https://www.npmjs.com/package/@cucumber/gherkin) to parse feature files and runs linting against the default rules, and the optional rules you specified in your `.gherkin-lintrc` file.
 
 ## Installation
 ```
-npm install gherkin-lint
+npm install cucmber-gherkin-lint
 ```
 
 ## Demo
 To see the output for all the errors that the linter can detect run:
 ```
-git clone https://github.com/vsiakka/gherkin-lint.git
+git clone https://github.com/jonhammer/cucumber-gherkin-lint.git
 npm run demo
 ```
 Or check this:
-![console](https://i.imgur.com/Qfp1FQR.png)
+![console](/img/npm-run-demo.png?raw=true "npm run demo")
 
 
 ## Available rules
 
 
-| Name                                        | Functionality                                                                            |
-|---------------------------------------------|------------------------------------------------------------------------------------------|
-| `no-tags-on-backgrounds` *                  | Disallows tags on Background                                                             |
-| `one-feature-per-file` *                    | Disallows multiple Feature definitions in the same file                                  |
-| `up-to-one-background-per-file` *           | Disallows multiple Background definition in the same file                                |
-| `no-multiline-steps` *                      | Disallows mutiline Steps                                                                 || &nbsp;                                      |                                                                                          |
-| [`allowed-tags`](#allowed-tags)             | Just the listed tags are allowed                                                         |
-| [`file-name`](#file-name)                   | Restrict feature file names to a commmon style                                           |
-| [`indentation`](#indentation)               | Allows the user to specify indentation rules                                             |
-| [`max-scenarios-per-file`](#max-scenarios-per-file)| Allows the user to specify the max number of scenarios per feature file           |
-| [`name-length`](#name-length)               | Allows restricting length of Feature/Scenario/Step names                                 |
-| [`new-line-at-eof`](#new-line-at-eof)       | Disallows/enforces new line at EOF                                                       |
-| `no-background-only-scenario`               | Disallows background when there is just one scenario                                     |
-| `no-dupe-feature-names`                     | Disallows duplicate Feature names                                                        |
-| [`no-dupe-scenario-names`](#no-dupe-scenario-names)| Disallows duplicate Scenario names                                                |
-| `no-duplicate-tags`                         | Disallows duplicate tags on the same Feature or Scenario                                 |
-| `no-empty-background`                       | Disallows features with backgrounds without steps                                        |
-| `no-empty-file`                             | Disallows empty feature files                                                            |
-| `no-examples-in-scenarios`                  | Disallow the use of "Examples" in Scenarios, only allowed in Scenario Outlines           |
-| `no-files-without-scenarios`                | Disallows files with no scenarios                                                        |
-| `no-homogenous-tags`                        | Disallows tags present on every Scenario in a Feature, rather than on the Feature itself |
-| `no-multiple-empty-lines`                   | Disallows multiple empty lines                                                           |
-| [`no-restricted-patterns`](#no-restricted-patterns)        | A list of patterns to disallow globally, or specifically in features, backgrounds, scenarios, or scenario outlines                                 |
-| [`no-restricted-tags`](#no-restricted-tags) | Disallow use of particular @tags                                                         |
-| `no-scenario-outlines-without-examples`     | Disallows scenario outlines without examples                                             |
-| `no-superfluous-tags`                       | Disallows tags present on a Feature and a Scenario in that Feature                       |
-| `no-trailing-spaces`                        | Disallows trailing spaces                                                                |
-| `no-unnamed-features`                       | Disallows empty Feature name                                                             |
-| `no-unnamed-scenarios`                      | Disallows empty Scenario name                                                            |
-| `no-unused-variables`                       | Disallows unused variables in scenario outlines                                          |
-| `one-space-between-tags`                    | Tags on the same line must be separated by a single space                                |
-| [`required-tags`](#required-tags)           | Require tags/patterns of tags on Scenarios                                               |
-| [`scenario-size`](#scenario-size)           | Allows restricting the maximum number of steps in a scenario, scenario outline and background |
-| `use-and`                                   | Disallows repeated step names requiring use of And instead                               |
-| `keywords-in-logical-order`                 | Requires that Given, When and Then appear in logical sequence                            |
+| Name                                                | Functionality                                                                                                      |
+| --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `no-tags-on-backgrounds` *                          | Disallows tags on Background                                                                                       |
+| `one-feature-per-file` *                            | Disallows multiple Feature definitions in the same file                                                            |
+| `up-to-one-background-per-file` *                   | Disallows multiple Background definition in the same file                                                          |
+| `no-multiline-steps` *                              | Disallows mutiline Steps                                                                                           |  | &nbsp; |  |
+| [`allowed-tags`](#allowed-tags)                     | Just the listed tags are allowed                                                                                   |
+| [`file-name`](#file-name)                           | Restrict feature file names to a commmon style                                                                     |
+| [`indentation`](#indentation)                       | Allows the user to specify indentation rules                                                                       |
+| [`max-scenarios-per-file`](#max-scenarios-per-file) | Allows the user to specify the max number of scenarios per feature file                                            |
+| [`name-length`](#name-leng                          |
+| th)                                                 | Allows restricting length of Feature/Scenario/Step names                                                           |
+| [`new-line-at-eof`](#new-line-at-eof)               | Disallows/enforces new line at EOF                                                                                 |
+| `no-background-only-scenario`                       | Disallows background when there is just one scenario                                                               |
+| `no-dupe-feature-names`                             | Disallows duplicate Feature names                                                                                  |
+| [`no-dupe-scenario-names`](#no-dupe-scenario-names) | Disallows duplicate Scenario names                                                                                 |
+| `no-duplicate-tags`                                 | Disallows duplicate tags on the same Feature or Scenario                                                           |
+| `no-empty-background`                               | Disallows features with backgrounds without steps                                                                  |
+| `no-empty-file`                                     | Disallows empty feature files                                                                                      |
+| `no-examples-in-scenarios`                          | Disallow the use of "Examples" in Scenarios, only allowed in Scenario Outlines                                     |
+| `no-files-without-scenarios`                        | Disallows files with no scenarios                                                                                  |
+| `no-homogenous-tags`                                | Disallows tags present on every Scenario in a Feature, rather than on the Feature itself                           |
+| `no-multiple-empty-lines`                           | Disallows multiple empty lines                                                                                     |
+| [`no-restricted-patterns`](#no-restricted-patterns) | A list of patterns to disallow globally, or specifically in features, backgrounds, scenarios, or scenario outlines |
+| [`no-restricted-tags`](#no-restricted-tags)         | Disallow use of particular @tags                                                                                   |
+| `no-scenario-outlines-without-examples`             | Disallows scenario outlines without examples                                                                       |
+| `no-superfluous-tags`                               | Disallows tags present on a Feature and a Scenario in that Feature                                                 |
+| `no-trailing-spaces`                                | Disallows trailing spaces                                                                                          |
+| `no-unnamed-features`                               | Disallows empty Feature name                                                                                       |
+| `no-unnamed-scenarios`                              | Disallows empty Scenario name                                                                                      |
+| `no-unused-variables`                               | Disallows unused variables in scenario outlines                                                                    |
+| `one-space-between-tags`                            | Tags on the same line must be separated by a single space                                                          |
+| [`required-tags`](#required-tags)                   | Require tags/patterns of tags on Scenarios                                                                         |
+| [`scenario-size`](#scenario-size)                   | Allows restricting the maximum number of steps in a scenario, scenario outline and background                      |
+| `use-and`                                           | Disallows repeated step names requiring use of And instead                                                         |
+| `keywords-in-logical-order`                         | Requires that Given, When and Then appear in logical sequence                                                      |
 
 \* These rules cannot be turned off because they detect undocumented cucumber functionality that causes the [gherkin](https://github.com/cucumber/gherkin-javascript) parser to crash.
 
