@@ -10,7 +10,10 @@ const defaultIgnoredFiles = 'node_modules/**'; // Ignore node_modules by default
 function getFeatureFiles(args, ignoreArg) {
   let files = [];
   const patterns = args.length ? args : ['.'];
-
+  if (args.indexOf(',') && (args.toString().match(/.feature/g) || []).length > 1) {
+    files = args.toString().split(',');
+    return _.uniq(files);
+  }
   patterns.forEach(pattern => {
     // First we need to fix up the pattern so that it only matches .feature files
     // and it's in the format that glob expects it to be
@@ -26,7 +29,7 @@ function getFeatureFiles(args, ignoreArg) {
         if (fs.statSync(pattern).isDirectory()) {
           fixedPattern = path.join(pattern, '**/*.feature');
         }
-      } catch(e) {
+      } catch (e) {
         // Don't show the fs callstack, we will print a custom error message bellow instead
       }
     }
