@@ -14,7 +14,7 @@
 		"off",
 		"yes"
 	],
-	"no-multiple-empty-lines": "on",
+	"no-multiple-empty-lines": "off",
 	"no-empty-file": "on",
 	"no-scenario-outlines-without-examples": "on",
 	"name-length": [
