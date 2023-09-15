@@ -21,7 +21,7 @@ program
   .option('-i, --ignore <...>', 'comma seperated list of files/glob patterns that the linter should ignore, overrides ' + featureFinder.defaultIgnoreFileName + ' file', list)
   .option('-c, --config [config]', 'configuration file, defaults to ' + configParser.defaultConfigFileName)
   .option('-r, --rulesdir <...>', 'additional rule directories', collect, [])
-  .option('-r, --max-errors [number]', 'maximum number of errors to pass. Defaults to 0', 0)
+  .option('--max-errors [number]', 'maximum number of errors to pass. Defaults to 0', 0)
   .parse(process.argv);
 
 const additionalRulesDirs = program.rulesdir;
