@@ -298,3 +298,8 @@ gherkin-lint --rulesdir "/path/to/my/rulesdir" --rulesdir "from/cwd/rulesdir"
 
 Paths can either be absolute or relative to the current working directory.
 Have a look at the `src/rules/` directory for examples; The `no-empty-file` rule is a good example to start with.
+
+## Max errors
+You can set a maximum number of errors using the `--max-errors` command line option. This defaults to 0 if not passed.
+
+When the total number of errors is less or equal to the `max-errors` amount, the process will exit successfully (0 exit status).
