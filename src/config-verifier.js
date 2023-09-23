@@ -2,6 +2,17 @@ const rules = require('./rules.js');
 
 function verifyConfigurationFile(config, additionalRulesDirs) {
   let errors = [];
+
+  if (config.additionalRulesDirs) {
+    if (Array.isArray(config.additionalRulesDirs)) {
+      additionalRulesDirs = additionalRulesDirs || config.additionalRulesDirs;
+    } else {
+      // The additionalRulesDirs must be an Array.
+      const genericErrorMsg = 'Invalid configuration for "additionalRulesDirs" - ';
+      errors.push(genericErrorMsg + 'The config should be an Array.');
+    }
+  }
+
   if (config.rules) {
     let rulesConfig = config.rules;
 

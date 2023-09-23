@@ -4,17 +4,17 @@ var linter = require('../../../dist/linter.js');
 // Test cases for incomplete feature files that have broken over time accross multiple rules
 describe('Malformated features do not break the linter', function() {
   function testRule(file, rule) {
-    var configuration = {};
+    var ruleConfiguration = {};
     if (rule == 'new-line-at-eof') {
-      configuration[rule] = ['on', 'yes'];
+      ruleConfiguration[rule] = ['on', 'yes'];
     } else if (rule == 'required-tags') {
-      configuration[rule] = ['on', {'tags': [] }];
+      ruleConfiguration[rule] = ['on', {'tags': [] }];
     } else {
-      configuration[rule] = 'on';
+      ruleConfiguration[rule] = 'on';
     }
     return linter.readAndParseFile('test/rules/all-rules/' + file, 'utf8')
       .then(({feature, file}) => {
-        return rules.runAllEnabledRules(feature, file, {rules: configuration});
+        return rules.runAllEnabledRules(feature, file, {rules: ruleConfiguration});
       });
   }
 

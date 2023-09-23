@@ -285,7 +285,9 @@ or
 
 ```
 {
-  "required-tags": ["on", {"tags": ["^@issue:[1-9]\\d*$"], "ignoreUntagged": false}]
+  "rules": {
+    "required-tags": ["on", {"tags": ["^@issue:[1-9]\\d*$"], "ignoreUntagged": false}]
+  }
 }
 ```
 

@@ -26,6 +26,10 @@ describe('Config Verifier', function() {
         'indentation': ['on', { 'Feature': 1, 'Background': 1, 'Scenario': 1, 'Step': 1, 'given': 1, 'and': 1}]
       }}), []);
     });
+
+    it('an additional rule directory is specified', function() {
+      assert.deepEqual(verifyConfig({'rules': {}, 'additionalRulesDirs': ['.rules']}), []);
+    });
   });
 
   describe('Verification fails when', function() {

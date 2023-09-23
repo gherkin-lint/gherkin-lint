@@ -17,7 +17,7 @@ function readAndParseFile(filePath) {
     };
 
     const stream = Gherkin.fromPaths([filePath], options);
-    
+
     stream.on('data', envelope => {
       if (envelope.attachment) {
         // An attachment implies that there was a parsing error
@@ -38,9 +38,9 @@ function readAndParseFile(filePath) {
       reject(processFatalErrors(error));
     });
 
-    stream.on('end', () => { 
+    stream.on('end', () => {
       if (parsingErrors.length) {
-        // Process all errors/attachments at once, because a tag on a background will 
+        // Process all errors/attachments at once, because a tag on a background will
         // generate multiple error events, and it would be confusing to print a message for each
         // one of them, when they are all caused by a single cause
         reject(processFatalErrors(parsingErrors));
@@ -59,22 +59,27 @@ function readAndParseFile(filePath) {
 function lint(files, configuration, additionalRulesDirs) {
   let results = [];
 
+  if (!additionalRulesDirs && configuration.additionalRulesDirs) {
+    // Fallback to config.additionalRulesDirs if additionalRulesDirs was empty.
+    additionalRulesDirs = configuration.additionalRulesDirs;
+  }
+
   return Promise.all(files.map((f) => {
     let perFileErrors = [];
 
     return readAndParseFile(f)
       .then(
-        // Handle Promise.resolve 
+        // Handle Promise.resolve
         ({feature, file}) => {
           perFileErrors = rules.runAllEnabledRules(feature, file, configuration, additionalRulesDirs);
         },
-        // Handle Promise.reject 
+        // Handle Promise.reject
         (parsingErrors) => {
           perFileErrors = parsingErrors;
         })
       .finally(()=> {
         let fileBlob = {
-          filePath: fs.realpathSync(f), 
+          filePath: fs.realpathSync(f),
           errors: _.sortBy(perFileErrors, 'line')
         };
 
