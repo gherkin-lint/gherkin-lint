@@ -18,7 +18,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: [ 10, 12, 14, 16, 18, 20 ]
+        # Note: Node 20.8 introduces a change which breaks mock-fs.
+        # https://github.com/tschaub/mock-fs/issues/380
+        node: [ 10, 12, 14, 16, 18, 20.7 ]
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -31,6 +33,18 @@ jobs:
       # Run the tests
       - run: npm test
 
-      # Generate coverage.
-      # Note: Commented out until vsiakka can configure this.
-      #- run: npm run coverage
+      - name: Coveralls Parallel
+        uses: coverallsapp/github-action@v2
+        with:
+          flag-name: run-${{ join(matrix.*, '-') }}
+          parallel: true
+
+  finish:
+    needs: test
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+    - name: Coveralls Finished
+      uses: coverallsapp/github-action@v2
+      with:
+        parallel-finished: true
