@@ -2,12 +2,31 @@ const rules = require('./rules.js');
 
 function verifyConfigurationFile(config, additionalRulesDirs) {
   let errors = [];
-  for (let rule in config) {
-    if (!rules.doesRuleExist(rule, additionalRulesDirs)) {
-      errors.push('Rule "' + rule + '" does not exist');
+
+  if (config.additionalRulesDirs) {
+    if (Array.isArray(config.additionalRulesDirs)) {
+      additionalRulesDirs = additionalRulesDirs || config.additionalRulesDirs;
     } else {
-      verifyRuleConfiguration(rule, config[rule], additionalRulesDirs, errors);
+      // The additionalRulesDirs must be an Array.
+      const genericErrorMsg = 'Invalid configuration for "additionalRulesDirs" - ';
+      errors.push(genericErrorMsg + 'The config should be an Array.');
     }
+  }
+
+  if (config.rules) {
+    let rulesConfig = config.rules;
+
+    for (let rule in rulesConfig) {
+      if (!rules.doesRuleExist(rule, additionalRulesDirs)) {
+        errors.push('Rule "' + rule + '" does not exist');
+      } else {
+        verifyRuleConfiguration(rule, rulesConfig[rule], additionalRulesDirs, errors);
+      }
+    }
+  } else if (Object.keys(config).length > 0) {
+    errors.push('Legacy configuration file in use.');
+  } else {
+    errors.push('No rules found in configuration file');
   }
   return errors;
 }

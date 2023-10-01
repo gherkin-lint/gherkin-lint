@@ -4,5 +4,6 @@
     "custom" : "on",
     "another-custom" : "on",
     "another-custom-list" : ["on", {"element": ["first_element"]}]
-  }
+  },
+  "additionalRulesDirs": ["some_invalid_path"]
 }
