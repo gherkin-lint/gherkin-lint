@@ -1,5 +1,6 @@
 /*eslint no-console: "off"*/
 import 'core-js/stable/string';
+import { countErrors } from '../count-errors';
 
 const style = {
   gray: function(text) {
@@ -74,6 +75,8 @@ function printResults(results) {
       console.error('\n');
     }
   });
+
+  console.log(countErrors(results) + ' errors');
 }
 
 module.exports = {
