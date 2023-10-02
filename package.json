@@ -132,12 +132,11 @@
   },
   "scripts": {
     "build": "babel src -d dist",
-    "coverage": "nyc report --reporter=text-lcov | coveralls",
     "demo": "node ./dist/main.js -c ./test-data-wip/.gherkin-lintrc test-data-wip/**",
     "lint": "eslint ./src ./test",
     "mocha": "mocha --recursive",
     "prepare": "npm run build",
-    "test": "npm run lint && npm run build && nyc -include=dist/** npm run mocha"
+    "test": "npm run lint && npm run build && nyc --reporter=lcovonly --reporter=html --reporter=text -include=dist/** npm run mocha"
   },
   "license": "ISC"
 }
