@@ -10,6 +10,7 @@ describe('Config Verifier', function() {
         'no-unnamed-scenarios': 'on',
         'no-dupe-scenario-names': 'on',
         'no-dupe-feature-names': 'on',
+        'no-dupe-file-names': 'on',
         'no-partially-commented-tag-lines': 'on',
         'indentation': 'on',
         'no-trailing-spaces': 'on',
