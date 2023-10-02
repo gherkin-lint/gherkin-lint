@@ -68,7 +68,9 @@ The not-configurable rules are turned on by default and cannot be turned off. Co
 The configurable rules are off by default. To turn them on, you will need to create a json file, where you specify the name of each rule and its desired state (which can be "on" or "off"). Eg:
 ```
 {
-  "no-unnamed-features": "on"
+  "rules": {
+    "no-unnamed-features": "on"
+  }
 }
 ```
 will turn on the `no-unnamed-features` rule.
@@ -79,7 +81,9 @@ will turn on the `no-unnamed-features` rule.
 
 ```
 {
-  "allowed-tags": ["on", {"tags": ["@watch", "@wip"], "patterns": ["^@todo$"]}]
+  "rules": {
+    "allowed-tags": ["on", {"tags": ["@watch", "@wip"], "patterns": ["^@todo$"]}]
+  }
 }
 ```
 
@@ -91,7 +95,9 @@ Any tag not included in this list won't be allowed.
 
 ```json
 {
-  "file-name": ["on", {"style": "PascalCase"}]
+  "rules": {
+    "file-name": ["on", {"style": "PascalCase"}]
+  }
 }
 ```
 
@@ -110,24 +116,26 @@ All patterns are treated as case insensitive.
 The rule can be configured like this:
 ```
 {
-  "no-restricted-patterns": ["on", {
-    "Global": [
-      "^globally restricted pattern"
-    ],
-    "Feature": [
-      "poor description",
-      "validate",
-      "verify"
-    ],
-    "Background": [
-      "show last response",
-      "a debugging step"
-    ],
-    "Scenario": [
-      "show last response",
-      "a debugging step"
-    ]
-  }]
+  "rules": {
+    "no-restricted-patterns": ["on", {
+      "Global": [
+        "^globally restricted pattern"
+      ],
+      "Feature": [
+        "poor description",
+        "validate",
+        "verify"
+      ],
+      "Background": [
+        "show last response",
+        "a debugging step"
+      ],
+      "Scenario": [
+        "show last response",
+        "a debugging step"
+      ]
+    }]
+  }
 }
 ```
 
@@ -144,23 +152,25 @@ Notes:
 You can override the defaults for `indentation` like this:
 ```
 {
-  "indentation" : [
-    "on", {
-      "Feature": 0,
-      "Background": 0,
-      "Scenario": 0,
-      "Step": 2,
-      "Examples": 0,
-      "example": 2,
-      "given": 2,
-      "when": 2,
-      "then": 2,
-      "and": 2,
-      "but": 2,
-      "feature tag": 0,
-      "scenario tag": 0
-    }
-  ]
+  "rules": {
+    "indentation" : [
+      "on", {
+        "Feature": 0,
+        "Background": 0,
+        "Scenario": 0,
+        "Step": 2,
+        "Examples": 0,
+        "example": 2,
+        "given": 2,
+        "when": 2,
+        "then": 2,
+        "and": 2,
+        "but": 2,
+        "feature tag": 0,
+        "scenario tag": 0
+      }
+    ]
+  }
 }
 ```
 There is no need to override all the defaults, as is done above, instead they can be overriden only where required.  `Step` will be used as a fallback if the keyword of the step, eg. 'given', is not specified.  If `feature tag` is not set then `Feature` is used as a fallback, and if `scenario tag` is not set then `Scenario` is used as a fallback.
@@ -177,7 +187,9 @@ The `max-scenarios-per-file` supports some configuration options:
 The configuration looks like this (showing the defaults):
 ```
 {
-  "max-scenarios-per-file": ["on", {"maxScenarios": 10, "countOutlineExamples": true}]
+  "rules": {
+    "max-scenarios-per-file": ["on", {"maxScenarios": 10, "countOutlineExamples": true}]
+  }
 }
 ```
 
@@ -189,7 +201,9 @@ The default is 70 characters for each of these:
 
 ```
 {
-  "name-length" : ["on", { "Feature": 70, "Scenario": 70, "Step": 70 }]
+  "rules": {
+    "name-length" : ["on", { "Feature": 70, "Scenario": 70, "Step": 70 }]
+  }
 }
 ```
 
@@ -200,13 +214,17 @@ The default is 70 characters for each of these:
 - To enforce new lines at EOF:
 ```
 {
-  "new-line-at-eof": ["on", "yes"]
+  "rules": {
+    "new-line-at-eof": ["on", "yes"]
+  }
 }
 ```
 - To disallow new lines at EOF:
 ```
 {
-  "new-line-at-eof": ["on", "no"]
+  "rules": {
+    "new-line-at-eof": ["on", "no"]
+  }
 }
 ```
 
@@ -218,7 +236,9 @@ To enable searching for duplicates in each individual feature (same scenario nam
 
 ```
 {
-  "no-dupe-scenario-names": ["on", "in-feature"]
+  "rules": {
+    "no-dupe-scenario-names": ["on", "in-feature"]
+  }
 }
 ```
 
@@ -226,7 +246,9 @@ The default case is testing against all the features (same scenario name in diff
 
 ```
 {
-  "no-dupe-scenario-names": "on"
+  "rules": {
+    "no-dupe-scenario-names": "on"
+  }
 }
 ```
 
@@ -234,7 +256,9 @@ or
 
 ```
 {
-  "no-dupe-scenario-names": ["on", "anywhere"]
+  "rules": {
+    "no-dupe-scenario-names": ["on", "anywhere"]
+  }
 }
 ```
 
@@ -243,7 +267,9 @@ or
 `no-restricted-tags` should be configured with the list of restricted tags and patterns:
 ```
 {
-  "no-restricted-tags": ["on", {"tags": ["@watch", "@wip"], "patterns": ["^@todo$"]}]
+  "rules": {
+    "no-restricted-tags": ["on", {"tags": ["@watch", "@wip"], "patterns": ["^@todo$"]}]
+  }
 }
 ```
 
@@ -267,7 +293,9 @@ or
 `scenario-size` lets you specify a maximum step length for scenarios and backgrounds. The `Scenario` configuration applies to both scenarios and scenario outlines:
 ```
 {
-  "scenario-size": ["on", { "steps-length": { "Background": 15, "Scenario": 15 }}]
+  "rules": {
+    "scenario-size": ["on", { "steps-length": { "Background": 15, "Scenario": 15 }}]
+  }
 }
 ```
 

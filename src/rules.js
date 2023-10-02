@@ -4,7 +4,7 @@ const path = require('path');
 
 function getAllRules(additionalRulesDirs) {
   let rules = {};
-  
+
   const rulesDirs = [
     path.join(__dirname, 'rules')
   ].concat(additionalRulesDirs || []);
@@ -39,8 +39,8 @@ function runAllEnabledRules(feature, file, configuration, additionalRulesDirs) {
   const rules = getAllRules(additionalRulesDirs);
   Object.keys(rules).forEach(ruleName => {
     let rule = rules[ruleName];
-    if (isRuleEnabled(configuration[rule.name])) {
-      const ruleConfig = Array.isArray(configuration[rule.name]) ? configuration[rule.name][1] : {};
+    if (isRuleEnabled(configuration.rules[rule.name])) {
+      const ruleConfig = Array.isArray(configuration.rules[rule.name]) ? configuration.rules[rule.name][1] : {};
       const error = rule.run(feature, file, ruleConfig);
       if (error) {
         errors = errors.concat(error);
