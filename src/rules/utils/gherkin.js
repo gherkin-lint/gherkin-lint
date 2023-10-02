@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const Gherkin = require('gherkin').default;
+const {dialects} = require('@cucumber/gherkin');
 
 // We use the node's keyword to determine the node's type
 // because it's the only way to distinguish a scenario with a scenario outline
@@ -30,12 +30,15 @@ function getNodeType(node, language) {
   }
   return '';
 }
- 
+
 
 function getLanguageInsitiveKeyword(node, language) {
-  const languageMapping = Gherkin.dialects()[language];
-
-  return _.findKey(languageMapping, values => values instanceof Array && values.includes(node.keyword));
+  let keyword ;
+  const languageMapping = dialects[language];
+  if (languageMapping !== undefined) {
+    keyword = _.findKey(languageMapping, values => values instanceof Array && values.includes(node.keyword));
+  }
+  return keyword;
 }
 
 

@@ -10,7 +10,7 @@ describe('rulesdir CLI option', function() {
       path.join('test', 'rulesdir', 'other_rules') // relative path from root
     ];
     var config = configParser.getConfiguration(path.join(__dirname, '.gherkin-lintrc'), additionalRulesDirs);
-    var featureFile = path.join(__dirname, 'simple.features');
+    var featureFile = path.join(__dirname, 'simple.feature');
     return linter.lint([ featureFile ], config, additionalRulesDirs)
       .then((results) => {
         expect(results).to.deep.equal([

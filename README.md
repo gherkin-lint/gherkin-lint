@@ -45,7 +45,6 @@ Or check this:
 | `no-files-without-scenarios`                | Disallows files with no scenarios                                                        |
 | `no-homogenous-tags`                        | Disallows tags present on every Scenario in a Feature, rather than on the Feature itself |
 | `no-multiple-empty-lines`                   | Disallows multiple empty lines                                                           |
-| `no-partially-commented-tag-lines`          | Disallows partially commented tag lines                                                  |
 | [`no-restricted-patterns`](#no-restricted-patterns)        | A list of patterns to disallow globally, or specifically in features, backgrounds, scenarios, or scenario outlines                                 |
 | [`no-restricted-tags`](#no-restricted-tags) | Disallow use of particular @tags                                                         |
 | `no-scenario-outlines-without-examples`     | Disallows scenario outlines without examples                                             |
