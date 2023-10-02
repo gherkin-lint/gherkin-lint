@@ -2,8 +2,8 @@ var assert = require('chai').assert;
 var linter = require('../../dist/linter.js');
 
 
-function linterTest(feature, expected) {
-  return linter.lint([feature], {})
+function linterTest(feature, expected, language = 'en') {
+  return linter.lint([feature], {}, '', language)
     .then((actual) => {
       assert.lengthOf(actual, 1);
       assert.deepEqual(actual[0].errors, expected);
@@ -96,5 +96,46 @@ describe('Linter', function() {
     let feature = 'test/linter/NoViolations.feature';
     let expected = [];
     return linterTest(feature, expected);   
+  });
+
+  it('correctly parses files that have the correct Gherkin format in French', function() {
+    let feature = 'test/linter/FeatureInFrenchNoViolations.feature';
+    let expected = [];
+    return linterTest(feature, expected, 'fr');   
+  });
+
+  it('detect when language is not in French', function() {
+    let feature = 'test/linter/NoViolations.feature';
+    let expected = [
+      {
+        'line': '1',
+        'message': 'Multiple "Feature" definitions in the same file are disallowed',
+        'rule': 'one-feature-per-file'
+      },
+      {
+        'line': '3',
+        'message': 'Multiple "Background" definitions in the same file are disallowed',
+        'rule': 'up-to-one-background-per-file'
+      },
+      {
+        'line': '4',
+        // eslint-disable-next-line
+        'message': "(4:3): expected: #EOF, #Language, #TagLine, #FeatureLine, #Comment, #Empty, got 'Given I have a Feature file'",
+        'rule': 'unexpected-error'
+      },
+      {
+        'line': '6',
+        // eslint-disable-next-line
+        'message': "(6:1): expected: #EOF, #Language, #TagLine, #FeatureLine, #Comment, #Empty, got 'Scenario: This is a Scenario'",
+        'rule': 'unexpected-error'
+      },
+      {
+        'line': '7',
+        // eslint-disable-next-line
+        'message': "(7:3): expected: #EOF, #Language, #TagLine, #FeatureLine, #Comment, #Empty, got 'Then this is a step'",
+        'rule': 'unexpected-error'
+      }
+    ];
+    return linterTest(feature, expected, 'fr');   
   });
 });
