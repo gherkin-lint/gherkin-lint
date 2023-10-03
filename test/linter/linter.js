@@ -15,6 +15,7 @@ describe('Linter', function() {
     let feature = 'test/linter/MultipleBackgrounds.feature';
     let expected = [{
       'line': '9',
+      'column': 0,
       'message': 'Multiple "Background" definitions in the same file are disallowed',
       'rule': 'up-to-one-background-per-file'
     }];
@@ -25,10 +26,11 @@ describe('Linter', function() {
     let feature = 'test/linter/TagOnBackground.feature';
     let expected = [{
       'line': '4',
+      'column': 0,
       'message': 'Tags on Backgrounds are dissallowed',
       'rule': 'no-tags-on-backgrounds'
     }];
-    
+
     return linterTest(feature, expected);
   });
 
@@ -36,6 +38,7 @@ describe('Linter', function() {
     let feature = 'test/linter/MultipleFeatures.feature';
     let expected = [{
       'line': '7',
+      'column': 0,
       'message': 'Multiple "Feature" definitions in the same file are disallowed',
       'rule': 'one-feature-per-file'
     }];
@@ -46,6 +49,7 @@ describe('Linter', function() {
     let feature = 'test/linter/MultilineStep.feature';
     let expected = [{
       'line': '9',
+      'column': 0,
       'message': 'Steps should begin with "Given", "When", "Then", "And" or "But". Multiline steps are dissallowed',
       'rule': 'no-multiline-steps'
     }];
@@ -56,6 +60,7 @@ describe('Linter', function() {
     let feature = 'test/linter/MultilineBackgroundStep.feature';
     let expected = [{
       'line': '5',
+      'column': 0,
       'message': 'Steps should begin with "Given", "When", "Then", "And" or "But". Multiline steps are dissallowed',
       'rule': 'no-multiline-steps'
     }];
@@ -66,6 +71,7 @@ describe('Linter', function() {
     let feature = 'test/linter/MultilineScenarioOutlineStep.feature';
     let expected = [{
       'line': '9',
+      'column': 0,
       'message': 'Steps should begin with "Given", "When", "Then", "And" or "But". Multiline steps are dissallowed',
       'rule': 'no-multiline-steps'
     }];
@@ -74,27 +80,30 @@ describe('Linter', function() {
 
   it('detects additional violations that happen after the \'no-tags-on-backgrounds\' rule', function() {
     let feature = 'test/linter/MultipleViolations.feature';
-    let expected = [ 
-      { 
+    let expected = [
+      {
         message: 'Steps should begin with "Given", "When", "Then", "And" or "But". Multiline steps are dissallowed',
         rule: 'no-multiline-steps',
-        line: '13' },
-      { 
+        line: '13',
+        column: 0
+      },
+      {
         message: 'Tags on Backgrounds are dissallowed',
         rule: 'no-tags-on-backgrounds',
-        line: '4'
-      } 
+        line: '4',
+        column: 0
+      }
     ];
 
-    linter.lint([feature])
+    return linter.lint([feature])
       .then((actual) => {
         assert.deepEqual(actual[0].errors, expected);
-      });    
+      });
   });
 
   it('correctly parses files that have the correct Gherkin format', function() {
     let feature = 'test/linter/NoViolations.feature';
     let expected = [];
-    return linterTest(feature, expected);   
+    return linterTest(feature, expected);
   });
 });

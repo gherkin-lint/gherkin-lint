@@ -13,7 +13,8 @@ function run(feature) {
     errors.push({
       message: 'Feature file does not have any Scenarios',
       rule   : rule,
-      line   : 1
+      line   : 1,
+      column: 0
     });
   }
   return errors;

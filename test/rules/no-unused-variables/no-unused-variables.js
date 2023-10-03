@@ -14,22 +14,27 @@ describe('No Unused Variables Rule', function() {
     return runTest('no-unused-variables/UnusedStepVariables.feature', {}, [
       {
         line: 5,
+        column: 20,
         messageElements: {variable: 'b'}
       },
       {
         line: 12,
+        column: 20,
         messageElements: {variable: 'b'}
       },
       {
         line: 18,
+        column: 107,
         messageElements: {variable: 'b'}
       },
       {
         line: 30,
+        column: 7,
         messageElements: {variable: 'b'}
       },
       {
-        line: 41,
+        line: 42,
+        column: 0,
         messageElements: {variable: 'b'}
       }
     ]);
@@ -42,26 +47,32 @@ describe('No Unused Variables Rule', function() {
     return runTest('no-unused-variables/UnusedExampleVariables.feature', {}, [
       {
         line: 7,
+        column: 11,
         messageElements: {variable: 'b'}
-      }, 
+      },
       {
         line: 14,
+        column: 11,
         messageElements: {variable: 'b'}
       },
       {
         line: 26,
+        column: 7,
         messageElements: {variable: 'b'}
       },
       {
         line: 35,
+        column: 11,
         messageElements: {variable: 'b'}
       },
       {
         line: 49,
+        column: 7,
         messageElements: {variable: 'b'}
       },
       {
         line: 61,
+        column: 11,
         messageElements: {variable: 'b'}
       }
     ]);

@@ -6,7 +6,7 @@ function run(feature) {
   }
 
   let errors = [];
-  
+
   feature.children.forEach(child => {
     if (child.background) {
       if (feature.children.length <= 2) {
@@ -24,7 +24,9 @@ function createError(background) {
   return {
     message: 'Backgrounds are not allowed when there is just one scenario.',
     rule   : rule,
-    line   : background.location.line};
+    line   : background.location.line,
+    column : background.location.column,
+  };
 }
 
 module.exports = {

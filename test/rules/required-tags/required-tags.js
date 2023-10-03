@@ -13,16 +13,20 @@ describe('Required Tags Rule', function() {
       'tags': ['@requiredscenariotag', '@requiredScenarioTag', '@required-scenario-tag-\\d+']
     }, [{
       messageElements: {tags: '@requiredScenarioTag', nodeType: 'Scenario'},
-      line: 8
+      line: 8,
+      column: 1,
     }, {
       messageElements: {tags: '@requiredScenarioTag', nodeType: 'Scenario Outline'},
-      line: 13
+      line: 13,
+      column: 1,
     }, {
       messageElements: {tags: '@required-scenario-tag-\\d+', nodeType: 'Scenario'},
-      line: 8
+      line: 8,
+      column: 1,
     }, {
       messageElements: {tags: '@required-scenario-tag-\\d+', nodeType: 'Scenario Outline'},
-      line: 13
+      line: 13,
+      column: 1,
     }]);
   });
   it('detects errors for scenarios and scenario outlines that have no tag', () => {
@@ -31,10 +35,12 @@ describe('Required Tags Rule', function() {
       'ignoreUntagged': false
     }, [{
       messageElements: {tags: '@requiredscenariotag', nodeType: 'Scenario'},
-      line: 20
+      line: 20,
+      column: 1,
     }, {
       messageElements: {tags: '@requiredscenariotag', nodeType: 'Scenario Outline'},
-      line: 23
+      line: 23,
+      column: 1,
     }]);
   });
 });

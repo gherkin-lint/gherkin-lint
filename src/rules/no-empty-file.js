@@ -7,7 +7,8 @@ function run(feature) {
     errors.push({
       message: 'Empty feature files are disallowed',
       rule   : rule,
-      line   : 1
+      line   : 1,
+      column: 0
     });
   }
   return errors;

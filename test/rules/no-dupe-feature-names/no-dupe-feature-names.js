@@ -14,6 +14,7 @@ describe('No Duplicate Feature Names Rule', function() {
         return runTest('no-dupe-feature-names/DuplicateNameFeature2.feature', {}, [
           {
             line: 3,
+            column: 1,
             messageElements: {
               location: 'test/rules/no-dupe-feature-names/DuplicateNameFeature1.feature'
             }
@@ -24,6 +25,7 @@ describe('No Duplicate Feature Names Rule', function() {
         return runTest('no-dupe-feature-names/DuplicateNameFeature3.feature', {}, [
           {
             line: 1,
+            column: 1,
             messageElements: {
               location: 'test/rules/no-dupe-feature-names/DuplicateNameFeature1.feature, test/rules/no-dupe-feature-names/DuplicateNameFeature2.feature'
             }

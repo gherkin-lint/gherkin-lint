@@ -33,7 +33,8 @@ function checkTags(child, parent, language, errors) {
     errors.push({
       message: `Tag duplication between ${childType} and its corresponding ${parentType}: ${tag.name}`,
       rule   : rule,
-      line   : tag.location.line
+      line   : tag.location.line,
+      column   : tag.location.column,
     });
   });
 }

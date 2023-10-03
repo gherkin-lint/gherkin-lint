@@ -13,7 +13,7 @@ describe('No Files Without Scenarios Rule', function() {
 
   it('raises an error an error for features without scenarios and scenario outlines', function() {
     return runTest('no-files-without-scenarios/Violations.feature', {}, [
-      { messageElements: {}, line: 1 }
+      { messageElements: {}, line: 1, column: 0 }
     ]);
   });
 });

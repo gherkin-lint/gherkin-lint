@@ -9,9 +9,10 @@ describe('No Homogenous Tags Rule', function() {
   });
 
   it('detects errors for scenarios, and scenario outlines', function() {
-    return runTest('no-homogenous-tags/Violations.feature', {}, [ 
+    return runTest('no-homogenous-tags/Violations.feature', {}, [
       {
         line: 1,
+        column: 1,
         messageElements: {
           intro: 'All Scenarios on this Feature',
           tags: '@tag1, @tag2',
@@ -20,6 +21,7 @@ describe('No Homogenous Tags Rule', function() {
       },
       {
         line: 11,
+        column: 1,
         messageElements: {
           intro: 'All Examples of a Scenario Outline',
           tags: '@tag5',

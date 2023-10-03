@@ -8,7 +8,8 @@ function custom() {
     {
       message: 'Another custom-list error',
       rule   : rule,
-      line   : 109
+      line   : 109,
+      column : 27
     }
   ];
 }

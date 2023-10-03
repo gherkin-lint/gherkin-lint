@@ -26,7 +26,7 @@ function run(feature, unused, configuration) {
           checkTags(example, allowedTags, allowedPatterns, errors);
         });
       }
-    }      
+    }
   });
 
   return errors;
@@ -53,7 +53,8 @@ function createError(node, tag) {
   return {
     message: 'Not allowed tag ' + tag.name + ' on ' + node.keyword,
     rule   : rule,
-    line   : tag.location.line
+    line   : tag.location.line,
+    column : tag.location.column,
   };
 }
 

@@ -9,7 +9,8 @@ function createRuleTest(rule, messageTemplate) {
       return {
         rule: rule.name,
         message: _.template(messageTemplate)(error.messageElements),
-        line: error.line
+        line: error.line,
+        column: error.column,
       };
     });
     return linter.readAndParseFile('test/rules/' + featureFile, 'utf8')

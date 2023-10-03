@@ -10,19 +10,23 @@ describe('No Duplicate Tags Rule', function() {
   it('detects errors for features, scenarios, and scenario outlines', function() {
     return runTest('no-duplicate-tags/Violations.feature', {}, [{
       messageElements: {tags: '@featuretag'},
-      line: 1
+      line: 1,
+      column: 13,
     },
     {
       messageElements: {tags: '@scenariotag'},
-      line: 7
+      line: 7,
+      column: 14,
     },
     {
       messageElements: {tags: '@scenariooutlinetag'},
-      line: 11
+      line: 11,
+      column: 21,
     },
     {
       messageElements: {tags: '@examplestag'},
-      line: 14
+      line: 14,
+      column: 14,
     }]);
   });
 });

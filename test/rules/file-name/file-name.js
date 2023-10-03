@@ -15,7 +15,8 @@ describe('File Name Rule', function() {
         'style': 'kebab-case'
       }, [{
         messageElements: {style: 'kebab-case', corrected:'pascal-case-with-five-words.feature'},
-        line: 0
+        line: 0,
+        column: 0,
       }]);
     });
 
@@ -24,7 +25,8 @@ describe('File Name Rule', function() {
         'style': 'kebab-case'
       }, [{
         messageElements: {style: 'kebab-case', corrected:'title-case.feature'},
-        line: 0
+        line: 0,
+        column: 0,
       }]);
     });
 
@@ -33,7 +35,8 @@ describe('File Name Rule', function() {
         'style': 'kebab-case'
       }, [{
         messageElements: {style: 'kebab-case', corrected:'camel-case.feature'},
-        line: 0
+        line: 0,
+        column: 0,
       }]);
     });
 
@@ -42,7 +45,8 @@ describe('File Name Rule', function() {
         'style': 'kebab-case'
       }, [{
         messageElements: {style: 'kebab-case', corrected:'snake-case.feature'},
-        line: 0
+        line: 0,
+        column: 0,
       }]);
     });
   });
@@ -59,7 +63,8 @@ describe('File Name Rule', function() {
         'style': 'camelCase'
       }, [{
         messageElements: {style: 'camelCase', corrected:'pascalCaseWithFiveWords.feature'},
-        line: 0
+        line: 0,
+        column: 0,
       }]);
     });
 
@@ -68,7 +73,8 @@ describe('File Name Rule', function() {
         'style': 'camelCase'
       }, [{
         messageElements: {style: 'camelCase', corrected:'titleCase.feature'},
-        line: 0
+        line: 0,
+        column: 0,
       }]);
     });
 
@@ -77,7 +83,8 @@ describe('File Name Rule', function() {
         'style': 'camelCase'
       }, [{
         messageElements: {style: 'camelCase', corrected:'kebabCase.feature'},
-        line: 0
+        line: 0,
+        column: 0,
       }]);
     });
 
@@ -86,7 +93,8 @@ describe('File Name Rule', function() {
         'style': 'camelCase'
       }, [{
         messageElements: {style: 'camelCase', corrected:'snakeCase.feature'},
-        line: 0
+        line: 0,
+        column: 0,
       }]);
     });
   });
@@ -103,7 +111,8 @@ describe('File Name Rule', function() {
         'style': 'PascalCase'
       }, [{
         messageElements: {style: 'PascalCase', corrected:'KebabCase.feature'},
-        line: 0
+        line: 0,
+        column: 0,
       }]);
     });
 
@@ -112,7 +121,8 @@ describe('File Name Rule', function() {
         'style': 'PascalCase'
       }, [{
         messageElements: {style: 'PascalCase', corrected:'TitleCase.feature'},
-        line: 0
+        line: 0,
+        column: 0,
       }]);
     });
 
@@ -121,7 +131,8 @@ describe('File Name Rule', function() {
         'style': 'PascalCase'
       }, [{
         messageElements: {style: 'PascalCase', corrected:'CamelCase.feature'},
-        line: 0
+        line: 0,
+        column: 0,
       }]);
     });
 
@@ -130,7 +141,8 @@ describe('File Name Rule', function() {
         'style': 'PascalCase'
       }, [{
         messageElements: {style: 'PascalCase', corrected:'SnakeCase.feature'},
-        line: 0
+        line: 0,
+        column: 0,
       }]);
     });
   });
@@ -147,7 +159,8 @@ describe('File Name Rule', function() {
         'style': 'Title Case'
       }, [{
         messageElements: {style: 'Title Case', corrected:'Kebab Case.feature'},
-        line: 0
+        line: 0,
+        column: 0,
       }]);
     });
 
@@ -156,7 +169,8 @@ describe('File Name Rule', function() {
         'style': 'Title Case'
       }, [{
         messageElements: {style: 'Title Case', corrected:'Pascal Case With Five Words.feature'},
-        line: 0
+        line: 0,
+        column: 0,
       }]);
     });
 
@@ -165,7 +179,8 @@ describe('File Name Rule', function() {
         'style': 'Title Case'
       }, [{
         messageElements: {style: 'Title Case', corrected:'Camel Case.feature'},
-        line: 0
+        line: 0,
+        column: 0,
       }]);
     });
 
@@ -174,7 +189,8 @@ describe('File Name Rule', function() {
         'style': 'Title Case'
       }, [{
         messageElements: {style: 'Title Case', corrected:'Snake Case.feature'},
-        line: 0
+        line: 0,
+        column: 0,
       }]);
     });
   });
@@ -191,7 +207,8 @@ describe('File Name Rule', function() {
         'style': 'snake_case'
       }, [{
         messageElements: {style: 'snake_case', corrected:'pascal_case_with_five_words.feature'},
-        line: 0
+        line: 0,
+        column: 0,
       }]);
     });
 
@@ -200,7 +217,8 @@ describe('File Name Rule', function() {
         'style': 'snake_case'
       }, [{
         messageElements: {style: 'snake_case', corrected:'title_case.feature'},
-        line: 0
+        line: 0,
+        column: 0,
       }]);
     });
 
@@ -209,7 +227,8 @@ describe('File Name Rule', function() {
         'style': 'snake_case'
       }, [{
         messageElements: {style: 'snake_case', corrected:'camel_case.feature'},
-        line: 0
+        line: 0,
+        column: 0,
       }]);
     });
 
@@ -218,7 +237,8 @@ describe('File Name Rule', function() {
         'style': 'snake_case'
       }, [{
         messageElements: {style: 'snake_case', corrected:'kebab_case.feature'},
-        line: 0
+        line: 0,
+        column: 0,
       }]);
     });
   });

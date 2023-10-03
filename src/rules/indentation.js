@@ -51,7 +51,8 @@ function run(feature, unused, configuration) {
                             '", expected indentation level of ' + mergedConfiguration[type] +
                             ', but got ' + (parsedLocation.column - 1),
         rule   : rule,
-        line   : parsedLocation.line
+        line   : parsedLocation.line,
+        column : parsedLocation.column,
       });
     }
   }

@@ -12,6 +12,7 @@ describe('No Superfluous Tags Rule', function() {
     return runTest('no-superfluous-tags/Violations.feature', {}, [
       {
         line: 7,
+        column: 1,
         messageElements: {
           childType: 'Scenario',
           parentType: 'Feature',
@@ -20,6 +21,7 @@ describe('No Superfluous Tags Rule', function() {
       },
       {
         line: 11,
+        column: 1,
         messageElements: {
           childType: 'Scenario Outline',
           parentType: 'Feature',
@@ -28,6 +30,7 @@ describe('No Superfluous Tags Rule', function() {
       },
       {
         line: 11,
+        column: 18,
         messageElements: {
           childType: 'Scenario Outline',
           parentType: 'Feature',
@@ -36,6 +39,7 @@ describe('No Superfluous Tags Rule', function() {
       },
       {
         line: 14,
+        column: 1,
         messageElements: {
           childType: 'Examples',
           parentType: 'Feature',
@@ -44,6 +48,7 @@ describe('No Superfluous Tags Rule', function() {
       },
       {
         line: 14,
+        column: 1,
         messageElements: {
           childType: 'Examples',
           parentType: 'Scenario Outline',
@@ -52,6 +57,7 @@ describe('No Superfluous Tags Rule', function() {
       },
       {
         line: 14,
+        column: 32,
         messageElements: {
           childType: 'Examples',
           parentType: 'Scenario Outline',

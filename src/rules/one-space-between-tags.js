@@ -7,9 +7,9 @@ function run(feature) {
     return;
   }
   let errors = [];
-  
+
   testTags(feature, errors);
-  
+
   feature.children.forEach(child => {
     if (child.scenario) {
       testTags(child.scenario, errors);
@@ -19,7 +19,7 @@ function run(feature) {
       });
     }
   });
-  
+
   return errors;
 }
 
@@ -33,6 +33,7 @@ function testTags(node, errors) {
           if (tags[i].location.column + tags[i].name.length < tags[i + 1].location.column - 1) {
             errors.push({
               line: tags[i].location.line,
+              column: tags[i].location.column,
               rule: rule,
               message: 'There is more than one space between the tags ' +
                         tags[i].name + ' and ' + tags[i + 1].name

@@ -20,29 +20,33 @@ function run(feature, file, configuration) {
     if (child.scenario) {
       if (child.scenario.name in scenarios) {
         const dupes = getFileLinePairsAsStr(scenarios[child.scenario.name].locations);
-        
+
         scenarios[child.scenario.name].locations.push({
-          file: file.relativePath, 
-          line: child.scenario.location.line
+          file: file.relativePath,
+          line: child.scenario.location.line,
+          column: child.scenario.location.column,
         });
 
         errors.push({
           message: 'Scenario name is already used in: ' + dupes,
           rule   : rule,
-          line   : child.scenario.location.line});
+          line   : child.scenario.location.line,
+          column : child.scenario.location.column,
+        });
       } else {
         scenarios[child.scenario.name] = {
           locations: [
             {
-              file: file.relativePath, 
-              line: child.scenario.location.line
+              file: file.relativePath,
+              line: child.scenario.location.line,
+              column: child.scenario.location.column,
             }
           ]
         };
       }
     }
   });
-  
+
   return errors;
 }
 
