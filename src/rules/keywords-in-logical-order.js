@@ -15,7 +15,7 @@ function run(feature) {
 
     let maxKeywordPosition = undefined;
 
-    node.steps.forEach((step) => {
+    node && node.steps.forEach((step) => {
       const keyword = gherkinUtils.getLanguageInsitiveKeyword(
         step,
         feature.language
@@ -23,7 +23,7 @@ function run(feature) {
       let keywordPosition = keywordList.indexOf(keyword);
 
       if (keywordPosition === -1) {
-        //   not found
+        // not found
         return;
       }
 
