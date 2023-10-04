@@ -23,12 +23,13 @@ program
   .option('-r, --rulesdir <...>', 'additional rule directories', collect, [])
   .parse(process.argv);
 
-const additionalRulesDirs = program.rulesdir;
-const files = featureFinder.getFeatureFiles(program.args, program.ignore);
-const config = configParser.getConfiguration(program.config, additionalRulesDirs);
+const options = program.opts();
+const additionalRulesDirs = options.rulesdir;
+const files = featureFinder.getFeatureFiles(program.args, options.ignore);
+const config = configParser.getConfiguration(options.config, additionalRulesDirs);
 linter.lint(files, config, additionalRulesDirs)
   .then((results) => {
-    printResults(results, program.format);
+    printResults(results, options.format);
     process.exit(getExitCode(results));
   });
 
