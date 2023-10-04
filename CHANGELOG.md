@@ -7,6 +7,12 @@ The format of this change log follows the advice given at [Keep a CHANGELOG](htt
 
 ## [Unreleased]
 
+###  Added
+
+- Add support for Rule in the following rules:
+  - keywords-in-logical-order
+  - no-files-without-scenarios
+
 ###  Changed
 
 - The source repository has been moved from vsiakka/gherkin-lint to
