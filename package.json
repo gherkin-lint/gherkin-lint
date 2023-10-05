@@ -108,7 +108,7 @@
   ],
   "dependencies": {
     "commander": "11.0.0",
-    "core-js": "3.6.4",
+    "core-js": "3.33.0",
     "gherkin": "9.0.0",
     "glob": "7.1.6",
     "lodash": "4.17.21",
