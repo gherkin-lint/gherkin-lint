@@ -95,6 +95,10 @@
     {
       "name": "David Merrill",
       "url": "https://githubn.com/dsm2005"
+    },
+    {
+      "name": "Andrew Nicols",
+      "url": "https://github.com/andrewnicols"
     }
   ],
   "main": "dist/main.js",

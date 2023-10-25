@@ -17,5 +17,7 @@ The format of this change log follows the advice given at [Keep a CHANGELOG](htt
 
 ###  Changed
 
+- The `.gherkin-lintrc` configuration has been modified to place all rules in
+  the `rules` property
 - The source repository has been moved from vsiakka/gherkin-lint to
   gherkin-lint/gherkin-lint
