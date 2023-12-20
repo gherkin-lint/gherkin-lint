@@ -100,7 +100,7 @@
   "main": "dist/main.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/vsiakka/gherkin-lint"
+    "url": "https://github.com/gherkin-lint/gherkin-lint"
   },
   "keywords": [
     "gherkin",
