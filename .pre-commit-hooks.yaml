@@ -1,0 +1,6 @@
+- id: gherkin-lint
+  name: gherkin-lint
+  description: Check whether your feature-files are consistingly following a given set of rules.
+  entry: gherkin-lint
+  language: node
+  files: ".*feature"
