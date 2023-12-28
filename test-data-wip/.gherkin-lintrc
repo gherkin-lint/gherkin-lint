@@ -10,6 +10,7 @@
   "new-line-at-eof": ["on", "yes"],
   "no-multiple-empty-lines": "on",
   "no-empty-file": "on",
+  "no-empty-lines-after-examples": "on",
   "no-scenario-outlines-without-examples": "on",
   "name-length": ["on", {"Feature": 50}],
   "no-restricted-tags": ["on", {"tags": ["@watch", "@wip"]}],
