@@ -6,20 +6,20 @@ describe('Malformated features do not break the linter', function() {
   function testRule(file, rule) {
     var configuration = {};
     if (rule == 'new-line-at-eof') {
-      configuration[rule] = ['on', 'yes']; 
+      configuration[rule] = ['on', 'yes'];
     } else if (rule == 'required-tags') {
       configuration[rule] = ['on', {'tags': [] }];
     } else {
-      configuration[rule] = 'on'; 
+      configuration[rule] = 'on';
     }
     return linter.readAndParseFile('test/rules/all-rules/' + file, 'utf8')
-      .then(({feature, file}) => {
-        return rules.runAllEnabledRules(feature, file, configuration);
+      .then(({feature, pickles, file}) => {
+        return rules.runAllEnabledRules(feature, pickles, file, configuration);
       });
   }
 
   const allRules = rules.getAllRules();
-  
+
   Object.keys(allRules).forEach((rule) => {
     it(`${rule} does not throw exceptions when processing an empty feature`, function() {
       return testRule('EmptyFeature.feature', rule);

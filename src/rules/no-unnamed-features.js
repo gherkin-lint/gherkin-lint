@@ -1,6 +1,6 @@
 const rule = 'no-unnamed-features';
 
-function run(feature) {
+function run({feature}) {
   let errors = [];
 
   if (!feature || !feature.name) {

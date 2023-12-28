@@ -2,7 +2,7 @@ const gherkinUtils = require('./utils/gherkin.js');
 
 const rule = 'keywords-in-logical-order';
 
-function run(feature) {
+function run({feature}) {
   if (!feature) {
     return [];
   }

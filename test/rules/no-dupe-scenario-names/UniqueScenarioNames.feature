@@ -11,3 +11,10 @@ Scenario Outline: This is a Scenario Outline with a unique name
 Examples:
   | foo |
   | bar |
+
+Scenario Outline: This is a Scenario Outline parametrized with a unique name: <foo>
+  Then this is a then step <foo>
+Examples:
+  | foo |
+  | bar |
+  | baz |

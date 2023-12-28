@@ -1,6 +1,6 @@
 const rule = 'no-multiple-empty-lines';
 
-function run(unused, file) {
+function run({file}) {
   let errors = [];
   for (let i = 0; i < file.lines.length - 1; i++) {
     if (file.lines[i].trim() === '' && file.lines[i + 1].trim() == '') {

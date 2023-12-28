@@ -21,9 +21,9 @@ describe('New Line at EOF Rule', function() {
       var featureStub = undefined; // not used by the rule
       var fileStub = {name: 'foo.feature', lines: []};
       var invalidConfiguration = ['on', 'k'];
-      
-      rule.run(featureStub, fileStub, invalidConfiguration);
-      
+
+      rule.run({feature: featureStub, file: fileStub}, invalidConfiguration);
+
       var consoleErrorArgs = console.error.args.map(function (args) { // eslint-disable-line no-console
         return args[0];
       });

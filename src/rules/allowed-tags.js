@@ -6,7 +6,7 @@ const availableConfigs = {
   'patterns': []
 };
 
-function run(feature, unused, configuration) {
+function run({feature}, configuration) {
   if (!feature) {
     return [];
   }
@@ -26,7 +26,7 @@ function run(feature, unused, configuration) {
           checkTags(example, allowedTags, allowedPatterns, errors);
         });
       }
-    }      
+    }
   });
 
   return errors;

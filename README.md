@@ -223,7 +223,7 @@ To enable searching for duplicates in each individual feature (same scenario nam
 }
 ```
 
-The default case is testing against all the features (same scenario name in different features will raise an error). To get that behavor use the following configuration:
+The default case is testing against all the features (same scenario name in different features will raise an error). To get that behavior use the following configuration:
 
 ```
 {
@@ -239,6 +239,23 @@ or
 }
 ```
 
+Additionally, you can also look for duplicated on outline scenarios with variables on the title, just adding `-compile` suffix to the rule configuration (If you use this option, you need to have a variable on the title of all your Outlines):
+
+To search for duplicated including compiled outlines in each individual feature:
+
+```
+{
+  "no-dupe-scenario-names": ["on", "in-feature-compile"]
+}
+```
+
+To search for duplicated including compiled outlines against all the features:
+
+```
+{
+  "no-dupe-scenario-names": ["on", "anywhere-compile"]
+}
+```
 
 ### no-restricted-tags
 `no-restricted-tags` should be configured with the list of restricted tags and patterns:

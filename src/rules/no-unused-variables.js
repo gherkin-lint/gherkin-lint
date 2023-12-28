@@ -1,6 +1,6 @@
 const rule = 'no-unused-variables';
 
-function run(feature) {
+function run({feature}) {
   if(!feature) {
     return [];
   }
@@ -76,7 +76,7 @@ function run(feature) {
         scenarioVariables[match[1]] = step.location.line;
       }
     });
-    
+
 
     for (const exampleVariable in examplesVariables) {
       if (!scenarioVariables[exampleVariable]) {

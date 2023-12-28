@@ -6,7 +6,7 @@ const defaultConfig = {
   'countOutlineExamples': true
 };
 
-function run(feature, unused, config) {
+function run({feature}, config) {
   if (!feature) {
     return [];
   }

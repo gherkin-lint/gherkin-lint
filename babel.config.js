@@ -17,7 +17,7 @@ module.exports = function (api) {
 
   return {
     presets,
-    plugins
+    plugins,
+    sourceMaps: 'inline'
   };
-}
-
+};

@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const rule = 'no-empty-file';
 
-function run(feature) {
+function run({feature}) {
   let errors = [];
   if (_.isEmpty(feature)) {
     errors.push({

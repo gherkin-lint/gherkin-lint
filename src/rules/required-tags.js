@@ -21,7 +21,7 @@ function checkTagExists(requiredTag, ignoreUntagged, scenarioTags, scenarioType,
   return result;
 }
 
-function run(feature, unused, config) {
+function run({feature}, config) {
   if (!feature) {
     return [];
   }
@@ -45,7 +45,7 @@ function run(feature, unused, config) {
       errors = errors.concat(requiredTagErrors);
     }
   });
-  
+
   return errors;
 }
 

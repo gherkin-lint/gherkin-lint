@@ -8,7 +8,7 @@ function filterScenarios(child) {
   return child.rule.children.some(filterScenarios);
 }
 
-function run(feature) {
+function run({feature}) {
   if (!feature) {
     return [];
   }

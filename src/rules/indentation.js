@@ -34,7 +34,7 @@ function mergeConfiguration(configuration) {
   return mergedConfiguration;
 }
 
-function run(feature, unused, configuration) {
+function run({feature}, configuration) {
   if (!feature) {
     return [];
   }
