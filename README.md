@@ -283,8 +283,14 @@ You can find an example configuration file, that turns on all of the rules in th
 
 ## Ignoring Feature Files
 There are 2 ways you can specify files that the linter should ignore:
-1. Add a `.gherkin-lintignore` file in your working directory and specify one glob pattern per file line
-1. Use the command line option`-i` or `--ignore`,  pass in a comma separated list of glob patterns. If specified, the command line option will override the `.gherkin-lintignore` file.
+1. Add a `.gherkin-lintignore` file in your working directory and specify one glob pattern per file line. When specifying files to ignore, you have to specify node_modules as a file path to ignore, as this will override the original command run when gherkin-lint is initialized.
+   
+ ```
+ node_modules/**
+ jest/**
+ ```
+
+2. Use the command line option`-i` or `--ignore`,  pass in a comma separated list of glob patterns. If specified, the command line option will override the `.gherkin-lintignore` file.
 
 
 ## Custom rules
