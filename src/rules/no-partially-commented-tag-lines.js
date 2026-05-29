@@ -1,33 +1,39 @@
 const rule = 'no-partially-commented-tag-lines';
 
-function run(feature) {
+function run(feature, file) {
   if (!feature) {
     return [];
   }
 
   let errors = [];
+  const lines = file ? file.lines : [];
+  const seenLines = new Set();
 
-  checkTags(feature, errors);
+  checkTags(feature, lines, seenLines, errors);
   feature.children.forEach(child => {
     if (child.scenario) {
-      checkTags(child.scenario, errors);
+      checkTags(child.scenario, lines, seenLines, errors);
 
       child.scenario.examples.forEach(example => {
-        checkTags(example, errors);
+        checkTags(example, lines, seenLines, errors);
       });
     }
   });
-  
+
   return errors;
 }
 
-function checkTags(node, errors) {
+function checkTags(node, lines, seenLines, errors) {
   node.tags.forEach(tag => {
-    if (tag.name.indexOf('#') > 0) {
+    const lineNum = tag.location.line;
+    if (seenLines.has(lineNum)) return;
+    const rawLine = lines[lineNum - 1] || '';
+    if (rawLine.indexOf('#') >= 0) {
+      seenLines.add(lineNum);
       errors.push({
         message: 'Partially commented tag lines not allowed',
         rule   : rule,
-        line   : tag.location.line
+        line   : lineNum
       });
     }
   });
