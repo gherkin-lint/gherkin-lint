@@ -305,14 +305,20 @@ Have a look at the `src/rules/` directory for examples; The `no-empty-file` rule
 
 Releases are published from `.github/workflows/publish.yml`. npm requires a
 package to exist before a Trusted Publisher can be configured, so the first
-release needs a short-lived granular access token in the `NPM_TOKEN` GitHub
-Actions secret.
+release must be published manually with interactive 2FA:
+
+```bash
+npm login
+npm publish --access public
+```
 
 After the first release:
 
-1. Configure the npm Trusted Publisher for `onitofu/gherkin-lint`, workflow
-   `publish.yml`, with the `npm publish` action allowed.
-2. Delete the `NPM_TOKEN` repository secret.
+1. Configure the npm Trusted Publisher for package `@onitofu/gherkin-lint` and
+   repository `onitofu/gherkin-lint`, workflow `publish.yml`, with the
+   `npm publish` action allowed.
+2. Set the package publishing access to require 2FA and disallow tokens.
 
 Subsequent GitHub Releases are authenticated with OIDC and published with npm
-provenance. A release tag must match the package version, for example `v5.0.0`.
+provenance. A release tag must match the next package version, for example
+`v5.0.1`.

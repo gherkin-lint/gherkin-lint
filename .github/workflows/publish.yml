@@ -24,6 +24,3 @@ jobs:
       - name: Verify release tag
         run: node -e "const { version } = require('./package.json'); if (process.env.GITHUB_REF_NAME !== 'v' + version) throw new Error('Release tag must be v' + version)"
       - run: npm publish --access public --provenance
-        env:
-          # Required only to bootstrap the package before npm can trust this workflow.
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
