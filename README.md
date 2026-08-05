@@ -300,3 +300,19 @@ gherkin-lint --rulesdir "/path/to/my/rulesdir" --rulesdir "from/cwd/rulesdir"
 
 Paths can either be absolute or relative to the current working directory.
 Have a look at the `src/rules/` directory for examples; The `no-empty-file` rule is a good example to start with.
+
+## Publishing
+
+Releases are published from `.github/workflows/publish.yml`. npm requires a
+package to exist before a Trusted Publisher can be configured, so the first
+release needs a short-lived granular access token in the `NPM_TOKEN` GitHub
+Actions secret.
+
+After the first release:
+
+1. Configure the npm Trusted Publisher for `onitofu/gherkin-lint`, workflow
+   `publish.yml`, with the `npm publish` action allowed.
+2. Delete the `NPM_TOKEN` repository secret.
+
+Subsequent GitHub Releases are authenticated with OIDC and published with npm
+provenance. A release tag must match the package version, for example `v5.0.0`.
