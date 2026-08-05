@@ -1,18 +1,17 @@
 var expect = require('chai').expect;
-require('mocha-sinon');
 
 var configParser;
 
 describe('Configuration parser', function() {
   beforeEach(function() {
-    configParser = require('../../dist/config-parser.js');
+    configParser = require('../../src/config-parser.js');
     this.sinon.stub(console, 'error');
     this.sinon.stub(process, 'exit');
   });
 
   afterEach(function() {
     configParser = undefined;
-    console.error.restore(); // eslint-disable-line no-console
+    console.error.restore();
     process.exit.restore();
   });
 
@@ -21,7 +20,7 @@ describe('Configuration parser', function() {
       var configFilePath = './non/existing/path';
       configParser.getConfiguration(configFilePath);
 
-      var consoleErrorArgs = console.error.args.map(function (args) { // eslint-disable-line no-console
+      var consoleErrorArgs = console.error.args.map(function (args) {
         return args[0];
       });
       expect(consoleErrorArgs[0]).to.include('Could not find specified config file "' + configFilePath + '"');
@@ -33,7 +32,7 @@ describe('Configuration parser', function() {
       configParser.defaultConfigFileName = configFilePath;
       configParser.getConfiguration();
 
-      var consoleErrorArgs = console.error.args.map(function (args) { // eslint-disable-line no-console
+      var consoleErrorArgs = console.error.args.map(function (args) {
         return args[0];
       });
 
@@ -45,7 +44,7 @@ describe('Configuration parser', function() {
       var configFilePath = 'test/config-parser/bad_config.gherkinrc';
       configParser.getConfiguration(configFilePath);
 
-      var consoleErrorArgs = console.error.args.map(function (args) { // eslint-disable-line no-console
+      var consoleErrorArgs = console.error.args.map(function (args) {
         return args[0];
       });
 

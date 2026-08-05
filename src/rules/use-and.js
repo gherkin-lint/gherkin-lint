@@ -9,23 +9,20 @@ function run(feature) {
 
   let errors = [];
   
-  feature.children.forEach(child => {
-    const node = child.rule || child.background || child.scenario;
+  gherkinUtils.getStepContainers(feature).forEach(node => {
     let previousKeyword = undefined;
-    if (node.steps) {
-      node.steps.forEach(step => {
-        const keyword = gherkinUtils.getLanguageInsitiveKeyword(step, feature.language);
+    node.steps.forEach(step => {
+      const keyword = gherkinUtils.getLanguageInsitiveKeyword(step, feature.language);
 
-        if (keyword === 'and') {
-          return;
-        }
-        if (keyword === previousKeyword) {
-          errors.push(createError(step));
-        }
+      if (keyword === 'and') {
+        return;
+      }
+      if (keyword === previousKeyword) {
+        errors.push(createError(step));
+      }
 
-        previousKeyword = keyword;
-      });
-    }
+      previousKeyword = keyword;
+    });
   });
   return errors;
 }

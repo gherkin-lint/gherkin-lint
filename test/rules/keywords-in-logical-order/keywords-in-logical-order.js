@@ -1,5 +1,5 @@
 var ruleTestBase = require('../rule-test-base');
-var rule = require('../../../dist/rules/keywords-in-logical-order.js');
+var rule = require('../../../src/rules/keywords-in-logical-order.js');
 var runTest = ruleTestBase.createRuleTest(rule,
   'Step "<%= keyword %> <%= text %>" should not appear after step using keyword <%= priorKeyword %>');
 

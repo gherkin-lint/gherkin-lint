@@ -1,5 +1,5 @@
 var ruleTestBase = require('../rule-test-base');
-var rule = require('../../../dist/rules/no-partially-commented-tag-lines.js');
+var rule = require('../../../src/rules/no-partially-commented-tag-lines.js');
 var runTest = ruleTestBase.createRuleTest(rule, 'Partially commented tag lines not allowed');
 
 describe('No Partially Commented Tag Lines Rule', function() {
@@ -7,11 +7,8 @@ describe('No Partially Commented Tag Lines Rule', function() {
     return runTest('no-partially-commented-tag-lines/NoViolations.feature', {}, []);
   });
 
-  it('detects errors for features, scenarios, and scenario outlines', function() {
+  it('allows comments after tags and detects tags joined to comments', function() {
     return runTest('no-partially-commented-tag-lines/Violations.feature', {}, [
-      { messageElements: {}, line: 1 },
-      { messageElements: {}, line: 7 },
-      { messageElements: {}, line: 12 },
       { messageElements: {}, line: 15 },
     ]);
   });

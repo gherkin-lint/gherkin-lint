@@ -1,5 +1,5 @@
 var ruleTestBase = require('../rule-test-base');
-var rule = require('../../../dist/rules/no-multiple-empty-lines.js');
+var rule = require('../../../src/rules/no-multiple-empty-lines.js');
 var runTest = ruleTestBase.createRuleTest(rule, 'Multiple empty lines are not allowed');
 
 describe('No Multiple Empty Lines Rule', function() {

@@ -1,16 +1,17 @@
 const rule = 'no-unnamed-scenarios';
+const gherkinUtils = require('./utils/gherkin.js');
 
 function run(feature) {
   if (!feature) {
     return [];
   }
   let errors = [];
-  feature.children.forEach(child => {
-    if (child.scenario && !child.scenario.name) {
+  gherkinUtils.getScenarios(feature).forEach(scenario => {
+    if (!scenario.name) {
       errors.push({
         message: 'Missing Scenario name',
         rule   : rule,
-        line   : child.scenario.location.line});
+        line   : scenario.location.line});
     }
   });
   return errors;

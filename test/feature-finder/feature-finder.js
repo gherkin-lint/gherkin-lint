@@ -1,6 +1,6 @@
 var assert = require('chai').assert;
 var expect = require('chai').expect;
-var featureFinder = require('../../dist/feature-finder.js');
+var featureFinder = require('../../src/feature-finder.js');
 var mockFs = require('mock-fs');
 
 describe('Feature finder', function() {
@@ -27,7 +27,7 @@ describe('Feature finder', function() {
 
   afterEach(function() {
     mockFs.restore();
-    console.error.restore(); // eslint-disable-line no-console
+    console.error.restore();
     process.exit.restore();
   });
 
@@ -90,7 +90,7 @@ describe('Feature finder', function() {
 
   it('prints an error message and exits with code 1 when a bad file pattern is used', function() {
     featureFinder.getFeatureFiles(['badpattern**']);
-    var consoleErrorArgs = console.error.args.map(function (args) { // eslint-disable-line no-console
+    var consoleErrorArgs = console.error.args.map(function (args) {
       return args[0];
     });
     expect(consoleErrorArgs[0]).to.include('Invalid format of the feature file path/pattern:');

@@ -1,5 +1,5 @@
 var ruleTestBase = require('../rule-test-base');
-var rule = require('../../../dist/rules/only-one-when.js');
+var rule = require('../../../src/rules/only-one-when.js');
 var runTest = ruleTestBase.createRuleTest(rule,
   'Scenario "<%= scenario %>" contains <%= whenCount %> When statements (max 1)');
 

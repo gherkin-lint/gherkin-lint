@@ -1,4 +1,5 @@
 const rule = 'no-dupe-scenario-names';
+const gherkinUtils = require('./utils/gherkin.js');
 const availableConfigs = [
   'anywhere',
   'in-feature'
@@ -16,30 +17,28 @@ function run(feature, file, configuration) {
     scenarios = [];
   }
 
-  feature.children.forEach(child => {
-    if (child.scenario) {
-      if (child.scenario.name in scenarios) {
-        const dupes = getFileLinePairsAsStr(scenarios[child.scenario.name].locations);
+  gherkinUtils.getScenarios(feature).forEach(scenario => {
+    if (scenario.name in scenarios) {
+      const dupes = getFileLinePairsAsStr(scenarios[scenario.name].locations);
         
-        scenarios[child.scenario.name].locations.push({
-          file: file.relativePath, 
-          line: child.scenario.location.line
-        });
+      scenarios[scenario.name].locations.push({
+        file: file.relativePath,
+        line: scenario.location.line
+      });
 
-        errors.push({
-          message: 'Scenario name is already used in: ' + dupes,
-          rule   : rule,
-          line   : child.scenario.location.line});
-      } else {
-        scenarios[child.scenario.name] = {
-          locations: [
-            {
-              file: file.relativePath, 
-              line: child.scenario.location.line
-            }
-          ]
-        };
-      }
+      errors.push({
+        message: 'Scenario name is already used in: ' + dupes,
+        rule   : rule,
+        line   : scenario.location.line});
+    } else {
+      scenarios[scenario.name] = {
+        locations: [
+          {
+            file: file.relativePath,
+            line: scenario.location.line
+          }
+        ]
+      };
     }
   });
   

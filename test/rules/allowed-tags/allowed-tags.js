@@ -1,5 +1,5 @@
 var ruleTestBase = require('../rule-test-base');
-var rule = require('../../../dist/rules/allowed-tags.js');
+var rule = require('../../../src/rules/allowed-tags.js');
 var runTest = ruleTestBase.createRuleTest(rule, 'Not allowed tag <%= tags %> on <%= nodeType %>');
 
 describe('Allowed Tags Rule', function() {

@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
-const program = require('commander');
+const {program} = require('commander');
+const {version} = require('../package.json');
 const linter = require('./linter.js');
 const featureFinder = require('./feature-finder.js');
 const configParser = require('./config-parser.js');
@@ -16,7 +17,9 @@ function collect(val, memo) {
 }
 
 program
+  .version(version)
   .usage('[options] <feature-files>')
+  .argument('[feature-files...]')
   .option('-f, --format [format]', 'output format. Possible values: json, stylish, xunit. Defaults to stylish')
   .option('-i, --ignore <...>', 'comma seperated list of files/glob patterns that the linter should ignore, overrides ' + featureFinder.defaultIgnoreFileName + ' file', list)
   .option('-c, --config [config]', 'configuration file, defaults to ' + configParser.defaultConfigFileName)

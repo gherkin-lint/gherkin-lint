@@ -18,17 +18,8 @@ function run(feature, unused, configuration) {
   const language = feature.language;
   let errors = [];
 
-  checkTags(feature, language, forbiddenTags, forbiddenPatterns, errors);
-  
-  feature.children.forEach(child => {
-    // backgrounds don't have tags
-    if (child.scenario) {
-      checkTags(child.scenario, language, forbiddenTags, forbiddenPatterns, errors);
-
-      child.scenario.examples.forEach(example => {
-        checkTags(example, language, forbiddenTags, forbiddenPatterns, errors);
-      });
-    }      
+  gherkinUtils.getTaggableNodes(feature).forEach(node => {
+    checkTags(node, language, forbiddenTags, forbiddenPatterns, errors);
   });
   
   return errors;

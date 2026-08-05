@@ -1,6 +1,6 @@
 {
-  "name": "gherkin-lint",
-  "version": "4.2.4",
+  "name": "@onitofu/gherkin-lint",
+  "version": "5.0.0",
   "description": "A Gherkin linter/validator written in javascript",
   "author": "Vasiliki Siakka",
   "contributors": [
@@ -97,50 +97,65 @@
       "url": "https://githubn.com/dsm2005"
     }
   ],
-  "main": "dist/main.js",
+  "main": "src/main.js",
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gherkin-lint/gherkin-lint.git"
+    "url": "git+https://github.com/onitofu/gherkin-lint.git"
+  },
+  "bugs": {
+    "url": "https://github.com/onitofu/gherkin-lint/issues"
+  },
+  "homepage": "https://github.com/onitofu/gherkin-lint#readme",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
   },
   "keywords": [
     "gherkin",
     "linter"
   ],
   "dependencies": {
-    "commander": "11.0.0",
-    "core-js": "3.33.1",
-    "gherkin": "9.0.0",
-    "glob": "7.1.6",
-    "lodash": "4.17.21",
+    "@cucumber/gherkin": "42.0.0",
+    "@cucumber/messages": "34.2.0",
+    "commander": "14.0.3",
+    "glob": "13.0.6",
+    "lodash": "4.18.1",
     "strip-json-comments": "3.0.1",
     "xml-js": "^1.6.11"
   },
   "devDependencies": {
-    "@babel/cli": "7.8.4",
-    "@babel/core": "7.9.0",
-    "@babel/preset-env": "7.9.0",
-    "chai": "4.2.0",
-    "coveralls": "3.0.11",
-    "eslint": "6.8.0",
-    "mocha": "7.1.1",
-    "mocha-sinon": "2.1.2",
-    "mock-fs": "4.11.0",
-    "nyc": "15.1.0",
-    "sinon": "9.0.1"
+    "@eslint/js": "10.0.1",
+    "c8": "12.0.0",
+    "chai": "4.5.0",
+    "eslint": "10.8.0",
+    "globals": "17.9.0",
+    "mocha": "11.8.0",
+    "mock-fs": "5.5.0",
+    "sinon": "22.1.0"
+  },
+  "overrides": {
+    "mocha": {
+      "diff": "8.0.3",
+      "glob": "13.0.6",
+      "serialize-javascript": "7.0.7"
+    }
   },
   "engines": {
-    "node": ">=10.0.0"
+    "node": ">=20.19.0"
   },
   "bin": {
-    "gherkin-lint": "dist/main.js"
+    "gherkin-lint": "src/main.js"
   },
   "scripts": {
-    "build": "babel src -d dist",
-    "demo": "node ./dist/main.js -c ./test-data-wip/.gherkin-lintrc test-data-wip/**",
-    "lint": "eslint ./src ./test",
-    "mocha": "mocha --recursive",
-    "prepare": "npm run build",
-    "test": "npm run lint && npm run build && nyc --reporter=lcovonly --reporter=html --reporter=text -include=dist/** npm run mocha"
+    "demo": "node ./src/main.js -c ./test-data-wip/.gherkin-lintrc test-data-wip/**",
+    "lint": "eslint src test",
+    "mocha": "mocha --require test/hooks.js --recursive",
+    "test": "npm run lint && c8 --reporter=lcov --reporter=text --include='src/**' npm run mocha"
   },
   "license": "ISC"
 }

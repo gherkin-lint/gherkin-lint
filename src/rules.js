@@ -1,5 +1,5 @@
 // Operations on rules
-const glob = require('glob');
+const {globSync} = require('glob');
 const path = require('path');
 
 function getAllRules(additionalRulesDirs) {
@@ -11,7 +11,7 @@ function getAllRules(additionalRulesDirs) {
 
   rulesDirs.forEach(rulesDir => {
     rulesDir = path.resolve(rulesDir);
-    glob.sync(`${rulesDir}/*.js`).forEach(file => {
+    globSync(`${rulesDir}/*.js`).forEach(file => {
       const rule = require(file);
       rules[rule.name] = rule;
     });

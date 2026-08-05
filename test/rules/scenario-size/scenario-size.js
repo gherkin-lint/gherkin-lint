@@ -1,5 +1,5 @@
 var ruleTestBase = require('../rule-test-base');
-var rule = require('../../../dist/rules/scenario-size.js');
+var rule = require('../../../src/rules/scenario-size.js');
 var runTest = ruleTestBase.createRuleTest(rule, 'Element <%= type %> too long: actual <%= actual %>, expected <%= expected %>');
 
 describe('Scenario size Rule', function() {

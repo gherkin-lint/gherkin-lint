@@ -1,5 +1,5 @@
 var ruleTestBase = require('../rule-test-base');
-var rule = require('../../../dist/rules/no-unnamed-scenarios.js');
+var rule = require('../../../src/rules/no-unnamed-scenarios.js');
 var runTest = ruleTestBase.createRuleTest(rule, 'Missing Scenario name');
 
 describe('No Unnamed Scenarios Rule', function() {

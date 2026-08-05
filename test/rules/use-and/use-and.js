@@ -1,5 +1,5 @@
 var ruleTestBase = require('../rule-test-base');
-var rule = require('../../../dist/rules/use-and.js');
+var rule = require('../../../src/rules/use-and.js');
 var runTest = ruleTestBase.createRuleTest(rule, 
   'Step "<%= keyword %><%= text %>" should use And instead of <%= keyword %>');
 

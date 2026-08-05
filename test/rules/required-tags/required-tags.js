@@ -1,5 +1,5 @@
 var ruleTestBase = require('../rule-test-base');
-var rule = require('../../../dist/rules/required-tags.js');
+var rule = require('../../../src/rules/required-tags.js');
 var runTest = ruleTestBase.createRuleTest(rule, 'No tag found matching <%= tags %> for <%= nodeType %>');
 
 describe('Required Tags Rule', function() {

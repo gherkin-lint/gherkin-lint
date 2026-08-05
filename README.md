@@ -1,19 +1,22 @@
 # Gherkin lint
-[![Run NodeJS Tests](https://github.com/gherkin-lint/gherkin-lint/actions/workflows/npm_test.yml/badge.svg)](https://github.com/gherkin-lint/gherkin-lint/actions/workflows/npm_test.yml)
-[![Coverage Status](https://coveralls.io/repos/github/gherkin-lint/gherkin-lint/badge.svg?branch=master)](https://coveralls.io/github/gherkin-lint/gherkin-lint?branch=master)
-[![npm](https://img.shields.io/npm/v/gherkin-lint.svg?maxAge=2592000)](https://www.npmjs.com/package/gherkin-lint)
+[![CI](https://github.com/onitofu/gherkin-lint/actions/workflows/ci.yml/badge.svg)](https://github.com/onitofu/gherkin-lint/actions/workflows/ci.yml)
+[![Coverage Status](https://coveralls.io/repos/github/onitofu/gherkin-lint/badge.svg?branch=master)](https://coveralls.io/github/onitofu/gherkin-lint?branch=master)
+[![npm](https://img.shields.io/npm/v/%40onitofu%2Fgherkin-lint.svg?maxAge=2592000)](https://www.npmjs.com/package/@onitofu/gherkin-lint)
 
 Uses [Gherkin](https://github.com/cucumber/gherkin-javascript) to parse feature files and runs linting against the default rules, and the optional rules you specified in your `.gherkin-lintrc` file.
 
+This public fork modernizes the parser and dependency tree while preserving the
+original ISC license and command-line interface. Node.js 20.19 or newer is required.
+
 ## Installation
 ```
-npm install gherkin-lint
+npm install --save-dev @onitofu/gherkin-lint
 ```
 
 ## Demo
 To see the output for all the errors that the linter can detect run:
 ```
-git clone https://github.com/gherkin-lint/gherkin-lint.git
+git clone https://github.com/onitofu/gherkin-lint.git
 npm run demo
 ```
 Or check this:
@@ -27,7 +30,7 @@ Or check this:
 |---------------------------------------------|------------------------------------------------------------------------------------------|
 | `no-tags-on-backgrounds` *                  | Disallows tags on Background                                                             |
 | `one-feature-per-file` *                    | Disallows multiple Feature definitions in the same file                                  |
-| `up-to-one-background-per-file` *           | Disallows multiple Background definition in the same file                                |
+| `up-to-one-background-per-scope` *          | Disallows multiple Background definitions in the same Feature or Rule                    |
 | `no-multiline-steps` *                      | Disallows mutiline Steps                                                                 || &nbsp;                                      |                                                                                          |
 | [`allowed-tags`](#allowed-tags)             | Just the listed tags are allowed                                                         |
 | [`file-name`](#file-name)                   | Restrict feature file names to a commmon style                                           |

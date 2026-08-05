@@ -1,7 +1,6 @@
 var assert = require('chai').assert;
 var _ = require('lodash');
-var linter = require('../../dist/linter.js');
-require('mocha-sinon');
+var linter = require('../../src/linter.js');
 
 function createRuleTest(rule, messageTemplate) {
   return function runTest(featureFile, configuration, expected) {

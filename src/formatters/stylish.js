@@ -1,6 +1,4 @@
 /*eslint no-console: "off"*/
-import 'core-js/stable/string';
-
 const style = {
   gray: function(text) {
     return '\x1b[38;5;243m' + text + '\x1b[0m';

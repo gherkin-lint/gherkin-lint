@@ -1,5 +1,5 @@
 var ruleTestBase = require('../rule-test-base');
-var rule = require('../../../dist/rules/new-line-at-eof.js');
+var rule = require('../../../src/rules/new-line-at-eof.js');
 var expect = require('chai').expect;
 var runTestRequireNewLine = ruleTestBase.createRuleTest(rule, 'New line at EOF(end of file) is required');
 var runTestDissallowNewLine = ruleTestBase.createRuleTest(rule, 'New line at EOF(end of file) is not allowed');
@@ -13,7 +13,7 @@ describe('New Line at EOF Rule', function() {
     });
 
     afterEach(function() {
-      console.error.restore(); // eslint-disable-line no-console
+      console.error.restore();
       process.exit.restore();
     });
 
@@ -24,7 +24,7 @@ describe('New Line at EOF Rule', function() {
       
       rule.run(featureStub, fileStub, invalidConfiguration);
       
-      var consoleErrorArgs = console.error.args.map(function (args) { // eslint-disable-line no-console
+      var consoleErrorArgs = console.error.args.map(function (args) {
         return args[0];
       });
 

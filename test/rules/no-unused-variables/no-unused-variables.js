@@ -1,5 +1,5 @@
 var ruleTestBase = require('../rule-test-base');
-var rule = require('../../../dist/rules/no-unused-variables.js');
+var rule = require('../../../src/rules/no-unused-variables.js');
 
 describe('No Unused Variables Rule', function() {
   it('doesn\'t raise errors when there are no violations', function() {

@@ -1,5 +1,5 @@
 var ruleTestBase = require('../rule-test-base');
-var rule = require('../../../dist/rules/no-dupe-feature-names.js');
+var rule = require('../../../src/rules/no-dupe-feature-names.js');
 var runTest = ruleTestBase.createRuleTest(rule,
   'Feature name is already used in: <%= location %>');
 

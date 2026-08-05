@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const glob = require('glob');
+const {globSync} = require('glob');
 const fs = require('fs');
 const path = require('path');
 const logger = require('./logger.js');
@@ -26,7 +26,7 @@ function getFeatureFiles(args, ignoreArg) {
         if (fs.statSync(pattern).isDirectory()) {
           fixedPattern = path.join(pattern, '**/*.feature');
         }
-      } catch(e) {
+      } catch {
         // Don't show the fs callstack, we will print a custom error message bellow instead
       }
     }
@@ -43,7 +43,7 @@ function getFeatureFiles(args, ignoreArg) {
       nodir: true,
     };
 
-    files = files.concat(glob.sync(fixedPattern, globOptions));
+    files = files.concat(globSync(fixedPattern, globOptions));
   });
   return _.uniq(files);
 }

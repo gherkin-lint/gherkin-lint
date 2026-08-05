@@ -1,5 +1,5 @@
 var ruleTestBase = require('../rule-test-base');
-var rule = require('../../../dist/rules/no-files-without-scenarios.js');
+var rule = require('../../../src/rules/no-files-without-scenarios.js');
 var runTest = ruleTestBase.createRuleTest(rule, 'Feature file does not have any Scenarios');
 
 describe('No Files Without Scenarios Rule', function() {
