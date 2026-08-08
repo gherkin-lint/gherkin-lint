@@ -10,6 +10,8 @@ Uses [Gherkin](https://github.com/cucumber/gherkin-javascript) to parse feature 
 npm install gherkin-lint
 ```
 
+You can also run gherkin-lint in your CI pipelines through [MegaLinter](https://megalinter.io/), an open-source linters aggregator that ships it [out of the box](https://megalinter.io/latest/descriptors/gherkin_gherkin_lint/).
+
 ## Demo
 To see the output for all the errors that the linter can detect run:
 ```
