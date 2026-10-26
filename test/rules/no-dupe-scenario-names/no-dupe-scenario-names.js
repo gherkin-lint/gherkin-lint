@@ -48,4 +48,15 @@ describe('No Duplicate Scenario Names Rule', function() {
         return runTest('no-dupe-scenario-names/DublicateScenarioNamesAcrossFiles2.feature', 'in-feature', []);
       });
   });
+
+  it('doesn\'t raise errors when the same scenario name appears under different Rules', function() {
+    return runTest('no-dupe-scenario-names/UniqueScenarioNamesAcrossRules.feature', 'in-feature', []);
+  });
+
+  it('raises errors when duplicate scenario names appear under the same Rule', function() {
+    return runTest('no-dupe-scenario-names/DublicateScenarioNamesInRule.feature', 'in-feature', [{
+      line: 10,
+      messageElements: {location: 'test/rules/no-dupe-scenario-names/DublicateScenarioNamesInRule.feature:5'}
+    }]);
+  });
 });

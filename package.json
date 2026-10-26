@@ -1,6 +1,6 @@
 {
-  "name": "gherkin-lint",
-  "version": "4.2.4",
+  "name": "@ohlori/gherkin-lint",
+  "version": "4.3.3",
   "description": "A Gherkin linter/validator written in javascript",
   "author": "Vasiliki Siakka",
   "contributors": [
@@ -97,21 +97,33 @@
       "url": "https://githubn.com/dsm2005"
     }
   ],
-  "main": "dist/main.js",
+  "main": "src/main.js",
+  "files": [
+    "src"
+  ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gherkin-lint/gherkin-lint.git"
+    "url": "git+https://github.com/ohlori/gherkin-lint.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ohlori/gherkin-lint/issues"
+  },
+  "homepage": "https://github.com/ohlori/gherkin-lint#readme",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
   "keywords": [
     "gherkin",
     "linter"
   ],
   "dependencies": {
+    "@cucumber/gherkin": "39.1.0",
+    "@cucumber/messages": "32.3.1",
     "commander": "11.0.0",
     "core-js": "3.33.1",
-    "gherkin": "9.0.0",
-    "glob": "7.1.6",
-    "lodash": "4.17.21",
+    "glob": "7.2.3",
+    "lodash": "4.18.1",
     "strip-json-comments": "3.0.1",
     "xml-js": "^1.6.11"
   },
@@ -129,17 +141,16 @@
     "sinon": "9.0.1"
   },
   "engines": {
-    "node": ">=10.0.0"
+    "node": ">=18.0.0"
   },
   "bin": {
-    "gherkin-lint": "dist/main.js"
+    "gherkin-lint": "src/main.js"
   },
   "scripts": {
     "build": "babel src -d dist",
     "demo": "node ./dist/main.js -c ./test-data-wip/.gherkin-lintrc test-data-wip/**",
     "lint": "eslint ./src ./test",
     "mocha": "mocha --recursive",
-    "prepare": "npm run build",
     "test": "npm run lint && npm run build && nyc --reporter=lcovonly --reporter=html --reporter=text -include=dist/** npm run mocha"
   },
   "license": "ISC"

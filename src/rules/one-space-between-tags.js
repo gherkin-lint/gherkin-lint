@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const gherkinUtils = require('./utils/gherkin.js');
 
 const rule = 'one-space-between-tags';
 
@@ -8,16 +9,8 @@ function run(feature) {
   }
   let errors = [];
   
-  testTags(feature, errors);
-  
-  feature.children.forEach(child => {
-    if (child.scenario) {
-      testTags(child.scenario, errors);
-
-      child.scenario.examples.forEach(example => {
-        testTags(example, errors);
-      });
-    }
+  gherkinUtils.getTaggableNodes(feature).forEach(node => {
+    testTags(node, errors);
   });
   
   return errors;

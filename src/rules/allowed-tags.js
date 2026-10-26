@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const gherkinUtils = require('./utils/gherkin.js');
 const rule = 'allowed-tags';
 
 const availableConfigs = {
@@ -15,18 +16,8 @@ function run(feature, unused, configuration) {
   const allowedTags = configuration.tags;
   const allowedPatterns = getAllowedPatterns(configuration);
 
-  checkTags(feature, allowedTags, allowedPatterns, errors);
-
-  feature.children.forEach(child => {
-    if (child.scenario) {
-      checkTags(child.scenario, allowedTags, allowedPatterns, errors);
-
-      if (child.scenario.examples) {
-        child.scenario.examples.forEach(example => {
-          checkTags(example, allowedTags, allowedPatterns, errors);
-        });
-      }
-    }      
+  gherkinUtils.getTaggableNodes(feature).forEach(node => {
+    checkTags(node, allowedTags, allowedPatterns, errors);
   });
 
   return errors;

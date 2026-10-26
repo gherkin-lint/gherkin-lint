@@ -11,21 +11,26 @@ function linterTest(feature, expected) {
 }
 
 describe('Linter', function() {
-  it('detects up-to-one-background-per-file violations', function() {
+  it('detects up-to-one-background-per-scope violations', function() {
     let feature = 'test/linter/MultipleBackgrounds.feature';
     let expected = [{
-      'line': '9',
-      'message': 'Multiple "Background" definitions in the same file are disallowed',
-      'rule': 'up-to-one-background-per-file'
+      'line': 9,
+      'message': 'Multiple "Background" definitions in the same Feature or Rule are disallowed',
+      'rule': 'up-to-one-background-per-scope'
     }];
     return linterTest(feature, expected);
+  });
+
+  it('allows a Background in the Feature and in each Rule', function() {
+    let feature = 'test/linter/MultipleScopedBackgrounds.feature';
+    return linterTest(feature, []);
   });
 
   it('detects no-tags-on-backgrounds violations', function() {
     let feature = 'test/linter/TagOnBackground.feature';
     let expected = [{
-      'line': '4',
-      'message': 'Tags on Backgrounds are dissallowed',
+      'line': 4,
+      'message': 'Tags on Backgrounds are disallowed',
       'rule': 'no-tags-on-backgrounds'
     }];
     
@@ -35,7 +40,7 @@ describe('Linter', function() {
   it('detects one-feature-per-file violations', function() {
     let feature = 'test/linter/MultipleFeatures.feature';
     let expected = [{
-      'line': '7',
+      'line': 7,
       'message': 'Multiple "Feature" definitions in the same file are disallowed',
       'rule': 'one-feature-per-file'
     }];
@@ -45,8 +50,8 @@ describe('Linter', function() {
   it('detects no-multiline-steps violations', function() {
     let feature = 'test/linter/MultilineStep.feature';
     let expected = [{
-      'line': '9',
-      'message': 'Steps should begin with "Given", "When", "Then", "And" or "But". Multiline steps are dissallowed',
+      'line': 9,
+      'message': 'Steps should begin with "Given", "When", "Then", "And" or "But". Multiline steps are disallowed',
       'rule': 'no-multiline-steps'
     }];
     return linterTest(feature, expected);
@@ -55,8 +60,8 @@ describe('Linter', function() {
   it('detects no-multiline-steps violations in backgrounds', function() {
     let feature = 'test/linter/MultilineBackgroundStep.feature';
     let expected = [{
-      'line': '5',
-      'message': 'Steps should begin with "Given", "When", "Then", "And" or "But". Multiline steps are dissallowed',
+      'line': 5,
+      'message': 'Steps should begin with "Given", "When", "Then", "And" or "But". Multiline steps are disallowed',
       'rule': 'no-multiline-steps'
     }];
     return linterTest(feature, expected);
@@ -65,8 +70,8 @@ describe('Linter', function() {
   it('detects no-multiline-steps violations in scenario outlines', function() {
     let feature = 'test/linter/MultilineScenarioOutlineStep.feature';
     let expected = [{
-      'line': '9',
-      'message': 'Steps should begin with "Given", "When", "Then", "And" or "But". Multiline steps are dissallowed',
+      'line': 9,
+      'message': 'Steps should begin with "Given", "When", "Then", "And" or "But". Multiline steps are disallowed',
       'rule': 'no-multiline-steps'
     }];
     return linterTest(feature, expected);
@@ -74,16 +79,12 @@ describe('Linter', function() {
 
   it('detects additional violations that happen after the \'no-tags-on-backgrounds\' rule', function() {
     let feature = 'test/linter/MultipleViolations.feature';
-    let expected = [ 
-      { 
-        message: 'Steps should begin with "Given", "When", "Then", "And" or "But". Multiline steps are dissallowed',
-        rule: 'no-multiline-steps',
-        line: '13' },
-      { 
-        message: 'Tags on Backgrounds are dissallowed',
+    let expected = [
+      {
+        message: 'Tags on Backgrounds are disallowed',
         rule: 'no-tags-on-backgrounds',
-        line: '4'
-      } 
+        line: 4
+      }
     ];
 
     linter.lint([feature])

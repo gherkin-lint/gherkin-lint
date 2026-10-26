@@ -1,57 +1,49 @@
 const _ = require('lodash');
-const Gherkin = require('gherkin').default;
+const {generateMessages} = require('@cucumber/gherkin');
+const {IdGenerator, SourceMediaType} = require('@cucumber/messages');
 const fs = require('fs');
 const rules = require('./rules.js');
 const logger = require('./logger.js');
 
 function readAndParseFile(filePath) {
-  let feature ='';
-  let parsingErrors = [];
-  let fileContent = [];
-
   return new Promise((resolve, reject) => {
+    const source = fs.readFileSync(filePath, 'utf8');
     const options = {
       includeGherkinDocument: true,
       includePickles: false,
-      includeSource: true,
+      includeSource: false,
+      newId: IdGenerator.incrementing(),
     };
 
-    const stream = Gherkin.fromPaths([filePath], options);
-    
-    stream.on('data', envelope => {
-      if (envelope.attachment) {
-        // An attachment implies that there was a parsing error
-        parsingErrors.push(envelope.attachment);
-      } else {
-        if (envelope.gherkinDocument) {
-          feature = envelope.gherkinDocument.feature;
-        }
-        if (envelope.source) {
-          fileContent = envelope.source.data.split(/\r\n|\r|\n/);
-        }
-      }
-    });
+    try {
+      const envelopes = generateMessages(
+        source,
+        filePath,
+        SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN,
+        options
+      );
+      const parsingErrors = envelopes
+        .filter(envelope => envelope.parseError)
+        .map(envelope => envelope.parseError);
 
-    stream.on('error', data => {
-      logger.error(`Gherkin emmited an error while parsing ${filePath}: ${data}`);
-      let error = {data: data};
-      reject(processFatalErrors(error));
-    });
-
-    stream.on('end', () => { 
       if (parsingErrors.length) {
-        // Process all errors/attachments at once, because a tag on a background will 
-        // generate multiple error events, and it would be confusing to print a message for each
-        // one of them, when they are all caused by a single cause
         reject(processFatalErrors(parsingErrors));
-      } else {
-        const file = {
-          relativePath: filePath,
-          lines: fileContent,
-        };
-        resolve({feature, file});
+        return;
       }
-    });
+
+      const documentEnvelope = envelopes.find(envelope => envelope.gherkinDocument);
+      const file = {
+        relativePath: filePath,
+        lines: source.split(/\r\n|\r|\n/),
+      };
+      resolve({
+        feature: documentEnvelope ? documentEnvelope.gherkinDocument.feature : undefined,
+        file,
+      });
+    } catch (error) {
+      logger.error(`Gherkin emitted an error while parsing ${filePath}: ${error}`);
+      reject(processFatalErrors([error]));
+    }
   });
 }
 
@@ -84,68 +76,62 @@ function lint(files, configuration, additionalRulesDirs) {
 }
 
 function processFatalErrors(errors) {
-  let errorMsgs = [];
-  if (errors.length > 1) {
-    const result = getFormatedTaggedBackgroundError(errors);
-    errors = result.errors;
-    errorMsgs = result.errorMsgs;
-  }
-  errors.forEach(error => {
-    errorMsgs.push(getFormattedFatalError(error));
-  });
-  return errorMsgs;
-}
+  const firstError = errors[0];
+  const firstMessage = getErrorMessage(firstError);
 
-function getFormatedTaggedBackgroundError(errors) {
-  const errorMsgs = [];
-  let index = 0;
-  if (errors[0].data.includes('got \'Background') &&
-      errors[1].data.includes('expected: #TagLine, #ScenarioLine, #Comment, #Empty')) {
-
-    errorMsgs.push({
-      message: 'Tags on Backgrounds are dissallowed',
+  // A tag before a Background causes cascading parser errors. Report the root
+  // cause once instead of emitting every recovery error that follows it.
+  if (firstMessage.includes('got \'Background') &&
+      firstMessage.includes('expected: #TagLine, #RuleLine')) {
+    return [{
+      message: 'Tags on Backgrounds are disallowed',
       rule: 'no-tags-on-backgrounds',
-      line: errors[0].data.match(/\((\d+):.*/)[1]
-    });
-
-    index = 2;
-    for (let i = 2; i < errors.length; i++) {
-      if (errors[i].data.includes('expected: #TagLine, #ScenarioLine, #Comment, #Empty')) {
-        index = i + 1;
-      } else {
-        break;
-      }
-    }
+      line: getErrorLine(firstError)
+    }];
   }
-  return {errors: errors.slice(index), errorMsgs: errorMsgs};
+
+  return errors.map(getFormattedFatalError);
 }
 
 
 /*eslint no-console: "off"*/
 function getFormattedFatalError(error) {
-  const errorLine = error.data.match(/\((\d+):.*/)[1];
+  const errorData = getErrorMessage(error);
+  const errorLine = getErrorLine(error);
   let errorMsg;
   let rule;
-  if (error.data.includes('got \'Background')) {
-    errorMsg = 'Multiple "Background" definitions in the same file are disallowed';
-    rule = 'up-to-one-background-per-file';
-  } else if(error.data.includes('got \'Feature')) {
+  if (errorData.includes('got \'Background')) {
+    errorMsg = 'Multiple "Background" definitions in the same Feature or Rule are disallowed';
+    rule = 'up-to-one-background-per-scope';
+  } else if(errorData.includes('got \'Feature')) {
     errorMsg = 'Multiple "Feature" definitions in the same file are disallowed';
     rule = 'one-feature-per-file';
   } else if (
-    error.data.includes('expected: #EOF, #TableRow, #DocStringSeparator, #StepLine, #TagLine, #ScenarioLine, #RuleLine, #Comment, #Empty, got') ||
-    error.data.includes('expected: #EOF, #TableRow, #DocStringSeparator, #StepLine, #TagLine, #ExamplesLine, #ScenarioLine, #RuleLine, #Comment, #Empty, got')
+    errorData.includes('expected: #EOF, #TableRow, #DocStringSeparator, #StepLine, #TagLine, #ScenarioLine, #RuleLine, #Comment, #Empty, got') ||
+    errorData.includes('expected: #EOF, #TableRow, #DocStringSeparator, #StepLine, #TagLine, #ExamplesLine, #ScenarioLine, #RuleLine, #Comment, #Empty, got')
   ) {
-    errorMsg = 'Steps should begin with "Given", "When", "Then", "And" or "But". Multiline steps are dissallowed';
+    errorMsg = 'Steps should begin with "Given", "When", "Then", "And" or "But". Multiline steps are disallowed';
     rule = 'no-multiline-steps';
 
   } else {
-    errorMsg = error.data;
+    errorMsg = errorData;
     rule = 'unexpected-error';
   }
   return {message: errorMsg,
     rule   : rule,
     line   : errorLine};
+}
+
+function getErrorMessage(error) {
+  return error.message || error.data || String(error);
+}
+
+function getErrorLine(error) {
+  if (error.source && error.source.location) {
+    return error.source.location.line;
+  }
+  const match = getErrorMessage(error).match(/\((\d+):/);
+  return match ? Number(match[1]) : 0;
 }
 
 module.exports = {

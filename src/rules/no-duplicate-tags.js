@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const gherkinUtils = require('./utils/gherkin.js');
 
 const rule = 'no-duplicate-tags';
 
@@ -8,14 +9,8 @@ function run(feature) {
   }
   let errors = [];
 
-  verifyTags(feature, errors);
-  feature.children.forEach(child => {
-    if (child.scenario) {
-      verifyTags(child.scenario, errors);
-      child.scenario.examples.forEach(example => {
-        verifyTags(example, errors);
-      });
-    }
+  gherkinUtils.getTaggableNodes(feature).forEach(node => {
+    verifyTags(node, errors);
   });
   return errors;
 }

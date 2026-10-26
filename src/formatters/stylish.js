@@ -1,5 +1,5 @@
 /*eslint no-console: "off"*/
-import 'core-js/stable/string';
+require('core-js/stable/string');
 
 const style = {
   gray: function(text) {

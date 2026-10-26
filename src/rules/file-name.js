@@ -9,7 +9,7 @@ const checkers = {
   'PascalCase': filename => _.startCase(filename).replace(/ /g, ''),
   'Title Case': filename => _.startCase(filename),
   'camelCase': filename => _.camelCase(filename),
-  'kebab-case': filename => _.kebabCase(filename),
+  'kebab-case': filename => _.kebabCase(filename).replace(/([a-z])-(\d)/g, (match, letter, digit) => filename.includes(letter + digit) ? letter + digit : match),
   'snake_case': filename => _.snakeCase(filename)
 };
 

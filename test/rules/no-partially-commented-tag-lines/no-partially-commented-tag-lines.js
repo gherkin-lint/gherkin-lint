@@ -7,11 +7,8 @@ describe('No Partially Commented Tag Lines Rule', function() {
     return runTest('no-partially-commented-tag-lines/NoViolations.feature', {}, []);
   });
 
-  it('detects errors for features, scenarios, and scenario outlines', function() {
+  it('allows comments after tags and detects tags joined to comments', function() {
     return runTest('no-partially-commented-tag-lines/Violations.feature', {}, [
-      { messageElements: {}, line: 1 },
-      { messageElements: {}, line: 7 },
-      { messageElements: {}, line: 12 },
       { messageElements: {}, line: 15 },
     ]);
   });
